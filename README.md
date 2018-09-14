@@ -12,7 +12,7 @@ Navigate to [http://localhost](http://localhost)
 ## Docker run from image
 Login `docker login registry.odds.team`
 
-Run `docker run --name web-odds-worklog -p 8080 --rm registry.odds.team/worklog/web.odds-worklog:prod`
+Run `docker run --name web-odds-worklog -p 80:80 --rm registry.odds.team/worklog/web.odds-worklog:prod`
 
 ## Development server
 
