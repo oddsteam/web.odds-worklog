@@ -6,7 +6,7 @@ WORKDIR /app
 
 # Install app dependencies
 COPY package*.json /app/
-RUN npm install
+RUN npm install --no-optional
 
 # Copy project files into the docker image
 COPY .  /app
