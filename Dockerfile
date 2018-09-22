@@ -6,22 +6,17 @@ WORKDIR /app
 
 # Install app dependencies
 COPY package*.json /app/
-RUN npm install && npm rebuild
+RUN npm install
 
 # Copy project files into the docker image
 COPY .  /app
 
-# Test and build production
-# RUN cd /app still in working dir
-# RUN npm run test --watch=false
+# Build production
 RUN npm run build --prod
 
 
 # STEP 2 build a small nginx image with static website
 FROM nginx:1.14.0-alpine
-
-## Remove default nginx website
-#RUN rm -rf /usr/share/nginx/html/*
 
 ## From 'builder' copy website to default nginx public folder
 COPY --from=builder /app/dist/odds-worklog /app/dist/odds-worklog
