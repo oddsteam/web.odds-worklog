@@ -2,7 +2,7 @@
 
 # Test trgger
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.2.1.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.2.3.
 
 ## Docker build and run production
 Build `docker build -t odds-worklog:prod .`
@@ -16,7 +16,7 @@ Login `docker login registry.odds.team`
 
 Run `docker run --name web-odds-worklog -p 80:80 --rm registry.odds.team/worklog/web.odds-worklog:prod`
 
-can test result with (http://jenkins.odds.team:8880)
+can test result with (http://139.5.147.149/)
 
 ## Development server
 
