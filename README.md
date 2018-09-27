@@ -14,8 +14,6 @@ Login `docker login registry.odds.team`
 
 Run `docker run --name web-odds-worklog -p 80:80 --rm registry.odds.team/worklog/web.odds-worklog:prod`
 
-can test result with (http://jenkins.odds.team:8880)
-
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to [http://localhost:4200/](http://localhost:4200/). The app will automatically reload if you change any of the source files.
