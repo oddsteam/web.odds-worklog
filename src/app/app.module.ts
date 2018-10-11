@@ -7,6 +7,7 @@ import { ProflieComponent } from './layouts/pages/proflie/proflie.component';
 import { MyIncomeComponent } from './layouts/pages/my-income/my-income.component';
 import { ListIncomeComponent } from './layouts/pages/list-income/list-income.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { StatusHighlightDirective } from './directives/status-highlight.directive';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     HeaderComponent,
     ProflieComponent,
     MyIncomeComponent,
-    ListIncomeComponent
+    ListIncomeComponent,
+    StatusHighlightDirective
   ],
   imports: [
     BrowserModule, NgbModule.forRoot()

@@ -1,35 +1,27 @@
 <div>
   <div class="d-flex py-2">
-    {{date | date: 'MMMM yyyy'}}
+    <h2>{{date | date: 'MMMM yyyy'}}</h2>
   </div>
-  <table class="table table-income">
+  <table class="table table-hover">
     <thead>
-      <th class="text-center">ชื่อ-สกุล(อังกฤษ)</th>
-      <th class="text-center">E-mail</th>
-      <th class="text-center">ชื่อ-สกุล(ไทย)</th>
-      <th class="text-center">ชื่อบัญชี</th>
-      <th class="text-center">เลขที่บัญชี</th>
-      <th class="text-center"></th>
+      <th class="text-left">ชื่อ-สกุล(อังกฤษ)</th>
+      <th class="text-left">E-mail</th>
+      <th class="text-left">ชื่อ-สกุล(ไทย)</th>
+      <th class="text-left">ชื่อบัญชี</th>
+      <th class="text-right">เลขที่บัญชี</th>
+      <th class="text-left">วันที่</th>
+      <th class="text-center">สถานะ</th>
     </thead>
     <tbody>
-      <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td class="text-center"></td>
-        <td class="text-center">
-          <button type="button" class="btn btn-primary">Status</button>
-        </td>
-      </tr>
-      <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td class="text-center"></td>
-        <td class="text-center">
-            <button type="button" class="btn btn-primary">Status</button>
+      <tr *ngFor="let listIncome of usersInfo">
+        <td class="text-left">{{listIncome?.fullName}}</td>
+        <td class="text-left">{{listIncome?.email}}</td>
+        <td class="text-left">{{listIncome?.fullName}}</td>
+        <td class="text-left">{{listIncome?.bankAccountName}}</td>
+        <td class="text-right">{{listIncome?.bankAccountNumber}}</td>
+        <td class="text-left">{{listIncome?.submitDate | date}}</td>
+        <td class="text-center" appStatusHighlight [Status]='listIncome?.status'>
+          {{listIncome?.status === 'Y'? 'กรอกแล้ว' : 'ยังไม่กรอก'}}
         </td>
       </tr>
     </tbody>
