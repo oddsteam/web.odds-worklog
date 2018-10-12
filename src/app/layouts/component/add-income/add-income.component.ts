@@ -2,12 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  selector: 'app-my-income',
-  templateUrl: './my-income.component.html',
-  styleUrls: ['./my-income.component.scss']
+  selector: 'app-add-income',
+  templateUrl: './add-income.component.html',
+  styleUrls: ['./add-income.component.scss']
 })
-export class MyIncomeComponent implements OnInit {
-
+export class AddIncomeComponent implements OnInit {
+  
   constructor(config: NgbModalConfig, private modalService: NgbModal) {
     config.backdrop = 'static';
     config.keyboard = false;
