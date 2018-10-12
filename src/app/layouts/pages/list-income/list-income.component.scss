@@ -1,17 +1,23 @@
+$borderSize: 0.1px;
+$borderColor: #e5e5e6;
 table {
     background-color: transparent;
-  th {
-    background-color: #f5f5f6;
-    border-bottom-width: 0px;
-    color: #a6a7aa;
-    font-weight: normal;
-  }
-
-  td {
-  
-  }
-
-  th:nth-child(6) {
-    width: 120px;
-  }
+    th {
+        background-color: hsl(240, 5%, 96%);
+        border: $borderSize solid $borderColor;
+        color: #a6a7aa;
+        font-weight: normal;
+    }
+    td {
+        padding-bottom: 16px;
+        padding-top: 16px;
+        border-right: $borderColor solid $borderSize;
+        border-left: $borderColor solid $borderSize;
+    }
+    th:nth-child(6) {
+        width: 120px;
+    }
+    tr:last-child {
+        border-bottom: $borderColor $borderSize solid;
+    }
 }

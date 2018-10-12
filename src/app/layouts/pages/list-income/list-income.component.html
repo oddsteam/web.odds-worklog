@@ -2,15 +2,15 @@
   <div class="d-flex py-2">
     <h2>{{date | date: 'MMMM yyyy'}}</h2>
   </div>
-  <table class="table table-hover">
-    <thead>
-      <th class="text-left">ชื่อ-สกุล(อังกฤษ)</th>
-      <th class="text-left">E-mail</th>
-      <th class="text-left">ชื่อ-สกุล(ไทย)</th>
-      <th class="text-left">ชื่อบัญชี</th>
-      <th class="text-right">เลขที่บัญชี</th>
-      <th class="text-left">วันที่</th>
-      <th class="text-center">สถานะ</th>
+  <table class="table table-hover table-borderless">
+    <thead class="text-center">
+      <th>ชื่อ-สกุล(อังกฤษ)</th>
+      <th>E-mail</th>
+      <th>ชื่อ-สกุล(ไทย)</th>
+      <th>ชื่อบัญชี</th>
+      <th>เลขที่บัญชี</th>
+      <th>วันที่</th>
+      <th>สถานะ</th>
     </thead>
     <tbody>
       <tr *ngFor="let listIncome of usersInfo">
@@ -20,8 +20,9 @@
         <td class="text-left">{{listIncome?.bankAccountName}}</td>
         <td class="text-right">{{listIncome?.bankAccountNumber}}</td>
         <td class="text-left">{{listIncome?.submitDate | date}}</td>
-        <td class="text-center" appStatusHighlight [Status]='listIncome?.status'>
-          {{listIncome?.status === 'Y'? 'กรอกแล้ว' : 'ยังไม่กรอก'}}
+        <td class="text-center">
+          <img [src]="listIncome?.status === 'Y' ? 'assets/icon/ic_checked.svg' : 'assets/icon/ic_cancel.svg'" 
+          width="24px" height="24px">
         </td>
       </tr>
     </tbody>
