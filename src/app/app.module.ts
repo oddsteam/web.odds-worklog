@@ -13,7 +13,8 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { HeaderComponent } from './layouts/component/header/header.component';
 import { MenuComponent } from './layouts/component/menu/menu.component';
 import { AddIncomeComponent } from './layouts/component/add-income/add-income.component';
-import { AddIncomeModalComponent } from './layouts/component/add-income-modal/add-income-modal.component';
+import { AddIncomeModalComponent } from './layouts/modal/add-income-modal/add-income-modal.component';
+import { ConfirmIncomeModalComponent } from './layouts/modal/confirm-income-modal/confirm-income-modal.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -28,10 +29,12 @@ export function HttpLoaderFactory(http: HttpClient) {
     StatusHighlightDirective,
     MenuComponent,
     AddIncomeComponent,
-    AddIncomeModalComponent
+    AddIncomeModalComponent,
+    ConfirmIncomeModalComponent
   ],
   entryComponents: [
-    AddIncomeModalComponent
+    AddIncomeModalComponent,
+    ConfirmIncomeModalComponent
   ],
   imports: [
     BrowserModule, NgbModule.forRoot(),

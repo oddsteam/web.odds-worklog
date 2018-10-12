@@ -1,0 +1,25 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title">Confirm Income</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="detail py-3" >
+    <b>รายละเอียด</b>
+  </div>
+  <div class="row">
+    <div class="col-6">รายได้สุทธิ</div>
+    <div class="col-6">999,999</div>
+    <div class="col-6">VAT</div>
+    <div class="col-6">999,999</div>
+    <div class="col-6">WHT</div>
+    <div class="col-6">999,999</div>
+    <div class="col-6">ผลรวม</div>
+    <div class="col-6">999,999</div>
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="onCancelPress()">Cancel</button>
+    <button type="button" class="btn btn-primary" (click)="onConfirmPress()">Confirm</button>
+  </div>

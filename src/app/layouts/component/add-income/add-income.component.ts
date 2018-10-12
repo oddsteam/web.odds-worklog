@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { AddIncomeModalComponent } from '../add-income-modal/add-income-modal.component';
+import { AddIncomeModalComponent } from '../../modal/add-income-modal/add-income-modal.component';
+import { ConfirmIncomeModalComponent } from '../../modal/confirm-income-modal/confirm-income-modal.component';
 
 @Component({
   selector: 'app-add-income',
