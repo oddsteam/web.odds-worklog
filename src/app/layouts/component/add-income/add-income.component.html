@@ -1,30 +1,3 @@
 <div class="d-flex my-income-container">
-    <ng-template #content let-c="close" let-d="dismiss">
-        <div class="modal-header">
-            <h5 class="modal-title" id="modal-basic-title">Add Income</h5>
-            <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <div class="modal-body mx-5">
-            <div class="py-2">
-                <span>ตัวอย่าง</span> : น้อง A ทำงานได้เงิน
-                วันละ 100 บาท
-                ทำงาน 20 วัน
-                กรอก "2000" นะ
-            </div>
-            <div class="form-group">
-                <label >รายได้ :</label>
-                <input type="number" class="form-control">
-            </div>
-            <div class="form-group">
-                <label >Note :</label>
-                <textarea type="text" class="form-control"></textarea>
-            </div>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-primary" (click)="c('Save click')">Submit</button>
-        </div>
-    </ng-template>
     <button type="button" class="btn btn-primary" style="background:#21A9E1;border-color:#21A9E1" (click)="open(content)">Add Income</button>
 </div>

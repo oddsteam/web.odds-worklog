@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { AddIncomeModalComponent } from '../add-income-modal/add-income-modal.component';
 
 @Component({
   selector: 'app-add-income',
@@ -15,7 +16,7 @@ export class AddIncomeComponent implements OnInit {
 
   ngOnInit() {}
 
-  open(content) {
-    this.modalService.open(content , { centered: true });
+  open() {
+    this.modalService.open(AddIncomeModalComponent , { centered: true });
   }
 }

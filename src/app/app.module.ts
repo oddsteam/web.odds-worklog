@@ -13,9 +13,10 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { HeaderComponent } from './layouts/component/header/header.component';
 import { MenuComponent } from './layouts/component/menu/menu.component';
 import { AddIncomeComponent } from './layouts/component/add-income/add-income.component';
+import { AddIncomeModalComponent } from './layouts/component/add-income-modal/add-income-modal.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
-    return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 
 @NgModule({
@@ -26,17 +27,21 @@ export function HttpLoaderFactory(http: HttpClient) {
     ListIncomeComponent,
     StatusHighlightDirective,
     MenuComponent,
-    AddIncomeComponent
+    AddIncomeComponent,
+    AddIncomeModalComponent
+  ],
+  entryComponents: [
+    AddIncomeModalComponent
   ],
   imports: [
     BrowserModule, NgbModule.forRoot(),
     HttpClientModule,
     TranslateModule.forRoot({
-        loader: {
-            provide: TranslateLoader,
-            useFactory: HttpLoaderFactory,
-            deps: [HttpClient]
-        }
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
     })
   ],
   providers: [],
