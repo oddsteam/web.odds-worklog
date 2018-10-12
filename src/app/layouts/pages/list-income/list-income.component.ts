@@ -64,7 +64,7 @@ export class ListIncomeComponent implements OnInit {
         submitDate: new Date(),
         thaiCitizenID: 12345678900,
         status: 'Y',
-      },
+      }
     ];
   }
 }

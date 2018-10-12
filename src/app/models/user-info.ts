@@ -1,4 +1,4 @@
-export class UsersInfo {
+export interface UsersInfo {
   fullName: string;
   email: string;
   bankAccountName: string;
