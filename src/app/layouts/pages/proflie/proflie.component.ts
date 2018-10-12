@@ -8,6 +8,7 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class ProflieComponent implements OnInit {
 
+    name: string = "Mr.Odds Sprint3r";
     constructor(
         public translate: TranslateService
     ) {
