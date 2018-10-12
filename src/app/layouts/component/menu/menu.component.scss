@@ -10,7 +10,7 @@ img {
     width: 100%;
     background-color: #2b303a;
   }
-  
+
   li a {
     display: block;
     color: #aaabae;
@@ -18,7 +18,14 @@ img {
     text-decoration: none;
     cursor: pointer;
     border-bottom: 1px solid rgba(69, 74, 84, 0.7);
+    align-self: center;
+    img{
+        width: 40px;
+        height: 30px;
+        margin-right: 8px;
+    }
   }
+
   
   li a:hover {
     background-color: #949494;
