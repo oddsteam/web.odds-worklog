@@ -20,9 +20,8 @@
         <td class="text-left">{{listIncome?.bankAccountName}}</td>
         <td class="text-right">{{listIncome?.bankAccountNumber}}</td>
         <td class="text-left">{{listIncome?.submitDate | date}}</td>
-        <td class="text-center">
-          <img [src]="listIncome?.status === 'Y' ? 'assets/icon/ic_checked.svg' : 'assets/icon/ic_cancel.svg'" 
-          width="24px" height="24px">
+        <td class="text-center" appStatusHighlight [Status]='listIncome?.status'>
+          {{listIncome?.status === 'Y'? 'กรอกแล้ว' : 'ยังไม่กรอก'}}
         </td>
       </tr>
     </tbody>
