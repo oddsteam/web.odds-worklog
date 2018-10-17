@@ -15,10 +15,18 @@ import { MenuComponent } from './layouts/component/menu/menu.component';
 import { AddIncomeComponent } from './layouts/component/add-income/add-income.component';
 import { AddIncomeModalComponent } from './layouts/modal/add-income-modal/add-income-modal.component';
 import { ConfirmIncomeModalComponent } from './layouts/modal/confirm-income-modal/confirm-income-modal.component';
+import { Routes, RouterModule } from '@angular/router';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
+
+const routes: Routes = [
+  { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
+  { path: 'listofincome', component: ListIncomeComponent },
+  // { path: 'dashboard', component: DashboardComponent},
+  // { path: 'admin', component: adminComponent}
+];
 
 @NgModule({
   declarations: [
@@ -37,6 +45,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     ConfirmIncomeModalComponent
   ],
   imports: [
+    RouterModule.forRoot(routes),
     BrowserModule, NgbModule.forRoot(),
     HttpClientModule,
     TranslateModule.forRoot({
@@ -45,8 +54,7 @@ export function HttpLoaderFactory(http: HttpClient) {
         useFactory: HttpLoaderFactory,
         deps: [HttpClient]
       }
-    })
-  ],
+    })],
   providers: [],
   bootstrap: [AppComponent]
 })

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UsersInfo } from '../../../models/user-info';
+import { UsersInfoModel } from '../../../models/user-info';
 
 @Component({
   selector: 'app-list-income',
@@ -8,9 +8,9 @@ import { UsersInfo } from '../../../models/user-info';
 })
 export class ListIncomeComponent implements OnInit {
   date = new Date();
-  usersInfo: UsersInfo[];
+  usersInfo: UsersInfoModel[];
   selectName = 'Kitsada Khamthamun';
-  recentUser: UsersInfo;
+  recentUser: UsersInfoModel;
   constructor() {}
 
   ngOnInit() {
