@@ -1,17 +1,26 @@
-img {
-    width: 200px;
-    height: 120px;
-  }
-  
-  ul {
+div {
+  height: calc(100% - 80%);
+  text-align: center;
+  align-self: center;
+  img {
+        width: calc(100% - 20%);
+        height: calc(100% - 30%);
+        padding: 16px;
+        align-self: center;
+        text-align: center;
+        justify-content: center;
+    }
+}
+
+ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
     width: 100%;
     background-color: #2b303a;
-  }
+}
 
-  li a {
+li a {
     display: block;
     color: #aaabae;
     padding: 15px;
@@ -19,16 +28,15 @@ img {
     cursor: pointer;
     border-bottom: 1px solid rgba(69, 74, 84, 0.7);
     align-self: center;
-    img{
+    img {
         width: 40px;
         height: 30px;
         margin-right: 8px;
         text-align: left
     }
-  }
+}
 
-  
-  li a:hover {
+li a:hover {
     background-color: #949494;
     color: white;
-  }  
+}
