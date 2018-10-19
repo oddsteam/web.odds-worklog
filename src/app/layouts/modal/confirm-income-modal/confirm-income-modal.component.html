@@ -10,13 +10,13 @@
   </div>
   <div class="row">
     <div class="col-6">{{ 'MODAL.CONFIRM_INCOME.NET_INCOME' | translate}}</div>
-    <div class="col-6">999,999</div>
+    <div class="col-6">{{ incomeModel.netIncome | number: '1.2-2' }}</div>
     <div class="col-6">{{ 'MODAL.CONFIRM_INCOME.VAT' | translate}}</div>
-    <div class="col-6">999,999</div>
+    <div class="col-6">{{ incomeModel.vat | number: '1.2-2' }}</div>
     <div class="col-6">{{ 'MODAL.CONFIRM_INCOME.WHT' | translate}}</div>
-    <div class="col-6">999,999</div>
+    <div class="col-6">{{ incomeModel.wht | number: '1.2-2' }}</div>
     <div class="col-6">{{ 'MODAL.CONFIRM_INCOME.TOTAL_INCOME' | translate}}</div>
-    <div class="col-6">999,999</div>
+    <div class="col-6">{{ incomeModel.totalIncome | number: '1.2-2'}}</div>
   </div>
 
   <div class="modal-footer">

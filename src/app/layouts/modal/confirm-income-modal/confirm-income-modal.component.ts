@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { IncomeModel } from '../model/income-model';
 
 @Component({
   selector: 'app-confirm-income-modal',
@@ -8,7 +9,10 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class ConfirmIncomeModalComponent implements OnInit {
 
-  constructor(public activeModal: NgbActiveModal) { }
+    incomeModel: IncomeModel;
+  constructor(public activeModal: NgbActiveModal) { 
+      this.mock();
+  }
 
   ngOnInit() {
   }
@@ -19,4 +23,31 @@ export class ConfirmIncomeModalComponent implements OnInit {
   onConfirmPress() {
     this.activeModal.close();
   }
+
+    private mock() {
+        this.incomeModel = {
+            netIncome: "999999",
+            vat: this.calVAT("999999"),
+            wht: this.calVAT("999999"),
+            totalIncome: this.calTotal("999999")
+        }
+    }
+
+    // จำสูตรไม่ได้ครับ กลับไปทำต่อครับ
+    private calVAT(netIncome: string): string {
+        return (Number(this.cutComma(netIncome))).toString();
+    }
+
+    private calWHM(netIncome: string): string {
+        return (Number(this.cutComma(netIncome))).toString();
+    }
+
+    private calTotal(netIncome: string): string {
+        return (Number(this.cutComma(netIncome))).toString();
+    }
+
+    private cutComma(text: string): string {
+        return text.replace(/,/g, "");
+    }
+    //
 }
