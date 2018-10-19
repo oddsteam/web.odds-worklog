@@ -2,5 +2,20 @@
     "PROFILE": {
         "HEADER": "Profile",
         "LOGOUT": "Login"
+    },
+
+    "MODAL": {
+        "ADD_INCOME": {
+
+        },
+        "CONFIRM_INCOME": {
+            "HEADER": "Confirm Income",
+            "CANCEL": "Cancel",
+            "CONFIRM": "Confirm",
+            "NET_INCOME": "รายได้สุทธิ",
+            "VAT": "VAT",
+            "WHT": "WHT",
+            "TOTAL_INCOME": "ผลรวม"
+        }
     }
 }

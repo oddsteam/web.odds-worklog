@@ -1,5 +1,5 @@
 <div class="modal-header">
-  <h4 class="modal-title" id="modal-basic-title">Confirm Income</h4>
+  <h4 class="modal-title" id="modal-basic-title">{{ 'MODAL.CONFIRM_INCOME.HEADER' | translate}}</h4>
   <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
     <span aria-hidden="true">&times;</span>
   </button>
@@ -9,17 +9,17 @@
     <b>รายละเอียด</b>
   </div>
   <div class="row">
-    <div class="col-6">รายได้สุทธิ</div>
+    <div class="col-6">{{ 'MODAL.CONFIRM_INCOME.NET_INCOME' | translate}}</div>
     <div class="col-6">999,999</div>
-    <div class="col-6">VAT</div>
+    <div class="col-6">{{ 'MODAL.CONFIRM_INCOME.VAT' | translate}}</div>
     <div class="col-6">999,999</div>
-    <div class="col-6">WHT</div>
+    <div class="col-6">{{ 'MODAL.CONFIRM_INCOME.WHT' | translate}}</div>
     <div class="col-6">999,999</div>
-    <div class="col-6">ผลรวม</div>
+    <div class="col-6">{{ 'MODAL.CONFIRM_INCOME.TOTAL_INCOME' | translate}}</div>
     <div class="col-6">999,999</div>
   </div>
 
   <div class="modal-footer">
-    <button type="button" class="button-red" (click)="onCancelPress()">Cancel</button>
-    <button type="button" class="button-blue" (click)="onConfirmPress()">Confirm</button>
+    <button type="button" class="button-red" (click)="onCancelPress()">{{ 'MODAL.CONFIRM_INCOME.CANCEL' | translate}}</button>
+    <button type="button" class="button-blue" (click)="onConfirmPress()">{{ 'MODAL.CONFIRM_INCOME.CONFIRM' | translate}}</button>
   </div>
