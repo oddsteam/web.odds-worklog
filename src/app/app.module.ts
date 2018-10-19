@@ -22,7 +22,7 @@ export function HttpLoaderFactory(http: HttpClient) {
 }
 
 const routes: Routes = [
-  { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
+  { path: '', redirectTo: '/listofincome', pathMatch: 'full' },
   { path: 'listofincome', component: ListIncomeComponent },
   // { path: 'dashboard', component: DashboardComponent},
   // { path: 'admin', component: adminComponent}

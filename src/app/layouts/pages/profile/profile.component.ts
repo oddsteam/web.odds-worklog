@@ -8,7 +8,7 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class ProfileComponent implements OnInit {
 
-    name: string = "Mr.Odds Sprint3r";
+    name: string = "Tom & Friend";
     constructor(
         public translate: TranslateService
     ) {
