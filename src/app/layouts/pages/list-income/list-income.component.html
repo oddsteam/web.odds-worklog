@@ -10,7 +10,7 @@
       <th>ชื่อ-สกุล(ไทย)</th>
       <th>ชื่อบัญชี</th>
       <th>เลขที่บัญชี</th>
-      <th>วันที่</th>
+      <th>วันที่กรอก</th>
       <th>สถานะ</th>
     </thead>
     <tbody>
@@ -20,7 +20,7 @@
         <td class="text-left">{{listIncome?.fullName}}</td>
         <td class="text-left">{{listIncome?.bankAccountName}}</td>
         <td class="text-right">{{listIncome?.bankAccountNumber}}</td>
-        <td class="text-left">{{listIncome?.submitDate | date}}</td>
+        <td class="text-center">{{listIncome?.submitDate | date}}</td>
         <td class="text-center" appStatusHighlight [Status]='listIncome?.status'>
           {{listIncome?.status === 'Y'? 'กรอกแล้ว' : 'ยังไม่กรอก'}}
         </td>

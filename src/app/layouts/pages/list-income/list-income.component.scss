@@ -6,14 +6,14 @@ table {
     th {
         background-color: hsl(240, 5%, 96%);
         border: $borderSize solid $borderColor;
-        color: #a6a7aa;
+        color: #4A4A4A;
         font-weight: normal;
     }
     td {
         padding-bottom: 16px;
         padding-top: 16px;
-        border-right: $borderColor solid $borderSize;
-        border-left: $borderColor solid $borderSize;
+        border-bottom: $borderColor $borderSize solid;
+
     }
     th:nth-child(6) {
         width: 120px;
