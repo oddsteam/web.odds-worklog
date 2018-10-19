@@ -1,9 +1,29 @@
-.my-income-container{
-    // padding: 15px
+.my-income-container {
+    padding: 15px;
+    align-self: center;
+    height: 80px;
+    border: 1px #EBEBEB solid;
+    border-radius: 4px;
+    position: relative;
 }
-button{
-    width: 120px;
-    height: 40px;
-    background:#21A9E1;
-    border-color:#21A9E1;
+
+span {
+    top: 50%;
+    transform: translateY(-50%);
+    position: absolute;
+    font-size: 18px;
+}
+
+button {
+    top: 50%;
+    transform: translateY(-50%);
+    position: absolute;
+    right: 8px;
+    width: 131px;
+    height: 50px;
+    background: #21A9E1;
+    border-color: #21A9E1;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+    font-size: 18px;
 }
