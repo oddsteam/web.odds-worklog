@@ -7,7 +7,7 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
-  name = 'Mr.Odds Sprint3r';
+  name = 'Tom & Friend';
 
   constructor(public translate: TranslateService) {
     translate.setDefaultLang('en');
