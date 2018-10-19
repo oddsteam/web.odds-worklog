@@ -1,25 +1,53 @@
 <div class="modal-header">
-  <h4 class="modal-title" id="modal-basic-title">{{ 'MODAL.CONFIRM_INCOME.HEADER' | translate}}</h4>
-  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
-    <span aria-hidden="true">&times;</span>
-  </button>
+    <h4 class="modal-title" id="modal-basic-title">{{ 'MODAL.CONFIRM_INCOME.HEADER' | translate}}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
 </div>
 <div class="modal-body">
-  <div class="detail py-3" >
-    <b>รายละเอียด</b>
-  </div>
-  <div class="row">
-    <div class="col-6">{{ 'MODAL.CONFIRM_INCOME.NET_INCOME' | translate}}</div>
-    <div class="col-6">{{ incomeModel.netIncome | number: '1.2-2' }}</div>
-    <div class="col-6">{{ 'MODAL.CONFIRM_INCOME.VAT' | translate}}</div>
-    <div class="col-6">{{ incomeModel.vat | number: '1.2-2' }}</div>
-    <div class="col-6">{{ 'MODAL.CONFIRM_INCOME.WHT' | translate}}</div>
-    <div class="col-6">{{ incomeModel.wht | number: '1.2-2' }}</div>
-    <div class="col-6">{{ 'MODAL.CONFIRM_INCOME.TOTAL_INCOME' | translate}}</div>
-    <div class="col-6">{{ incomeModel.totalIncome | number: '1.2-2'}}</div>
-  </div>
 
-  <div class="modal-footer">
-    <button type="button" class="button-red" (click)="onCancelPress()">{{ 'MODAL.CONFIRM_INCOME.CANCEL' | translate}}</button>
-    <button type="button" class="button-blue" (click)="onConfirmPress()">{{ 'MODAL.CONFIRM_INCOME.CONFIRM' | translate}}</button>
-  </div>
+
+    <div class="row">
+        <div class="col-12 content-container">
+            <div class="row">
+                <div class="col col-2"></div>
+                <div class="col col-10 detail"><strong>{{ 'MODAL.CONFIRM_INCOME.TITLE' | translate }}</strong></div>
+
+            </div>
+            <div class="row">
+                <div class="col col-2"></div>
+                <div class="col col-3">{{ 'MODAL.CONFIRM_INCOME.NET_INCOME' | translate}}</div>
+                <div class="col col-5 text-right">{{ incomeModel.netIncome | number: '1.2-2' }}</div>
+                <div class="col col-2"></div>
+            </div>
+
+            <div class="row">
+                <div class="col col-2"></div>
+                <div class="col col-3">{{ 'MODAL.CONFIRM_INCOME.VAT' | translate}}</div>
+                <div class="col col-5 text-right">{{ incomeModel.vat | number: '1.2-2' }}</div>
+                <div class="col col-2"></div>
+            </div>
+            <div class="row">
+                <div class="col col-2"></div>
+                <div class="col col-3">{{ 'MODAL.CONFIRM_INCOME.WHT' | translate}}</div>
+                <div class="col col-5 text-right">{{ incomeModel.wht | number: '1.2-2' }}</div>
+                <div class="col col-2"></div>
+            </div>
+            <div class="row">
+                <div class="col col-2"></div>
+                <div class="col col-3 border-total">{{ 'MODAL.CONFIRM_INCOME.TOTAL_INCOME' | translate}}</div>
+                <div class="col col-5 border-total text-right"><strong>{{ incomeModel.totalIncome | number: '1.2-2'}}</strong> {{ 'BATH' | translate }}</div>
+                <div class="col col-2"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button type="button" class="button red" (click)="onCancelPress()">
+        {{ 'MODAL.CONFIRM_INCOME.NO_OK' | translate}}
+    </button>
+    <button type="button" class="button blue" (click)="onConfirmPress()">
+        {{ 'MODAL.CONFIRM_INCOME.OK' | translate}}
+    </button>
+</div>

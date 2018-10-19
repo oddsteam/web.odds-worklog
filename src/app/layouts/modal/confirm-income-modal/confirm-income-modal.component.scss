@@ -1,31 +1,53 @@
 .modal-footer {
     button {
-        width: 130px;
-        height: 40px;
-        border-radius: 8px;
-        color: white;
+        height: 41px;	
+        width: 80px;	
+        border-radius: 8px;	
+        box-shadow: 0 2px 4px 0 rgba(0,0,0,0.5);
     }
 
-    .button-blue {
-        background-color: #21A9E1;
-        border-color: #21A9E1;
+    .button {
+        padding: 10px 0;
+        border-style: solid;
+        border-width: 1px;	
+        width: 80px;	
+        font-family: Helvetica;	
+        font-size: 18px;	
+        line-height: 22px;	
+        text-align: center;
+        &.blue {
+            border-color: #008D45;
+            background-color: #00A651;
+            color: #F8FBFF;
+        }
+        &.red {
+            border-color: #ebebeb;
+            background-color: #ebebeb;
+            color: #373E4A;	
+        }
     }
+}
 
-    .button-red {
-        background-color: #FF0000;
-        border-color: #FF0000;
-    }
+.modal-footer>:not(:last-child) {
+    margin-right: 10px;
+}
+
+.modal-footer>:not(:first-child) {
+    margin-left: 10px;
 }
 
 .detail {
-    text-align: center;
-    b {
-        font-size: 18px;
-        padding-bottom: 24px;
+    padding-bottom: 8px!important;
+    strong {
+        font-size: 20px;
     }
 }
 
-div .col-6 {
-    text-align: center;
-    padding-bottom: 16px;
+.col {
+    padding: 8px 0;
+}
+
+.border-total {
+    border-top: 1px solid #EBEBEB;
+    border-bottom: 1px solid #EBEBEB;
 }

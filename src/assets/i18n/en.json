@@ -10,12 +10,14 @@
         },
         "CONFIRM_INCOME": {
             "HEADER": "Confirm Income",
-            "CANCEL": "Cancel",
-            "CONFIRM": "Confirm",
+            "TITLE": "รายละเอียด",
+            "NO_OK": "ไม่ OK",
+            "OK": "OK",
             "NET_INCOME": "รายได้สุทธิ",
             "VAT": "VAT",
             "WHT": "WHT",
             "TOTAL_INCOME": "ผลรวม"
         }
-    }
+    },
+    "BATH": "บาท"
 }
