@@ -46,7 +46,7 @@ const routes: Routes = [
   ],
   imports: [
     RouterModule.forRoot(routes),
-    BrowserModule, NgbModule.forRoot(),
+    BrowserModule, NgbModule,
     HttpClientModule,
     TranslateModule.forRoot({
       loader: {

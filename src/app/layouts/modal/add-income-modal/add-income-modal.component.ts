@@ -23,6 +23,6 @@ export class AddIncomeModalComponent implements OnInit {
 
   submit() {
     this.modalService.open(ConfirmIncomeModalComponent, { centered: true });
-    setTimeout(() => { this.activeModal.close(); })
+    setTimeout(() => { this.activeModal.close(); });
   }
 }

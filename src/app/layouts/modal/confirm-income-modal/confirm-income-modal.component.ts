@@ -3,34 +3,34 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { IncomeModel } from '../model/income-model';
 
 @Component({
-  selector: 'app-confirm-income-modal',
-  templateUrl: './confirm-income-modal.component.html',
-  styleUrls: ['./confirm-income-modal.component.scss']
+    selector: 'app-confirm-income-modal',
+    templateUrl: './confirm-income-modal.component.html',
+    styleUrls: ['./confirm-income-modal.component.scss']
 })
 export class ConfirmIncomeModalComponent implements OnInit {
 
     incomeModel: IncomeModel;
-  constructor(public activeModal: NgbActiveModal) { 
-      this.mock();
-  }
+    constructor(public activeModal: NgbActiveModal) {
+        this.mock();
+    }
 
-  ngOnInit() {
-  }
+    ngOnInit() {
+    }
 
-  onCancelPress() {
-    this.activeModal.close();
-  }
-  onConfirmPress() {
-    this.activeModal.close();
-  }
+    onCancelPress() {
+        this.activeModal.close();
+    }
+    onConfirmPress() {
+        this.activeModal.close();
+    }
 
     private mock() {
         this.incomeModel = {
-            netIncome: "999999",
-            vat: this.calVAT("999999"),
-            wht: this.calVAT("999999"),
-            totalIncome: this.calTotal("999999")
-        }
+            netIncome: '999999',
+            vat: this.calVAT('999999'),
+            wht: this.calVAT('999999'),
+            totalIncome: this.calTotal('999999')
+        };
     }
 
     // จำสูตรไม่ได้ครับ กลับไปทำต่อครับ
@@ -47,7 +47,7 @@ export class ConfirmIncomeModalComponent implements OnInit {
     }
 
     private cutComma(text: string): string {
-        return text.replace(/,/g, "");
+        return text.replace(/,/g, '');
     }
     //
 }

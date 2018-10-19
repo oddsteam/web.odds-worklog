@@ -29,7 +29,7 @@ export class UsersInfo implements UsersInfoInterface {
   submitDate: Date;
   totalIncome: number;
   status: string;
-  constructor(fullName: string, 
+  constructor(fullName: string,
     email: string,
     bankAccountName: string,
     bankAccountNumber: number,

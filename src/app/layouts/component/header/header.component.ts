@@ -7,11 +7,11 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
-  name: string = "Mr.Odds Sprint3r";
+  name = 'Mr.Odds Sprint3r';
 
   constructor(public translate: TranslateService) {
-    translate.setDefaultLang('en')
-    translate.use('th')
+    translate.setDefaultLang('en');
+    translate.use('th');
   }
 
   ngOnInit() {

@@ -9,15 +9,15 @@ import { ConfirmIncomeModalComponent } from '../../modal/confirm-income-modal/co
   styleUrls: ['./add-income.component.scss']
 })
 export class AddIncomeComponent implements OnInit {
-  
+
   constructor(config: NgbModalConfig, private modalService: NgbModal) {
     config.backdrop = 'static';
     config.keyboard = false;
-   }
+  }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   open() {
-    this.modalService.open(AddIncomeModalComponent , { centered: true });
+    this.modalService.open(AddIncomeModalComponent, { centered: true });
   }
 }
