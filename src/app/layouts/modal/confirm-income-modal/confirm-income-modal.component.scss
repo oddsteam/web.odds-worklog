@@ -2,9 +2,18 @@
     button {
         width: 130px;
         height: 40px;
-        background: #21A9E1;
-        border-color: #21A9E1;
         border-radius: 8px;
+        color: white;
+    }
+
+    .button-blue {
+        background-color: #21A9E1;
+        border-color: #21A9E1;
+    }
+
+    .button-red {
+        background-color: #FF0000;
+        border-color: #FF0000;
     }
 }
 
