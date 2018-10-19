@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
-import { ProflieComponent } from './layouts/pages/proflie/proflie.component';
+import { ProfileComponent } from './layouts/pages/profile/profile.component';
 import { ListIncomeComponent } from './layouts/pages/list-income/list-income.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { StatusHighlightDirective } from './directives/status-highlight.directive';
@@ -32,7 +32,7 @@ const routes: Routes = [
   declarations: [
     AppComponent,
     HeaderComponent,
-    ProflieComponent,
+    ProfileComponent,
     ListIncomeComponent,
     StatusHighlightDirective,
     MenuComponent,

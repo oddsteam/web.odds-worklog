@@ -3,10 +3,10 @@ import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-proflie',
-    templateUrl: './proflie.component.html',
-    styleUrls: ['./proflie.component.scss']
+    templateUrl: './profile.component.html',
+    styleUrls: ['./profile.component.scss']
 })
-export class ProflieComponent implements OnInit {
+export class ProfileComponent implements OnInit {
 
     name: string = "Mr.Odds Sprint3r";
     constructor(
