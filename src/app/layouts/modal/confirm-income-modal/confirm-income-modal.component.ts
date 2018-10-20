@@ -13,12 +13,20 @@ import { ConfirmIncomePresenter } from './confirm-income-modal-presenter';
 })
 export class ConfirmIncomeModalComponent implements OnInit {
 
-    incomeModel: IncomeModel;
+    incomeModel: IncomeModel = {
+        netIncome: "",
+        vat: "",
+        wht: "",
+        totalIncome: ""
+    };
+
     constructor(
         public activeModal: NgbActiveModal,
         private confirmIncomePresenter: ConfirmIncomePresenter
     ) {
-        this.mock();
+        // this.mock();
+        this.incomeModel.netIncome = "90000";
+        this.updateData()
     }
 
     ngOnInit() {
@@ -28,17 +36,27 @@ export class ConfirmIncomeModalComponent implements OnInit {
     onCancelPress() {
         this.activeModal.close();
     }
-    
+
     onConfirmPress() {
         this.activeModal.close();
     }
 
-    private mock() {
-        this.incomeModel = {
-            netIncome: "999999",
-            vat: this.confirmIncomePresenter.calVAT("999999"),
-            wht: this.confirmIncomePresenter.calWHT("999999"),
-            totalIncome: this.confirmIncomePresenter.calTotal("999999")
-        }
+    private updateData() {
+        this.incomeModel.vat = this.confirmIncomePresenter.calVAT(this.incomeModel.netIncome);
+        this.incomeModel.wht = this.confirmIncomePresenter.calWHT(this.incomeModel.vat);
+        this.incomeModel.totalIncome = this.confirmIncomePresenter.calTotal(
+            this.incomeModel.netIncome,
+            this.incomeModel.vat,
+            this.incomeModel.wht
+        );
     }
+
+    // private mock() {
+    //     this.incomeModel = {
+    //         netIncome: "999999",
+    //         vat: this.confirmIncomePresenter.calVAT("999999"),
+    //         wht: this.confirmIncomePresenter.calWHT("999999"),
+    //         totalIncome: this.confirmIncomePresenter.calTotal("999999")
+    //     }
+    // }
 }
