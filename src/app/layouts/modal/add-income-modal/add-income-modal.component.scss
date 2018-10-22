@@ -13,6 +13,13 @@
     border: 1px solid #B6D6E4;	
     border-radius: 3px;	
     background-color: #C5E8F7;
+
+    span {
+        color: #2C7EA1;	
+        font-family: Helvetica;	
+        font-size: 16px;	
+        line-height: 21px;
+    }
 }
 
 input[type='number'] {
