@@ -10,7 +10,7 @@
         },
         "CONFIRM_INCOME": {
             "HEADER": "Confirm Income",
-            "TITLE": "รายละเอียด",
+            "TITLE": "เงินที่คุณจะได้รับ :",
             "NO_OK": "ไม่ OK",
             "OK": "OK",
             "NET_INCOME": "รายได้สุทธิ",

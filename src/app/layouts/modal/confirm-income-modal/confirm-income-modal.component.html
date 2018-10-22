@@ -4,36 +4,35 @@
         <span aria-hidden="true">&times;</span>
     </button>
 </div>
-<div class="modal-body">
-
+<div class="modal-body mx-sm-5">
 
     <div class="row">
         <div class="col-12 content-container">
-            <div class="row">
+            <div class="row row mb-3">
                 <div class="col col-2"></div>
                 <div class="col col-10 detail"><strong>{{ 'MODAL.CONFIRM_INCOME.TITLE' | translate }}</strong></div>
 
             </div>
-            <div class="row">
+            <div class="row mb-2">
                 <div class="col col-2"></div>
                 <div class="col col-3">{{ 'MODAL.CONFIRM_INCOME.NET_INCOME' | translate}}</div>
                 <div class="col col-5 text-right">{{ incomeModel.netIncome | number: '1.2-2' }}</div>
                 <div class="col col-2"></div>
             </div>
 
-            <div class="row">
+            <div class="row mb-2">
                 <div class="col col-2"></div>
                 <div class="col col-3">{{ 'MODAL.CONFIRM_INCOME.VAT' | translate}}</div>
                 <div class="col col-5 text-right">{{ incomeModel.vat | number: '1.2-2' }}</div>
                 <div class="col col-2"></div>
             </div>
-            <div class="row">
+            <div class="row mb-2">
                 <div class="col col-2"></div>
                 <div class="col col-3">{{ 'MODAL.CONFIRM_INCOME.WHT' | translate}}</div>
                 <div class="col col-5 text-right">{{ incomeModel.wht | number: '1.2-2' }}</div>
                 <div class="col col-2"></div>
             </div>
-            <div class="row">
+            <div class="row mb-2">
                 <div class="col col-2"></div>
                 <div class="col col-3 border-total">{{ 'MODAL.CONFIRM_INCOME.TOTAL_INCOME' | translate}}</div>
                 <div class="col col-5 border-total text-right"><strong>{{ incomeModel.totalIncome | number: '1.2-2'}}</strong> {{ 'BATH' | translate }}</div>
