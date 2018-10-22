@@ -9,6 +9,8 @@ import { ConfirmIncomeModalComponent } from '../confirm-income-modal/confirm-inc
 })
 export class AddIncomeModalComponent implements OnInit {
 
+    netIncome: number;
+
   constructor(
     public activeModal: NgbActiveModal,
     public config: NgbModalConfig,
@@ -21,8 +23,18 @@ export class AddIncomeModalComponent implements OnInit {
   ngOnInit() {
   }
 
-  submit() {
-    this.modalService.open(ConfirmIncomeModalComponent, { centered: true });
-    setTimeout(() => { this.activeModal.close(); });
-  }
+    submit() {
+        let modalConfirmIncome = this.modalService.open(ConfirmIncomeModalComponent, { centered: true });
+        modalConfirmIncome.componentInstance.netIncome = this.netIncome.toString();
+        setTimeout(() => { this.activeModal.close(); });
+    }
+
+    inputIncomeAmount(data: number) {
+        this.netIncome = data;
+    }
+
+    disibleButton(): boolean {
+        if (!this.netIncome || this.netIncome < 1) return true;
+        return false;
+    }
 }

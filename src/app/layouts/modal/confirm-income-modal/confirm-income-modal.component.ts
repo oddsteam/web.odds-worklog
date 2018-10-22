@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { IncomeModel } from '../model/income-model';
 import { ConfirmIncomePresenter } from './confirm-income-modal-presenter';
@@ -20,17 +20,19 @@ export class ConfirmIncomeModalComponent implements OnInit {
         totalIncome: ""
     };
 
+    @Input('netIncome') netIncome: string;
+
     constructor(
         public activeModal: NgbActiveModal,
         private confirmIncomePresenter: ConfirmIncomePresenter
     ) {
         // this.mock();
-        this.incomeModel.netIncome = "90000";
-        this.updateData()
     }
 
     ngOnInit() {
-        
+        this.incomeModel.netIncome = this.netIncome;
+        this.updateData()
+        console.log(this.netIncome)
     }
 
     onCancelPress() {
@@ -42,6 +44,7 @@ export class ConfirmIncomeModalComponent implements OnInit {
     }
 
     private updateData() {
+        console.log(this.incomeModel.netIncome);
         this.incomeModel.vat = this.confirmIncomePresenter.calVAT(this.incomeModel.netIncome);
         this.incomeModel.wht = this.confirmIncomePresenter.calWHT(this.incomeModel.vat);
         this.incomeModel.totalIncome = this.confirmIncomePresenter.calTotal(
