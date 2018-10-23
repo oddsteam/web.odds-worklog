@@ -7,7 +7,7 @@ const routes: Routes = [
         path: '',
         component: LayoutsComponent
     }
-]
+];
 
 @NgModule({
     imports: [RouterModule.forChild(routes)],
