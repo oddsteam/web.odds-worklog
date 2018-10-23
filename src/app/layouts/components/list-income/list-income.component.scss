@@ -2,12 +2,11 @@ table {
     th {
         background-color:#F5F5F6;
         border-top: 1px solid  #ebebeb;
+        border-bottom: 1px solid  #ebebeb;
         color: #4A4A4A;
         font-weight: bold;
-        border-bottom: none 
     }
     td {
-        border-bottom: 1px solid  #ebebeb;
         border-top: 1px solid  #ebebeb;
     }
     th:nth-child(6) {
