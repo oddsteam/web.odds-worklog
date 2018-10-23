@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import { AddIncomeModalComponent } from './add-income-modal/add-income-modal.component';
 
 @Component({
@@ -8,12 +8,14 @@ import { AddIncomeModalComponent } from './add-income-modal/add-income-modal.com
   styleUrls: ['./add-income.component.scss'],
 })
 export class AddIncomeComponent implements OnInit {
+  salary = 0;
+  note = 'อยากได้เงินก็กรอกมาสิ';
   constructor(public config: NgbModalConfig, private modalService: NgbModal) {
     config.backdrop = 'static';
     config.keyboard = false;
   }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   open() {
     this.modalService.open(AddIncomeModalComponent, { centered: true });

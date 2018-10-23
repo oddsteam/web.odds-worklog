@@ -8,22 +8,22 @@
       <th class="text-left">E-mail</th>
       <th class="text-left">ชื่อ-สกุล(ไทย)</th>
       <th class="text-left">ชื่อบัญชี</th>
-      <th class="text-right">เลขที่บัญชี</th>
+      <th class="text-center">เลขที่บัญชี</th>
       <th class="text-left">วันที่กรอก</th>
       <th class="text-center">สถานะ</th>
     </thead>
     <tbody>
-        <tr *ngFor="let listIncome of listIncome">
-            <td class="text-left pl-4">{{listIncome?.fullnameEN}}</td>
-            <td class="text-left">{{listIncome?.email}}</td>
-            <td class="text-left">{{listIncome?.fullnameTH}}</td>
-            <td class="text-left">{{listIncome?.bankAccountName}}</td>
-            <td class="text-right">{{listIncome?.bankAccountNumber}}</td>
-            <td class="text-left">{{listIncome?.submitDate | date}}</td>
-            <td class="text-center" appStatusHighlight [Status]='listIncome?.status'>
-              {{listIncome?.status === 'Y'? 'กรอกแล้ว' : 'ยังไม่ได้กรอก'}}
-            </td>
-          </tr>
+      <tr *ngFor="let listIncome of listIncome">
+        <td class="text-left pl-4">{{listIncome?.fullnameEN}}</td>
+        <td class="text-left">{{listIncome?.email}}</td>
+        <td class="text-left">{{listIncome?.fullnameTH}}</td>
+        <td class="text-left">{{listIncome?.bankAccountName}}</td>
+        <td class="text-right">{{listIncome?.bankAccountNumber}}</td>
+        <td class="text-left">{{listIncome?.submitDate | date}}</td>
+        <td class="text-center" appStatusHighlight [Status]='listIncome?.status'>
+          {{listIncome?.status === 'Y'? 'กรอกแล้ว' : 'ยังไม่ได้กรอก'}}
+        </td>
+      </tr>
     </tbody>
   </table>
 </div>
