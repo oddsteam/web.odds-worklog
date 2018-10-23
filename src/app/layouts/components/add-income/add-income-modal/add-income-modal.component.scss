@@ -1,33 +1,19 @@
-.modal-footer {
-    button {
-        width: 130px;
-        height: 40px;
-        background: #21A9E1;
-        border-color: #21A9E1;
-        border-radius: 8px;
-    }
-}
-
 .bg-color {
-    padding: 7px 22px;
-    border: 1px solid #B6D6E4;	
-    border-radius: 3px;	
-    background-color: #C5E8F7;
-    border-left: 6px solid #B6D6E4;
-
-    span {
-        color: #2C7EA1;	
-        font-family: Helvetica;	
-        font-size: 16px;	
-        line-height: 21px;
-    }
+  padding: 0 20px;
+  border: 1px solid #b6d6e4;
+  border-radius: 3px;
+  background-color: #c5e8f7;
+  border-left: 6px solid #b6d6e4;
+  div {
+    color: #2c7ea1;
+  }
 }
 
 input[type='number'] {
-    -moz-appearance: textfield;
+  -moz-appearance: textfield;
 }
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
+  -webkit-appearance: none;
 }

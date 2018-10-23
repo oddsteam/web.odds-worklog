@@ -1,4 +1,4 @@
-/* You can add global styles to this file, and also import other style files */
+@import 'assets/styles/_custom.scss';
 * {
   margin: 0;
   padding: 0;
@@ -7,27 +7,7 @@
 h2{
   font-size: 24px;
 }
-.change--positive{
-  color: #00A651;
-}
-.change-negative{
-  color: #EE4749;
-}
-.modal-header {
-    .modal-title {
-        font-size: 20px;
-        font-weight: bold;
-    }
-
-    .close {
-        span {
-            font-size: 26px;
-        }
-    }
-}
-
-@media (min-width: 576px) {
-    .modal-dialog {
-        max-width: 40%;
-    }
-}
+button{
+    width: 100px;
+    height: 36px;
+  }
