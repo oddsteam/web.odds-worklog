@@ -3,27 +3,19 @@ import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddIncomeModalComponent } from './add-income-modal/add-income-modal.component';
 
 @Component({
-    selector: 'app-add-income',
-    templateUrl: './add-income.component.html',
-    styleUrls: ['./add-income.component.scss']
+  selector: 'app-add-income',
+  templateUrl: './add-income.component.html',
+  styleUrls: ['./add-income.component.scss'],
 })
 export class AddIncomeComponent implements OnInit {
+  constructor(public config: NgbModalConfig, private modalService: NgbModal) {
+    config.backdrop = 'static';
+    config.keyboard = false;
+  }
 
-    constructor(
-        public config: NgbModalConfig,
-        private modalService: NgbModal
-    ) {
-        config.backdrop = 'static';
-        config.keyboard = false;
-    }
+  ngOnInit() {}
 
-    ngOnInit() {
-
-    }
-
-    open() {
-        // this.modalService.open(AddIncomeModalComponent, { centered: true });
-        this.modalService.open(AddIncomeModalComponent, { centered: true });
-    }
-
+  open() {
+    this.modalService.open(AddIncomeModalComponent, { centered: true });
+  }
 }
