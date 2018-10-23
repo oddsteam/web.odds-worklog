@@ -10,7 +10,7 @@ import { AddIncomeModalComponent } from './add-income-modal/add-income-modal.com
 export class AddIncomeComponent implements OnInit {
 
     constructor(
-        config: NgbModalConfig,
+        public config: NgbModalConfig,
         private modalService: NgbModal
     ) {
         config.backdrop = 'static';
@@ -22,6 +22,7 @@ export class AddIncomeComponent implements OnInit {
     }
 
     open() {
+        // this.modalService.open(AddIncomeModalComponent, { centered: true });
         this.modalService.open(AddIncomeModalComponent, { centered: true });
     }
 

@@ -24,6 +24,10 @@ import { ConfirmIncomeModalComponent } from './components/add-income/confirm-inc
         ProfileComponent,
         AddIncomeModalComponent,
         ConfirmIncomeModalComponent
+    ],
+    entryComponents: [
+        AddIncomeModalComponent,
+        ConfirmIncomeModalComponent
     ]
 })
 export class LayoutsModule { }
