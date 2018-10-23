@@ -4,5 +4,6 @@ export class ListIncome {
   email: string;
   bankAccountName: string;
   bankAccountNumber: number;
+  submitDate: Date;
   status: string;
 }

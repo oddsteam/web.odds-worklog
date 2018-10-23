@@ -6,10 +6,11 @@ import { TabMenuComponent } from './components/tab-menu/tab-menu.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { LayoutsRoutingModule } from './layouts-routing.module';
 import { LayoutsComponent } from './layouts.component';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
     imports: [
-        CommonModule,LayoutsRoutingModule
+        CommonModule, LayoutsRoutingModule, SharedModule
     ],
     declarations: [LayoutsComponent, AddIncomeComponent, ListIncomeComponent, TabMenuComponent, ProfileComponent]
 })
