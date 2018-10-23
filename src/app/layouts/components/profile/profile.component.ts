@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-profile',
@@ -6,8 +7,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent implements OnInit {
-
-  constructor() { }
+  name = 'Tom & Friend';
+  constructor(
+      public translate: TranslateService,
+  ) {
+      translate.setDefaultLang('en');
+      translate.use('th');
+  }
 
   ngOnInit() {
   }
