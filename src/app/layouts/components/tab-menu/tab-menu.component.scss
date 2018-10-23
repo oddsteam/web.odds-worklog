@@ -41,10 +41,11 @@ div {
       background-color: #949494;
       color: white;
   }
+  li a.active {
+    background-color: #949494;
+    color: white;
+}
 
-  .margin-admin {
-    margin-top: 1px;
-  }
   .margin-income {
     margin-top: 4px;
   }
