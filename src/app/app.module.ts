@@ -5,8 +5,7 @@ import { AppComponent } from './app.component';
 import { ProfileComponent } from './layouts/pages/profile/profile.component';
 import { ListIncomeComponent } from './layouts/pages/list-income/list-income.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { StatusHighlightDirective } from './directives/status-highlight.directive';
-
+import { SharedModule } from './shared/shared.module';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
@@ -24,8 +23,6 @@ export function HttpLoaderFactory(http: HttpClient) {
 const routes: Routes = [
   { path: '', redirectTo: '/listofincome', pathMatch: 'full' },
   { path: 'listofincome', component: ListIncomeComponent },
-  // { path: 'dashboard', component: DashboardComponent},
-  // { path: 'admin', component: adminComponent}
 ];
 
 @NgModule({
@@ -34,7 +31,6 @@ const routes: Routes = [
     HeaderComponent,
     ProfileComponent,
     ListIncomeComponent,
-    StatusHighlightDirective,
     MenuComponent,
     AddIncomeComponent,
     AddIncomeModalComponent,
@@ -48,6 +44,7 @@ const routes: Routes = [
     RouterModule.forRoot(routes),
     BrowserModule, NgbModule,
     HttpClientModule,
+    SharedModule.forRoot(),
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
