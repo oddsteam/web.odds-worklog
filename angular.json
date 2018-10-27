@@ -51,6 +51,12 @@
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true
+            },
+            "develop": {
+              "fileReplacements": [{
+                "replace": "src/environments/environment.ts",
+                "with": "src/environments/environment.dev.ts"
+              }]
             }
           }
         },
@@ -62,6 +68,9 @@
           "configurations": {
             "production": {
               "browserTarget": "odds-worklog:build:production"
+            },
+            "develop": {
+              "browserTarget": "odds-worklog:build:develop"
             }
           }
         },
