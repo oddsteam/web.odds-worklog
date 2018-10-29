@@ -1,22 +1,21 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { environment } from 'src/environments/environment';
 import { BaseApiService } from '../base-api.service';
+import { AddIncomeModel } from '../../models/add-income-model';
 
+export interface AddIncomeInterface {
+    totalIncome: number;
+    note: string;
+}
 @Injectable({
     providedIn: 'root',
 })
 export class IncomeService {
     constructor(
-        private http: HttpClient,
         private baseService: BaseApiService
     ) { }
 
-    addIncome(stock: string): any {
-        return this.http.post(`${environment.api}/incomes/${stock}`, stock);
-    }
-
-    addIncomes(): Promise<any> {
-        return this.baseService.callApi('v1/incomes/', 'post');
+    addIncome(data: AddIncomeInterface): Promise<AddIncomeModel> {
+        return this.baseService.callApi('incomes/', 'post', data);
     }
 }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbActiveModal, NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmIncomeModalComponent } from '../confirm-income-modal/confirm-income-modal.component';
-import { IncomeService } from 'src/app/layouts/services/income-service/income.service';
+import { IncomeService, AddIncomeInterface } from 'src/app/layouts/services/income-service/income.service';
 
 
 @Component({
@@ -11,7 +11,10 @@ import { IncomeService } from 'src/app/layouts/services/income-service/income.se
 })
 export class AddIncomeModalComponent implements OnInit {
 
-    netIncome: number;
+    addIncome: AddIncomeInterface = {
+        totalIncome: 0,
+        note: ''
+    };
 
     constructor(
         public activeModal: NgbActiveModal,
@@ -23,28 +26,29 @@ export class AddIncomeModalComponent implements OnInit {
         config.keyboard = false;
     }
 
-    ngOnInit() {}
+    ngOnInit() { }
 
     submit() {
-        const modalConfirmIncome = this.modalService.open(ConfirmIncomeModalComponent, { centered: true });
-        modalConfirmIncome.componentInstance.netIncome = this.netIncome.toString();
+        this.modalService.open(ConfirmIncomeModalComponent, { centered: true });
+        // modalConfirmIncome.componentInstance.totalIncome = this.addIncome.totalIncome.toString();
         setTimeout(() => { this.activeModal.close(); });
-        // this.addIncomeApi.addIncomes().then(res => {
-        //     this.modalService.open(ConfirmIncomeModalComponent, { centered: true });
-        //     setTimeout(() => { this.activeModal.close(); });
-        // }).catch(err => {});
+        // this.addIncomeService();
     }
 
     inputIncomeAmount(data: number) {
-        this.netIncome = data;
+        this.addIncome.totalIncome = data;
     }
 
     disibleButton(): boolean {
-        if (!this.netIncome || this.netIncome < 1) { return true; }
+        if (!this.addIncome.totalIncome || this.addIncome.totalIncome < 1) { return true; }
         return false;
     }
 
-    private getUserId(): string {
-        return '';
+    private addIncomeService() {
+        this.addIncomeApi.addIncome(this.addIncome).then(res => {
+            const modalConfirmIncome = this.modalService.open(ConfirmIncomeModalComponent, { centered: true });
+            modalConfirmIncome.componentInstance.incomeModel = res;
+            setTimeout(() => { this.activeModal.close(); });
+        }).catch(err => { });
     }
 }

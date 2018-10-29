@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  api: `http://worklog.odds.team/api`
+  api: `https://worklog-dev.odds.team/api/v1/`
+//   api: `http://worklog.odds.team/api`
 };
 
 /*

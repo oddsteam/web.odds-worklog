@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddIncomeModel } from 'src/app/layouts/models/add-income-model';
+import { AddIncomeInterface } from 'src/app/layouts/services/income-service/income.service';
 
 
 @Component({
@@ -10,26 +11,27 @@ import { AddIncomeModel } from 'src/app/layouts/models/add-income-model';
 })
 export class ConfirmIncomeModalComponent implements OnInit {
 
-
-    incomeModel: AddIncomeModel = {
-        netIncome: '',
-        vat: '',
-        wht: '',
-        totalIncome: ''
-    };
-
     // tslint:disable-next-line:no-input-rename
-    @Input('netIncome') netIncome: string;
+    @Input('incomeModel') incomeModel: AddIncomeModel = {
+        id: '',
+        userId: '',
+        totalIncome: '',
+        netIncome: '',
+        note: '',
+        vat: '',
+        wht: ''
+    };
 
     constructor(
         public activeModal: NgbActiveModal,
     ) {
-        // this.mock();
+        this.mock();
     }
 
     ngOnInit() {
-        this.incomeModel.netIncome = this.netIncome;
-        this.updateData();
+        // this.incomeModel.totalIncome = this.incomeModel.totalIncome.toString();
+        // this.incomeModel.wht = this.calWHT(this.incomeModel.vat);
+        // this.updateData();
     }
 
     onCancelPress() {
@@ -40,11 +42,16 @@ export class ConfirmIncomeModalComponent implements OnInit {
         this.activeModal.close();
     }
 
+    private mock() {
+        this.incomeModel.totalIncome = '100';
+        this.updateData();
+    }
+
     private updateData() {
-        this.incomeModel.vat = this.calVAT(this.incomeModel.netIncome);
+        this.incomeModel.vat = this.calVAT(this.incomeModel.totalIncome);
         this.incomeModel.wht = this.calWHT(this.incomeModel.vat);
-        this.incomeModel.totalIncome = this.calTotal(
-            this.incomeModel.netIncome,
+        this.incomeModel.netIncome = this.calTotal(
+            this.incomeModel.totalIncome,
             this.incomeModel.vat,
             this.incomeModel.wht
         );
