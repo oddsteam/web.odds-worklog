@@ -13,10 +13,10 @@ export class LoginService {
     ) { }
 
     getToken(): Promise<any> {
-        return this.baseService.login({'id': '5bd6826bb22b9b00010ad95a'});
+        return this.baseService.login({'id': '5bd72d2a64b21800011be01f'});
     }
 
     getDataUser(): Promise<Users> {
-        return this.baseService.callApi('users/5bd6826bb22b9b00010ad95a', 'get');
+        return this.baseService.callApi('users/5bd72d2a64b21800011be01f', 'get');
     }
 }

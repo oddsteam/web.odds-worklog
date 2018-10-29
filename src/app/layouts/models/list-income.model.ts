@@ -6,10 +6,10 @@ export class ListIncomeResponse {
 
 export class Users {
     id: string;
-    fullname: string;
+    fullnameTh: string;
+    fullnameEn: string;
     email: string;
     bankAccountName: string;
     bankAccountNumber: string;
-    thaiCitizenId: string;
     corporateFlag: string;
 }

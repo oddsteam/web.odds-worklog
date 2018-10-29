@@ -14,12 +14,21 @@
     </thead>
     <tbody>
       <tr *ngFor="let listIncome of listIncome">
-        <td class="text-left pl-4">{{listIncome?.fullnameEN}}</td>
+        <!-- <td class="text-left pl-4">{{listIncome?.fullnameEN}}</td>
         <td class="text-left">{{listIncome?.email}}</td>
         <td class="text-left">{{listIncome?.fullnameTH}}</td>
         <td class="text-left">{{listIncome?.bankAccountName}}</td>
         <td class="text-right">{{listIncome?.bankAccountNumber}}</td>
         <td class="text-left">{{listIncome?.submitDate | date}}</td>
+        <td class="text-center" appStatusHighlight [Status]='listIncome?.status'>
+          {{listIncome?.status === 'Y'? 'กรอกแล้ว' : 'ยังไม่ได้กรอก'}}
+        </td> -->
+        <td class="text-left pl-4">{{listIncome.user?.fullnameTh}}</td>
+        <td class="text-left">{{listIncome.user?.email}}</td>
+        <td class="text-left">{{listIncome.user?.fullnameEn}}</td>
+        <td class="text-left">{{listIncome.user?.bankAccountName}}</td>
+        <td class="text-right">{{listIncome.user?.bankAccountNumber}}</td>
+        <td class="text-left">{{listIncome.submitDate | date}}</td>
         <td class="text-center" appStatusHighlight [Status]='listIncome?.status'>
           {{listIncome?.status === 'Y'? 'กรอกแล้ว' : 'ยังไม่ได้กรอก'}}
         </td>
