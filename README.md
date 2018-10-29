@@ -1,5 +1,12 @@
 # Odds Worklog
-Online [http://worklog.odds.team/](http://worklog.odds.team/)
+### Online Prod [http://worklog.odds.team/](http://worklog.odds.team/) ###
+### Online Dev [http://worklog-dev.odds.team:32835/](http://worklog.odds.team/) ###
+
+# API 
+### [http://worklog-dev.odds.team/api/v1/](http://worklog-dev.odds.team/api/v1/) ###
+
+# Swagger
+### [http://worklog-dev.odds.team/api/v1/swagger/index.html](http://worklog-dev.odds.team/api/v1/swagger/index.html) ###
 
 # Test trgger
 
