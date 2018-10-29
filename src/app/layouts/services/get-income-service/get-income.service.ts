@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BaseApiService } from '../base-api.service';
-import { GetIncomeResponse } from '../../models/get-income.model';
+import { GetIncomeResponse } from '../../models/list-income.model';
 
 @Injectable({
     providedIn: 'root'

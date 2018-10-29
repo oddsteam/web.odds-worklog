@@ -9,11 +9,10 @@ import { LoginService } from './services/login-service/login.service';
 export class LayoutsComponent implements OnInit {
 
     constructor(
-        private login: LoginService
+        private login: LoginService,
     ) {
         this.login.getToken().then(res => {
-            // TokenModel.token = res.token;
-            sessionStorage.setItem('token', res.token);
+            sessionStorage.setItem('token', 'Bearer ' + res.token);
             console.log(sessionStorage.getItem('token'));
         });
     }
