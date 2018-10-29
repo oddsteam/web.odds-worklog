@@ -1,8 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { AddIncomeResponse } from 'src/app/layouts/models/add-income-model';
-import { AddIncomeInterface } from 'src/app/layouts/services/add-income-service/add-income.service';
-
+import { AddIncomeResponse } from 'src/app/layouts/models/add-income-model-response';
 
 @Component({
     selector: 'app-confirm-income-modal',

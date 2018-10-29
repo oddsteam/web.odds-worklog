@@ -1,9 +1,4 @@
-export class AddIncomeResponse {
-    id: string;
-    userId: string;
-    totalIncome: string;
-    netIncome: string;
+export class AddIncome {
+    totalIncome: number;
     note: string;
-    vat: string;
-    wht: string;
 }

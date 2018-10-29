@@ -1,33 +1,20 @@
 import { Component, OnInit } from '@angular/core';
-import { ListIncome } from '../../models/list-income';
-import { GetListIncomeService } from '../../services/get-list-income-service/get-list-income.service';
-import { ListIncomeResponse } from '../../models/list-income.model';
+import { ListIncomeResponse } from '../../models/list-income-model-response';
+import { IncomeService } from '../../services/income.service';
 
 @Component({
-    selector: 'app-list-income',
-    templateUrl: './list-income.component.html',
-    styleUrls: ['./list-income.component.scss'],
+  selector: 'app-list-income',
+  templateUrl: './list-income.component.html',
+  styleUrls: ['./list-income.component.scss'],
 })
 export class ListIncomeComponent implements OnInit {
-    date = new Date();
-    listIncome: ListIncomeResponse[];
-    constructor(
-        private getListIncomeService: GetListIncomeService
-    ) { }
+  date = new Date();
+  listIncome: ListIncomeResponse;
+  constructor(private getListIncomeService: IncomeService) {}
 
-    ngOnInit() {
-        this.getListIncomeService.getListIncomeStatus().then(res => {
-            this.listIncome = this.toArray(res);
-        });
-    }
-
-    private toArray(data): any[] {
-        if (data) {
-            if (data instanceof Object && data instanceof Array) {
-                return data;
-            }
-            return [data];
-        }
-        return [];
-    }
+  ngOnInit() {
+    this.getListIncomeService.getListIncomeStatus().then(res => {
+      this.listIncome = res;
+    });
+  }
 }
