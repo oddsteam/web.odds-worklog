@@ -6,7 +6,7 @@ import { TokenModel } from '../models/token.model';
 const httpOptions = {
     headers: new HttpHeaders({
         'Content-Type': 'application/json',
-        'Authorization': TokenModel.token
+        'Authorization': sessionStorage.getItem('token')
     })
 };
 

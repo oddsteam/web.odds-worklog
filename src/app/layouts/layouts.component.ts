@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginService } from './services/login-service/login.service';
-import { TokenModel } from './models/token.model';
 
 @Component({
     selector: 'app-layouts',
@@ -13,8 +12,9 @@ export class LayoutsComponent implements OnInit {
         private login: LoginService
     ) {
         this.login.getToken().then(res => {
-            TokenModel.token = res.token;
-            console.log(TokenModel.token);
+            // TokenModel.token = res.token;
+            sessionStorage.setItem('token', res.token);
+            console.log(sessionStorage.getItem('token'));
         });
     }
 
