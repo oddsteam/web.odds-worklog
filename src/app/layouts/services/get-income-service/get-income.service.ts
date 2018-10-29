@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BaseApiService } from '../base-api.service';
-import { GetIncomeResponse } from '../../models/list-income.model';
+import { ListIncomeResponse } from '../../models/list-income.model';
 
 @Injectable({
     providedIn: 'root'
@@ -11,7 +11,7 @@ export class GetIncomeService {
         private baseService: BaseApiService
     ) { }
 
-    getIncomeStatus(): Promise<GetIncomeResponse> {
+    getIncomeStatus(): Promise<ListIncomeResponse> {
         return this.baseService.callApi('incomes/status', 'get');
     }
 }

@@ -1,4 +1,4 @@
-export class GetIncomeResponse {
+export class ListIncomeResponse {
     user: Users;
     submitDate: string;
     status: string;
