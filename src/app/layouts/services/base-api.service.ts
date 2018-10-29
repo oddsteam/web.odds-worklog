@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+import { TokenModel } from '../models/token.model';
 
 const httpOptions = {
     headers: new HttpHeaders({
         'Content-Type': 'application/json',
-        'Authorization': 'my-auth-token'
+        'Authorization': TokenModel.token
     })
 };
 
@@ -24,9 +25,19 @@ export class BaseApiService {
         }
     }
 
+    login(params: any = {}): Promise<any> {
+        return new Promise((resolve, reject) => {
+            this.http.post(`${environment.api}login`, params).toPromise().then(res => {
+                resolve(res);
+            }, msg => {
+                reject(msg);
+            });
+        });
+    }
+
     private _post(url: string, params: any = {}): Promise<any> {
         return new Promise((resolve, reject) => {
-            this.http.post(`${environment.api}/${url}`, params).toPromise()
+            this.http.post(`${environment.api}${url}`, params, httpOptions).toPromise()
                 .then(res => {
                     resolve(res);
                 }, msg => {
@@ -37,7 +48,7 @@ export class BaseApiService {
 
     private _get(url: string): Promise<any> {
         return new Promise((resolve, reject) => {
-            this.http.get(`${environment.api}/${url}`).toPromise()
+            this.http.get(`${environment.api}${url}`, httpOptions).toPromise()
                 .then(res => {
                     resolve(res);
                 }, msg => {
