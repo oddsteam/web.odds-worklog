@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { GetIncomeService } from '../../services/get-income-service/get-income.service';
 import { ListIncome } from '../../models/list-income';
+import { GetListIncomeService } from '../../services/get-list-income-service/get-list-income.service';
 
 @Component({
     selector: 'app-list-income',
@@ -11,12 +11,12 @@ export class ListIncomeComponent implements OnInit {
     date = new Date();
     listIncome: ListIncome[];
     constructor(
-        private getIncomeService: GetIncomeService
+        private getListIncomeService: GetListIncomeService
     ) { }
 
     ngOnInit() {
         this.mock();
-        this.getIncomeService.getIncomeStatus().then(res => {
+        this.getListIncomeService.getListIncomeStatus().then(res => {
             console.log(res);
         });
     }

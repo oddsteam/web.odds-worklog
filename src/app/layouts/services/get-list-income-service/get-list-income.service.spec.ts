@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { GetIncomeService } from './get-income.service';
+import { GetListIncomeService } from './get-income.service';
 
-describe('GetIncomeService', () => {
+describe('GetListIncomeService', () => {
     beforeEach(() => TestBed.configureTestingModule({}));
 
     it('should be created', () => {
-        const service: GetIncomeService = TestBed.get(GetIncomeService);
+        const service: GetListIncomeService = TestBed.get(GetListIncomeService);
         expect(service).toBeTruthy();
     });
 });

@@ -5,13 +5,13 @@ import { ListIncomeResponse } from '../../models/list-income.model';
 @Injectable({
     providedIn: 'root'
 })
-export class GetIncomeService {
+export class GetListIncomeService {
 
     constructor(
         private baseService: BaseApiService
     ) { }
 
-    getIncomeStatus(): Promise<ListIncomeResponse> {
+    getListIncomeStatus(): Promise<ListIncomeResponse> {
         return this.baseService.callApi('incomes/status', 'get');
     }
 }
