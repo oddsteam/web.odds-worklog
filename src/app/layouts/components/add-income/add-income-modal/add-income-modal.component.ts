@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbActiveModal, NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmIncomeModalComponent } from '../confirm-income-modal/confirm-income-modal.component';
-import { IncomeService, AddIncomeInterface } from 'src/app/layouts/services/income-service/income.service';
-
+import { AddIncomeInterface, AddIncomeService } from 'src/app/layouts/services/add-income-service/add-income.service';
 
 @Component({
     selector: 'app-add-income-modal',
@@ -20,7 +19,7 @@ export class AddIncomeModalComponent implements OnInit {
         public activeModal: NgbActiveModal,
         public config: NgbModalConfig,
         private modalService: NgbModal,
-        private addIncomeApi: IncomeService
+        private addIncomeApi: AddIncomeService
     ) {
         config.backdrop = 'static';
         config.keyboard = false;

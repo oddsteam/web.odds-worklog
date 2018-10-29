@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BaseApiService } from '../base-api.service';
-import { AddIncomeModel } from '../../models/add-income-model';
+import { AddIncomeResponse } from '../../models/add-income-model';
 
 export interface AddIncomeInterface {
     totalIncome: number;
@@ -10,12 +10,12 @@ export interface AddIncomeInterface {
 @Injectable({
     providedIn: 'root',
 })
-export class IncomeService {
+export class AddIncomeService {
     constructor(
         private baseService: BaseApiService
     ) { }
 
-    addIncome(data: AddIncomeInterface): Promise<AddIncomeModel> {
-        return this.baseService.callApi('incomes/', 'post', data);
+    addIncome(data: AddIncomeInterface): Promise<AddIncomeResponse> {
+        return this.baseService.callApi('incomes', 'post', data);
     }
 }

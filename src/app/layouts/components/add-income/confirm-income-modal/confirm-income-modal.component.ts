@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { AddIncomeModel } from 'src/app/layouts/models/add-income-model';
-import { AddIncomeInterface } from 'src/app/layouts/services/income-service/income.service';
+import { AddIncomeResponse } from 'src/app/layouts/models/add-income-model';
+import { AddIncomeInterface } from 'src/app/layouts/services/add-income-service/add-income.service';
 
 
 @Component({
@@ -12,7 +12,7 @@ import { AddIncomeInterface } from 'src/app/layouts/services/income-service/inco
 export class ConfirmIncomeModalComponent implements OnInit {
 
     // tslint:disable-next-line:no-input-rename
-    @Input('incomeModel') incomeModel: AddIncomeModel = {
+    @Input('incomeModel') incomeModel: AddIncomeResponse = {
         id: '',
         userId: '',
         totalIncome: '',
