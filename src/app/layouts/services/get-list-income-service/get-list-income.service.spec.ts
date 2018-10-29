@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { GetListIncomeService } from './get-income.service';
+import { GetListIncomeService } from './get-list-income.service';
 
 describe('GetListIncomeService', () => {
     beforeEach(() => TestBed.configureTestingModule({}));
