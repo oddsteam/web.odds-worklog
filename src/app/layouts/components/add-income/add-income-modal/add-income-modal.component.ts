@@ -20,7 +20,7 @@ export class AddIncomeModalComponent implements OnInit {
     };
 
     // tslint:disable-next-line:no-input-rename
-    @Input('flagIncome') flagIncome: boolean;
+    @Input('incomeFlag') incomeFlag: boolean;
 
     constructor(
         public activeModal: NgbActiveModal,
@@ -32,7 +32,7 @@ export class AddIncomeModalComponent implements OnInit {
     }
 
     ngOnInit() {
-        if (this.title) {
+        if (this.incomeFlag) {
             this.title = 'Edit Income';
         }
     }
