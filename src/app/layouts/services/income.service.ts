@@ -18,7 +18,7 @@ export class IncomeService {
         return this.baseService.callApi('incomes', 'post', data);
     }
 
-    getIncomeByUserID(id: string = '5bd72d2a64b21800011be01f'): Promise<any> {
+    getIncomeByUserID(id: string = '5bd72d2a64b21800011be01f'): Promise<AddIncomeResponse> {
         return this.baseService.callApi(`/incomes/month/${id}`, 'get');
     }
 }

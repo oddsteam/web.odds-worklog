@@ -12,7 +12,8 @@ export class AddIncomeComponent implements OnInit {
 
     salary = 0;
     note = 'อยากได้เงินก็กรอกมาสิ';
-    flagNameButton: string;
+    flagNameButton = 'Add Income';
+    styleButton = 'btn btn-blue';
 
     constructor(
         public config: NgbModalConfig,
@@ -24,9 +25,10 @@ export class AddIncomeComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.flagNameButton = 'Add Income';
         this.incomeService.getIncomeByUserID().then(res => {
+            console.log(res);
             if (res) {
+                this.styleButton = 'btn btn-red';
                 this.flagNameButton = 'Edit Income';
             }
         });
@@ -34,5 +36,9 @@ export class AddIncomeComponent implements OnInit {
 
     open() {
         this.modalService.open(AddIncomeModalComponent, { centered: true });
+    }
+
+    checkIncomeFlag(): string {
+        return this.styleButton;
     }
 }
