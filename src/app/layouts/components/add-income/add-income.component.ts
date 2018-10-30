@@ -4,6 +4,7 @@ import { AddIncomeModalComponent } from './add-income-modal/add-income-modal.com
 import { IncomeService } from '../../services/income.service';
 import { AddIncomeResponse } from '../../models/add-income-model-response';
 import { AddIncome } from '../../models/add-income-model';
+import { IncomeFlag } from '../../models/income-flag';
 
 @Component({
     selector: 'app-add-income',
@@ -35,7 +36,7 @@ export class AddIncomeComponent implements OnInit {
     open() {
         console.log(this.getIncomeByUsers);
         const modal = this.modalService.open(AddIncomeModalComponent, { centered: true });
-        modal.componentInstance.incomeFlag = this.incomeFlag;
+        IncomeFlag.flag = this.incomeFlag;
         modal.componentInstance.addIncome = this.getData(this.getIncomeByUsers);
     }
 

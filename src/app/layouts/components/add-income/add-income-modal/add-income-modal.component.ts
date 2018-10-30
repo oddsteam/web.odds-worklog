@@ -3,6 +3,7 @@ import { NgbActiveModal, NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-boots
 import { ConfirmIncomeModalComponent } from '../confirm-income-modal/confirm-income-modal.component';
 import { AddIncome } from 'src/app/layouts/models/add-income-model';
 import { AddIncomeResponse } from 'src/app/layouts/models/add-income-model-response';
+import { IncomeFlag } from 'src/app/layouts/models/income-flag';
 
 @Component({
     selector: 'app-add-income-modal',
@@ -19,9 +20,6 @@ export class AddIncomeModalComponent implements OnInit {
         note: ''
     };
 
-    // tslint:disable-next-line:no-input-rename
-    @Input('incomeFlag') incomeFlag: boolean;
-
     constructor(
         public activeModal: NgbActiveModal,
         public config: NgbModalConfig,
@@ -32,7 +30,7 @@ export class AddIncomeModalComponent implements OnInit {
     }
 
     ngOnInit() {
-        if (this.incomeFlag) {
+        if (IncomeFlag.flag ) {
             this.title = 'Edit Income';
         }
     }
