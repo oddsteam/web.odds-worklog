@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import { AddIncomeModalComponent } from './add-income-modal/add-income-modal.component';
 import { IncomeService } from '../../services/income.service';
+import { AddIncomeResponse } from '../../models/add-income-model-response';
 
 @Component({
     selector: 'app-add-income',
@@ -25,13 +26,7 @@ export class AddIncomeComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.incomeService.getIncomeByUserID().then(res => {
-            console.log(res);
-            if (res) {
-                this.styleButton = 'btn btn-red';
-                this.flagNameButton = 'Edit Income';
-            }
-        });
+        this.checkGetIncomeByID();
     }
 
     open() {
@@ -40,5 +35,20 @@ export class AddIncomeComponent implements OnInit {
 
     checkIncomeFlag(): string {
         return this.styleButton;
+    }
+
+    private checkGetIncomeByID() {
+        this.incomeService.getIncomeByUserID().then(res => {
+            if (res) {
+                this.updateData(res);
+            }
+        });
+    }
+
+    private updateData(res: AddIncomeResponse) {
+        this.styleButton = 'btn btn-red';
+        this.flagNameButton = 'Edit Income';
+        this.salary = Number(res.totalIncome);
+        this.note = res.note;
     }
 }
