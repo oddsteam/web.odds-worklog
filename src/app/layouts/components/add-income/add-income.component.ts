@@ -34,7 +34,6 @@ export class AddIncomeComponent implements OnInit {
     }
 
     open() {
-        console.log(this.getIncomeByUsers);
         const modal = this.modalService.open(AddIncomeModalComponent, { centered: true });
         IncomeFlag.flag = this.incomeFlag;
         modal.componentInstance.addIncome = this.getData(this.getIncomeByUsers);
@@ -48,6 +47,7 @@ export class AddIncomeComponent implements OnInit {
         this.incomeService.getIncomeByUserID().then(res => {
             if (res) {
                 this.getIncomeByUsers = res;
+                IncomeFlag.id = res.id;
                 this.updateData(res);
             }
         });
@@ -63,7 +63,7 @@ export class AddIncomeComponent implements OnInit {
 
     private getData(res: AddIncomeResponse): AddIncome {
         return {
-            totalIncome: (res && res.totalIncome) ? Number(res.totalIncome) : null,
+            totalIncome: (res && res.totalIncome) ? res.totalIncome : null,
             note: (res && res.note) ? res.note : ''
         };
     }

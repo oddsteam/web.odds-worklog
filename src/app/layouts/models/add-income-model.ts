@@ -1,5 +1,5 @@
 export class AddIncome {
-    totalIncome: number;
+    totalIncome: string;
     note: string;
 }
 

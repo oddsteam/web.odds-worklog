@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { CalculateIncomeModel, AddIncome } from 'src/app/layouts/models/add-income-model';
 import { IncomeService } from 'src/app/layouts/services/income.service';
+import { IncomeFlag } from 'src/app/layouts/models/income-flag';
 
 @Component({
     selector: 'app-confirm-income-modal',
@@ -27,7 +28,8 @@ export class ConfirmIncomeModalComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.calculateIncomeModel.totalIncome = this.addIncome.totalIncome.toString();
+        this.calculateIncomeModel.totalIncome = this.addIncome.totalIncome;
+        // console.log(this.calculateIncomeModel.totalIncome);
         this.updateData();
     }
 
@@ -36,7 +38,11 @@ export class ConfirmIncomeModalComponent implements OnInit {
     }
 
     onConfirmPress() {
-        this.AddIncomeConfirm();
+        if (IncomeFlag.flag) {
+            this.updateIncomeService();
+        } else {
+            this.AddIncomeConfirm();
+        }
     }
 
     private mock() {
@@ -46,10 +52,23 @@ export class ConfirmIncomeModalComponent implements OnInit {
 
     private AddIncomeConfirm() {
         this.incomeService.addIncomeConfirm(this.addIncome).then(res => {
-            console.log(res);
+            this.reloadPage();
         }).catch(err => {
             console.log(err);
         });
+    }
+
+    private updateIncomeService() {
+        this.incomeService.updateIncomeService(this.addIncome).then(res => {
+            this.reloadPage();
+        }).catch(err => {
+            console.log(err);
+        });
+    }
+
+    private reloadPage() {
+        window.location.reload();
+        setTimeout(() => { this.activeModal.close(); });
     }
 
     private updateData() {
@@ -79,10 +98,10 @@ export class ConfirmIncomeModalComponent implements OnInit {
     }
 
     private stringToNumber(text: string): number {
-        return Number(this.cutComma(text));
+        return Number(text);
     }
 
-    private cutComma(text: string): string {
-        return text.replace(/,/g, '');
-    }
+    // private cutComma(text: string): string {
+    //     return text.replace(/,/g, '');
+    // }
 }

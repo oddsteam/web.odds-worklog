@@ -16,9 +16,11 @@ export class AddIncomeModalComponent implements OnInit {
 
     // tslint:disable-next-line:no-input-rename
     @Input('addIncome') addIncome: AddIncome = {
-        totalIncome: null,
+        totalIncome: '',
         note: ''
     };
+
+    totalIncome: string;
 
     constructor(
         public activeModal: NgbActiveModal,
@@ -32,17 +34,19 @@ export class AddIncomeModalComponent implements OnInit {
     ngOnInit() {
         if (IncomeFlag.flag) {
             this.title = 'Edit Income';
+            this.totalIncome = this.addIncome.totalIncome;
         }
     }
 
     submit() {
         const modalConfirmIncome = this.modalService.open(ConfirmIncomeModalComponent, { centered: true });
+        console.log(this.addIncome);
         modalConfirmIncome.componentInstance.addIncome = this.addIncome;
         setTimeout(() => { this.activeModal.close(); });
     }
 
     inputIncomeAmount(data: number) {
-        this.addIncome.totalIncome = data;
+        this.addIncome.totalIncome = data.toString();
     }
 
     inputNote(note: string) {
@@ -50,7 +54,7 @@ export class AddIncomeModalComponent implements OnInit {
     }
 
     disibleButton(): boolean {
-        if (!this.addIncome.totalIncome || this.addIncome.totalIncome < 1) { return true; }
+        if (!this.addIncome.totalIncome || Number(this.addIncome.totalIncome) < 1) { return true; }
         return false;
     }
 }

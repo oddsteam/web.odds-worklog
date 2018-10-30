@@ -3,27 +3,28 @@ import { BaseApiService } from './base-api.service';
 import { ListIncomeResponse } from '../models/list-income-model-response';
 import { AddIncomeResponse } from '../models/add-income-model-response';
 import { AddIncome } from '../models/add-income-model';
+import { IncomeFlag } from '../models/income-flag';
 
 @Injectable({
   providedIn: 'root',
 })
 export class IncomeService {
-  constructor(private baseService: BaseApiService) { }
+  constructor(private baseService: BaseApiService) {}
 
   getListIncomeStatus(): Promise<ListIncomeResponse> {
     return this.baseService.callApi('incomes/status', 'get');
   }
 
-  addIncomeConfirm(data: AddIncome): Promise<AddIncomeResponse> {
-    return this.baseService.callApi('incomes', 'post', data);
-  }
+    addIncomeConfirm(data: AddIncome): Promise<AddIncomeResponse> {
+        return this.baseService.callApi('incomes', 'post', data);
+    }
 
-  // เช็คว่า add-income ไปรึยัง
-  getIncomeByUserID(id: string = '5bd72d2a64b21800011be01f'): Promise<AddIncomeResponse> {
-    return this.baseService.callApi(`/incomes/month/${id}`, 'get');
-  }
+    updateIncomeService(data: AddIncome): Promise<AddIncomeResponse> {
+        return this.baseService.callApi(`incomes/${IncomeFlag.id}`, 'put', data);
+    }
 
-  updateIncomeByID(id: string = '5bd72d2a64b21800011be01f', body): Promise<any> {
-    return this.baseService.callApi(`/incomes/${id}`, 'put', body);
-  }
+    // เช็คว่า add-income ไปรึยัง
+    getIncomeByUserID(id: string = '5bd72d2a64b21800011be01f'): Promise<AddIncomeResponse> {
+        return this.baseService.callApi(`/incomes/month/${id}`, 'get');
+    }
 }
