@@ -17,11 +17,9 @@ export class BaseApiService {
     constructor(private http: HttpClient) { }
 
     callApi(url: string, method: string, params: any = {}): Promise<any> {
-        if (method === 'post') {
-            return this._post(url, params);
-        } else {
-            return this._get(url);
-        }
+        if (method === 'get') { return this._get(url); }
+        if (method === 'post') { return this._post(url, params); }
+        if (method === 'put') { return this._put(url, params); }
     }
 
     login(params: any = {}): Promise<any> {
@@ -48,6 +46,17 @@ export class BaseApiService {
     private _get(url: string): Promise<any> {
         return new Promise((resolve, reject) => {
             this.http.get(`${environment.api}${url}`, httpOptions).toPromise()
+                .then(res => {
+                    resolve(res);
+                }, msg => {
+                    reject(msg);
+                });
+        });
+    }
+
+    private _put(url: string, params: any = {}): Promise<any> {
+        return new Promise((resolve, reject) => {
+            this.http.put(`${environment.api}${url}`, params, httpOptions).toPromise()
                 .then(res => {
                     resolve(res);
                 }, msg => {

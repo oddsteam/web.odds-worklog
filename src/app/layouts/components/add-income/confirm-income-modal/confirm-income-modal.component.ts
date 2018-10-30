@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { AddIncomeResponse } from 'src/app/layouts/models/add-income-model-response';
+import { CalculateIncomeModel, AddIncome } from 'src/app/layouts/models/add-income-model';
+import { IncomeService } from 'src/app/layouts/services/income.service';
 
 @Component({
     selector: 'app-confirm-income-modal',
@@ -9,27 +10,25 @@ import { AddIncomeResponse } from 'src/app/layouts/models/add-income-model-respo
 })
 export class ConfirmIncomeModalComponent implements OnInit {
 
-    // tslint:disable-next-line:no-input-rename
-    @Input('incomeModel') incomeModel: AddIncomeResponse = {
-        id: '',
-        userId: '',
+    calculateIncomeModel: CalculateIncomeModel = {
         totalIncome: '',
-        netIncome: '',
-        note: '',
         vat: '',
-        wht: ''
+        wht: '',
+        netIncome: ''
     };
+    // tslint:disable-next-line:no-input-rename
+    @Input('addIncome') addIncome: AddIncome;
 
     constructor(
         public activeModal: NgbActiveModal,
+        private incomeService: IncomeService
     ) {
-        this.mock();
+        // this.mock();
     }
 
     ngOnInit() {
-        // this.incomeModel.totalIncome = this.incomeModel.totalIncome.toString();
-        // this.incomeModel.wht = this.calWHT(this.incomeModel.vat);
-        // this.updateData();
+        this.calculateIncomeModel.totalIncome = this.addIncome.totalIncome.toString();
+        this.updateData();
     }
 
     onCancelPress() {
@@ -37,21 +36,29 @@ export class ConfirmIncomeModalComponent implements OnInit {
     }
 
     onConfirmPress() {
-        this.activeModal.close();
+        this.AddIncomeConfirm();
     }
 
     private mock() {
-        this.incomeModel.totalIncome = '100';
+        this.calculateIncomeModel.totalIncome = '100';
         this.updateData();
     }
 
+    private AddIncomeConfirm() {
+        this.incomeService.addIncomeConfirm(this.addIncome).then(res => {
+            console.log(res);
+        }).catch(err => {
+            console.log(err);
+        });
+    }
+
     private updateData() {
-        this.incomeModel.vat = this.calVAT(this.incomeModel.totalIncome);
-        this.incomeModel.wht = this.calWHT(this.incomeModel.vat);
-        this.incomeModel.netIncome = this.calTotal(
-            this.incomeModel.totalIncome,
-            this.incomeModel.vat,
-            this.incomeModel.wht
+        this.calculateIncomeModel.vat = this.calVAT(this.calculateIncomeModel.totalIncome);
+        this.calculateIncomeModel.wht = this.calWHT(this.calculateIncomeModel.vat);
+        this.calculateIncomeModel.netIncome = this.calTotal(
+            this.calculateIncomeModel.totalIncome,
+            this.calculateIncomeModel.vat,
+            this.calculateIncomeModel.wht
         );
     }
 

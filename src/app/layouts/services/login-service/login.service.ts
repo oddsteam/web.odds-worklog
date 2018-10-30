@@ -16,7 +16,15 @@ export class LoginService {
         return this.baseService.login({'id': '5bd72d2a64b21800011be01f'});
     }
 
-    getDataUser(): Promise<Users> {
-        return this.baseService.callApi('users/5bd72d2a64b21800011be01f', 'get');
-    }
+    // getUser(): Promise<[Users]> {
+    //     return this.baseService.callApi('users', 'get');
+    // }
+
+    // postUserByID(id: string) {
+    //     return this.baseService.callApi('users', 'post');
+    // }
+
+    // putUserByID(id: string) {
+    //     return this.baseService.callApi('users', 'put');
+    // }
 }

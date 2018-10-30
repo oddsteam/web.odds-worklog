@@ -16,26 +16,26 @@
             <div class="row mb-2">
                 <div class="col col-2"></div>
                 <div class="col col-3">{{ 'MODAL.CONFIRM_INCOME.NET_INCOME' | translate}}</div>
-                <div class="col col-5 text-right">{{ incomeModel.totalIncome | number: '1.2-2' }}</div>
+                <div class="col col-5 text-right">{{ calculateIncomeModel.totalIncome | number: '1.2-2' }}</div>
                 <div class="col col-2"></div>
             </div>
 
             <div class="row mb-2">
                 <div class="col col-2"></div>
                 <div class="col col-3">{{ 'MODAL.CONFIRM_INCOME.VAT' | translate}}</div>
-                <div class="col col-5 text-right">{{ incomeModel.vat | number: '1.2-2' }}</div>
+                <div class="col col-5 text-right">{{ calculateIncomeModel.vat | number: '1.2-2' }}</div>
                 <div class="col col-2"></div>
             </div>
             <div class="row mb-2">
                 <div class="col col-2"></div>
                 <div class="col col-3">{{ 'MODAL.CONFIRM_INCOME.WHT' | translate}}</div>
-                <div class="col col-5 text-right">{{ incomeModel.wht | number: '1.2-2' }}</div>
+                <div class="col col-5 text-right">{{ calculateIncomeModel.wht | number: '1.2-2' }}</div>
                 <div class="col col-2"></div>
             </div>
             <div class="row mb-2">
                 <div class="col col-2"></div>
                 <div class="col col-3 border-total">{{ 'MODAL.CONFIRM_INCOME.TOTAL_INCOME' | translate}}</div>
-                <div class="col col-5 border-total text-right"><strong>{{ incomeModel.netIncome | number: '1.2-2'}}</strong>
+                <div class="col col-5 border-total text-right"><strong>{{ calculateIncomeModel.netIncome | number: '1.2-2'}}</strong>
                     {{ 'BATH' | translate }}</div>
                 <div class="col col-2"></div>
             </div>
