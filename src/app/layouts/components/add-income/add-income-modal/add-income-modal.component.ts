@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { NgbActiveModal, NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmIncomeModalComponent } from '../confirm-income-modal/confirm-income-modal.component';
 import { AddIncome } from 'src/app/layouts/models/add-income-model';
+import { AddIncomeResponse } from 'src/app/layouts/models/add-income-model-response';
 
 @Component({
     selector: 'app-add-income-modal',
@@ -10,10 +11,16 @@ import { AddIncome } from 'src/app/layouts/models/add-income-model';
 })
 export class AddIncomeModalComponent implements OnInit {
 
-    addIncome: AddIncome = {
-        totalIncome: 0,
+    title = 'Add Income';
+
+    // tslint:disable-next-line:no-input-rename
+    @Input('addIncome') addIncome: AddIncome = {
+        totalIncome: null,
         note: ''
     };
+
+    // tslint:disable-next-line:no-input-rename
+    @Input('flagIncome') flagIncome: boolean;
 
     constructor(
         public activeModal: NgbActiveModal,
@@ -24,7 +31,11 @@ export class AddIncomeModalComponent implements OnInit {
         config.keyboard = false;
     }
 
-    ngOnInit() { }
+    ngOnInit() {
+        if (this.title) {
+            this.title = 'Edit Income';
+        }
+    }
 
     submit() {
         const modalConfirmIncome = this.modalService.open(ConfirmIncomeModalComponent, { centered: true });

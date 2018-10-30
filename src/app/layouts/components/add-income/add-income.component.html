@@ -1,8 +1,8 @@
 <div class="d-flex justify-content-between p-3">
     <div class="d-flex align-items-center">
-        รายได้ของคุณ {{salary}} บาท , บันทึก : {{note}}
+        รายได้ของคุณ {{ salary | number: '1.2-2' }} บาท , บันทึก : {{note}}
     </div>
     <div>
-        <button type="button" [class]="checkIncomeFlag()" (click)="open()">{{ flagNameButton }}</button>
+        <button type="button" [class]="styleIncome()" (click)="open()">{{ nameButton }}</button>
     </div>
 </div>

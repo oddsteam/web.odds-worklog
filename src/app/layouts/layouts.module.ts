@@ -9,9 +9,12 @@ import { LayoutsComponent } from './layouts.component';
 import { SharedModule } from '../shared/shared.module';
 import { AddIncomeModalComponent } from './components/add-income/add-income-modal/add-income-modal.component';
 import { ConfirmIncomeModalComponent } from './components/add-income/confirm-income-modal/confirm-income-modal.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
     imports: [
+        FormsModule,
+        ReactiveFormsModule,
         CommonModule,
         LayoutsRoutingModule,
         SharedModule

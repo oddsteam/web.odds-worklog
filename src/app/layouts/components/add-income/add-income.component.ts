@@ -3,6 +3,7 @@ import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import { AddIncomeModalComponent } from './add-income-modal/add-income-modal.component';
 import { IncomeService } from '../../services/income.service';
 import { AddIncomeResponse } from '../../models/add-income-model-response';
+import { AddIncome } from '../../models/add-income-model';
 
 @Component({
     selector: 'app-add-income',
@@ -11,10 +12,20 @@ import { AddIncomeResponse } from '../../models/add-income-model-response';
 })
 export class AddIncomeComponent implements OnInit {
 
-    salary = 0;
+    salary = '0';
     note = 'อยากได้เงินก็กรอกมาสิ';
-    flagNameButton = 'Add Income';
+    nameButton = 'Add Income';
     styleButton = 'btn btn-blue';
+    incomeFlag = false;
+    getIncomeByUsers: AddIncomeResponse = {
+        id: '',
+        userId: '',
+        totalIncome: '',
+        netIncome: '',
+        note: '',
+        vat: '',
+        wht: ''
+    };
 
     constructor(
         public config: NgbModalConfig,
@@ -30,25 +41,37 @@ export class AddIncomeComponent implements OnInit {
     }
 
     open() {
-        this.modalService.open(AddIncomeModalComponent, { centered: true });
+        console.log(this.getIncomeByUsers);
+        const modal = this.modalService.open(AddIncomeModalComponent, { centered: true });
+        modal.componentInstance.incomeFlag = this.incomeFlag;
+        modal.componentInstance.addIncome = this.getData(this.getIncomeByUsers);
     }
 
-    checkIncomeFlag(): string {
+    styleIncome(): string {
         return this.styleButton;
     }
 
     private checkGetIncomeByID() {
         this.incomeService.getIncomeByUserID().then(res => {
             if (res) {
+                this.getIncomeByUsers = res;
                 this.updateData(res);
             }
         });
     }
 
     private updateData(res: AddIncomeResponse) {
+        this.incomeFlag = true;
         this.styleButton = 'btn btn-red';
-        this.flagNameButton = 'Edit Income';
-        this.salary = Number(res.totalIncome);
+        this.nameButton = 'Edit Income';
+        this.salary = res.totalIncome;
         this.note = res.note;
+    }
+
+    private getData(res: AddIncomeResponse): AddIncome {
+        return {
+            totalIncome: res.totalIncome ? Number(res.totalIncome) : null,
+            note: res.note
+        };
     }
 }
