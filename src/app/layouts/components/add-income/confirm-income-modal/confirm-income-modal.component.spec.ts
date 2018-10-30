@@ -1,9 +1,9 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { ConfirmIncomeModalComponent } from './confirm-income-modal.component';
+import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { IncomeService } from 'src/app/layouts/services/income.service';
-import { NgbActiveModal, NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import {HttpClientTestingModule} from '@angular/common/http/testing'
+import { ConfirmIncomeModalComponent } from './confirm-income-modal.component';
+
 
 describe('ConfirmIncomeModalComponent', () => {
     let component: ConfirmIncomeModalComponent;
@@ -12,9 +12,9 @@ describe('ConfirmIncomeModalComponent', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             declarations: [ConfirmIncomeModalComponent],
-            imports:[NgbModule.forRoot(),HttpClientTestingModule],
-            providers:[IncomeService,
-            NgbActiveModal]
+            imports: [NgbModule.forRoot(), HttpClientTestingModule],
+            providers: [IncomeService,
+                NgbActiveModal]
         })
             .compileComponents();
     }));
@@ -29,15 +29,15 @@ describe('ConfirmIncomeModalComponent', () => {
         expect(component).toBeTruthy();
     });
 
-    it('',() => {
+    it('', () => {
         const netIncome = '100';
         const vat = '7';
         const wht = '3';
-        expect(component.calTotal(netIncome,vat,wht)).toEqual('10000');
+        expect(component.calTotal(netIncome, vat, wht)).toEqual('104');
     });
 
-    fit('',() => {
-         const inputNumber = '1000';
-         expect(component.stringToNumber(inputNumber)).toEqual(1000);
+    it('', () => {
+        const inputNumber = '1000';
+        expect(component.stringToNumber(inputNumber)).toEqual(1000);
     });
 });

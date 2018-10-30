@@ -1,9 +1,12 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-
 import { IncomeService } from './income.service';
 
+
 describe('IncomeService', () => {
-  beforeEach(() => TestBed.configureTestingModule({}));
+  beforeEach(() => TestBed.configureTestingModule({
+    imports: [HttpClientTestingModule]
+  }));
 
   it('should be created', () => {
     const service: IncomeService = TestBed.get(IncomeService);

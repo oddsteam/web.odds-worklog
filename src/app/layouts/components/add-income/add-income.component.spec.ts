@@ -1,6 +1,7 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { AddIncomeComponent } from './add-income.component';
+
 
 describe('AddIncomeComponent', () => {
     let component: AddIncomeComponent;
@@ -8,7 +9,9 @@ describe('AddIncomeComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [AddIncomeComponent]
+            declarations: [AddIncomeComponent],
+            imports: [HttpClientTestingModule],
+            providers: []
         })
             .compileComponents();
     }));
