@@ -17,15 +17,7 @@ export class AddIncomeComponent implements OnInit {
     nameButton = 'Add Income';
     styleButton = 'btn btn-blue';
     incomeFlag = false;
-    getIncomeByUsers: AddIncomeResponse = {
-        id: '',
-        userId: '',
-        totalIncome: '',
-        netIncome: '',
-        note: '',
-        vat: '',
-        wht: ''
-    };
+    getIncomeByUsers: AddIncomeResponse;
 
     constructor(
         public config: NgbModalConfig,
@@ -70,8 +62,8 @@ export class AddIncomeComponent implements OnInit {
 
     private getData(res: AddIncomeResponse): AddIncome {
         return {
-            totalIncome: res.totalIncome ? Number(res.totalIncome) : null,
-            note: res.note
+            totalIncome: (res && res.totalIncome) ? Number(res.totalIncome) : null,
+            note: (res && res.note) ? res.note : ''
         };
     }
 }
