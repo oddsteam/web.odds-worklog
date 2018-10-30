@@ -81,15 +81,15 @@ export class ConfirmIncomeModalComponent implements OnInit {
         );
     }
 
-    private calVAT(netIncome: string): string {
+    calVAT(netIncome: string): string {
         return (this.stringToNumber(netIncome) * 0.07).toString();
     }
 
-    private calWHT(netIncome: string): string {
+    calWHT(netIncome: string): string {
         return (this.stringToNumber(netIncome) * 0.03).toString();
     }
 
-    private calTotal(netIncome: string, vat: string, wht: string): string {
+    calTotal(netIncome: string, vat: string, wht: string): string {
         return (
             this.stringToNumber(netIncome) +
             this.stringToNumber(vat) -
@@ -97,11 +97,11 @@ export class ConfirmIncomeModalComponent implements OnInit {
         ).toString();
     }
 
-    private stringToNumber(text: string): number {
+    stringToNumber(text: string): number {
         return Number(text);
     }
 
     // private cutComma(text: string): string {
     //     return text.replace(/,/g, '');
-    // }
+    // } changes
 }
