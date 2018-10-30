@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { FormsModule } from '@angular/forms';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddIncomeModalComponent } from './add-income-modal.component';
+
 
 describe('AddIncomeModalComponent', () => {
     let component: AddIncomeModalComponent;
@@ -8,7 +10,9 @@ describe('AddIncomeModalComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [AddIncomeModalComponent]
+            declarations: [AddIncomeModalComponent],
+            imports: [FormsModule],
+            providers: [NgbActiveModal]
         })
             .compileComponents();
     }));
