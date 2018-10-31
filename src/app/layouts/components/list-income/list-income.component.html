@@ -6,7 +6,6 @@
     <thead class="text-center">
       <th class="text-left pl-4">ชื่อ-สกุล(อังกฤษ)</th>
       <th class="text-left">E-mail</th>
-      <th class="text-left">ชื่อ-สกุล(ไทย)</th>
       <th class="text-left">ชื่อบัญชี</th>
       <th class="text-center">เลขที่บัญชี</th>
       <th class="text-left">วันที่กรอก</th>
@@ -16,7 +15,6 @@
       <tr *ngFor="let listIncome of listIncome">
         <td class="text-left pl-4">{{listIncome.user?.fullnameEn}}</td>
         <td class="text-left">{{listIncome.user?.email}}</td>
-        <td class="text-left">{{listIncome.user?.fullnameTh}}</td>
         <td class="text-left">{{listIncome.user?.bankAccountName}}</td>
         <td class="text-center">{{listIncome.user?.bankAccountNumber}}</td>
         <td class="text-left">{{listIncome?.submitDate == null? '-' :  listIncome?.submitDate | date:'dd/MM/yyyy'}}</td>
