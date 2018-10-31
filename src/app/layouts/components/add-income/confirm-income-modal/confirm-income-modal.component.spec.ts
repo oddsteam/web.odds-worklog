@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { IncomeService } from 'src/app/layouts/services/income.service';
 import { ConfirmIncomeModalComponent } from './confirm-income-modal.component';
-import { TranslateService, TranslatePipe, TranslateModule } from '@ngx-translate/core';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 describe('ConfirmIncomeModalComponent', () => {
@@ -15,7 +15,7 @@ describe('ConfirmIncomeModalComponent', () => {
             declarations: [ConfirmIncomeModalComponent],
             imports: [NgbModule.forRoot(), HttpClientTestingModule, TranslateModule.forRoot()],
             providers: [IncomeService,
-                NgbActiveModal, TranslateService, TranslatePipe]
+                NgbActiveModal]
         })
             .compileComponents();
     }));
