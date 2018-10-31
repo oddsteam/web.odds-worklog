@@ -73,7 +73,7 @@ export class ConfirmIncomeModalComponent implements OnInit {
 
     private updateData() {
         this.calculateIncomeModel.vat = this.calVAT(this.calculateIncomeModel.totalIncome);
-        this.calculateIncomeModel.wht = this.calWHT(this.calculateIncomeModel.vat);
+        this.calculateIncomeModel.wht = this.calWHT(this.calculateIncomeModel.totalIncome);
         this.calculateIncomeModel.netIncome = this.calTotal(
             this.calculateIncomeModel.totalIncome,
             this.calculateIncomeModel.vat,
