@@ -10,6 +10,9 @@ import { SharedModule } from '../shared/shared.module';
 import { AddIncomeModalComponent } from './components/add-income/add-income-modal/add-income-modal.component';
 import { ConfirmIncomeModalComponent } from './components/add-income/confirm-income-modal/confirm-income-modal.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CorporateComponent } from '../pages/corporate/corporate.component';
+import { CorporateModule } from '../pages/corporate/corporate.module';
+import { IndividualModule } from '../pages/individual/individual.module';
 
 @NgModule({
     imports: [
@@ -17,7 +20,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
         ReactiveFormsModule,
         CommonModule,
         LayoutsRoutingModule,
-        SharedModule
+        SharedModule,
+        CorporateModule,
+        IndividualModule
     ],
     declarations: [
         LayoutsComponent,
