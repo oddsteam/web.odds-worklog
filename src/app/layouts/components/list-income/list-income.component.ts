@@ -10,10 +10,10 @@ import { IncomeService } from '../../services/income.service';
 export class ListIncomeComponent implements OnInit {
   date = new Date();
   listIncome: ListIncomeResponse;
-  constructor(private getListIncomeService: IncomeService) {}
+  constructor(private listIncomeService: IncomeService) {}
 
   ngOnInit() {
-    this.getListIncomeService.getListIncomeStatus().subscribe(res => {
+    this.listIncomeService.getListIncomeStatus().subscribe(res => {
       this.listIncome = res;
     });
   }
