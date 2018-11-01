@@ -41,7 +41,7 @@ export class ConfirmIncomeModalComponent implements OnInit {
         if (IncomeFlag.flag) {
             this.updateIncomeService();
         } else {
-            this.AddIncomeConfirm();
+            this.addIncomeConfirm();
         }
     }
 
@@ -50,9 +50,11 @@ export class ConfirmIncomeModalComponent implements OnInit {
         this.updateData();
     }
 
-    private AddIncomeConfirm() {
+    private addIncomeConfirm() {
         this.incomeService.addIncomeConfirm(this.addIncome).subscribe(res => {
             this.reloadPage();
+        }, err => {
+            console.log(err);
         });
     }
 
