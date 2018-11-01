@@ -14,6 +14,6 @@ export class LoginService {
     ) { }
 
     getToken(): Observable<any> {
-        return this.baseService.login({'id': '5bd72d2a64b21800011be01f'});
+        return this.baseService.callApi('login', 'post', {'id': '5bd72d2a64b21800011be01f'}, false);
     }
 }
