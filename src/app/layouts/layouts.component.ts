@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { LoginService } from './services/login-service/login.service';
+import { WorklogApiService } from '../core/worklog-api.service';
 
 @Component({
     selector: 'app-layouts',
@@ -9,15 +9,14 @@ import { LoginService } from './services/login-service/login.service';
 export class LayoutsComponent implements OnInit {
 
     constructor(
-        private login: LoginService,
-    ) {
-        this.login.getToken().subscribe(res => {
-            console.log(res);
-            sessionStorage.setItem('token', 'Bearer ' + res.token);
-            console.log(sessionStorage.getItem('token'));
-        });
-    }
+        private worklogService: WorklogApiService
+    ) { }
 
     ngOnInit() {
+        this.worklogService.getLogin().subscribe(res => {
+            if (res != null && res.length > 0) {
+                sessionStorage.setItem('token', 'Bearer ' + res.token);
+            }
+        });
     }
 }

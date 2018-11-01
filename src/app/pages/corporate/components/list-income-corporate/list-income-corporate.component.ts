@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { WorklogApiService } from '../../../../core/worklog-api.service';
 
 @Component({
   selector: 'app-list-income-corporate',
@@ -7,9 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ListIncomeCorporateComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private worklogService: WorklogApiService
+  ) { }
 
   ngOnInit() {
+    this.worklogService.getListIncomeCorporate().subscribe(response => {
+      console.log(response);
+    });
   }
 
 }

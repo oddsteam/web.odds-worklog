@@ -1,6 +1,9 @@
+/* tslint:disable:no-unused-variable */
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { TabMenuComponent } from './tab-menu.component';
+import { By } from '@angular/platform-browser';
+import { DebugElement } from '@angular/core';
 
+import { TabMenuComponent } from './tab-menu.component';
 
 describe('TabMenuComponent', () => {
   let component: TabMenuComponent;
@@ -8,9 +11,9 @@ describe('TabMenuComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [TabMenuComponent]
+      declarations: [ TabMenuComponent ]
     })
-      .compileComponents();
+    .compileComponents();
   }));
 
   beforeEach(() => {

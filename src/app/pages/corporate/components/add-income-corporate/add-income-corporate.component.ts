@@ -7,9 +7,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AddIncomeCorporateComponent implements OnInit {
 
+  nameButton = 'Add Income';
+  note = '';
+  salary = 0;
+
   constructor() { }
 
   ngOnInit() {
+  }
+
+  onOpen() {
+
   }
 
 }
