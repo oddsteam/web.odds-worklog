@@ -44,7 +44,7 @@ export class AddIncomeComponent implements OnInit {
     }
 
     private checkGetIncomeByID() {
-        this.incomeService.getIncomeByUserID().then(res => {
+        this.incomeService.getIncomeByUserID().subscribe(res => {
             if (res) {
                 this.getIncomeByUsers = res;
                 IncomeFlag.id = res.id;

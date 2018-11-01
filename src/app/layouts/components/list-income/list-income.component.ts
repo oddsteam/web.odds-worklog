@@ -13,7 +13,7 @@ export class ListIncomeComponent implements OnInit {
   constructor(private getListIncomeService: IncomeService) {}
 
   ngOnInit() {
-    this.getListIncomeService.getListIncomeStatus().then(res => {
+    this.getListIncomeService.getListIncomeStatus().subscribe(res => {
       this.listIncome = res;
     });
   }

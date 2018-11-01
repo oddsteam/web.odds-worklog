@@ -11,7 +11,8 @@ export class LayoutsComponent implements OnInit {
     constructor(
         private login: LoginService,
     ) {
-        this.login.getToken().then(res => {
+        this.login.getToken().subscribe(res => {
+            console.log(res);
             sessionStorage.setItem('token', 'Bearer ' + res.token);
             console.log(sessionStorage.getItem('token'));
         });

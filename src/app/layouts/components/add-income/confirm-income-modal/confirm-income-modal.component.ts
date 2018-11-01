@@ -51,17 +51,15 @@ export class ConfirmIncomeModalComponent implements OnInit {
     }
 
     private AddIncomeConfirm() {
-        this.incomeService.addIncomeConfirm(this.addIncome).then(res => {
+        this.incomeService.addIncomeConfirm(this.addIncome).subscribe(res => {
             this.reloadPage();
-        }).catch(err => {
-            console.log(err);
         });
     }
 
     private updateIncomeService() {
-        this.incomeService.updateIncomeService(this.addIncome).then(res => {
+        this.incomeService.updateIncomeService(this.addIncome).subscribe(res => {
             this.reloadPage();
-        }).catch(err => {
+        }, err => {
             console.log(err);
         });
     }
