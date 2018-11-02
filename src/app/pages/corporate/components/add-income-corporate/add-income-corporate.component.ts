@@ -45,7 +45,6 @@ export class AddIncomeCorporateComponent implements OnInit {
             if (res) {
                 this.getIncomeByUsers = res;
                 IncomeFlag.id = res.id;
-                IncomeFlag.type = 'corporate';
                 console.log('corporate');
                 this.updateData(res);
             }

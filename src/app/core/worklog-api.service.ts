@@ -6,6 +6,7 @@ import { AddIncome } from '../shared/model/add-income-model';
 import { AddIncomeResponse } from '../shared/model/add-income-model-response';
 import { IncomeFlag } from '../shared/model/income-flag';
 import { ListIncomeResponse } from '../shared/model/list-income-model-response';
+import { Users } from '../shared/model/user-model';
 
 const httpOptions = {
     headers: new HttpHeaders({
@@ -26,11 +27,16 @@ export class WorklogApiService {
 
     /*
     user test
+        corporate  id = 5bd72d2a64b21800011be01f
         individual id = 5bdc60581eedf60001022559
     */
 
     getLogin(): Observable<any> {
         return this.http.post<any>(`${environment.api}login`, { 'id': '5bdc60581eedf60001022559' });
+    }
+
+    getUserByID(id: string = '5bdc60581eedf60001022559') {
+        return this.http.post<Users>(`${environment.api}users/${id}`, {}, httpOptions);
     }
 
     getListIncomeCorporate(): Observable<ListIncomeResponse> {

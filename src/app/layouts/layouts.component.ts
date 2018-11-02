@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { WorklogApiService } from '../core/worklog-api.service';
 import { Router } from '@angular/router';
+import { IncomeFlag } from '../shared/model/income-flag';
 
 @Component({
     selector: 'app-layouts',
@@ -19,10 +20,21 @@ export class LayoutsComponent implements OnInit {
         this.worklogService.getLogin().subscribe(res => {
             if (res) {
                 sessionStorage.setItem('token', 'Bearer ' + res.token);
+                this.getUserByID();
             }
         });
         this.router.navigate([
             `/corporate`
           ]);
+    }
+
+    private getUserByID() {
+        this.worklogService.getUserByID().subscribe(data => {
+            console.log(data);
+            if (data.corporateFlag) {
+
+            }
+            // IncomeFlag.type = '';
+        });
     }
 }
