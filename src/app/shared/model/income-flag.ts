@@ -1,5 +1,6 @@
 export class IncomeFlag {
     static isUpdate = false;
     static id = '';
-    static type = '';
+    static typeUser = '';
+    static typeGetListService = '';
 }

@@ -1,17 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { IncomeFlag } from 'src/app/shared/model/income-flag';
+import { AddIncomeResponse } from 'src/app/shared/model/add-income-model-response';
 import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
-import { AddIncomeModalComponent } from 'src/app/shared/components/modal/add-income-modal/add-income-modal.component';
-import { AddIncomeResponse } from 'src/app/shared/model/add-income-model-response';
+import { IncomeFlag } from 'src/app/shared/model/income-flag';
 import { AddIncome } from 'src/app/shared/model/add-income-model';
+import { AddIncomeModalComponent } from '../modal/add-income-modal/add-income-modal.component';
 
 @Component({
-    selector: 'app-add-income-corporate',
-    templateUrl: './add-income-corporate.component.html',
-    styleUrls: ['./add-income-corporate.component.scss']
+    selector: 'app-add-income',
+    templateUrl: './add-income.component.html',
+    styleUrls: ['./add-income.component.scss']
 })
-export class AddIncomeCorporateComponent implements OnInit {
+export class AddIncomeComponent implements OnInit {
 
     salary = '0';
     note = 'อยากได้เงินก็กรอกมาสิ';
@@ -45,7 +45,6 @@ export class AddIncomeCorporateComponent implements OnInit {
             if (res) {
                 this.getIncomeByUsers = res;
                 IncomeFlag.id = res.id;
-                console.log('corporate');
                 this.updateData(res);
             }
         });

@@ -31,9 +31,9 @@ export class LayoutsComponent implements OnInit {
     private getUserByID() {
         this.worklogService.getUserByID().subscribe(data => {
             if (data.corporateFlag === 'Y') {
-                IncomeFlag.type = 'corporate';
+                IncomeFlag.typeUser = 'corporate';
             } else {
-                IncomeFlag.type = 'individual';
+                IncomeFlag.typeUser = 'individual';
             }
         });
     }

@@ -43,8 +43,7 @@ export class ConfirmIncomeModalComponent implements OnInit {
     }
 
     isVat(): boolean {
-        console.log('isVat : ' + IncomeFlag.type);
-        return IncomeFlag.type === 'corporate' ? true : false;
+        return IncomeFlag.typeUser === 'corporate' ? true : false;
     }
 
     private addIncomeConfirm() {

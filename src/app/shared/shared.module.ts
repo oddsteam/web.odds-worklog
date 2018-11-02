@@ -5,6 +5,8 @@ import { TranslateModule } from '@ngx-translate/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TabMenuComponent } from './components/tab-menu/tab-menu.component';
 import { TableListComponent } from './components/table-list/table-list.component';
+import { AddIncomeComponent } from './components/add-income/add-income.component';
+import { ListIncomeComponent } from './components/list-income/list-income.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -14,15 +16,18 @@ import { TableListComponent } from './components/table-list/table-list.component
   declarations: [
     StatusHighlightDirective,
     TabMenuComponent,
-    TableListComponent
-
+    TableListComponent,
+    AddIncomeComponent,
+    ListIncomeComponent
   ],
   exports: [
     StatusHighlightDirective,
     TranslateModule,
     NgbModule,
     TabMenuComponent,
-    TableListComponent
+    TableListComponent,
+    AddIncomeComponent,
+    ListIncomeComponent
   ]
 })
 export class SharedModule {
