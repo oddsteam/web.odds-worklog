@@ -1,8 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { CalculateIncomeModel, AddIncome } from 'src/app/layouts/models/add-income-model';
-import { IncomeFlag } from 'src/app/layouts/models/income-flag';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
+import { CalculateIncomeModel, AddIncome } from 'src/app/shared/model/add-income-model';
+import { IncomeFlag } from 'src/app/shared/model/income-flag';
 
 @Component({
     selector: 'app-confirm-income-modal',

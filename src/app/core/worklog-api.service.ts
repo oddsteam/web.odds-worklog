@@ -5,7 +5,7 @@ import { environment } from '../../environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AddIncomeResponse } from '../shared/model/add-income-model-response';
 import { AddIncome } from '../shared/model/add-income-model';
-import { IncomeFlag } from '../layouts/models/income-flag';
+import { IncomeFlag } from '../shared/model/income-flag';
 
 const httpOptions = {
     headers: new HttpHeaders({
