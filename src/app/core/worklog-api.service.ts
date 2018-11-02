@@ -1,11 +1,11 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ListIncomeResponse } from '../shared/model/list-income-model-response';
 import { environment } from '../../environments/environment';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { AddIncomeResponse } from '../shared/model/add-income-model-response';
 import { AddIncome } from '../shared/model/add-income-model';
+import { AddIncomeResponse } from '../shared/model/add-income-model-response';
 import { IncomeFlag } from '../shared/model/income-flag';
+import { ListIncomeResponse } from '../shared/model/list-income-model-response';
 
 const httpOptions = {
     headers: new HttpHeaders({
@@ -30,6 +30,10 @@ export class WorklogApiService {
 
     getListIncomeCorporate(): Observable<ListIncomeResponse> {
         return this.http.get<ListIncomeResponse>(`${environment.api}incomes/status/corporate`, httpOptions);
+    }
+
+    getListIncomeIndividual(): Observable<ListIncomeResponse> {
+        return this.http.get<ListIncomeResponse>(`${environment.api}incomes/status/individual`, httpOptions);
     }
 
     // เช็คว่า add-income ไปรึยัง
