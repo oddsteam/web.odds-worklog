@@ -5,12 +5,11 @@ import { FormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateFakeLoader, TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { StatusHighlightDirective } from '../shared/directives/status-highlight.directive';
-import { AddIncomeComponent } from './components/add-income/add-income.component';
-import { ListIncomeComponent } from './components/list-income/list-income.component';
 import { ProfileComponent } from './components/profile/profile.component';
-import { TabMenuComponent } from './components/tab-menu/tab-menu.component';
 import { LayoutsComponent } from './layouts.component';
 import { LoginService } from './services/login-service/login.service';
+import { TabMenuComponent } from '../shared/components/tab-menu/tab-menu.component';
+import { ListIncomeComponent } from '../shared/components/list-income/list-income.component';
 
 
 describe('LayoutsComponent', () => {
@@ -19,7 +18,7 @@ describe('LayoutsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [LayoutsComponent, TabMenuComponent, ProfileComponent, AddIncomeComponent, ListIncomeComponent
+      declarations: [LayoutsComponent, TabMenuComponent, ProfileComponent, ListIncomeComponent
         , StatusHighlightDirective],
       imports: [FormsModule, CommonModule, RouterTestingModule, HttpClientTestingModule
         , TranslateModule.forRoot({

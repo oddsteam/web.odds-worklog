@@ -98,10 +98,10 @@ export class ConfirmIncomeModalComponent implements OnInit {
     }
 
     stringToNumber(text: string): number {
-        return Number(text);
+        return Number(this.cutComma(text));
     }
 
-    // private cutComma(text: string): string {
-    //     return text.replace(/,/g, '');
-    // } changes
+    private cutComma(text: string): string {
+        return text.replace(/,/g, '');
+    }
 }
