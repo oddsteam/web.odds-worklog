@@ -70,9 +70,9 @@ export class ConfirmIncomeModalComponent implements OnInit {
     private updateData() {
         this.calculateIncomeModel.vat = this.calVAT(this.calculateIncomeModel.totalIncome);
         this.calculateIncomeModel.wht = this.calWHT(this.calculateIncomeModel.totalIncome);
-        this.calculateIncomeModel.netIncome = this.calTotal(
+        this.calculateIncomeModel.netIncome = this.calNetIncomeCorporate(
             this.calculateIncomeModel.totalIncome,
-            this.calculateIncomeModel.vat,
+            IncomeFlag.typeUser === 'corporate' ? this.calculateIncomeModel.vat : '0',
             this.calculateIncomeModel.wht
         );
     }
@@ -85,10 +85,17 @@ export class ConfirmIncomeModalComponent implements OnInit {
         return (this.stringToNumber(netIncome) * 0.03).toString();
     }
 
-    calTotal(netIncome: string, vat: string, wht: string): string {
+    calNetIncomeCorporate(totalIncome: string, vat: string, wht: string): string {
         return (
-            this.stringToNumber(netIncome) +
+            this.stringToNumber(totalIncome) +
             this.stringToNumber(vat) -
+            this.stringToNumber(wht)
+        ).toString();
+    }
+
+    calNetIncomeIndividual(totalIncome: string, wht: string): string {
+        return (
+            this.stringToNumber(totalIncome) -
             this.stringToNumber(wht)
         ).toString();
     }
