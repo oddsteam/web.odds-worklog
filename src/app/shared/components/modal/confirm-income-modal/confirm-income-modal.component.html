@@ -20,7 +20,7 @@
                 <div class="col col-2"></div>
             </div>
 
-            <div class="row mb-2">
+            <div class="row mb-2" *ngIf="isVat()">
                 <div class="col col-2"></div>
                 <div class="col col-3">{{ 'MODAL.CONFIRM_INCOME.VAT' | translate}}</div>
                 <div class="col col-5 text-right">{{ calculateIncomeModel.vat | number: '1.2-2' }}</div>

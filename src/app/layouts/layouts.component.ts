@@ -17,7 +17,7 @@ export class LayoutsComponent implements OnInit {
 
     ngOnInit() {
         this.worklogService.getLogin().subscribe(res => {
-            if (res != null && res.length > 0) {
+            if (res) {
                 sessionStorage.setItem('token', 'Bearer ' + res.token);
             }
         });

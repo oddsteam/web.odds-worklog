@@ -1,4 +1,5 @@
 export class IncomeFlag {
-    static flag = false;
+    static isUpdate = false;
     static id = '';
+    static type = '';
 }

@@ -23,13 +23,10 @@ export class ConfirmIncomeModalComponent implements OnInit {
     constructor(
         public activeModal: NgbActiveModal,
         private worklogApiService: WorklogApiService
-    ) {
-        // this.mock();
-    }
+    ) { }
 
     ngOnInit() {
         this.calculateIncomeModel.totalIncome = this.addIncome.totalIncome;
-        // console.log(this.calculateIncomeModel.totalIncome);
         this.updateData();
     }
 
@@ -38,16 +35,16 @@ export class ConfirmIncomeModalComponent implements OnInit {
     }
 
     onConfirmPress() {
-        if (IncomeFlag.flag) {
+        if (IncomeFlag.isUpdate) {
             this.updateIncomeService();
         } else {
             this.addIncomeConfirm();
         }
     }
 
-    private mock() {
-        this.calculateIncomeModel.totalIncome = '100';
-        this.updateData();
+    isVat(): boolean {
+        console.log('isVat : ' + IncomeFlag.type);
+        return IncomeFlag.type === 'corporate' ? true : false;
     }
 
     private addIncomeConfirm() {

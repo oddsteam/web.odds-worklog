@@ -3,6 +3,7 @@ export class AddIncomeResponse {
     userId: string;
     totalIncome: string;
     netIncome: string;
+    submitDate: string;
     note: string;
     vat: string;
     wht: string;

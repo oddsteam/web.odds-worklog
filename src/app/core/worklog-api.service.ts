@@ -24,8 +24,13 @@ export class WorklogApiService {
         private http: HttpClient
     ) { }
 
+    /*
+    user test
+        individual id = 5bdc60581eedf60001022559
+    */
+
     getLogin(): Observable<any> {
-        return this.http.post<any>(`${environment.api}login`, { 'id': '5bd72d2a64b21800011be01f' });
+        return this.http.post<any>(`${environment.api}login`, { 'id': '5bdc60581eedf60001022559' });
     }
 
     getListIncomeCorporate(): Observable<ListIncomeResponse> {
@@ -37,15 +42,15 @@ export class WorklogApiService {
     }
 
     // เช็คว่า add-income ไปรึยัง
-    getIncomeByUserIDCorporate(id: string = '5bd72d2a64b21800011be01f'): Observable<AddIncomeResponse> {
-        return this.http.get<AddIncomeResponse>(`/incomes/month/${id}`);
+    getIncomeByUserID(id: string = '5bdc60581eedf60001022559'): Observable<AddIncomeResponse> {
+        return this.http.get<AddIncomeResponse>(`${environment.api}incomes/month/${id}`, httpOptions);
     }
 
     addIncomeConfirm(data: AddIncome): Observable<AddIncomeResponse> {
-        return this.http.post<AddIncomeResponse>('incomes', data);
+        return this.http.post<AddIncomeResponse>(`${environment.api}incomes`, data, httpOptions);
     }
 
     updateIncomeService(data: AddIncome): Observable<AddIncomeResponse> {
-        return this.http.put<AddIncomeResponse>(`incomes/${IncomeFlag.id}`, data);
+        return this.http.put<AddIncomeResponse>(`${environment.api}incomes/${IncomeFlag.id}`, data, httpOptions);
     }
 }

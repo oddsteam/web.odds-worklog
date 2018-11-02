@@ -32,7 +32,7 @@ export class AddIncomeCorporateComponent implements OnInit {
 
     onOpen() {
         const modal = this.modalService.open(AddIncomeModalComponent, { centered: true });
-        IncomeFlag.flag = this.incomeFlag;
+        IncomeFlag.isUpdate = this.incomeFlag;
         modal.componentInstance.addIncome = this.getData(this.getIncomeByUsers);
     }
 
@@ -41,14 +41,15 @@ export class AddIncomeCorporateComponent implements OnInit {
     }
 
     private checkGetIncomeByID() {
-        // this.worklogApiService.getIncomeByUserIDCorporate().subscribe(res => {
-        //     console.log(res);
-        //     if (res) {
-        //         this.getIncomeByUsers = res;
-        //         IncomeFlag.id = res.id;
-        //         this.updateData(res);
-        //     }
-        // });
+        this.worklogApiService.getIncomeByUserID().subscribe(res => {
+            if (res) {
+                this.getIncomeByUsers = res;
+                IncomeFlag.id = res.id;
+                IncomeFlag.type = 'corporate';
+                console.log('corporate');
+                this.updateData(res);
+            }
+        });
     }
 
     private updateData(res: AddIncomeResponse) {
