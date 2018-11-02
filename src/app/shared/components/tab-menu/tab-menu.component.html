@@ -2,13 +2,13 @@
   <img src="assets/images/odds_logo_white.png">
 </div>
 <ul>
-  <li class="active">
+  <li [ngClass]="recentTab === 'corporate' ? 'active' : ''">
     <a class="d-flex align-items-center" (click)="routerTo('corporate')">
       <i class="fa fa-building pl-4"></i>
       <span class="px-2">CORPORATE</span>
     </a>
   </li>
-  <li>
+  <li [ngClass]="recentTab === 'individual' ? 'active' : ''">
     <a class="d-flex align-items-center" (click)="routerTo('individual')">
       <i class="fa fa-user pl-4"></i>
       <span class="px-2">INDIVIDUAL</span>

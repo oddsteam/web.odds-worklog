@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./tab-menu.component.scss']
 })
 export class TabMenuComponent implements OnInit {
-
+  recentTab = 'corporate' ;
   constructor(
     private router: Router
   ) { }
@@ -16,6 +16,7 @@ export class TabMenuComponent implements OnInit {
   }
 
   routerTo(path) {
+    this.recentTab = path;
     this.router.navigate([
       `/${path}`
     ]);
