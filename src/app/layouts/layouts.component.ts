@@ -30,11 +30,11 @@ export class LayoutsComponent implements OnInit {
 
     private getUserByID() {
         this.worklogService.getUserByID().subscribe(data => {
-            console.log(data);
-            if (data.corporateFlag) {
-
+            if (data.corporateFlag === 'Y') {
+                IncomeFlag.type = 'corporate';
+            } else {
+                IncomeFlag.type = 'individual';
             }
-            // IncomeFlag.type = '';
         });
     }
 }

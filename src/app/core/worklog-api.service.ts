@@ -32,11 +32,11 @@ export class WorklogApiService {
     */
 
     getLogin(): Observable<any> {
-        return this.http.post<any>(`${environment.api}login`, { 'id': '5bdc60581eedf60001022559' });
+        return this.http.post<any>(`${environment.api}login`, { 'id': '5bd72d2a64b21800011be01f' });
     }
 
-    getUserByID(id: string = '5bdc60581eedf60001022559') {
-        return this.http.post<Users>(`${environment.api}users/${id}`, {}, httpOptions);
+    getUserByID(id: string = '5bd72d2a64b21800011be01f') {
+        return this.http.get<Users>(`${environment.api}users/${id}`, httpOptions);
     }
 
     getListIncomeCorporate(): Observable<ListIncomeResponse> {
@@ -48,7 +48,7 @@ export class WorklogApiService {
     }
 
     // เช็คว่า add-income ไปรึยัง
-    getIncomeByUserID(id: string = '5bdc60581eedf60001022559'): Observable<AddIncomeResponse> {
+    getIncomeByUserID(id: string = '5bd72d2a64b21800011be01f'): Observable<AddIncomeResponse> {
         return this.http.get<AddIncomeResponse>(`${environment.api}incomes/month/${id}`, httpOptions);
     }
 

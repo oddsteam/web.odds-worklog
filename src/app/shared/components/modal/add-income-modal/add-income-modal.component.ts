@@ -33,7 +33,7 @@ export class AddIncomeModalComponent implements OnInit {
     ngOnInit() {
         if (IncomeFlag.isUpdate) {
             this.title = 'Edit Income';
-            this.totalIncome = this.addIncome.totalIncome;
+            this.totalIncome = this.formatCurrency(this.addIncome.totalIncome);
         }
     }
 
