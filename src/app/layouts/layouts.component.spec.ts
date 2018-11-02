@@ -7,7 +7,6 @@ import { TranslateFakeLoader, TranslateLoader, TranslateModule } from '@ngx-tran
 import { StatusHighlightDirective } from '../shared/directives/status-highlight.directive';
 import { LayoutsComponent } from './layouts.component';
 import { TabMenuComponent } from '../shared/components/tab-menu/tab-menu.component';
-import { ListIncomeComponent } from '../shared/components/list-income/list-income.component';
 import { ProfileComponent } from '../shared/components/profile/profile.component';
 import { WorklogApiService } from '../core/worklog-api.service';
 
@@ -18,7 +17,7 @@ describe('LayoutsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [LayoutsComponent, TabMenuComponent, ProfileComponent, ListIncomeComponent
+      declarations: [LayoutsComponent, TabMenuComponent, ProfileComponent,
         , StatusHighlightDirective],
       imports: [FormsModule, CommonModule, RouterTestingModule, HttpClientTestingModule
         , TranslateModule.forRoot({

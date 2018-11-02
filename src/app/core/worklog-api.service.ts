@@ -29,7 +29,7 @@ export class WorklogApiService {
     }
 
     getListIncomeCorporate(): Observable<ListIncomeResponse> {
-        return this.http.get<ListIncomeResponse>(`${environment.api}incomes/status`, httpOptions);
+        return this.http.get<ListIncomeResponse>(`${environment.api}incomes/status/corporate`, httpOptions);
     }
 
     // เช็คว่า add-income ไปรึยัง

@@ -4,6 +4,7 @@ import { StatusHighlightDirective } from './directives/status-highlight.directiv
 import { TranslateModule } from '@ngx-translate/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TabMenuComponent } from './components/tab-menu/tab-menu.component';
+import { TableListComponent } from './components/table-list/table-list.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -12,14 +13,16 @@ import { TabMenuComponent } from './components/tab-menu/tab-menu.component';
   ],
   declarations: [
     StatusHighlightDirective,
-    TabMenuComponent
+    TabMenuComponent,
+    TableListComponent
 
   ],
   exports: [
     StatusHighlightDirective,
     TranslateModule,
     NgbModule,
-    TabMenuComponent
+    TabMenuComponent,
+    TableListComponent
   ]
 })
 export class SharedModule {
