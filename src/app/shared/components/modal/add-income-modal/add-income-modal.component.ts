@@ -45,12 +45,9 @@ export class AddIncomeModalComponent implements OnInit {
     }
 
     inputIncomeAmount(data: string) {
-        data = data.replace(/[^0-9.]/g, '');
-        data = data.indexOf(',') !== -1 ? data.replace(/,/g, '') : data;
-        this.totalIncome = this.formatInteger(data);
+        data = this.formatInteger(data);
+        this.totalIncome = this.formatCurrency(data);
         this.addIncome.totalIncome = data;
-        console.log(this.addIncome.totalIncome);
-        console.log(this.totalIncome);
     }
 
     inputNote(note: string) {
@@ -62,17 +59,13 @@ export class AddIncomeModalComponent implements OnInit {
         return false;
     }
 
-    xxx(x) {
-        x = x.replace(/[^0-9.]/g, '');
-        x = x.indexOf(',') !== -1 ? x.replace(/,/g, '') : x;
-        this.totalIncome = this.formatInteger(x);
+    private formatInteger(data: string): string {
+        data = data.replace(/[^0-9.]/g, '');
+        data = data.indexOf(',') !== -1 ? data.replace(/,/g, '') : data;
+        return data;
     }
 
-    validatePureText(value: string) {
-        return /[^0-9.]/.test(value);
-    }
-
-    formatInteger(Result: string): string {
+    private formatCurrency(Result: string): string {
         Result = Result.substring(0, 9);
         Result = Result.replace(/^(\d+)(\d{3})/, '$1,$2');
         Result = Result.replace(/^(\d+)(\d{3})/, '$1,$2');
