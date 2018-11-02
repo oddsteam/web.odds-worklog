@@ -1,8 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { CalculateIncomeModel, AddIncome } from 'src/app/layouts/models/add-income-model';
-import { IncomeService } from 'src/app/layouts/services/income.service';
 import { IncomeFlag } from 'src/app/layouts/models/income-flag';
+import { WorklogApiService } from 'src/app/core/worklog-api.service';
 
 @Component({
     selector: 'app-confirm-income-modal',
@@ -22,7 +22,7 @@ export class ConfirmIncomeModalComponent implements OnInit {
 
     constructor(
         public activeModal: NgbActiveModal,
-        private incomeService: IncomeService
+        private worklogApiService: WorklogApiService
     ) {
         // this.mock();
     }
@@ -51,7 +51,7 @@ export class ConfirmIncomeModalComponent implements OnInit {
     }
 
     private addIncomeConfirm() {
-        this.incomeService.addIncomeConfirm(this.addIncome).subscribe(res => {
+        this.worklogApiService.addIncomeConfirm(this.addIncome).subscribe(res => {
             this.reloadPage();
         }, err => {
             console.log(err);
@@ -59,7 +59,7 @@ export class ConfirmIncomeModalComponent implements OnInit {
     }
 
     private updateIncomeService() {
-        this.incomeService.updateIncomeService(this.addIncome).subscribe(res => {
+        this.worklogApiService.updateIncomeService(this.addIncome).subscribe(res => {
             this.reloadPage();
         }, err => {
             console.log(err);
