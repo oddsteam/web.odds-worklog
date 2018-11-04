@@ -15,7 +15,6 @@ const httpOptions = {
     })
 };
 
-
 @Injectable({
     providedIn: 'root'
 })
@@ -60,11 +59,21 @@ export class WorklogApiService {
         return this.http.put<AddIncomeResponse>(`${environment.api}incomes/${IncomeFlag.id}`, data, httpOptions);
     }
 
-    exportDataCorporate(): Observable<any> {
-        return this.http.get<any>(`${environment.api}incomes/export/corporate`);
+    exportDataCorporate(): Observable<Blob> {
+        return this.http.get(`${environment.api}incomes/export/corporate`, {
+            headers: new HttpHeaders({
+                'Authorization': sessionStorage.getItem('token')
+            }),
+            responseType: 'blob'
+        });
     }
 
-    exportDataIndividual(): Observable<any> {
-        return this.http.get<any>(`${environment.api}incomes/export/individual`);
+    exportDataIndividual(): Observable<Blob> {
+        return this.http.get(`${environment.api}incomes/export/individual`, {
+            headers: new HttpHeaders({
+                'Authorization': sessionStorage.getItem('token')
+            }),
+            responseType: 'blob'
+        });
     }
 }
