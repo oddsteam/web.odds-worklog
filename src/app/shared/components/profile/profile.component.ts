@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { WorklogApiService } from 'src/app/core/worklog-api.service';
 
 @Component({
     selector: 'app-profile',
@@ -7,15 +8,19 @@ import { TranslateService } from '@ngx-translate/core';
     styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent implements OnInit {
-    name = 'Tom & Friend';
+    name = 'ODDS';
     constructor(
         public translate: TranslateService,
+        private workLogService: WorklogApiService
     ) {
         translate.setDefaultLang('en');
         translate.use('th');
     }
 
     ngOnInit() {
+        this.workLogService.getUserByID().subscribe(res => {
+            this.name = res.fullnameEn;
+        });
     }
 
 }

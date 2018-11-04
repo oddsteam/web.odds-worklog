@@ -1,9 +1,8 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { IncomeService } from 'src/app/layouts/services/income.service';
-import { ConfirmIncomeModalComponent } from './confirm-income-modal.component';
 import { TranslateModule } from '@ngx-translate/core';
+import { ConfirmIncomeModalComponent } from './confirm-income-modal.component';
 
 
 describe('ConfirmIncomeModalComponent', () => {
@@ -14,7 +13,7 @@ describe('ConfirmIncomeModalComponent', () => {
         TestBed.configureTestingModule({
             declarations: [ConfirmIncomeModalComponent],
             imports: [NgbModule.forRoot(), HttpClientTestingModule, TranslateModule.forRoot()],
-            providers: [IncomeService,
+            providers: [
                 NgbActiveModal]
         })
             .compileComponents();
@@ -34,7 +33,7 @@ describe('ConfirmIncomeModalComponent', () => {
         const netIncome = '100';
         const vat = '7';
         const wht = '3';
-        expect(component.calTotal(netIncome, vat, wht)).toEqual('104');
+        expect(component.calNetIncome(netIncome, vat, wht)).toEqual('104');
     });
 
     it('', () => {

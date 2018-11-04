@@ -1,3 +1,4 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateFakeLoader, TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { ProfileComponent } from './profile.component';
@@ -13,7 +14,7 @@ describe('ProfileComponent', () => {
       imports: [
         TranslateModule.forRoot({
           loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
-        })
+        }), HttpClientTestingModule
       ],
       providers: []
     })

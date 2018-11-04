@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { WorklogApiService } from '../core/worklog-api.service';
 import { Router } from '@angular/router';
+import { WorklogApiService } from '../core/worklog-api.service';
 import { IncomeFlag } from '../shared/model/income-flag';
 
 @Component({
@@ -14,7 +14,7 @@ export class LayoutsComponent implements OnInit {
         private worklogService: WorklogApiService,
         private router: Router
     ) {
-     }
+    }
 
     ngOnInit() {
         this.worklogService.getLogin().subscribe(res => {
@@ -25,7 +25,7 @@ export class LayoutsComponent implements OnInit {
         });
         this.router.navigate([
             `/corporate`
-          ]);
+        ]);
     }
 
     private getUserByID() {
