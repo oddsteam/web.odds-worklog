@@ -27,15 +27,15 @@ export class WorklogApiService {
 
     /*
     user test
-        corporate  id = 5bd72d2a64b21800011be01f
-        individual id = 5bdc60581eedf60001022559
+        corporate  id = 5bde550643b39700012727f2
+        individual id = 5bde4e2e1a044b8c9ce44fe4
     */
 
     getLogin(): Observable<any> {
-        return this.http.post<any>(`${environment.api}login`, { 'id': '5bd72d2a64b21800011be01f' });
+        return this.http.post<any>(`${environment.api}login`, { 'id': '5bde550643b39700012727f2' });
     }
 
-    getUserByID(id: string = '5bd72d2a64b21800011be01f') {
+    getUserByID(id: string = '5bde550643b39700012727f2') {
         return this.http.get<Users>(`${environment.api}users/${id}`, httpOptions);
     }
 
@@ -48,7 +48,7 @@ export class WorklogApiService {
     }
 
     // เช็คว่า add-income ไปรึยัง
-    getIncomeByUserID(id: string = '5bd72d2a64b21800011be01f'): Observable<AddIncomeResponse> {
+    getIncomeByUserID(id: string = '5bde550643b39700012727f2'): Observable<AddIncomeResponse> {
         return this.http.get<AddIncomeResponse>(`${environment.api}incomes/month/${id}`, httpOptions);
     }
 
@@ -58,5 +58,9 @@ export class WorklogApiService {
 
     updateIncomeService(data: AddIncome): Observable<AddIncomeResponse> {
         return this.http.put<AddIncomeResponse>(`${environment.api}incomes/${IncomeFlag.id}`, data, httpOptions);
+    }
+
+    exportDataCorporate(): Observable<any> {
+        return this.http.get<any>(`${environment.api}incomes/export/corporate`, httpOptions);
     }
 }
