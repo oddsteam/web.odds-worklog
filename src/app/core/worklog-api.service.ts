@@ -61,6 +61,10 @@ export class WorklogApiService {
     }
 
     exportDataCorporate(): Observable<any> {
-        return this.http.get<any>(`${environment.api}incomes/export/corporate`, httpOptions);
+        return this.http.get<any>(`${environment.api}incomes/export/corporate`);
+    }
+
+    exportDataIndividual(): Observable<any> {
+        return this.http.get<any>(`${environment.api}incomes/export/individual`);
     }
 }
