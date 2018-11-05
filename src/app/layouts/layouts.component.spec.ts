@@ -5,7 +5,6 @@ import { FormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateFakeLoader, TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { WorklogApiService } from '../core/worklog-api.service';
-import { AddIncomeComponent } from '../shared/components/add-income/add-income.component';
 import { ProfileComponent } from '../shared/components/profile/profile.component';
 import { TabMenuComponent } from '../shared/components/tab-menu/tab-menu.component';
 import { LayoutsComponent } from './layouts.component';
@@ -17,7 +16,7 @@ describe('LayoutsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [LayoutsComponent, TabMenuComponent, ProfileComponent, AddIncomeComponent],
+      declarations: [LayoutsComponent, TabMenuComponent, ProfileComponent],
       imports: [CommonModule, FormsModule, RouterTestingModule, HttpClientTestingModule
         , TranslateModule.forRoot({
           loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }

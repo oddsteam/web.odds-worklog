@@ -1,6 +1,9 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { TableListComponent } from 'src/app/shared/components/table-list/table-list.component';
+import { StatusHighlightDirective } from 'src/app/shared/directives/status-highlight.directive';
 import { ListCorporateComponent } from './list-corporate.component';
+
 
 describe('ListCorporateComponent', () => {
   let component: ListCorporateComponent;
@@ -8,9 +11,10 @@ describe('ListCorporateComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ListCorporateComponent ]
+      declarations: [ListCorporateComponent, TableListComponent, StatusHighlightDirective],
+      imports: [HttpClientTestingModule]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
