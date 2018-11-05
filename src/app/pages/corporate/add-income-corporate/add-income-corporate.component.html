@@ -3,6 +3,6 @@
         รายได้ของคุณ {{ salary | number: '1.2-2' }} บาท , บันทึก : {{ note }}
     </div>
     <div>
-        <button type="button" [class]="styleIncome()" (click)="onOpen()">{{ nameButton }}</button>
+        <button type="button" [class]="changeStyleButton()" (click)="openModal()">{{ nameButton }}</button>
     </div>
 </div>

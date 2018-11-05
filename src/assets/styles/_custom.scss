@@ -1,3 +1,7 @@
+.font-middle{
+  font-size: 13px;
+}
+
 .change--positive {
   color: #00a651;
 }
@@ -84,4 +88,14 @@
   border: 1px solid #DBDBDB;
   background: white;
   border-radius: 4px;
+}
+
+.export-container {
+  a {
+    padding: 0 0 0 10px;
+    color: #147fb8;
+  }
+  i {
+    padding: 0 5px;
+  }
 }

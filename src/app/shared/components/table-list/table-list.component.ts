@@ -10,7 +10,6 @@ import { IncomeFlag } from '../../model/income-flag';
 export class TableListComponent implements OnInit {
     @Input()
     ListData;
-    date = new Date();
     constructor(
         private worklogApiService: WorklogApiService,
     ) { }

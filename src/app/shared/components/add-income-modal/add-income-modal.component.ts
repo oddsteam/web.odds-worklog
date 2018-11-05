@@ -39,7 +39,6 @@ export class AddIncomeModalComponent implements OnInit {
 
     submit() {
         const modalConfirmIncome = this.modalService.open(ConfirmIncomeModalComponent, { centered: true });
-        console.log(this.addIncome);
         modalConfirmIncome.componentInstance.addIncome = this.addIncome;
         setTimeout(() => { this.activeModal.close(); });
     }

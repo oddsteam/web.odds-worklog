@@ -7,8 +7,8 @@ import { SharedModule } from '../shared/shared.module';
 import { LayoutsComponent } from './layouts.component';
 import { ProfileComponent } from '../shared/components/profile/profile.component';
 import { LayoutsRoutingModule } from './layouts-routing.module';
-import { AddIncomeModalComponent } from '../shared/components/modal/add-income-modal/add-income-modal.component';
-import { ConfirmIncomeModalComponent } from '../shared/components/modal/confirm-income-modal/confirm-income-modal.component';
+import { AddIncomeModalComponent } from '../shared/components/add-income-modal/add-income-modal.component';
+import { ConfirmIncomeModalComponent } from '../shared/components/confirm-income-modal/confirm-income-modal.component';
 
 @NgModule({
     imports: [

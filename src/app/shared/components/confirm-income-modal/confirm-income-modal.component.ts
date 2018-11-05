@@ -1,8 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
 import { CalculateIncomeModel, AddIncome } from 'src/app/shared/model/add-income-model';
 import { IncomeFlag } from 'src/app/shared/model/income-flag';
+import { AddIncomeModalComponent } from '../add-income-modal/add-income-modal.component';
 
 @Component({
     selector: 'app-confirm-income-modal',
@@ -22,7 +23,8 @@ export class ConfirmIncomeModalComponent implements OnInit {
 
     constructor(
         public activeModal: NgbActiveModal,
-        private worklogApiService: WorklogApiService
+        private worklogApiService: WorklogApiService,
+        private modalService: NgbModal
     ) { }
 
     ngOnInit() {
@@ -30,8 +32,9 @@ export class ConfirmIncomeModalComponent implements OnInit {
         this.updateData();
     }
 
-    onCancelPress() {
-        this.activeModal.close();
+    onNoConfirmPress(): void {
+       this.modalService.open(AddIncomeModalComponent, { centered: true });
+       setTimeout(() => { this.activeModal.close(); });
     }
 
     onConfirmPress() {
