@@ -1,22 +1,23 @@
 # STEP 1 build static website
-FROM node:8.12.0-alpine as builder
-
-RUN apk update && apk add --no-cache make git
+FROM trion/ng-cli-e2e:6.2.3 as builder
 
 # Create app directory
 WORKDIR /app
 
-# Install app dependencies
-COPY package*.json /app/
-RUN npm install && npm rebuild
-
 # Copy project files into the docker image
 COPY .  /app
 
-# Test and build production
-# RUN cd /app still in working dir
-# RUN npm run test --watch=false
-RUN npm run build --prod
+# Install app dependencies
+RUN npm install --no-optional && npm rebuild
+
+# Run Unit Test
+RUN ng test --watch false
+
+# Run e2e Test
+RUN ng e2e
+
+# Build
+RUN ng build --prod
 
 
 # STEP 2 build a small nginx image with static website
