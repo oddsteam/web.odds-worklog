@@ -32,7 +32,7 @@ export class TableListComponent implements OnInit {
             this.downloadFile(res, 'income_corporate.csv');
         }, err => {
             console.log(err);
-            alert('\Can\'t export corporate income to CSV file.');
+            alert(`Can't export corporate income to CSV file.`);
         });
     }
 
@@ -41,7 +41,7 @@ export class TableListComponent implements OnInit {
             this.downloadFile(res, 'income_individual.csv');
         }, err => {
             console.log(err);
-            alert('\Can\'t export individual income to CSV file.');
+            alert(`Can't export individual income to CSV file.`);
         });
     }
 
