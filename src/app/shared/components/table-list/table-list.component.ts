@@ -26,7 +26,7 @@ export class TableListComponent implements OnInit {
         }
     }
 
-    private exportCorporate() {
+     exportCorporate() {
         this.worklogApiService.exportDataCorporate().subscribe(res => {
             this.downloadFile(res, 'income_corporate.csv');
         }, err => {
@@ -35,7 +35,7 @@ export class TableListComponent implements OnInit {
         });
     }
 
-    private exportIndividual() {
+     exportIndividual() {
         this.worklogApiService.exportDataIndividual().subscribe(res => {
             this.downloadFile(res, 'income_individual.csv');
         }, err => {

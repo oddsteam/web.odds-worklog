@@ -21,13 +21,13 @@ export class ListIncomeComponent implements OnInit {
         (IncomeFlag.typeGetListService === 'corporate') ? this.getIncomeCorporate() : this.getIncomeIndividual();
     }
 
-    private getIncomeCorporate() {
+    getIncomeCorporate() {
         this.worklogService.getListIncomeCorporate().subscribe(response => {
             this.listIncome = response;
         });
     }
 
-    private getIncomeIndividual() {
+    getIncomeIndividual() {
         this.worklogService.getListIncomeIndividual().subscribe(response => {
             this.listIncome = response;
         });
