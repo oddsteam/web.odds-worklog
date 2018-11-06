@@ -31,10 +31,10 @@ export class WorklogApiService {
     */
 
     getLogin(): Observable<any> {
-        return this.http.post<any>(`${environment.api}login`, { 'id': '5bde550643b39700012727f2' });
+        return this.http.post<any>(`${environment.api}login`, { 'id': '5bde4e2e1a044b8c9ce44fe4' });
     }
 
-    getUserByID(id: string = '5bde550643b39700012727f2') {
+    getUserByID(id: string = '5bde4e2e1a044b8c9ce44fe4') {
         return this.http.get<Users>(`${environment.api}users/${id}`, httpOptions);
     }
 
@@ -47,7 +47,7 @@ export class WorklogApiService {
     }
 
     // เช็คว่า add-income ไปรึยัง
-    getIncomeByUserID(id: string = '5bde550643b39700012727f2'): Observable<AddIncomeResponse> {
+    getIncomeByUserID(id: string = '5bde4e2e1a044b8c9ce44fe4'): Observable<AddIncomeResponse> {
         return this.http.get<AddIncomeResponse>(`${environment.api}incomes/month/${id}`, httpOptions);
     }
 
