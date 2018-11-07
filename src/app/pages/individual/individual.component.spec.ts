@@ -8,6 +8,8 @@ import { TableListComponent } from 'src/app/shared/components/table-list/table-l
 import { StatusHighlightDirective } from 'src/app/shared/directives/status-highlight.directive';
 import { IndividualComponent } from './individual.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { AddIncomeIndividualComponent } from './components/add-income-individual/add-income-individual.component';
+import { ListIndividualComponent } from './components/list-individual/list-individual.component';
 
 
 describe('IndividualComponent', () => {
@@ -16,8 +18,9 @@ describe('IndividualComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [IndividualComponent, ListIncomeComponent, TableListComponent, StatusHighlightDirective],
-      imports: [FormsModule, CommonModule, NgbModule.forRoot(), HttpClientTestingModule],
+      declarations: [IndividualComponent, ListIncomeComponent, TableListComponent, StatusHighlightDirective,
+        AddIncomeIndividualComponent, ListIndividualComponent],
+      imports: [NgbModule.forRoot(), HttpClientTestingModule],
     })
       .compileComponents();
   }));
