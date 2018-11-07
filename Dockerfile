@@ -17,7 +17,7 @@ RUN ng test --watch false
 RUN ng e2e
 
 # Build
-RUN ng build --prod
+RUN ng build
 
 
 # STEP 2 build a small nginx image with static website
