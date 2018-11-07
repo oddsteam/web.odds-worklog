@@ -18,10 +18,10 @@ export class ProfileComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.workLogService.forCheckTokenPleaseRemoveMeIfLoginSuccess().subscribe(() => this.getUserID());
+        this.workLogService.forCheckTokenPleaseRemoveMeIfFlowLoginFinnished().subscribe(() => this.getUserID());
 
     }
-    
+
     getUserID() {
         this.workLogService.getUserByID().subscribe(res => {
             this.name = res.fullnameEn;

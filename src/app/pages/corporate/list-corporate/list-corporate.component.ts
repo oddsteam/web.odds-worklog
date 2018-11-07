@@ -13,7 +13,7 @@ export class ListCorporateComponent implements OnInit {
   constructor(private worklogService: WorklogApiService) { }
 
   ngOnInit() {
-    this.worklogService.forCheckTokenPleaseRemoveMeIfLoginSuccess().subscribe(() => this.getListIncomeCorporate());
+    this.worklogService.forCheckTokenPleaseRemoveMeIfFlowLoginFinnished().subscribe(() => this.getListIncomeCorporate());
   }
 
   getListIncomeCorporate() {

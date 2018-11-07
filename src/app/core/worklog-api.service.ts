@@ -30,7 +30,7 @@ export class WorklogApiService {
         individual id = 5bde4e2e1a044b8c9ce44fe4
     */
 
-    forCheckTokenPleaseRemoveMeIfLoginSuccess(): Observable<any> {
+    forCheckTokenPleaseRemoveMeIfFlowLoginFinnished(): Observable<any> {
         return Observable.create(observer => {
             let checkTokenInterval = setInterval(() => {
                 if (sessionStorage.getItem('token')) {

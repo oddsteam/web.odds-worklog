@@ -22,7 +22,7 @@ export class AddIncomeCorporateComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.worklogApiService.forCheckTokenPleaseRemoveMeIfLoginSuccess().subscribe(()=> this.checkStatusUser());
+    this.worklogApiService.forCheckTokenPleaseRemoveMeIfFlowLoginFinnished().subscribe(()=> this.checkStatusUser());
   }
 
   changeStyleButton(): string {
