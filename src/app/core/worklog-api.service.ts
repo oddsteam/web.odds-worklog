@@ -8,12 +8,12 @@ import { IncomeFlag } from '../shared/model/income-flag';
 import { ListIncomeResponse } from '../shared/model/list-income-model-response';
 import { Users } from '../shared/model/user-model';
 
-const httpOptions = {
-    headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Authorization': sessionStorage.getItem('token')
-    })
-};
+// const httpOptions = {
+//     headers: new HttpHeaders({
+//         'Content-Type': 'application/json',
+//         'Authorization': sessionStorage.getItem('token')
+//     })
+// };
 
 @Injectable({
     providedIn: 'root'
@@ -32,22 +32,22 @@ export class WorklogApiService {
 
     forCheckTokenPleaseRemoveMeIfFlowLoginFinnished(): Observable<any> {
         return Observable.create(observer => {
-            let checkTokenInterval = setInterval(() => {
+            const checkTokenInterval = setInterval(() => {
                 if (sessionStorage.getItem('token')) {
                     observer.next();
-                    clearInterval(checkTokenInterval)
+                    clearInterval(checkTokenInterval);
                 }
             }, 200);
-        })
+        });
     }
 
     getHttpHeaderOption(): { headers: HttpHeaders } {
-        let httpOptions = {
+        const httpOptions = {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
                 'Authorization': sessionStorage.getItem('token')
             })
-        }
+        };
         return httpOptions;
     }
 
@@ -64,7 +64,7 @@ export class WorklogApiService {
     }
 
     getListIncomeIndividual(): Observable<ListIncomeResponse> {
-        return this.http.get<ListIncomeResponse>(`${environment.api}incomes/status/individual`, httpOptions);
+        return this.http.get<ListIncomeResponse>(`${environment.api}incomes/status/individual`, this.getHttpHeaderOption());
     }
 
     // เช็คว่า add-income ไปรึยัง
@@ -73,11 +73,11 @@ export class WorklogApiService {
     }
 
     addIncomeConfirm(data: AddIncome): Observable<AddIncomeResponse> {
-        return this.http.post<AddIncomeResponse>(`${environment.api}incomes`, data, httpOptions);
+        return this.http.post<AddIncomeResponse>(`${environment.api}incomes`, data, this.getHttpHeaderOption());
     }
 
     updateIncomeService(data: AddIncome): Observable<AddIncomeResponse> {
-        return this.http.put<AddIncomeResponse>(`${environment.api}incomes/${IncomeFlag.id}`, data, httpOptions);
+        return this.http.put<AddIncomeResponse>(`${environment.api}incomes/${IncomeFlag.id}`, data, this.getHttpHeaderOption());
     }
 
     exportDataCorporate(): Observable<Blob> {
