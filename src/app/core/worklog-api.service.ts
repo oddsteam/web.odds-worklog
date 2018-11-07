@@ -30,16 +30,37 @@ export class WorklogApiService {
         individual id = 5bde4e2e1a044b8c9ce44fe4
     */
 
+    forCheckTokenPleaseRemoveMeIfLoginSuccess(): Observable<any> {
+        return Observable.create(observer => {
+            let checkTokenInterval = setInterval(() => {
+                if (sessionStorage.getItem('token')) {
+                    observer.next();
+                    clearInterval(checkTokenInterval)
+                }
+            }, 200);
+        })
+    }
+
+    getHttpHeaderOption(): { headers: HttpHeaders } {
+        let httpOptions = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Authorization': sessionStorage.getItem('token')
+            })
+        }
+        return httpOptions;
+    }
+
     getLogin(): Observable<any> {
         return this.http.post<any>(`${environment.api}login`, { 'id': '5bde550643b39700012727f2' });
     }
 
     getUserByID(id: string = '5bde550643b39700012727f2') {
-        return this.http.get<Users>(`${environment.api}users/${id}`, httpOptions);
+        return this.http.get<Users>(`${environment.api}users/${id}`, this.getHttpHeaderOption());
     }
 
     getListIncomeCorporate(): Observable<ListIncomeResponse> {
-        return this.http.get<ListIncomeResponse>(`${environment.api}incomes/status/corporate`, httpOptions);
+        return this.http.get<ListIncomeResponse>(`${environment.api}incomes/status/corporate`, this.getHttpHeaderOption());
     }
 
     getListIncomeIndividual(): Observable<ListIncomeResponse> {
@@ -48,7 +69,7 @@ export class WorklogApiService {
 
     // เช็คว่า add-income ไปรึยัง
     getIncomeByUserID(id: string = '5bde550643b39700012727f2'): Observable<AddIncomeResponse> {
-        return this.http.get<AddIncomeResponse>(`${environment.api}incomes/month/${id}`, httpOptions);
+        return this.http.get<AddIncomeResponse>(`${environment.api}incomes/month/${id}`, this.getHttpHeaderOption());
     }
 
     addIncomeConfirm(data: AddIncome): Observable<AddIncomeResponse> {

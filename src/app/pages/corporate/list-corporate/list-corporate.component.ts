@@ -10,9 +10,13 @@ import { ListIncomeResponse } from 'src/app/shared/model/list-income-model-respo
 export class ListCorporateComponent implements OnInit {
   date = new Date();
   listIncome: ListIncomeResponse;
-  constructor(private worklogService: WorklogApiService) {}
+  constructor(private worklogService: WorklogApiService) { }
 
   ngOnInit() {
+    this.worklogService.forCheckTokenPleaseRemoveMeIfLoginSuccess().subscribe(() => this.getListIncomeCorporate());
+  }
+
+  getListIncomeCorporate() {
     this.worklogService.getListIncomeCorporate().subscribe(response => {
       this.listIncome = response;
     });
