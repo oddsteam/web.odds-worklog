@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AddIncomeResponse } from 'src/app/shared/model/add-income-model-response';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import { AddIncomeModalComponent } from 'src/app/shared/components/add-income-modal/add-income-modal.component';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
 
@@ -15,45 +15,36 @@ export class AddIncomeCorporateComponent implements OnInit {
   nameButton = 'Add Income';
   styleButton = 'btn btn-blue';
   addIncomeResponse: AddIncomeResponse;
-
-  constructor(
-    private modalService: NgbModal,
-    private worklogApiService: WorklogApiService
-  ) { }
+  constructor(private modalService: NgbModal,
+    private worklogApiService: WorklogApiService,
+    public config: NgbModalConfig,
+    ) {
+      config.backdrop = 'static';
+      config.keyboard = false;
+     }
 
   ngOnInit() {
-    this.worklogApiService.forCheckTokenPleaseRemoveMeIfFlowLoginFinnished().subscribe(()=> this.checkStatusUser());
+    this.worklogApiService.forCheckTokenPleaseRemoveMeIfFlowLoginFinnished().subscribe(() => this.checkStatusUser());
   }
-
-  changeStyleButton(): string {
-    return this.styleButton;
-  }
-
   openModal() {
-    const modal = this.modalService.open(AddIncomeModalComponent, { centered: true });
-    modal.componentInstance.addIncome = this.getData(this.addIncomeResponse);
+    this.modalService.open(AddIncomeModalComponent, { centered: true });
   }
 
   checkStatusUser() {
     this.worklogApiService.getIncomeByUserID().subscribe(res => {
-      if (res) {
-        this.addIncomeResponse = res;
-        this.updateData(this.addIncomeResponse);
-      }
+            this.addIncomeResponse = res;
+            this.updateData(this.addIncomeResponse);
     });
-  }
+}
+changeStyleButton(): string {
+  return this.styleButton;
+}
 
   updateData(data) {
     this.styleButton = 'btn btn-red';
     this.nameButton = 'Edit Income';
     this.salary = data.totalIncome;
     this.note = data.note;
-  }
+}
 
-  getData(res) {
-    return {
-      totalIncome: res.totalIncome,
-      note: res.note
-    };
-  }
 }

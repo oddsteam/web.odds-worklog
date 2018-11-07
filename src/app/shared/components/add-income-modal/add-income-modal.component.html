@@ -11,13 +11,13 @@
     </div>
     <div class="form-group my-2">
       <label>รายได้ : </label>
-      <input type="text" style="text-align:right" class="form-control" [(ngModel)]="totalIncome" (keyup)="inputIncomeAmount(totalIncome)">
+      <input type="text" style="text-align:right" class="form-control" [formControl]="totalIncomeController">
     </div>
     <div class="form-group">
       <label>บันทึก :</label>
-      <textarea type="text" class="form-control" [(ngModel)]="addIncome.note" (input)="inputNote($event.target.value)"></textarea>
+      <textarea type="text" class="form-control" [formControl]="noteController"></textarea>
     </div>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-blue" (click)="submit()" [disabled]="disibleButton()">Submit</button>
+    <button type="button" class="btn btn-blue" (click)="submit()" [disabled]="disableButton()">Submit</button>
   </div>

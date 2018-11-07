@@ -1,8 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { NgbActiveModal, NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmIncomeModalComponent } from '../confirm-income-modal/confirm-income-modal.component';
-import { AddIncome } from 'src/app/shared/model/add-income-model';
-import { IncomeFlag } from 'src/app/shared/model/income-flag';
+import { FormControl } from '@angular/forms';
 
 @Component({
     selector: 'app-add-income-modal',
@@ -10,17 +9,9 @@ import { IncomeFlag } from 'src/app/shared/model/income-flag';
     styleUrls: ['./add-income-modal.component.scss']
 })
 export class AddIncomeModalComponent implements OnInit {
-
     title = 'Add Income';
-
-    // tslint:disable-next-line:no-input-rename
-    @Input('addIncome') addIncome: AddIncome = {
-        totalIncome: '',
-        note: ''
-    };
-
-    totalIncome: string;
-
+    totalIncomeController: FormControl = new FormControl();
+    noteController: FormControl = new FormControl();
     constructor(
         public activeModal: NgbActiveModal,
         public config: NgbModalConfig,
@@ -30,45 +21,18 @@ export class AddIncomeModalComponent implements OnInit {
         config.keyboard = false;
     }
 
-    ngOnInit() {
-        if (IncomeFlag.isUpdate) {
-            this.title = 'Edit Income';
-            this.totalIncome = this.formatCurrency(this.addIncome.totalIncome);
-        }
-    }
+    ngOnInit() {}
 
     submit() {
-        const modalConfirmIncome = this.modalService.open(ConfirmIncomeModalComponent, { centered: true });
-        modalConfirmIncome.componentInstance.addIncome = this.addIncome;
+        this.modalService.open(ConfirmIncomeModalComponent, { centered: true });
         setTimeout(() => { this.activeModal.close(); });
     }
 
-    inputIncomeAmount(data: string) {
-        data = this.formatInteger(data);
-        this.totalIncome = this.formatCurrency(data);
-        this.addIncome.totalIncome = data;
-    }
-
-    inputNote(note: string) {
-        this.addIncome.note = note;
-    }
-
-    disibleButton(): boolean {
-        if (!this.addIncome.totalIncome || Number(this.addIncome.totalIncome) < 1) { return true; }
-        return false;
-    }
-
-    private formatInteger(data: string): string {
-        data = data.replace(/[^0-9.]/g, '');
-        data = data.indexOf(',') !== -1 ? data.replace(/,/g, '') : data;
-        return data;
-    }
-
-    private formatCurrency(Result: string): string {
-        Result = Result.substring(0, 9);
-        Result = Result.replace(/^(\d+)(\d{3})/, '$1,$2');
-        Result = Result.replace(/^(\d+)(\d{3})/, '$1,$2');
-        Result = Result.replace(/^(\d+)(\d{3})/, '$1,$2');
-        return Result;
+    disableButton() {
+        if (this.totalIncomeController.value != null) {
+            return false;
+        } else {
+            return true;
+        }
     }
 }
