@@ -3,12 +3,12 @@
     <div class="d-flex align-items-end">
       <h2 class="mb-0">{{ date | date: 'MMMM yyyy'}}</h2>
     </div>
-    <div class="d-flex justify-content-end align-items-end export-container">
-        <a href="javascript:void(0)" (click)="exportCorporate()">
-          <i class="fas fa-download"></i>
-          Export
-        </a>
-      </div>
+    <button class="rounded export-container">
+      <a href="javascript:void(0)" (click)="exportCorporate()">
+        <i class="fas fa-download"></i>
+        Export
+      </a>
+    </button>
   </div>
   <app-table-list [ListData]="listIncome"></app-table-list>
 </div>
