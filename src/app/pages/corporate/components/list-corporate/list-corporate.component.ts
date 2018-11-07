@@ -10,20 +10,20 @@ import { ListIncomeResponse } from 'src/app/shared/model/list-income-model-respo
 export class ListCorporateComponent implements OnInit {
   date = new Date();
   listIncome: ListIncomeResponse;
-  constructor(private worklogService: WorklogApiService) { }
+  constructor(private worklogApiService: WorklogApiService) { }
 
   ngOnInit() {
-    this.worklogService.forCheckTokenPleaseRemoveMeIfFlowLoginFinnished().subscribe(() => this.getListIncomeCorporate());
+    this.worklogApiService.forCheckTokenPleaseRemoveMeIfFlowLoginFinnished().subscribe(() => this.getListIncomeCorporate());
   }
 
   getListIncomeCorporate() {
-    this.worklogService.getListIncomeCorporate().subscribe(response => {
+    this.worklogApiService.getListIncomeCorporate().subscribe(response => {
       this.listIncome = response;
     });
   }
 
   exportCorporate() {
-    this.worklogService.exportDataCorporate().subscribe(
+    this.worklogApiService.exportDataCorporate().subscribe(
       res => {
         this.downloadFile(res, 'income_corporate.csv');
       },

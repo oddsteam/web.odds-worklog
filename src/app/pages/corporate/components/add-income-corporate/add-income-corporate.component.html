@@ -1,0 +1,11 @@
+<div class="d-flex justify-content-between p-3">
+    <div class="d-flex align-items-center">
+        รายได้ของคุณ {{ salary | number: '1.2-2' }} บาท , บันทึก : {{ note }}
+    </div>
+    <div>
+        <button type="button" class="btn" [ngClass]="recentStatus === 'Add' ? 'btn-blue':'btn-red'" (click)="openModal()">
+            <span *ngIf="recentStatus === 'Add'">Add Income</span>
+            <span *ngIf="recentStatus === 'Edit'">Edit Income</span>
+        </button>
+    </div>
+</div>
