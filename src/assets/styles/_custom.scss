@@ -36,6 +36,11 @@
   color: #fff;
   background-color: #EE4749;
   border-color: #B62020;
+
+  &:hover {
+    background-color: #a51d1d;
+    border-color: #a51d1d;
+  }
 }
 
 .btn-gray {
@@ -94,10 +99,13 @@
   background-color: white;
   border: 0.5px solid #147fb8;
   a {
-    // padding: 0 0 0 10px;
     color: #147fb8;
+    text-decoration: none;
   }
   i {
     padding: 0 5px;
+  }
+  &:hover {
+    background-color: #EBEBEB;
   }
 }
