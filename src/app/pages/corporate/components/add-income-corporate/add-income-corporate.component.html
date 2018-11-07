@@ -9,3 +9,9 @@
         </button>
     </div>
 </div>
+
+<ng-template #templateModal>
+    <div>
+        <app-modal-income (closeModalEmit)="closeModalEvent($event)" [addIncomeData]="addIncomeResponse"></app-modal-income>
+    </div>
+</ng-template>

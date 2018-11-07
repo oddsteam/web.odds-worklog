@@ -26,8 +26,8 @@ export function createTranslateLoader(http: HttpClient) {
         deps: [HttpClient],
       },
     }),
-    ],
-  providers: [ ],
+  ],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

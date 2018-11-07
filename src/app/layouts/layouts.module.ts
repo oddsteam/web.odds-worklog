@@ -7,8 +7,6 @@ import { SharedModule } from '../shared/shared.module';
 import { LayoutsComponent } from './layouts.component';
 import { ProfileComponent } from '../shared/components/profile/profile.component';
 import { LayoutsRoutingModule } from './layouts-routing.module';
-import { AddIncomeModalComponent } from '../shared/components/add-income-modal/add-income-modal.component';
-import { ConfirmIncomeModalComponent } from '../shared/components/confirm-income-modal/confirm-income-modal.component';
 
 @NgModule({
     imports: [
@@ -22,13 +20,7 @@ import { ConfirmIncomeModalComponent } from '../shared/components/confirm-income
     ],
     declarations: [
         LayoutsComponent,
-        ProfileComponent,
-        AddIncomeModalComponent,
-        ConfirmIncomeModalComponent
-    ],
-    entryComponents: [
-        AddIncomeModalComponent,
-        ConfirmIncomeModalComponent
+        ProfileComponent
     ]
 })
 export class LayoutsModule { }

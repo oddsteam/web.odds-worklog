@@ -3,7 +3,7 @@ import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
 import { CalculateIncomeModel, AddIncome } from 'src/app/shared/model/add-income-model';
 import { IncomeFlag } from 'src/app/shared/model/income-flag';
-import { AddIncomeModalComponent } from '../add-income-modal/add-income-modal.component';
+import { ModalIncomeComponent } from '../modal-income/modal-income.component';
 
 @Component({
     selector: 'app-confirm-income-modal',
@@ -33,8 +33,8 @@ export class ConfirmIncomeModalComponent implements OnInit {
     }
 
     onNoConfirmPress(): void {
-       this.modalService.open(AddIncomeModalComponent, { centered: true });
-       setTimeout(() => { this.activeModal.close(); });
+        this.modalService.open(ModalIncomeComponent, { centered: true });
+        setTimeout(() => { this.activeModal.close(); });
     }
 
     onConfirmPress() {

@@ -1,27 +1,26 @@
-import { Component, OnInit } from '@angular/core';
-import { AddIncomeResponse } from 'src/app/shared/model/add-income-model-response';
-import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
-import { AddIncomeModalComponent } from 'src/app/shared/components/add-income-modal/add-income-modal.component';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
+import { AddIncomeResponse } from 'src/app/shared/model/add-income-model-response';
 
 @Component({
   selector: 'app-add-income-corporate',
   templateUrl: './add-income-corporate.component.html',
   styleUrls: ['./add-income-corporate.component.scss']
 })
+
 export class AddIncomeCorporateComponent implements OnInit {
   salary = 0;
+  @ViewChild('templateModal') templateModal: TemplateRef<any>;
+  modalRef: BsModalRef;
   note = 'อยากได้เงินก็กรอกมาสิ';
   recentStatus = 'Add';
   addIncomeResponse: AddIncomeResponse;
 
-  constructor(private modalService: NgbModal,
+  constructor(
+    private modalService: BsModalService,
     private worklogApiService: WorklogApiService,
-    public config: NgbModalConfig,
-    ) {
-      config.backdrop = 'static';
-      config.keyboard = false;
-     }
+  ) { }
 
   ngOnInit() {
     this.worklogApiService.forCheckTokenPleaseRemoveMeIfFlowLoginFinnished().subscribe(() => this.checkStatusUser());
@@ -29,8 +28,8 @@ export class AddIncomeCorporateComponent implements OnInit {
 
   checkStatusUser() {
     this.worklogApiService.getIncomeByUserID().subscribe(res => {
-            this.addIncomeResponse = res;
-            this.updateData(this.addIncomeResponse);
+      this.addIncomeResponse = res;
+      this.updateData(this.addIncomeResponse);
     });
   }
 
@@ -40,7 +39,24 @@ export class AddIncomeCorporateComponent implements OnInit {
     this.note = data.note;
   }
 
-  openModal() {
-    this.modalService.open(AddIncomeModalComponent, { centered: true });
+  openTemplateModal() {
+    this.openModal(this.templateModal);
   }
+
+  openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template,
+      Object.assign({}, { ignoreBackdropClick: true, })
+    );
+  }
+
+  closeModalEvent(event) {
+    if (event) {
+      this.closeModal();
+    }
+  }
+
+  closeModal() {
+    this.modalRef.hide();
+  }
+
 }
