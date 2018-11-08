@@ -8,20 +8,20 @@ import { ListIncomeResponse } from 'src/app/shared/model/list-income-model-respo
   styleUrls: ['./list-individual.component.scss']
 })
 export class ListIndividualComponent implements OnInit {
-  listIncome: ListIncomeResponse;
-  date = new Date();
 
-  constructor(
-    private worklogApiService: WorklogApiService
-  ) { }
+  date = new Date();
+  listIncomeIndividual: ListIncomeResponse;
+  constructor(private worklogApiService: WorklogApiService) { }
 
   ngOnInit() {
-    this.worklogApiService.forCheckTokenPleaseRemoveMeIfFlowLoginFinnished().subscribe(() => this.getListIncomeIndividual());
+    this.worklogApiService.forCheckTokenPleaseRemoveMeIfFlowLoginFinnished()
+      .subscribe(() => this.getListIncomeIndividual());
+
   }
 
   getListIncomeIndividual() {
     this.worklogApiService.getListIncomeIndividual().subscribe(response => {
-      this.listIncome = response;
+      this.listIncomeIndividual = response;
     });
   }
 
@@ -32,11 +32,10 @@ export class ListIndividualComponent implements OnInit {
       },
       err => {
         console.log(err);
-        alert(`Can't export corporate income to CSV file.`);
+        alert(`Can't export individual income to CSV file.`);
       }
     );
   }
-
   downloadFile(data: any, filename: string) {
     const blob = new Blob([data], { type: 'text/csv;charset=utf-8;' });
     const url = window.URL.createObjectURL(blob);
