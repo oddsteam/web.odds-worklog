@@ -2,6 +2,7 @@ import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
 import { AddIncomeResponse } from 'src/app/shared/model/add-income-model-response';
+import { StateService } from 'src/app/core/state.service';
 
 @Component({
   selector: 'app-add-income-corporate',
@@ -14,29 +15,28 @@ export class AddIncomeCorporateComponent implements OnInit {
   @ViewChild('templateModal') templateModal: TemplateRef<any>;
   modalRef: BsModalRef;
   note = 'อยากได้เงินก็กรอกมาสิ';
-  recentStatus = 'Add';
+  userFlag: string;
   addIncomeResponse: AddIncomeResponse;
 
   constructor(
     private modalService: BsModalService,
     private worklogApiService: WorklogApiService,
+    private  stateService: StateService
   ) { }
 
   ngOnInit() {
     this.worklogApiService.forCheckTokenPleaseRemoveMeIfFlowLoginFinnished().subscribe(() => this.checkStatusUser());
+    this.stateService.isUserFlag.subscribe(flag => {
+        this.userFlag = flag;
+    });
   }
 
   checkStatusUser() {
     this.worklogApiService.getIncomeByUserID().subscribe(res => {
       this.addIncomeResponse = res;
-      this.updateData(this.addIncomeResponse);
+      this.salary = Number(res.totalIncome);
+      this.note = res.note;
     });
-  }
-
-  updateData(data) {
-    this.recentStatus = 'Edit';
-    this.salary = data.totalIncome;
-    this.note = data.note;
   }
 
   openTemplateModal() {

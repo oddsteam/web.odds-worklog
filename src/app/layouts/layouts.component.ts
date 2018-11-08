@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { WorklogApiService } from '../core/worklog-api.service';
 import { IncomeFlag } from '../shared/model/income-flag';
+import { StateService } from '../core/state.service';
 
 @Component({
     selector: 'app-layouts',
@@ -11,13 +12,14 @@ import { IncomeFlag } from '../shared/model/income-flag';
 export class LayoutsComponent implements OnInit {
 
     constructor(
-        private worklogService: WorklogApiService,
-        private router: Router
+        private worklogApiService: WorklogApiService,
+        private router: Router,
+        private  stateService: StateService
     ) {
     }
 
     ngOnInit() {
-        this.worklogService.getLogin().subscribe(res => {
+        this.worklogApiService.getLogin().subscribe(res => {
             if (res) {
                 sessionStorage.setItem('token', 'Bearer ' + res.token);
                 this.getUserByID();
@@ -28,13 +30,17 @@ export class LayoutsComponent implements OnInit {
         ]);
     }
 
-    private getUserByID() {
-        this.worklogService.getUserByID().subscribe(data => {
+    getUserByID() {
+        this.worklogApiService.getUserByID().subscribe(data => {
             if (data.corporateFlag === 'Y') {
                 IncomeFlag.typeUser = 'corporate';
             } else {
                 IncomeFlag.typeUser = 'individual';
             }
+            this.setFlagUsers(data.corporateFlag);
         });
+    }
+    setFlagUsers(flag: string) {
+        this.stateService.setFlagUser(flag);
     }
 }
