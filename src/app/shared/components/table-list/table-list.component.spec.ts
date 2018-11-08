@@ -6,7 +6,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
 import { StatusHighlightDirective } from '../../directives/status-highlight.directive';
-import { ListIncomeComponent } from '../list-income/list-income.component';
 import { TableListComponent } from './table-list.component';
 import { IncomeFlag } from '../../model/income-flag';
 import { Observable, of } from 'rxjs';
@@ -28,7 +27,7 @@ describe('TabelListComponent', () => {
   let service: WorklogApiService;
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [TableListComponent, ListIncomeComponent, StatusHighlightDirective],
+      declarations: [TableListComponent, StatusHighlightDirective],
       imports: [FormsModule, CommonModule, RouterTestingModule, NgbModule.forRoot(), HttpClientTestingModule],
       providers: [
         { provide: WorklogApiService, useClass: MockWorklogApiService }
