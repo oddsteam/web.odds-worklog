@@ -1,3 +1,14 @@
-<p>
-  list-individual works!
-</p>
+<div>
+  <div class="d-flex justify-content-between pb-3 px-3">
+    <div class="d-flex align-items-end">
+      <h2 class="mb-0">{{ date | date: 'MMMM yyyy'}}</h2>
+    </div>
+    <button class="rounded export-container" (click)="exportIndividual()">
+      <a href="javascript:void(0)">
+        <i class="fas fa-download"></i>
+        Export
+      </a>
+    </button>
+  </div>
+  <app-table-list [ListData]="listIncome"></app-table-list>
+</div>
