@@ -3,7 +3,7 @@
         รายได้ของคุณ {{ salary | number: '1.2-2' }} บาท , บันทึก : {{ note }}
     </div>
     <div>
-        <button type="button" class="btn" [ngClass]="userFlag === 'N' ? 'btn-blue':'btn-red'" (click)="openModal()">
+        <button type="button" class="btn" [ngClass]="userFlag === 'N' ? 'btn-blue':'btn-red'" (click)="openTemplateModal()">
             <span *ngIf="userFlag === 'N'">Add Income</span>
             <span *ngIf="userFlag === 'Y'">Edit Income</span>
         </button>

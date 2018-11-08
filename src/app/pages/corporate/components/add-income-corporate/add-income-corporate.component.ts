@@ -21,13 +21,14 @@ export class AddIncomeCorporateComponent implements OnInit {
   constructor(
     private modalService: BsModalService,
     private worklogApiService: WorklogApiService,
-    private  stateService: StateService
+    private stateService: StateService
   ) { }
 
   ngOnInit() {
     this.worklogApiService.forCheckTokenPleaseRemoveMeIfFlowLoginFinnished().subscribe(() => this.checkStatusUser());
     this.stateService.isUserFlag.subscribe(flag => {
-        this.userFlag = flag;
+      console.log(flag, '-- flag');
+      this.userFlag = flag;
     });
   }
 
