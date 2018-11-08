@@ -47,29 +47,29 @@ describe('TabelListComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  // it('should call exportCorporate() if IncomeFlag.typeGetListService = corporate', () => {
-  //   spyOn(component, 'exportCorporate');
-  //   IncomeFlag.typeGetListService = 'corporate';
-  //   component.exportData();
-  //   expect(component.exportCorporate).toHaveBeenCalled();
-  // });
+  it('should call exportCorporate() if IncomeFlag.typeGetListService = corporate', () => {
+    spyOn(component, 'exportCorporate');
+    IncomeFlag.typeGetListService = 'corporate';
+    component.exportData();
+    expect(component.exportCorporate).toHaveBeenCalled();
+  });
 
-  // it('should call exportIndividual() if IncomeFlag.typeGetListService = individual', () => {
-  //   spyOn(component, 'exportIndividual');
-  //   IncomeFlag.typeGetListService = 'individual';
-  //   component.exportData();
-  //   expect(component.exportIndividual).toHaveBeenCalled();
-  // });
+  it('should call exportIndividual() if IncomeFlag.typeGetListService = individual', () => {
+    spyOn(component, 'exportIndividual');
+    IncomeFlag.typeGetListService = 'individual';
+    component.exportData();
+    expect(component.exportIndividual).toHaveBeenCalled();
+  });
 
-  // it('should call exportDataCorporate in worklog api service', () => {
-  //   spyOn(service, 'exportDataCorporate').and.returnValue(of(mockBlob));
-  //   component.exportCorporate();
-  //   expect(service.exportDataCorporate).toHaveBeenCalled();
-  // });
+  it('should call exportDataCorporate in worklog api service', () => {
+    spyOn(service, 'exportDataCorporate').and.returnValue(of(mockBlob));
+    component.exportCorporate();
+    expect(service.exportDataCorporate).toHaveBeenCalled();
+  });
 
-  // it('should call exportDataIndividual in worklog api service', () => {
-  //   spyOn(service, 'exportDataIndividual').and.returnValue(of(mockBlob));
-  //   component.exportIndividual();
-  //   expect(service.exportDataIndividual).toHaveBeenCalled();
-  // });
+  it('should call exportDataIndividual in worklog api service', () => {
+    spyOn(service, 'exportDataIndividual').and.returnValue(of(mockBlob));
+    component.exportIndividual();
+    expect(service.exportDataIndividual).toHaveBeenCalled();
+  });
 });

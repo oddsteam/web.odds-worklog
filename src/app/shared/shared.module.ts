@@ -9,7 +9,6 @@ import { ModalIncomeComponent } from './components/modal-income/modal-income.com
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { ConfirmIncomeModalComponent } from './components/confirm-income-modal/confirm-income-modal.component';
-import { SomethingComponent } from './something/something.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -25,7 +24,6 @@ import { SomethingComponent } from './something/something.component';
     TableListComponent,
     ModalIncomeComponent,
     ConfirmIncomeModalComponent,
-    SomethingComponent
   ],
   exports: [
     StatusHighlightDirective,

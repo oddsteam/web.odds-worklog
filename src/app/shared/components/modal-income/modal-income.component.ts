@@ -44,7 +44,6 @@ export class ModalIncomeComponent implements OnInit {
   onSubmit() {
     this.addIncomeAlready = true;
     const { totalIncomeController, noteController } = this.fg.getRawValue();
-    console.log(typeof totalIncomeController, '< -- > ', typeof noteController);
   }
 
   onCancel() {

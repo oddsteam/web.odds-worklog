@@ -33,8 +33,8 @@ describe('TabMenuComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  // it('should go to correct path /individual', () => {
-  //   component.routerTo('individual');
-  //   expect(mockRouter.navigate).toHaveBeenCalledWith(['/individual']);
-  // });
+  it('should go to correct path /individual', () => {
+    component.routerTo('individual');
+    expect(mockRouter.navigate).toHaveBeenCalledWith(['/individual']);
+  });
 });
