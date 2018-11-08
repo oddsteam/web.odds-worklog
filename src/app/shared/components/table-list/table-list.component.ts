@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
 import { IncomeFlag } from '../../model/income-flag';
 
@@ -18,7 +18,6 @@ export class TableListComponent implements OnInit {
     }
 
     exportData() {
-        console.log(IncomeFlag.typeGetListService);
         if (IncomeFlag.typeGetListService === 'corporate') {
             this.exportCorporate();
         } else {
@@ -26,7 +25,7 @@ export class TableListComponent implements OnInit {
         }
     }
 
-     exportCorporate() {
+    exportCorporate() {
         this.worklogApiService.exportDataCorporate().subscribe(res => {
             this.downloadFile(res, 'income_corporate.csv');
         }, err => {
@@ -35,7 +34,7 @@ export class TableListComponent implements OnInit {
         });
     }
 
-     exportIndividual() {
+    exportIndividual() {
         this.worklogApiService.exportDataIndividual().subscribe(res => {
             this.downloadFile(res, 'income_individual.csv');
         }, err => {

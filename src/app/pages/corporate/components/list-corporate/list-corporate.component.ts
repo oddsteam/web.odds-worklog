@@ -33,7 +33,6 @@ export class ListCorporateComponent implements OnInit {
       }
     );
   }
-
   downloadFile(data: any, filename: string) {
     const blob = new Blob([data], { type: 'text/csv;charset=utf-8;' });
     const url = window.URL.createObjectURL(blob);

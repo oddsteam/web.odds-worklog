@@ -1,9 +1,12 @@
 /* tslint:disable:no-unused-variable */
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
-
+import { ReactiveFormsModule } from '@angular/forms';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { BsModalService, ComponentLoaderFactory, PositioningService } from 'ngx-bootstrap';
+import { ModalIncomeComponent } from 'src/app/shared/components/modal-income/modal-income.component';
 import { AddIncomeIndividualComponent } from './add-income-individual.component';
+
 
 describe('AddIncomeIndividualComponent', () => {
   let component: AddIncomeIndividualComponent;
@@ -11,9 +14,11 @@ describe('AddIncomeIndividualComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AddIncomeIndividualComponent ]
+      declarations: [AddIncomeIndividualComponent, ModalIncomeComponent],
+      imports: [HttpClientTestingModule, ReactiveFormsModule, NgbModule.forRoot()],
+      providers: [BsModalService, ComponentLoaderFactory, PositioningService]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
