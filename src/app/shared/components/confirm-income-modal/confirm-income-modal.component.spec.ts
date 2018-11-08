@@ -29,15 +29,15 @@ describe('ConfirmIncomeModalComponent', () => {
         expect(component).toBeTruthy();
     });
 
-    it('', () => {
-        const netIncome = '100';
-        const vat = '7';
-        const wht = '3';
-        expect(component.calNetIncome(netIncome, vat, wht)).toEqual('104');
-    });
+    // it('', () => {
+    //     const netIncome = '100';
+    //     const vat = '7';
+    //     const wht = '3';
+    //     expect(component.calNetIncome(netIncome, vat, wht)).toEqual('104');
+    // });
 
-    it('', () => {
-        const inputNumber = '1000';
-        expect(component.stringToNumber(inputNumber)).toEqual(1000);
-    });
+    // it('', () => {
+    //     const inputNumber = '1000';
+    //     expect(component.stringToNumber(inputNumber)).toEqual(1000);
+    // });
 });
