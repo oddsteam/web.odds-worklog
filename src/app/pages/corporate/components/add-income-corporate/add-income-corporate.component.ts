@@ -3,6 +3,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
 import { AddIncomeResponse } from 'src/app/shared/model/add-income-model-response';
 import { StateService } from 'src/app/core/state.service';
+import { IncomeFlag } from 'src/app/shared/model/income-flag';
 
 @Component({
   selector: 'app-add-income-corporate',
@@ -27,13 +28,13 @@ export class AddIncomeCorporateComponent implements OnInit {
   ngOnInit() {
     this.worklogApiService.forCheckTokenPleaseRemoveMeIfFlowLoginFinnished().subscribe(() => this.checkStatusUser());
     this.stateService.isUserFlag.subscribe(flag => {
-      console.log(flag, '-- flag');
       this.userFlag = flag;
     });
   }
 
   checkStatusUser() {
     this.worklogApiService.getIncomeByUserID().subscribe(res => {
+      IncomeFlag.id = res.id;
       this.addIncomeResponse = res;
       this.salary = Number(res.totalIncome);
       this.note = res.note;
@@ -53,6 +54,7 @@ export class AddIncomeCorporateComponent implements OnInit {
   closeModalEvent(event) {
     if (event) {
       this.closeModal();
+      this.ngOnInit();
     }
   }
 

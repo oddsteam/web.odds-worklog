@@ -72,11 +72,11 @@ export class WorklogApiService {
         return this.http.get<AddIncomeResponse>(`${environment.api}incomes/month/${id}`, this.getHttpHeaderOption());
     }
 
-    addIncomeConfirm(data: AddIncome): Observable<AddIncomeResponse> {
+    addIncomeConfirm(data): Observable<AddIncomeResponse> {
         return this.http.post<AddIncomeResponse>(`${environment.api}incomes`, data, this.getHttpHeaderOption());
     }
 
-    updateIncomeService(data: AddIncome): Observable<AddIncomeResponse> {
+    updateIncomeService(data): Observable<AddIncomeResponse> {
         return this.http.put<AddIncomeResponse>(`${environment.api}incomes/${IncomeFlag.id}`, data, this.getHttpHeaderOption());
     }
 

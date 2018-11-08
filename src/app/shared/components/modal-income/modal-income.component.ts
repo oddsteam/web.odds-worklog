@@ -1,6 +1,8 @@
-import { Component, EventEmitter, Input, OnInit, Output, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AddIncomeResponse } from '../../model/add-income-model-response';
+import { IncomeFlag } from '../../model/income-flag';
+import { WorklogApiService } from 'src/app/core/worklog-api.service';
 
 @Component({
   selector: 'app-modal-income',
@@ -16,7 +18,8 @@ export class ModalIncomeComponent implements OnInit {
   addIncomeAlready: Boolean = false;
 
   constructor(
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private worklogApiService: WorklogApiService
   ) { }
 
   ngOnInit() {
@@ -30,20 +33,85 @@ export class ModalIncomeComponent implements OnInit {
   onSetupForm() {
     if (this.addIncomeData === null) {
       this.fg = this.fb.group({
-        totalIncomeController: ['', Validators.required],
-        noteController: ['', Validators.required]
+        totalIncome: ['', Validators.required],
+        note: ['', Validators.required]
       });
     } else {
       this.fg = this.fb.group({
-        totalIncomeController: [this.addIncomeData.totalIncome, Validators.required],
-        noteController: [this.addIncomeData.note, Validators.required]
+        totalIncome: [this.addIncomeData.totalIncome, Validators.required],
+        note: [this.addIncomeData.note, Validators.required]
       });
     }
   }
 
   onSubmit() {
+    const { totalIncome } = this.fg.getRawValue();
+    this.addIncomeData.totalIncome = totalIncome;
     this.addIncomeAlready = true;
-    const { totalIncomeController, noteController } = this.fg.getRawValue();
+    this.updateData();
+  }
+
+  onConfirm() {
+    if (IncomeFlag.isUpdate) {
+      this.updateIncomeService();
+    } else {
+      this.addIncomeConfirm();
+    }
+    this.closeModalEmit.emit(true);
+  }
+
+  private updateData() {
+    this.addIncomeData.vat = this.calVAT(this.addIncomeData.totalIncome);
+    this.addIncomeData.wht = this.calWHT(this.addIncomeData.totalIncome);
+    this.addIncomeData.netIncome = this.calNetIncome(
+      this.addIncomeData.totalIncome,
+      IncomeFlag.typeUser === 'corporate' ? this.addIncomeData.vat : '0',
+      this.addIncomeData.wht
+    );
+  }
+
+  private addIncomeConfirm() {
+    const { totalIncome, note } = this.fg.getRawValue();
+    const addIncome = { note: note, totalIncome: totalIncome };
+    this.worklogApiService.addIncomeConfirm(addIncome).subscribe(res => {
+      this.closeModalEmit.emit(true);
+    }, err => {
+      console.log(err);
+    });
+  }
+
+  private updateIncomeService() {
+    const { totalIncome, note } = this.fg.getRawValue();
+    const addIncome = { note: note, totalIncome: totalIncome };
+    this.worklogApiService.updateIncomeService(addIncome).subscribe(res => {
+      this.closeModalEmit.emit(true);
+    }, err => {
+      console.log(err);
+    });
+  }
+
+  calVAT(netIncome: string): string {
+    return (this.stringToNumber(netIncome) * 0.07).toString();
+  }
+
+  calWHT(netIncome: string): string {
+    return (this.stringToNumber(netIncome) * 0.03).toString();
+  }
+
+  calNetIncome(totalIncome: string, vat: string, wht: string): string {
+    return (
+      this.stringToNumber(totalIncome) +
+      this.stringToNumber(vat) -
+      this.stringToNumber(wht)
+    ).toString();
+  }
+
+  stringToNumber(text: string): number {
+    return Number(this.cutComma(text));
+  }
+
+  private cutComma(text: string): string {
+    return text.replace(/,/g, '');
   }
 
   onCancel() {
@@ -54,40 +122,8 @@ export class ModalIncomeComponent implements OnInit {
     this.closeModalEmit.emit(true);
   }
 
-  onConfirm() {
-    this.closeModalEmit.emit(true);
-  }
-
   onDisableButton() {
 
   }
-
-  // title = 'Add Income';
-  // totalIncomeController: FormControl = new FormControl();
-  // noteController: FormControl = new FormControl();
-
-  // constructor(
-  //     public activeModal: NgbActiveModal,
-  //     public config: NgbModalConfig,
-  //     private modalService: NgbModal,
-  // ) {
-  //     config.backdrop = 'static';
-  //     config.keyboard = false;
-  // }
-
-  // ngOnInit() {}
-
-  // submit() {
-  //     this.modalService.open(ConfirmIncomeModalComponent, { centered: true });
-  //     setTimeout(() => { this.activeModal.close(); });
-  // }
-
-  // disableButton() {
-  //     if (this.totalIncomeController.value != null) {
-  //         return false;
-  //     } else {
-  //         return true;
-  //     }
-  // }
 
 }
