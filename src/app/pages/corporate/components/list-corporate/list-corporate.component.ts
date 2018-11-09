@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
 import { ListIncomeResponse } from 'src/app/shared/model/list-income-model-response';
+import { StateService } from 'src/app/core/state.service';
 
 @Component({
   selector: 'app-list-corporate',
@@ -10,10 +11,16 @@ import { ListIncomeResponse } from 'src/app/shared/model/list-income-model-respo
 export class ListCorporateComponent implements OnInit {
   date = new Date();
   listIncome: ListIncomeResponse;
-  constructor(private worklogApiService: WorklogApiService) { }
+  constructor(
+    private worklogApiService: WorklogApiService,
+    private stateService: StateService
+    ) { }
 
   ngOnInit() {
     this.worklogApiService.forCheckTokenPleaseRemoveMeIfFlowLoginFinnished().subscribe(() => this.getListIncomeCorporate());
+    this.stateService.listIncomeCorporateTrigger.subscribe(trigger => {
+      this.getListIncomeCorporate();
+    });
   }
 
   getListIncomeCorporate() {

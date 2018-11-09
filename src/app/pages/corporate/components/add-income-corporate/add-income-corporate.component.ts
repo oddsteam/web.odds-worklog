@@ -62,6 +62,7 @@ export class AddIncomeCorporateComponent implements OnInit {
     if (event) {
       this.closeModal();
       this.ngOnInit();
+      this.stateService.triggerListIncomeCorporate();
     }
   }
 
