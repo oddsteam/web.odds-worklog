@@ -32,6 +32,16 @@ export class ModalIncomeComponent implements OnInit {
 
   onSetupForm() {
     if (this.addIncomeData === null) {
+      this.addIncomeData = {
+        id: '',
+        userId: '',
+        totalIncome: '',
+        netIncome: '',
+        submitDate: '',
+        note: '',
+        vat: '',
+        wht: '',
+      };
       this.fg = this.fb.group({
         totalIncome: ['', Validators.required],
         note: ['', Validators.required]
