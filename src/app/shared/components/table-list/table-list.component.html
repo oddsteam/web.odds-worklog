@@ -15,7 +15,7 @@
           <td class="text-left">{{listData.user?.email}}</td>
           <td class="text-left">{{listData.user?.bankAccountName}}</td>
           <td class="text-center">{{listData.user?.bankAccountNumber}}</td>
-          <td class="text-left">{{listData?.submitDate == ''? '-' : listData?.submitDate | date:'dd/MM/yyyy'}}</td>
+          <td class="text-left">{{listData?.submitDate == ''? '-' : listData?.submitDate | date:'dd/MM/yyyy HH:mm:ss'}}</td>
           <td class="text-center" appStatusHighlight [Status]='listData?.status'>
             {{listData?.status === 'Y'? 'กรอกแล้ว' : 'ยังไม่ได้กรอก'}}
           </td>
