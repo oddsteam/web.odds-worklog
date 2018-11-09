@@ -1,0 +1,7 @@
+@font-face {
+    font-family: 'HelvethaicaMon';
+    font-style: normal;
+    font-weight: 400;
+    src: local('HelvethaicaMon'), url('../assets/fonts/HelvethaicaMon/db_helvethaicamon_x_v3.2-webfont.woff') format('woff')
+}
+  
