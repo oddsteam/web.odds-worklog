@@ -34,18 +34,26 @@ export class AddIncomeCorporateComponent implements OnInit {
 
   checkStatusUser() {
     this.worklogApiService.getIncomeByUserID().subscribe(res => {
-      IncomeFlag.id = res.id;
-      this.addIncomeResponse = res;
-      this.salary = Number(res.totalIncome);
-      this.note = res.note;
+      if (res === null) {
+        this.setDefault();
+      } else {
+        IncomeFlag.id = res.id;
+        this.addIncomeResponse = res;
+        this.salary = Number(res.totalIncome);
+        this.note = res.note;
+      }
     }, error => {
-      IncomeFlag.isUpdate = false;
-      this.userFlag = 'N';
-      IncomeFlag.id = '';
-      this.addIncomeResponse = null;
-      this.salary = 0;
-      this.note = '';
+      this.setDefault();
     });
+  }
+
+  setDefault() {
+    IncomeFlag.isUpdate = false;
+    this.userFlag = 'N';
+    IncomeFlag.id = '';
+    this.addIncomeResponse = null;
+    this.salary = 0;
+    this.note = '';
   }
 
   openTemplateModal() {
