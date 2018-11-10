@@ -20,6 +20,11 @@ import { Users } from '../shared/model/user-model';
 })
 export class WorklogApiService {
 
+    // user test
+    private corporateId = '5bde550643b39700012727f2';
+    private individualId = '5bde4e2e1a044b8c9ce44fe4';
+    private userId = this.corporateId;
+
     constructor(
         private http: HttpClient
     ) { }
@@ -52,10 +57,10 @@ export class WorklogApiService {
     }
 
     getLogin(): Observable<any> {
-        return this.http.post<any>(`${environment.api}login`, { 'id': '5bde550643b39700012727f2' });
+        return this.http.post<any>(`${environment.api}login`, { 'id': this.userId });
     }
 
-    getUserByID(id: string = '5bde550643b39700012727f2') {
+    getUserByID(id: string = this.userId) {
         return this.http.get<Users>(`${environment.api}users/${id}`, this.getHttpHeaderOption());
     }
 
@@ -68,7 +73,7 @@ export class WorklogApiService {
     }
 
     // เช็คว่า add-income ไปรึยัง
-    getIncomeByUserID(id: string = '5bde550643b39700012727f2'): Observable<AddIncomeResponse> {
+    getIncomeByUserID(id: string = this.userId): Observable<AddIncomeResponse> {
         return this.http.get<AddIncomeResponse>(`${environment.api}incomes/month/${id}`, this.getHttpHeaderOption());
     }
 
