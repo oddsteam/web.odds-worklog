@@ -14,6 +14,8 @@ export class ModalIncomeComponent implements OnInit {
   @Input() openModal;
   @Input() addIncomeData: AddIncomeResponse;
   title: string;
+  numberFormat: string;
+  flagChange: Boolean = false;
   fg: FormGroup;
   addIncomeAlready: Boolean = false;
 
@@ -56,7 +58,12 @@ export class ModalIncomeComponent implements OnInit {
   }
 
   onSubmit() {
-    const { totalIncome } = this.fg.getRawValue();
+    let totalIncome;
+    if (!this.flagChange) {
+      totalIncome = this.fg.controls['totalIncome'].value;
+    } else {
+      totalIncome = this.numberFormat;
+    }
     this.title = 'Confirm Income';
     this.addIncomeData.totalIncome = totalIncome;
     this.addIncomeAlready = true;
@@ -64,10 +71,17 @@ export class ModalIncomeComponent implements OnInit {
   }
 
   onConfirm() {
-    if (IncomeFlag.isUpdate) {
-      this.updateIncomeService();
+    let totalIncome;
+    if (!this.flagChange) {
+      totalIncome = this.fg.controls['totalIncome'].value;
     } else {
-      this.addIncomeConfirm();
+      totalIncome = this.numberFormat;
+    }
+
+    if (IncomeFlag.isUpdate) {
+      this.updateIncomeService(totalIncome);
+    } else {
+      this.addIncomeConfirm(totalIncome);
     }
     this.closeModalEmit.emit(true);
   }
@@ -82,8 +96,8 @@ export class ModalIncomeComponent implements OnInit {
     );
   }
 
-  private addIncomeConfirm() {
-    const { totalIncome, note } = this.fg.getRawValue();
+  private addIncomeConfirm(totalIncome) {
+    const { note } = this.fg.getRawValue();
     const addIncome = { note: note, totalIncome: totalIncome };
     this.worklogApiService.addIncomeConfirm(addIncome).subscribe(res => {
       this.closeModalEmit.emit(true);
@@ -92,8 +106,8 @@ export class ModalIncomeComponent implements OnInit {
     });
   }
 
-  private updateIncomeService() {
-    const { totalIncome, note } = this.fg.getRawValue();
+  private updateIncomeService(totalIncome) {
+    const { note } = this.fg.getRawValue();
     const addIncome = { note: note, totalIncome: totalIncome };
     this.worklogApiService.updateIncomeService(addIncome).subscribe(res => {
       this.closeModalEmit.emit(true);
@@ -122,8 +136,41 @@ export class ModalIncomeComponent implements OnInit {
     return Number(this.cutComma(text));
   }
 
+  disibleButton(): boolean {
+    const { totalIncome } = this.fg.getRawValue();
+    if (!this.addIncomeData.totalIncome || Number(this.addIncomeData.totalIncome || totalIncome) < 1) {
+      return true;
+    } else if (totalIncome < 1) {
+      return true;
+    }
+    return false;
+  }
+
+  inputIncomeAmount() {
+    const totalIncome = this.fg.controls['totalIncome'].value;
+    this.flagChange = true;
+    this.numberFormat = this.formatInteger(totalIncome);
+    const stringFormat = this.formatInteger(totalIncome);
+    const realFormat = this.formatCurrency(stringFormat);
+    this.fg.get('totalIncome').setValue(realFormat);
+  }
+
   private cutComma(text: string): string {
     return text.replace(/,/g, '');
+  }
+
+  private formatInteger(data: string): string {
+    data = data.replace(/[^0-9.]/g, '');
+    data = data.indexOf(',') !== -1 ? data.replace(/,/g, '') : data;
+    return data;
+  }
+
+  private formatCurrency(Result: string): string {
+    Result = Result.substring(0, 9);
+    Result = Result.replace(/^(\d+)(\d{3})/, '$1,$2');
+    Result = Result.replace(/^(\d+)(\d{3})/, '$1,$2');
+    Result = Result.replace(/^(\d+)(\d{3})/, '$1,$2');
+    return Result;
   }
 
   onCancel() {
@@ -133,10 +180,6 @@ export class ModalIncomeComponent implements OnInit {
 
   closeModal() {
     this.closeModalEmit.emit(true);
-  }
-
-  onDisableButton() {
-
   }
 
 }
