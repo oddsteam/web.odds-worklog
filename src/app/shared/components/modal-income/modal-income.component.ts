@@ -24,6 +24,7 @@ export class ModalIncomeComponent implements OnInit {
 
   ngOnInit() {
     this.onSetupForm();
+    this.title = 'Add Income';
   }
 
   isVat() {
@@ -56,6 +57,7 @@ export class ModalIncomeComponent implements OnInit {
 
   onSubmit() {
     const { totalIncome } = this.fg.getRawValue();
+    this.title = 'Confirm Income';
     this.addIncomeData.totalIncome = totalIncome;
     this.addIncomeAlready = true;
     this.updateData();
@@ -126,6 +128,7 @@ export class ModalIncomeComponent implements OnInit {
 
   onCancel() {
     this.addIncomeAlready = false;
+    this.title = 'Add Income';
   }
 
   closeModal() {
