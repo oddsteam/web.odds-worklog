@@ -17,6 +17,7 @@ export class AddIncomeCorporateComponent implements OnInit {
   modalRef: BsModalRef;
   note = 'อยากได้เงินก็กรอกมาสิ';
   userFlag: string;
+  typeUser = 'corporate';
   addIncomeResponse: AddIncomeResponse;
 
   constructor(
@@ -37,6 +38,7 @@ export class AddIncomeCorporateComponent implements OnInit {
       if (res === null) {
         this.setDefault();
       } else {
+        this.userFlag = 'Y';
         IncomeFlag.id = res.id;
         this.addIncomeResponse = res;
         this.salary = Number(res.totalIncome);

@@ -12,6 +12,7 @@ import { WorklogApiService } from 'src/app/core/worklog-api.service';
 export class ModalIncomeComponent implements OnInit {
   @Output() closeModalEmit = new EventEmitter();
   @Input() openModal;
+  @Input() typeUser;
   @Input() addIncomeData: AddIncomeResponse;
   title: string;
   numberFormat: string;
@@ -29,9 +30,10 @@ export class ModalIncomeComponent implements OnInit {
     this.title = 'Add Income';
   }
 
-  isVat() {
-    return true;
+  isVat(): boolean {
+    return this.typeUser === 'corporate' ? true : false;
   }
+
 
   onSetupForm() {
     if (this.addIncomeData === null) {
@@ -91,7 +93,7 @@ export class ModalIncomeComponent implements OnInit {
     this.addIncomeData.wht = this.calWHT(this.addIncomeData.totalIncome);
     this.addIncomeData.netIncome = this.calNetIncome(
       this.addIncomeData.totalIncome,
-      IncomeFlag.typeUser === 'corporate' ? this.addIncomeData.vat : '0',
+      this.typeUser === 'corporate' ? this.addIncomeData.vat : '0',
       this.addIncomeData.wht
     );
   }
@@ -138,9 +140,7 @@ export class ModalIncomeComponent implements OnInit {
 
   disibleButton(): boolean {
     const { totalIncome } = this.fg.getRawValue();
-    if (!this.addIncomeData.totalIncome || Number(this.addIncomeData.totalIncome || totalIncome) < 1) {
-      return true;
-    } else if (totalIncome < 1) {
+    if (totalIncome < 1) {
       return true;
     }
     return false;

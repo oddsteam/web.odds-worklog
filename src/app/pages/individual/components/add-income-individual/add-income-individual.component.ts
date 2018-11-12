@@ -15,6 +15,7 @@ export class AddIncomeIndividualComponent implements OnInit {
   @ViewChild('templateModal') templateModal: TemplateRef<any>;
   modalRef: BsModalRef;
   note = 'อยากได้เงินก็กรอกมาสิ';
+  typeUser = 'individual';
   userFlag: string;
   addIncomeResponse: AddIncomeResponse;
 
@@ -36,6 +37,7 @@ export class AddIncomeIndividualComponent implements OnInit {
       if (res === null) {
         this.setDefault();
       } else {
+        this.userFlag = 'Y';
         IncomeFlag.id = res.id;
         this.addIncomeResponse = res;
         this.salary = Number(res.totalIncome);
