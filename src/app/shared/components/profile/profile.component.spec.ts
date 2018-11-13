@@ -2,12 +2,14 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateFakeLoader, TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { ProfileComponent } from './profile.component';
+import { WorklogApiService } from 'src/app/core/worklog-api.service';
+import { of } from 'rxjs';
 
 
 describe('ProfileComponent', () => {
   let component: ProfileComponent;
   let fixture: ComponentFixture<ProfileComponent>;
-
+  let workLogService: WorklogApiService;
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ProfileComponent],
@@ -23,6 +25,7 @@ describe('ProfileComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProfileComponent);
+    workLogService = TestBed.get(WorklogApiService);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -30,4 +33,40 @@ describe('ProfileComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should call forCheckTokenPleaseRemoveMeIfFlowLoginFinnished in worklog service', () => {
+    spyOn(workLogService, 'forCheckTokenPleaseRemoveMeIfFlowLoginFinnished').and.returnValue(of());
+    component.ngOnInit();
+    expect(workLogService.forCheckTokenPleaseRemoveMeIfFlowLoginFinnished).toHaveBeenCalled();
+  });
+  it('should call getUserByID in workLog service', () => {
+    const mockResponse = {
+          id: '5bde550643b397000127274re',
+          fullnameEn: 'odds jung',
+          email: 'test@abc.com',
+          bankAccountName: 'ทดสอบชอบลงทุน',
+          bankAccountNumber: '123123123123',
+          thaiCitizenId: '1234567890123',
+          corporateFlag: 'N'
+    };
+    spyOn(workLogService, 'getUserByID').and.returnValue(of(mockResponse));
+    component.getUserID();
+    expect(workLogService.getUserByID).toHaveBeenCalled();
+  });
+
+  it('name in component should be equal response from getUserByID in workLog service', () => {
+    const mockResponse = {
+          id: '5bde550643b397000127274re',
+          fullnameEn: 'odds jung',
+          email: 'test@abc.com',
+          bankAccountName: 'ทดสอบชอบลงทุน',
+          bankAccountNumber: '123123123123',
+          thaiCitizenId: '1234567890123',
+          corporateFlag: 'N'
+    };
+    spyOn(workLogService, 'getUserByID').and.returnValue(of(mockResponse));
+    component.getUserID();
+    expect(component.name).toEqual(mockResponse.fullnameEn);
+  });
+
 });
