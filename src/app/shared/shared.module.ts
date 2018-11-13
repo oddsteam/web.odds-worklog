@@ -9,6 +9,7 @@ import { ModalIncomeComponent } from './components/modal-income/modal-income.com
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { ConfirmIncomeModalComponent } from './components/confirm-income-modal/confirm-income-modal.component';
+import { DataTablesModule } from 'angular-datatables';
 @NgModule({
   imports: [
     CommonModule,
@@ -16,7 +17,8 @@ import { ConfirmIncomeModalComponent } from './components/confirm-income-modal/c
     NgbModule,
     FormsModule,
     ReactiveFormsModule,
-    ModalModule.forRoot()
+    ModalModule.forRoot(),
+    DataTablesModule.forRoot()
   ],
   declarations: [
     StatusHighlightDirective,
@@ -35,7 +37,8 @@ import { ConfirmIncomeModalComponent } from './components/confirm-income-modal/c
     FormsModule,
     ReactiveFormsModule,
     ModalModule,
-    ConfirmIncomeModalComponent
+    ConfirmIncomeModalComponent,
+    DataTablesModule
   ]
 })
 export class SharedModule {

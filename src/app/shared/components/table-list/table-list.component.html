@@ -1,4 +1,4 @@
-<div>
+<!-- <div>
   <table class="table table-hover">
     <thead class="text-center">
       <th class="text-left pl-4">ชื่อ-สกุล(อังกฤษ)</th>
@@ -26,4 +26,29 @@
       </tr>
     </tbody>
   </table>
-</div>
+</div> -->
+
+<table datatable class="row-border hover" [dtOptions]="dtOption" [dtTrigger]="dtTrigger">
+  <thead>
+    <tr>
+      <th class="text-left pl-4">ชื่อ-สกุล(อังกฤษ)</th>
+      <th class="text-left">E-mail</th>
+      <th class="text-left">ชื่อบัญชี</th>
+      <th class="text-center">เลขที่บัญชี</th>
+      <th class="text-left">วันที่กรอก</th>
+      <th class="text-center">สถานะ</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let listData of ListData">
+      <td class="text-left pl-4">{{listData.user?.fullnameEn}}</td>
+      <td class="text-left">{{listData.user?.email}}</td>
+      <td class="text-left">{{listData.user?.bankAccountName}}</td>
+      <td class="text-center">{{listData.user?.bankAccountNumber}}</td>
+      <td class="text-left">{{listData?.submitDate == ''? '-' : listData?.submitDate | date:'dd/MM/yyyy HH:mm:ss'}}</td>
+      <td class="text-center" appStatusHighlight [Status]='listData?.status'>
+        {{listData?.status === 'Y'? 'กรอกแล้ว' : 'ยังไม่ได้กรอก'}}
+      </td>
+    </tr>
+  </tbody>
+</table>
