@@ -13,7 +13,6 @@ describe('ListIndividualComponent', () => {
   let component: ListIndividualComponent;
   let fixture: ComponentFixture<ListIndividualComponent>;
   let worklogService: WorklogApiService;
-
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ListIndividualComponent, TableListComponent, StatusHighlightDirective],
@@ -48,18 +47,18 @@ describe('ListIndividualComponent', () => {
           id: '1233',
           fullnameEn: 'ODDS ODDS',
           email: 'odds@odds.team',
-          bankAccountName: 'odds odds',
+          bankAccountName: 'ชวินธร odds',
           bankAccountNumber: '112211221122',
-          corporateFlag: 'Y',
+          corporateFlag: 'N',
           thaiCitizenId: '12345423'
         },
         {
           id: '1233',
           fullnameEn: 'ODDS ODDS',
           email: 'odds@odds.team',
-          bankAccountName: 'odds odds',
+          bankAccountName: 'ชวินธรสอง odds',
           bankAccountNumber: '112211221122',
-          corporateFlag: 'Y',
+          corporateFlag: 'N',
           thaiCitizenId: '12345423'
         },
       ]
@@ -80,7 +79,7 @@ describe('ListIndividualComponent', () => {
           email: 'odds@odds.team',
           bankAccountName: 'odds odds',
           bankAccountNumber: '112211221122',
-          corporateFlag: 'Y',
+          corporateFlag: 'N',
           thaiCitizenId: '12345423'
         },
         {
@@ -89,7 +88,7 @@ describe('ListIndividualComponent', () => {
           email: 'odds@odds.team',
           bankAccountName: 'odds odds',
           bankAccountNumber: '112211221122',
-          corporateFlag: 'Y',
+          corporateFlag: 'N',
           thaiCitizenId: '12345423'
         },
       ]

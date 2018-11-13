@@ -3,20 +3,18 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { BsModalService, ComponentLoaderFactory, PositioningService } from 'ngx-bootstrap';
-import { of, throwError } from 'rxjs';
-import { WorklogApiService } from 'src/app/core/worklog-api.service';
+import { BsModalService, ComponentLoaderFactory, PositioningService, BsModalRef } from 'ngx-bootstrap';
 import { ModalIncomeComponent } from 'src/app/shared/components/modal-income/modal-income.component';
 import { AddIncomeResponse } from 'src/app/shared/model/add-income-model-response';
 import { AddIncomeIndividualComponent } from './add-income-individual.component';
+import { WorklogApiService } from 'src/app/core/worklog-api.service';
+import { throwError, of } from 'rxjs';
 
 
 describe('AddIncomeIndividualComponent', () => {
   let component: AddIncomeIndividualComponent;
   let fixture: ComponentFixture<AddIncomeIndividualComponent>;
   let worklogservice: WorklogApiService;
-  let modalService: BsModalService;
-
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [AddIncomeIndividualComponent, ModalIncomeComponent],
@@ -29,7 +27,6 @@ describe('AddIncomeIndividualComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(AddIncomeIndividualComponent);
     worklogservice = TestBed.get(WorklogApiService);
-    modalService = TestBed.get(BsModalService);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -84,11 +81,18 @@ describe('AddIncomeIndividualComponent', () => {
     expect(component.openModal).toHaveBeenCalled();
   });
 
-  it('', () => {
-    spyOn(component, 'openTemplateModal');
-
-    component.openTemplateModal();
-
-    expect(component.openTemplateModal).toHaveBeenCalled();
+  it('should call closeModal if event = true', () => {
+    const event = true;
+    spyOn(component, 'closeModal');
+    component.closeModalEvent(event);
+    expect(component.closeModal).toHaveBeenCalled();
   });
+
+  it('should not call closeModal if event = false', () => {
+    const event = false;
+    spyOn(component, 'closeModal');
+    component.closeModalEvent(event);
+    expect(component.closeModal).not.toHaveBeenCalled();
+  });
+
 });
