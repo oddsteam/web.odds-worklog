@@ -4,6 +4,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TableListComponent } from 'src/app/shared/components/table-list/table-list.component';
 import { StatusHighlightDirective } from 'src/app/shared/directives/status-highlight.directive';
 import { ListIndividualComponent } from './list-individual.component';
+import { DataTablesModule } from 'angular-datatables';
 
 
 describe('ListIndividualComponent', () => {
@@ -13,7 +14,7 @@ describe('ListIndividualComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ListIndividualComponent, TableListComponent, StatusHighlightDirective],
-      imports: [HttpClientTestingModule],
+      imports: [HttpClientTestingModule, DataTablesModule.forRoot()],
     })
       .compileComponents();
   }));

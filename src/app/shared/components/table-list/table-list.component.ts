@@ -2,7 +2,6 @@ import { Component, Input, OnInit, OnDestroy, ViewChild, OnChanges } from '@angu
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
 import { IncomeFlag } from '../../model/income-flag';
 import { Subject } from 'rxjs';
-import { DataTableDirective } from 'angular-datatables';
 
 @Component({
     selector: 'app-table-list',
@@ -10,7 +9,6 @@ import { DataTableDirective } from 'angular-datatables';
     styleUrls: ['./table-list.component.scss']
 })
 export class TableListComponent implements OnInit, OnDestroy, OnChanges {
-    @ViewChild(DataTableDirective) dtElement: DataTableDirective;
     @Input() ListData;
     dtOption;
     dtTrigger: Subject<any> = new Subject();

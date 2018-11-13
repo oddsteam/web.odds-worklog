@@ -1,11 +1,12 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { of, throwError } from 'rxjs';
+import { StateService } from 'src/app/core/state.service';
+import { WorklogApiService } from 'src/app/core/worklog-api.service';
 import { TableListComponent } from 'src/app/shared/components/table-list/table-list.component';
 import { StatusHighlightDirective } from 'src/app/shared/directives/status-highlight.directive';
 import { ListCorporateComponent } from './list-corporate.component';
-import { WorklogApiService } from 'src/app/core/worklog-api.service';
-import { of, throwError } from 'rxjs';
-import { StateService } from 'src/app/core/state.service';
+import { DataTablesModule } from 'angular-datatables';
 
 
 describe('ListCorporateComponent', () => {
@@ -16,7 +17,7 @@ describe('ListCorporateComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ListCorporateComponent, TableListComponent, StatusHighlightDirective],
-      imports: [HttpClientTestingModule]
+      imports: [HttpClientTestingModule, DataTablesModule.forRoot()]
     })
       .compileComponents();
   }));

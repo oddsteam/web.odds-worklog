@@ -9,6 +9,7 @@ import { StatusHighlightDirective } from '../../directives/status-highlight.dire
 import { TableListComponent } from './table-list.component';
 import { IncomeFlag } from '../../model/income-flag';
 import { Observable, of } from 'rxjs';
+import { DataTablesModule } from 'angular-datatables';
 
 const mockBlob = new Blob([], { type: 'text/csv;charset=utf-8;' });
 class MockWorklogApiService extends WorklogApiService {
@@ -28,7 +29,7 @@ describe('TabelListComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [TableListComponent, StatusHighlightDirective],
-      imports: [FormsModule, CommonModule, RouterTestingModule, NgbModule.forRoot(), HttpClientTestingModule],
+      imports: [FormsModule, CommonModule, RouterTestingModule, NgbModule.forRoot(), HttpClientTestingModule, DataTablesModule],
       providers: [
         { provide: WorklogApiService, useClass: MockWorklogApiService }
       ]
