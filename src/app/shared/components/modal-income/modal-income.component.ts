@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { WorklogApiService } from 'src/app/core/worklog-api.service';
 import { AddIncomeResponse } from '../../model/add-income-model-response';
 import { IncomeFlag } from '../../model/income-flag';
-import { WorklogApiService } from 'src/app/core/worklog-api.service';
 
 @Component({
   selector: 'app-modal-income',
@@ -88,7 +88,7 @@ export class ModalIncomeComponent implements OnInit {
     this.closeModalEmit.emit(true);
   }
 
-  private updateData() {
+  updateData() {
     this.addIncomeData.vat = this.calVAT(this.addIncomeData.totalIncome);
     this.addIncomeData.wht = this.calWHT(this.addIncomeData.totalIncome);
     this.addIncomeData.netIncome = this.calNetIncome(
@@ -98,8 +98,8 @@ export class ModalIncomeComponent implements OnInit {
     );
   }
 
-  private addIncomeConfirm(totalIncome) {
-    const { note } = this.fg.getRawValue();
+  addIncomeConfirm(totalIncome) {
+    const note = this.fg.getRawValue();
     const addIncome = { note: note, totalIncome: totalIncome };
     this.worklogApiService.addIncomeConfirm(addIncome).subscribe(res => {
       this.closeModalEmit.emit(true);
@@ -108,7 +108,7 @@ export class ModalIncomeComponent implements OnInit {
     });
   }
 
-  private updateIncomeService(totalIncome) {
+  updateIncomeService(totalIncome) {
     const { note } = this.fg.getRawValue();
     const addIncome = { note: note, totalIncome: totalIncome };
     this.worklogApiService.updateIncomeService(addIncome).subscribe(res => {
@@ -155,17 +155,17 @@ export class ModalIncomeComponent implements OnInit {
     this.fg.get('totalIncome').setValue(realFormat);
   }
 
-  private cutComma(text: string): string {
+  cutComma(text: string): string {
     return text.replace(/,/g, '');
   }
 
-  private formatInteger(data: string): string {
+  formatInteger(data: string): string {
     data = data.replace(/[^0-9.]/g, '');
     data = data.indexOf(',') !== -1 ? data.replace(/,/g, '') : data;
     return data;
   }
 
-  private formatCurrency(Result: string): string {
+  formatCurrency(Result: string): string {
     Result = Result.substring(0, 9);
     Result = Result.replace(/^(\d+)(\d{3})/, '$1,$2');
     Result = Result.replace(/^(\d+)(\d{3})/, '$1,$2');

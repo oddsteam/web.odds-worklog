@@ -100,5 +100,24 @@ describe('ModalIncomeComponent', () => {
     expect(component.fg.get('note').value).toEqual(component.addIncomeData.note);
   });
 
+  it('call fuction updateData and check number of addIncome correct', () => {
+    component.addIncomeData = {
+      id: '112233rrf63545',
+      userId: '3545fdggdlk65706ijv',
+      totalIncome: '100',
+      netIncome: '',
+      submitDate: '2018-11-09:00:00:00',
+      note: 'Hello',
+      vat: '',
+      wht: '',
+    };
+    // 7.000000000000001
+    // 3
+    component.updateData();
+    expect(component.addIncomeData.vat).toEqual('7.000000000000001');
+    expect(component.addIncomeData.wht).toEqual('3');
+    expect(component.addIncomeData.netIncome).toEqual('97');
+  });
+
 });
 
