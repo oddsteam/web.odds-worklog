@@ -51,7 +51,7 @@ describe('LayoutsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('shold call method getUserByID to Have Been Called worklogApiService getUserById ', () => {
+  it('should call method getUserByID to Have Been Called worklogApiService getUserById ', () => {
     spyOn(worklogApiService, 'getUserByID').and.returnValues(of(mockUsers));
     spyOn(component, 'setFlagUsers');
     component.getUserByID();
@@ -60,7 +60,7 @@ describe('LayoutsComponent', () => {
 
   });
 
-  it('shold call method setFlagUsers to Have Been Called stateService setFlagUser', () => {
+  it('should call method setFlagUsers to Have Been Called stateService setFlagUser', () => {
     spyOn(stateService, 'setFlagUser');
     component.setFlagUsers('Y');
     expect(stateService.setFlagUser).toHaveBeenCalled();

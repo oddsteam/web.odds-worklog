@@ -1,7 +1,7 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
-import { CalculateIncomeModel, AddIncome } from 'src/app/shared/model/add-income-model';
+import { AddIncome, CalculateIncomeModel } from 'src/app/shared/model/add-income-model';
 import { IncomeFlag } from 'src/app/shared/model/income-flag';
 import { ModalIncomeComponent } from '../modal-income/modal-income.component';
 
@@ -49,7 +49,7 @@ export class ConfirmIncomeModalComponent implements OnInit {
         return IncomeFlag.typeUser === 'corporate' ? true : false;
     }
 
-    private addIncomeConfirm() {
+    addIncomeConfirm() {
         this.worklogApiService.addIncomeConfirm(this.addIncome).subscribe(res => {
             this.reloadPage();
         }, err => {
@@ -57,7 +57,7 @@ export class ConfirmIncomeModalComponent implements OnInit {
         });
     }
 
-    private updateIncomeService() {
+    updateIncomeService() {
         this.worklogApiService.updateIncomeService(this.addIncome).subscribe(res => {
             this.reloadPage();
         }, err => {
@@ -65,12 +65,12 @@ export class ConfirmIncomeModalComponent implements OnInit {
         });
     }
 
-    private reloadPage() {
+    reloadPage() {
         window.location.reload();
         setTimeout(() => { this.activeModal.close(); });
     }
 
-    private updateData() {
+    updateData() {
         this.calculateIncomeModel.vat = this.calVAT(this.calculateIncomeModel.totalIncome);
         this.calculateIncomeModel.wht = this.calWHT(this.calculateIncomeModel.totalIncome);
         this.calculateIncomeModel.netIncome = this.calNetIncome(
