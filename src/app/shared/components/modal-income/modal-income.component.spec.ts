@@ -7,11 +7,12 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
 import { ModalIncomeComponent } from './modal-income.component';
+import { of } from 'rxjs';
 
 describe('ModalIncomeComponent', () => {
   let component: ModalIncomeComponent;
   let fixture: ComponentFixture<ModalIncomeComponent>;
-
+  let worklogApiService: WorklogApiService;
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [BrowserModule,
@@ -25,6 +26,7 @@ describe('ModalIncomeComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ModalIncomeComponent);
+    worklogApiService = TestBed.get(WorklogApiService);
     component = fixture.componentInstance;
     // fixture.detectChanges();
   });
@@ -73,10 +75,6 @@ describe('ModalIncomeComponent', () => {
     expect(component.stringToNumber('100,000,000')).toEqual(100000000);
   });
 
-  // it('should remove comma in number', () => {
-  //   expect(component.cutComma('100,000,000')).toEqual('100000000');
-  // });
-
   it('attribute in form should be empty if addIncome = null', () => {
     component.addIncomeData = null;
     component.onSetupForm();
@@ -100,7 +98,7 @@ describe('ModalIncomeComponent', () => {
     expect(component.fg.get('note').value).toEqual(component.addIncomeData.note);
   });
 
-  it('call fuction updateData and check number of addIncome correct', () => {
+  it('call function updateData and check number of addIncome correct', () => {
     component.addIncomeData = {
       id: '112233rrf63545',
       userId: '3545fdggdlk65706ijv',
@@ -119,5 +117,16 @@ describe('ModalIncomeComponent', () => {
     expect(component.addIncomeData.netIncome).toEqual('97');
   });
 
+  it('should set string follow by format 000,000', () => {
+    expect(component.formatCurrency('100000')).toEqual('100,000');
+  });
+
+  it('should replace "," to ""', () => {
+    expect(component.formatInteger('100,000')).toEqual('100000');
+  });
+
+  it('should remove comma in number', () => {
+    expect(component.cutComma('100,000,000')).toEqual('100000000');
+  });
 });
 
