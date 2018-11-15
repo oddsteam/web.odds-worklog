@@ -99,9 +99,10 @@ export class ModalIncomeComponent implements OnInit {
   }
 
   addIncomeConfirm(totalIncome) {
-    const note = this.fg.getRawValue();
+    const { note } = this.fg.getRawValue();
     const addIncome = { note: note, totalIncome: totalIncome };
     this.worklogApiService.addIncomeConfirm(addIncome).subscribe(res => {
+      IncomeFlag.isUpdate = true;
       this.closeModalEmit.emit(true);
     }, err => {
       console.log(err);
