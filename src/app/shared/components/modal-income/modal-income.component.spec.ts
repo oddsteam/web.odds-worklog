@@ -96,7 +96,7 @@ describe('ModalIncomeComponent', () => {
       wht: '0.00',
     };
     component.onSetupForm();
-    expect(component.fg.get('totalIncome').value).toEqual(component.addIncomeData.totalIncome);
+    expect(component.fg.get('totalIncome').value).toEqual('10,000');
     expect(component.fg.get('note').value).toEqual(component.addIncomeData.note);
   });
 

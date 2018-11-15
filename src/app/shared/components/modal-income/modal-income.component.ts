@@ -56,6 +56,7 @@ export class ModalIncomeComponent implements OnInit {
         totalIncome: [this.addIncomeData.totalIncome, Validators.required],
         note: [this.addIncomeData.note, Validators.required]
       });
+      this.inputIncomeAmount();
     }
   }
 
