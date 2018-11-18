@@ -79,7 +79,7 @@
 
 <div class="modal-footer">
   <ng-container *ngIf="!addIncomeAlready">
-    <button type="button" class="btn btn-blue" (click)="onSubmit()" [disabled]="disibleButton()">Submit</button>
+    <button type="button" class="btn btn-blue" (click)="onSubmit()" [disabled]="disableButton()">Submit</button>
   </ng-container>
   <ng-container *ngIf="addIncomeAlready">
     <button type="button" class="btn btn-gray" (click)="onCancel()">ไม่ OK</button>

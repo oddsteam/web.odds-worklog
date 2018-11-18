@@ -8,6 +8,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
 import { ModalIncomeComponent } from './modal-income.component';
 import { of } from 'rxjs';
+import { AddIncomeResponse } from '../../model/add-income-model-response';
+import { IncomeFlag } from '../../model/income-flag';
 
 describe('ModalIncomeComponent', () => {
   let component: ModalIncomeComponent;
@@ -127,6 +129,221 @@ describe('ModalIncomeComponent', () => {
 
   it('should remove comma in number', () => {
     expect(component.cutComma('100,000,000')).toEqual('100000000');
+  });
+
+  it('should return true if totalIncome < 1', () => {
+    component.addIncomeData = null;
+    component.onSetupForm();
+    component.fg.setValue({
+      totalIncome: 1000,
+      note: ''
+    });
+    expect(component.disableButton()).toBeFalsy();
+  });
+
+  it('should return false if totalIncome < 1', () => {
+    component.addIncomeData = null;
+    component.onSetupForm();
+    component.fg.setValue({
+      totalIncome: 0,
+      note: ''
+    });
+    expect(component.disableButton()).toBeTruthy();
+  });
+
+  it('should set value of totalIncome with number not format currency', () => {
+    component.addIncomeData = null;
+    component.onSetupForm();
+    component.fg.patchValue({
+      totalIncome: 10000
+    });
+    fixture.detectChanges();
+    component.inputIncomeAmount();
+    expect(component.totalIncome.value).not.toEqual('10,000');
+  });
+
+  it('should calculate net income correctly', () => {
+    const result = component.calNetIncome('100,000', '0.07', '0.03');
+    expect(result).toEqual('100000.04000000001');
+  });
+
+  it('should calculate WHT correctly', () => {
+    const result = component.calWHT('100,000');
+    expect(result).toEqual('3000');
+  });
+
+  it('should calculate VAT correctly', () => {
+    const result = component.calVAT('100,000');
+    expect(result).toEqual('7000.000000000001');
+  });
+
+  it('should call updateIncomeService in worklogApiService', () => {
+    const mockResponse: AddIncomeResponse = {
+      id: '01',
+      userId: '0000022233',
+      totalIncome: '100000',
+      netIncome: '40',
+      submitDate: '2018-10-22:00:00:00',
+      note: '',
+      vat: '0.23',
+      wht: '100'
+    };
+    component.addIncomeData = null;
+    component.onSetupForm();
+    component.fg.patchValue({
+      totalIncome: '100000',
+      note: 'เงินเดือนนี้'
+    });
+    fixture.detectChanges();
+    spyOn(worklogApiService, 'updateIncomeService').and.returnValue(of(mockResponse));
+    component.updateIncomeService('100000');
+    expect(worklogApiService.updateIncomeService).toHaveBeenCalledWith(component.fg.value);
+  });
+
+  it('should emit closeModalEmit with true when updateIncomeService success', () => {
+    const mockResponse: AddIncomeResponse = {
+      id: '01',
+      userId: '0000022233',
+      totalIncome: '100000',
+      netIncome: '40',
+      submitDate: '2018-10-22:00:00:00',
+      note: '',
+      vat: '0.23',
+      wht: '100'
+    };
+    component.addIncomeData = null;
+    component.onSetupForm();
+    component.fg.patchValue({
+      totalIncome: '100000',
+      note: 'เงินเดือนนี้'
+    });
+    fixture.detectChanges();
+    spyOn(worklogApiService, 'updateIncomeService').and.returnValue(of(mockResponse));
+    spyOn(component.closeModalEmit, 'emit');
+    component.updateIncomeService('100000');
+    expect(component.closeModalEmit.emit).toHaveBeenCalledWith(true);
+  });
+
+  it('should call addIncomeConfirm in worklogApiService', () => {
+    const mockResponse: AddIncomeResponse = {
+      id: '01',
+      userId: '0000022233',
+      totalIncome: '100000',
+      netIncome: '40',
+      submitDate: '2018-10-22:00:00:00',
+      note: '',
+      vat: '0.23',
+      wht: '100'
+    };
+    component.addIncomeData = null;
+    component.onSetupForm();
+    component.fg.patchValue({
+      totalIncome: '100000',
+      note: 'เงินเดือนนี้'
+    });
+    fixture.detectChanges();
+    spyOn(worklogApiService, 'addIncomeConfirm').and.returnValue(of(mockResponse));
+    component.addIncomeConfirm('100000');
+    expect(worklogApiService.addIncomeConfirm).toHaveBeenCalledWith(component.fg.value);
+  });
+
+  it('should emit closeModalEmit with true when addIncomeConfirm success', () => {
+    const mockResponse: AddIncomeResponse = {
+      id: '01',
+      userId: '0000022233',
+      totalIncome: '100000',
+      netIncome: '40',
+      submitDate: '2018-10-22:00:00:00',
+      note: '',
+      vat: '0.23',
+      wht: '100'
+    };
+    component.addIncomeData = null;
+    component.onSetupForm();
+    component.fg.patchValue({
+      totalIncome: '100000',
+      note: 'เงินเดือนนี้'
+    });
+    fixture.detectChanges();
+    spyOn(worklogApiService, 'addIncomeConfirm').and.returnValue(of(mockResponse));
+    spyOn(component.closeModalEmit, 'emit');
+    component.addIncomeConfirm('100000');
+    expect(component.closeModalEmit.emit).toHaveBeenCalledWith(true);
+  });
+
+  it('when call updateData addIncomeData.vat should not equal "" ', () => {
+    component.addIncomeData = null;
+    component.onSetupForm();
+    component.addIncomeData.totalIncome = '10000';
+    component.updateData();
+    expect(component.addIncomeData.vat).toEqual('700.0000000000001');
+  });
+
+  it('when call updateData addIncomeData.wht should not equal "" ', () => {
+    component.addIncomeData = null;
+    component.onSetupForm();
+    component.addIncomeData.totalIncome = '10000';
+    component.updateData();
+    expect(component.addIncomeData.wht).toEqual('300');
+  });
+
+  it('if user is corporate when call updateData addIncomeData.net should have not call calNetIncome with vat = 0', () => {
+    component.addIncomeData = null;
+    component.onSetupForm();
+    component.addIncomeData.totalIncome = '10000';
+    component.typeUser = 'corporate';
+    spyOn(component, 'calNetIncome');
+    component.updateData();
+    expect(component.calNetIncome).toHaveBeenCalledWith(component.addIncomeData.totalIncome, component.addIncomeData.vat,
+      component.addIncomeData.wht);
+  });
+
+  it('if user is individual when call updateData addIncomeData.net should have call calNetIncome with vat = 0', () => {
+    component.addIncomeData = null;
+    component.onSetupForm();
+    component.addIncomeData.totalIncome = '10000';
+    component.typeUser = 'individual';
+    spyOn(component, 'calNetIncome');
+    component.updateData();
+    expect(component.calNetIncome).toHaveBeenCalledWith(component.addIncomeData.totalIncome, '0',
+      component.addIncomeData.wht);
+  });
+
+  it('when IncomeFlag.isUpdate = true it should call updateIncomeService', () => {
+    IncomeFlag.isUpdate = true;
+    component.addIncomeData = null;
+    component.onSetupForm();
+    spyOn(component, 'updateIncomeService');
+    component.onConfirm();
+    expect(component.updateIncomeService).toHaveBeenCalled();
+  });
+
+  it('when IncomeFlag.isUpdate = false it should call addIncomeConfirm', () => {
+    IncomeFlag.isUpdate = false;
+    component.addIncomeData = null;
+    component.onSetupForm();
+    spyOn(component, 'addIncomeConfirm');
+    component.onConfirm();
+    expect(component.addIncomeConfirm).toHaveBeenCalled();
+  });
+
+  it('title should equal Confirm Income when call onSubmit', () => {
+    component.addIncomeData = null;
+    component.onSetupForm();
+    component.onSubmit();
+    expect(component.title).toEqual('Confirm Income');
+  });
+
+  it('addIncomeData.totalIncome should equal fg.totalIncome when call onSubmit', () => {
+    component.addIncomeData = null;
+    component.onSetupForm();
+    component.fg.patchValue({
+      totalIncome: '100000',
+      note: 'เงินเดือนนี้'
+    });
+    fixture.detectChanges();
+    component.onSubmit();
+    expect(component.addIncomeData.totalIncome).toEqual(component.totalIncome.value);
   });
 });
 

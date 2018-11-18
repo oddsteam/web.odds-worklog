@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
 import { AddIncomeResponse } from '../../model/add-income-model-response';
 import { IncomeFlag } from '../../model/income-flag';
@@ -76,11 +76,10 @@ export class ModalIncomeComponent implements OnInit {
   onConfirm() {
     let totalIncome;
     if (!this.flagChange) {
-      totalIncome = this.fg.controls['totalIncome'].value;
+      totalIncome = this.totalIncome.value;
     } else {
       totalIncome = this.numberFormat;
     }
-
     if (IncomeFlag.isUpdate) {
       this.updateIncomeService(totalIncome);
     } else {
@@ -100,8 +99,10 @@ export class ModalIncomeComponent implements OnInit {
   }
 
   addIncomeConfirm(totalIncome) {
-    const { note } = this.fg.getRawValue();
-    const addIncome = { note: note, totalIncome: totalIncome };
+    this.fg.patchValue({
+      totalIncome: totalIncome
+    });
+    const addIncome = this.fg.value;
     this.worklogApiService.addIncomeConfirm(addIncome).subscribe(res => {
       IncomeFlag.isUpdate = true;
       this.closeModalEmit.emit(true);
@@ -111,8 +112,10 @@ export class ModalIncomeComponent implements OnInit {
   }
 
   updateIncomeService(totalIncome) {
-    const { note } = this.fg.getRawValue();
-    const addIncome = { note: note, totalIncome: totalIncome };
+    this.fg.patchValue({
+      totalIncome: totalIncome
+    });
+    const addIncome = this.fg.value;
     this.worklogApiService.updateIncomeService(addIncome).subscribe(res => {
       this.closeModalEmit.emit(true);
     }, err => {
@@ -140,8 +143,8 @@ export class ModalIncomeComponent implements OnInit {
     return Number(this.cutComma(text));
   }
 
-  disibleButton(): boolean {
-    const { totalIncome } = this.fg.getRawValue();
+  disableButton(): boolean {
+    const totalIncome = Number(this.totalIncome.value);
     if (totalIncome < 1) {
       return true;
     }
@@ -149,12 +152,12 @@ export class ModalIncomeComponent implements OnInit {
   }
 
   inputIncomeAmount() {
-    const totalIncome = this.fg.controls['totalIncome'].value;
+    const totalIncome = this.totalIncome.value;
     this.flagChange = true;
     this.numberFormat = this.formatInteger(totalIncome);
     const stringFormat = this.formatInteger(totalIncome);
     const realFormat = this.formatCurrency(stringFormat);
-    this.fg.get('totalIncome').setValue(realFormat);
+    this.totalIncome.setValue(realFormat);
   }
 
   cutComma(text: string): string {
@@ -184,4 +187,7 @@ export class ModalIncomeComponent implements OnInit {
     this.closeModalEmit.emit(true);
   }
 
+  get totalIncome(): AbstractControl {
+    return this.fg.get('totalIncome');
+  }
 }
