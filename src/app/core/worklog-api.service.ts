@@ -57,7 +57,7 @@ export class WorklogApiService {
     }
 
     getLogin(): Observable<any> {
-        return this.http.post<any>(`${environment.api}login`, { 'id': this.userId });
+        return this.http.post<any>(`${environment.api}login`, { 'token': this.userId });
     }
 
     getUserByID(id: string = this.userId) {
