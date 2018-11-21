@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { LayoutsComponent } from './layouts.component';
 import { CorporateComponent } from '../pages/corporate/corporate.component';
 import { IndividualComponent } from '../pages/individual/individual.component';
+import { SettingComponent } from '../pages/setting/setting.component';
 
 const routes: Routes = [
     {
@@ -16,6 +17,10 @@ const routes: Routes = [
             {
                 path: 'individual',
                 component: IndividualComponent
+            },
+            {
+                path: 'setting',
+                component: SettingComponent
             }
         ]
     },

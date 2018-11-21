@@ -7,6 +7,7 @@ import { SharedModule } from '../shared/shared.module';
 import { LayoutsComponent } from './layouts.component';
 import { ProfileComponent } from '../shared/components/profile/profile.component';
 import { LayoutsRoutingModule } from './layouts-routing.module';
+import { SettingModule } from '../pages/setting/setting.module';
 
 @NgModule({
     imports: [
@@ -16,7 +17,8 @@ import { LayoutsRoutingModule } from './layouts-routing.module';
         LayoutsRoutingModule,
         SharedModule,
         CorporateModule,
-        IndividualModule
+        IndividualModule,
+        SettingModule
     ],
     declarations: [
         LayoutsComponent,
