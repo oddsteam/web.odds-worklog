@@ -14,7 +14,6 @@ export class TableListComponent implements OnInit, OnDestroy, OnChanges {
     dtTrigger: Subject<any> = new Subject();
 
     constructor(
-        private worklogApiService: WorklogApiService,
     ) { }
 
 
@@ -43,44 +42,5 @@ export class TableListComponent implements OnInit, OnDestroy, OnChanges {
 
     ngOnDestroy(): void {
         this.dtTrigger.unsubscribe();
-    }
-
-    exportData() {
-        if (IncomeFlag.typeGetListService === 'corporate') {
-            this.exportCorporate();
-        } else {
-            this.exportIndividual();
-        }
-    }
-
-    exportCorporate() {
-        this.worklogApiService.exportDataCorporate().subscribe(res => {
-            this.downloadFile(res, 'income_corporate.csv');
-        }, err => {
-            console.log(err);
-            alert(`Can't export corporate income to CSV file.`);
-        });
-    }
-
-    exportIndividual() {
-        this.worklogApiService.exportDataIndividual().subscribe(res => {
-            this.downloadFile(res, 'income_individual.csv');
-        }, err => {
-            console.log(err);
-            alert(`Can't export individual income to CSV file.`);
-        });
-    }
-
-    private downloadFile(data: any, filename: string) {
-        const blob = new Blob([data], { type: 'text/csv;charset=utf-8;' });
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        document.body.appendChild(a);
-        a.setAttribute('style', 'display: none');
-        a.href = url;
-        a.download = filename;
-        a.click();
-        window.URL.revokeObjectURL(url);
-        a.remove();
     }
 }
