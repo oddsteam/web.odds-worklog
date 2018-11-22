@@ -23,6 +23,7 @@ export class WorklogApiService {
     // user test
     private corporateId = '5bde550643b39700012727f2';
     private individualId = '5bde4e2e1a044b8c9ce44fe4';
+    private testMongo = '5bf5371ec1e5509366d861ae';
     private userId = this.individualId;
 
     constructor(
@@ -55,6 +56,10 @@ export class WorklogApiService {
         };
         return httpOptions;
     }
+
+    // testLocal(): Observable<any> {
+    //     return this.http.post<any>(`${environment.api}login`, { 'token': this.userId });
+    // }
 
     getLogin(): Observable<any> {
         return this.http.post<any>(`${environment.api}login`, { 'token': this.userId });
@@ -96,6 +101,15 @@ export class WorklogApiService {
 
     exportDataIndividual(): Observable<Blob> {
         return this.http.get(`${environment.api}incomes/export/individual`, {
+            headers: new HttpHeaders({
+                'Authorization': sessionStorage.getItem('token')
+            }),
+            responseType: 'blob'
+        });
+    }
+
+    exportDataPdf(): Observable<Blob> {
+        return this.http.get(`${environment.api}incomes/export/pdf`, {
             headers: new HttpHeaders({
                 'Authorization': sessionStorage.getItem('token')
             }),

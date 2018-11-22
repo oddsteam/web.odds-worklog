@@ -14,7 +14,7 @@ export class ListCorporateComponent implements OnInit {
   constructor(
     private worklogApiService: WorklogApiService,
     private stateService: StateService
-    ) { }
+  ) { }
 
   ngOnInit() {
     this.worklogApiService.forCheckTokenPleaseRemoveMeIfFlowLoginFinnished().subscribe(() => this.getListIncomeCorporate());
@@ -29,6 +29,18 @@ export class ListCorporateComponent implements OnInit {
     });
   }
 
+  exportPdf() {
+    this.worklogApiService.exportDataPdf().subscribe(
+      res => {
+        this.downloadFile(res, 'testPdf.pdf');
+      },
+      err => {
+        console.log(err);
+        alert(`Can't export to PDF file.`);
+      }
+    );
+  }
+
   exportCorporate() {
     this.worklogApiService.exportDataCorporate().subscribe(
       res => {
@@ -40,6 +52,7 @@ export class ListCorporateComponent implements OnInit {
       }
     );
   }
+
   downloadFile(data: any, filename: string) {
     const blob = new Blob([data], { type: 'text/csv;charset=utf-8;' });
     const url = window.URL.createObjectURL(blob);
