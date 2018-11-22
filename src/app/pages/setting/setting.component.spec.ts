@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SettingComponent } from './setting.component';
+import { FormsModule } from '@angular/forms';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 describe('SettingComponent', () => {
   let component: SettingComponent;
@@ -8,9 +10,10 @@ describe('SettingComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SettingComponent ]
+      declarations: [SettingComponent],
+      imports: [FormsModule, SharedModule.forRoot()],
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
