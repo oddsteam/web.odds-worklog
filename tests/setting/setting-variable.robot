@@ -12,3 +12,4 @@ ${TIME}                       //*[@id="time"]
 ${CHANNEL_SLACK}              //*[@id="channelSlack"]
 ${CHANNEL_LINE}               //*[@id="channelLine"]
 ${CHANNEL_FACEBOOK}           //*[@id="channelFacebook"]
+${SUBMIT_BUTTON}              submitButton
