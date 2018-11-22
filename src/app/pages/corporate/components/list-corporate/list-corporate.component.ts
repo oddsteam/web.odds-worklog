@@ -29,18 +29,6 @@ export class ListCorporateComponent implements OnInit {
     });
   }
 
-  exportPdf() {
-    this.worklogApiService.exportDataPdf().subscribe(
-      res => {
-        this.downloadFile(res, 'testPdf.pdf');
-      },
-      err => {
-        console.log(err);
-        alert(`Can't export to PDF file.`);
-      }
-    );
-  }
-
   exportCorporate() {
     this.worklogApiService.exportDataCorporate().subscribe(
       res => {

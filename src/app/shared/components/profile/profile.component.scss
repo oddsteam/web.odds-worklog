@@ -12,14 +12,11 @@ div {
             align-self: center;
         }
     }
-    .logout {
-        img {
-            width: 30px;
-            height: 25px;
-            margin-left: 12px;
-        }
-        a{
-            font-size: 14px;
-        }
-    }
+}
+.link{
+    font-size: 14px;
+    color: #212529;
+}
+.link:hover{
+    color: #949494;
 }
