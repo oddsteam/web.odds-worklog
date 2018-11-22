@@ -1,47 +1,47 @@
 <div>
-  <div class="card-container">
-    <h5 class="mt-2 ml-2">Reminder</h5>
+  <h5 class="mt-2 ml-2">Reminder</h5>
+  <div class="card-container p-3">
     <form [formGroup]="fg">
-      <div class="row mt-2">
-        <div class="col-2 d-flex justify-content-end">
+      <div class="row">
+        <div class="col-3 d-flex justify-content-end">
           Date:
         </div>
-        <div class="col-2">
-          <input type="text" id="date" formControlName="date">
+        <div class="col-3">
+          <input type="text" class="form-control" id="date" formControlName="date">
         </div>
       </div>
       <div class="row mt-2">
-        <div class="col-2 d-flex justify-content-end">
+        <div class="col-3 d-flex justify-content-end">
           Message:
         </div>
-        <div class="col-2">
-          <textarea name="message" id="message" cols="30" rows="3" formControlName="message"></textarea>
+        <div class="col-3">
+          <textarea name="message" class="form-control" id="message"  formControlName="message"></textarea>
         </div>
       </div>
       <div class="row mt-2">
-        <div class="col-2 d-flex justify-content-end">
+        <div class="col-3 d-flex justify-content-end">
           Time:
         </div>
-        <div class="col-2 d-flex justify-content-start">
-          <input type="text" id="time" formControlName="time" class="disable-color">
+        <div class="col-3">
+          <input type="text"  id="time" formControlName="time" class="form-control disable-color text-right">
         </div>
       </div>
       <div class="row mt-2">
-        <div class="col-2 d-flex justify-content-end">
-          Channel
+        <div class="col-3 d-flex justify-content-end">
+          Channel:
         </div>
         <div class="col-3">
-          <div class="card d-flex justify-content-start">
-            <div *ngFor="let channel of channelList" class="ml-2">
+          <div class="d-flex justify-content-start">
+            <div *ngFor="let channel of channelList" class="pr-2">
               <input type="checkbox" formControlName="channel" [(ngModel)]="channel.value" (change)="checkBoxEvent(channel.name, channel.value)"
                 [id]="'channel' + channel.name"> {{channel.name}}
             </div>
           </div>
         </div>
       </div>
-      <div class="row mt-3 mb-3 mr-1">
+      <div class="row mt-3 mr-1">
         <div class="col-12 d-flex justify-content-end">
-          <button id="submitButton" class="btn btn-primary">Submit</button>
+          <button id="submitButton" class="btn btn-blue">Submit</button>
         </div>
       </div>
     </form>
