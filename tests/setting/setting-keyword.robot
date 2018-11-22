@@ -3,7 +3,7 @@ Resource    ../setting/setting-variable.robot
 
 *** Keywords ***
 Go to setting page
-    Open Browser    ${WORKLOG_URL}
+    Open Browser    ${WORKLOG_URL}      ${BROWSER}
     Click Element   ${SETTING_URL}
 
 Insert date

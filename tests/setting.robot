@@ -1,6 +1,7 @@
 *** Settings ***
+Library     Selenium2Library
 Resource            setting/setting-keyword.robot
-# Suite Teardown           Close All Browsers
+Suite Teardown           Close All Browsers
 
 *** Test Cases ***
 Save success
