@@ -19,7 +19,7 @@ const routes: Routes = [
                 component: IndividualComponent
             },
             {
-                path: 'setting',
+                path: 'settings',
                 component: SettingComponent
             }
         ]

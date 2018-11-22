@@ -15,7 +15,7 @@
           Message:
         </div>
         <div class="col-2">
-          <textarea name="message" id="message" cols="30" rows="10" formControlName="message"></textarea>
+          <textarea name="message" id="message" cols="30" rows="3" formControlName="message"></textarea>
         </div>
       </div>
       <div class="row mt-2">
@@ -30,9 +30,12 @@
         <div class="col-2 d-flex justify-content-end">
           Channel
         </div>
-        <div class="col-2">
-          <div *ngFor="let channel of channelList">
-            <input type="checkbox" formControlName="channel" [(ngModel)]="channel.value" (change)="checkBoxEvent(channel.name, channel.value)"> {{channel.name}}
+        <div class="col-3">
+          <div class="card">
+            <div *ngFor="let channel of channelList" class="ml-2">
+              <input type="checkbox" formControlName="channel" [(ngModel)]="channel.value" (change)="checkBoxEvent(channel.name, channel.value)"
+                [id]="'channel' + channel.name"> {{channel.name}}
+            </div>
           </div>
         </div>
       </div>
