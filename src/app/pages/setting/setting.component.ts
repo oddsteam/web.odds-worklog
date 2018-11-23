@@ -10,6 +10,7 @@ import { WorklogApiService } from 'src/app/core/worklog-api.service';
 export class SettingComponent implements OnInit {
   fg: FormGroup;
   channelList;
+  channelUpdate = [];
   constructor(
     private fb: FormBuilder,
     private worklogApiService: WorklogApiService
@@ -17,7 +18,7 @@ export class SettingComponent implements OnInit {
 
   ngOnInit() {
     this.setupForm();
-    this.getChannel();
+    this.getSettingData();
   }
 
   setupForm() {
@@ -25,48 +26,60 @@ export class SettingComponent implements OnInit {
       date: ['', Validators.required],
       message: ['', Validators.required],
       time: ['23:59', Validators.required],
-      channel: ['', Validators.required]
+      channel: ['']
     });
     this.fg.get('time').disable();
   }
 
-  getChannel() {
-    this.channelList = [
-      {
-        value: false,
-        name: 'Slack'
-      },
-      {
-        value: false,
-        name: 'Line'
-      },
-      {
-        value: false,
-        name: 'Facebook'
-      },
-    ];
+  getSettingData() {
+    this.worklogApiService.getSettingData().subscribe(response => {
+      this.fg.controls['date'].setValue(response.setting.date);
+      this.fg.controls['message'].setValue(response.setting.message);
+      if (response) {
+        this.channelList = [
+          {
+            value: response.setting.slack,
+            name: 'slack'
+          },
+          {
+            value: response.setting.line,
+            name: 'line'
+          },
+          {
+            value: response.setting.facebook,
+            name: 'facebook'
+          }
+        ];
+      }
+    });
   }
 
-  checkBoxEvent(channel, value) {
-    // console.log(channel, value);
+  checkBoxEvent(channel, event) {
+    const value = event.target.checked;
+    this.channelUpdate[channel] = value;
   }
 
   onSubmit() {
     const date = this.fg.controls['date'].value;
     const message = this.fg.controls['message'].value;
+    const channelName = Object.keys(this.channelUpdate);
+    const channelValue = Object.values(this.channelUpdate);
+    const setting = {
+      date: date,
+      message: message,
+    };
+    for (let i = 0; i < channelName.length; i++) {
+      setting[channelName[i]] = channelValue[i];
+    }
     if (this.fg.valid) {
       if (date >= 25 && date <= 27) {
         if (message.length <= 144) {
           const body = {
             name: 'reminder',
-            setting: {
-              date: date,
-              slack: true,
-              message: message
-            }
+            setting: setting
           };
           this.worklogApiService.sendMessage(body).subscribe(response => {
-            console.log(response, 'res');
+            // console.log(response, 'res');
           });
           alert('Message เข้าแล้วจ้า');
         } else {

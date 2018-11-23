@@ -15,7 +15,7 @@
           Message:
         </div>
         <div class="col-3">
-          <textarea name="message" class="form-control" id="message"  formControlName="message"></textarea>
+          <textarea name="message" class="form-control" id="message" formControlName="message"></textarea>
         </div>
       </div>
       <div class="row mt-2">
@@ -23,7 +23,7 @@
           Time:
         </div>
         <div class="col-3">
-          <input type="text"  id="time" formControlName="time" class="form-control disable-color text-right">
+          <input type="text" id="time" formControlName="time" class="form-control disable-color">
         </div>
       </div>
       <div class="row mt-2">
@@ -33,7 +33,7 @@
         <div class="col-3">
           <div class="d-flex justify-content-start">
             <div *ngFor="let channel of channelList" class="pr-2">
-              <input type="checkbox" formControlName="channel" [(ngModel)]="channel.value" (change)="checkBoxEvent(channel.name, channel.value)"
+              <input type="checkbox" formControlName="channel" [checked]="channel.value" (change)="checkBoxEvent(channel.name, $event)"
                 [id]="'channel' + channel.name"> {{channel.name}}
             </div>
           </div>
