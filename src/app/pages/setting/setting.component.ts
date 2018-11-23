@@ -10,7 +10,6 @@ import { WorklogApiService } from 'src/app/core/worklog-api.service';
 export class SettingComponent implements OnInit {
   fg: FormGroup;
   channelList;
-  channelUpdate = [];
   constructor(
     private fb: FormBuilder,
     private worklogApiService: WorklogApiService
@@ -56,21 +55,23 @@ export class SettingComponent implements OnInit {
 
   checkBoxEvent(channel, event) {
     const value = event.target.checked;
-    this.channelUpdate[channel] = value;
+    this.channelList.map(data => {
+      if (data.name === channel) {
+        data.value = value;
+      }
+    });
   }
 
   onSubmit() {
     const date = this.fg.controls['date'].value;
     const message = this.fg.controls['message'].value;
-    const channelName = Object.keys(this.channelUpdate);
-    const channelValue = Object.values(this.channelUpdate);
     const setting = {
       date: date,
       message: message,
     };
-    for (let i = 0; i < channelName.length; i++) {
-      setting[channelName[i]] = channelValue[i];
-    }
+    this.channelList.map(data => {
+      setting[data.name] = data.value;
+    });
     if (this.fg.valid) {
       if (date >= 25 && date <= 27) {
         if (message.length <= 144) {
