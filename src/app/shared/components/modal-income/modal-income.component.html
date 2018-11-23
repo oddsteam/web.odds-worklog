@@ -16,11 +16,11 @@
     <form [formGroup]="fg">
       <div class="form-group my-2">
         <label>รายได้ : </label>
-        <input type="text" style="text-align:right" class="form-control" formControlName="totalIncome" (keyup)="inputIncomeAmount()">
+        <input id="totalIncome" type="text" style="text-align:right" class="form-control" formControlName="totalIncome" (keyup)="inputIncomeAmount()">
       </div>
       <div class="form-group">
         <label>บันทึก :</label>
-        <textarea type="text" class="form-control" formControlName="note"></textarea>
+        <textarea id="note" type="text" class="form-control" formControlName="note"></textarea>
       </div>
     </form>
   </div>
@@ -41,7 +41,7 @@
         <div class="row mb-2">
           <div class="col col-2"></div>
           <div class="col col-3">รายได้สุทธิ์ :</div>
-          <div class="col col-5 text-right">{{ addIncomeData.totalIncome | number: '1.2-2'}}
+          <div class="col col-5 text-right label-totalIncome">{{ addIncomeData.totalIncome | number: '1.2-2'}}
             <span>บาท</span>
           </div>
           <div class="col col-2"></div>
@@ -50,7 +50,7 @@
         <div class="row mb-2" *ngIf="isVat()">
           <div class="col col-2"></div>
           <div class="col col-3">Vat 7% :</div>
-          <div class="col col-5 text-right">{{ addIncomeData.vat | number: '1.2-2' }}
+          <div class="col col-5 text-right label-vat">{{ addIncomeData.vat | number: '1.2-2' }}
             <span>บาท</span>
           </div>
           <div class="col col-2"></div>
@@ -58,7 +58,7 @@
         <div class="row mb-2">
           <div class="col col-2"></div>
           <div class="col col-3">Wht 3% :</div>
-          <div class="col col-5 text-right">{{ addIncomeData.wht | number: '1.2-2' }}
+          <div class="col col-5 text-right label-wht">{{ addIncomeData.wht | number: '1.2-2' }}
             <span>บาท</span>
           </div>
           <div class="col col-2"></div>
@@ -66,7 +66,7 @@
         <div class="row mb-2">
           <div class="col col-2"></div>
           <div class="col col-3 border-total">เงินที่ได้รับ :</div>
-          <div class="col col-5 border-total text-right font-weight-bold">{{ addIncomeData.netIncome | number: '1.2-2'
+          <div class="col col-5 border-total text-right font-weight-bold label-netIncome">{{ addIncomeData.netIncome | number: '1.2-2'
             }}
             <span>บาท</span>
           </div>
@@ -79,10 +79,10 @@
 
 <div class="modal-footer">
   <ng-container *ngIf="!addIncomeAlready">
-    <button type="button" class="btn btn-blue" (click)="onSubmit()" [disabled]="disableButton()">Submit</button>
+    <button id="btn-submit" type="button" class="btn btn-blue" (click)="onSubmit()" [disabled]="disableButton()">Submit</button>
   </ng-container>
   <ng-container *ngIf="addIncomeAlready">
-    <button type="button" class="btn btn-gray" (click)="onCancel()">ไม่ OK</button>
-    <button type="button" class="btn btn-green" (click)="onConfirm()">OK</button>
+    <button id="btn-cancel" type="button" class="btn btn-gray" (click)="onCancel()">ไม่ OK</button>
+    <button id="btn-confirm" type="button" class="btn btn-green" (click)="onConfirm()">OK</button>
   </ng-container>
 </div>

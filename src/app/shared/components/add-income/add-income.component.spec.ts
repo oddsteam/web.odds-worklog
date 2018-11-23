@@ -1,21 +1,20 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { AddIncomeCorporateComponent } from './add-income-corporate.component';
+import { AddIncomeComponent } from './add-income.component';
 import { NO_ERRORS_SCHEMA, TemplateRef } from '@angular/core';
 import { BsModalService, ComponentLoaderFactory, PositioningService } from 'ngx-bootstrap';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
-import { StateService } from 'src/app/core/state.service';
 import { of, throwError } from 'rxjs';
 import { AddIncomeResponse } from 'src/app/shared/model/add-income-model-response';
 
-describe('AddIncomeCorporateComponent', () => {
-  let component: AddIncomeCorporateComponent;
-  let fixture: ComponentFixture<AddIncomeCorporateComponent>;
+describe('AddIncomeComponent', () => {
+  let component: AddIncomeComponent;
+  let fixture: ComponentFixture<AddIncomeComponent>;
   let worklogservice: WorklogApiService;
   let modalService: BsModalService;
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [AddIncomeCorporateComponent],
+      declarations: [AddIncomeComponent],
       imports: [HttpClientTestingModule],
       providers: [BsModalService, ComponentLoaderFactory, PositioningService, WorklogApiService,
       ],
@@ -25,7 +24,7 @@ describe('AddIncomeCorporateComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AddIncomeCorporateComponent);
+    fixture = TestBed.createComponent(AddIncomeComponent);
     worklogservice = TestBed.get(WorklogApiService);
     modalService = TestBed.get(BsModalService);
     component = fixture.componentInstance;

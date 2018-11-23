@@ -8,8 +8,8 @@ import { StatusHighlightDirective } from './directives/status-highlight.directiv
 import { ModalIncomeComponent } from './components/modal-income/modal-income.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ModalModule } from 'ngx-bootstrap/modal';
-import { ConfirmIncomeModalComponent } from './components/confirm-income-modal/confirm-income-modal.component';
 import { DataTablesModule } from 'angular-datatables';
+import { AddIncomeComponent } from './components/add-income/add-income.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -25,7 +25,7 @@ import { DataTablesModule } from 'angular-datatables';
     TabMenuComponent,
     TableListComponent,
     ModalIncomeComponent,
-    ConfirmIncomeModalComponent,
+    AddIncomeComponent,
   ],
   exports: [
     StatusHighlightDirective,
@@ -37,8 +37,8 @@ import { DataTablesModule } from 'angular-datatables';
     FormsModule,
     ReactiveFormsModule,
     ModalModule,
-    ConfirmIncomeModalComponent,
-    DataTablesModule
+    DataTablesModule,
+    AddIncomeComponent
   ]
 })
 export class SharedModule {

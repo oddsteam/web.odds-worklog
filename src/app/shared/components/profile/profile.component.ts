@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
+import { StateService } from 'src/app/core/state.service';
 
 @Component({
     selector: 'app-profile',
@@ -11,7 +12,8 @@ export class ProfileComponent implements OnInit {
     name = 'ODDS';
     constructor(
         public translate: TranslateService,
-        private worklogApiService: WorklogApiService
+        private worklogApiService: WorklogApiService,
+        private  stateService: StateService
     ) {
         translate.setDefaultLang('en');
         translate.use('th');
@@ -24,14 +26,15 @@ export class ProfileComponent implements OnInit {
 
     getUserID() {
         this.worklogApiService.getUserByID().subscribe(res => {
+            this.stateService.setFlagUser(res.corporateFlag);
             this.name = res.fullnameEn;
         });
     }
 
-    exportTawi50() {
+    exportTavi50() {
         this.worklogApiService.exportDataPdf().subscribe(
             res => {
-              this.downloadFile(res, 'testPdf.pdf');
+              this.downloadFile(res, 'tavi50.pdf');
             },
             err => {
               console.log(err);

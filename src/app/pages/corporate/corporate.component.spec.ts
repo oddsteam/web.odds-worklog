@@ -4,7 +4,6 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TableListComponent } from 'src/app/shared/components/table-list/table-list.component';
 import { StatusHighlightDirective } from 'src/app/shared/directives/status-highlight.directive';
-import { AddIncomeCorporateComponent } from './components/add-income-corporate/add-income-corporate.component';
 import { CorporateComponent } from './corporate.component';
 import { ListCorporateComponent } from './components/list-corporate/list-corporate.component';
 
@@ -15,7 +14,7 @@ describe('CorporateComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [CorporateComponent, TableListComponent, StatusHighlightDirective, AddIncomeCorporateComponent, ListCorporateComponent],
+      declarations: [CorporateComponent, TableListComponent, StatusHighlightDirective, ListCorporateComponent],
       imports: [NgbModule.forRoot(), HttpClientTestingModule]
     })
       .compileComponents();

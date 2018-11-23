@@ -1,23 +1,23 @@
-import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
-import { WorklogApiService } from 'src/app/core/worklog-api.service';
 import { AddIncomeResponse } from 'src/app/shared/model/add-income-model-response';
+import { WorklogApiService } from 'src/app/core/worklog-api.service';
 import { StateService } from 'src/app/core/state.service';
 import { IncomeFlag } from 'src/app/shared/model/income-flag';
 
 @Component({
-  selector: 'app-add-income-corporate',
-  templateUrl: './add-income-corporate.component.html',
-  styleUrls: ['./add-income-corporate.component.scss']
+  selector: 'app-add-income',
+  templateUrl: './add-income.component.html',
+  styleUrls: ['./add-income.component.scss']
 })
+export class AddIncomeComponent implements OnInit {
 
-export class AddIncomeCorporateComponent implements OnInit {
   salary = 0;
   @ViewChild('templateModal') templateModal: TemplateRef<any>;
   modalRef: BsModalRef;
   note = 'อยากได้เงินก็กรอกมาสิ';
+  typeUser = 'individual';
   userFlag: string;
-  typeUser = 'corporate';
   addIncomeResponse: AddIncomeResponse;
 
   constructor(
@@ -38,10 +38,9 @@ export class AddIncomeCorporateComponent implements OnInit {
       if (res === null) {
         this.setDefault();
       } else {
-        this.userFlag = 'Y';
         IncomeFlag.id = res.id;
         this.addIncomeResponse = res;
-        this.salary = Number(res.totalIncome);
+        this.salary = Number(res.netIncome);
         this.note = res.note;
       }
     }, error => {
@@ -51,7 +50,6 @@ export class AddIncomeCorporateComponent implements OnInit {
 
   setDefault() {
     IncomeFlag.isUpdate = false;
-    this.userFlag = 'N';
     IncomeFlag.id = '';
     this.addIncomeResponse = null;
     this.salary = 0;
@@ -72,7 +70,6 @@ export class AddIncomeCorporateComponent implements OnInit {
     if (event) {
       this.closeModal();
       this.ngOnInit();
-      this.stateService.triggerListIncomeCorporate();
     }
   }
 
