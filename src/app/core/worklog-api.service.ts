@@ -106,8 +106,8 @@ export class WorklogApiService {
         });
     }
 
-    exportDataPdf(id: string = this.userId): Observable<Blob> {
-        return this.http.get(`${environment.api}incomes/export/pdf/${id}`, {
+    exportDataPdf(): Observable<Blob> {
+        return this.http.get(`${environment.api}incomes/export/pdf`, {
             headers: new HttpHeaders({
                 'Authorization': sessionStorage.getItem('token')
             }),
