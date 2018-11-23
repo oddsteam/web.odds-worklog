@@ -13,7 +13,7 @@ export class ProfileComponent implements OnInit {
     constructor(
         public translate: TranslateService,
         private worklogApiService: WorklogApiService,
-        private  stateService: StateService
+        private stateService: StateService
     ) {
         translate.setDefaultLang('en');
         translate.use('th');
@@ -26,6 +26,7 @@ export class ProfileComponent implements OnInit {
 
     getUserID() {
         this.worklogApiService.getUserByID().subscribe(res => {
+            console.log(res, '-- res');
             this.stateService.setFlagUser(res.corporateFlag);
             this.name = res.fullnameEn;
         });
@@ -34,13 +35,13 @@ export class ProfileComponent implements OnInit {
     exportTavi50() {
         this.worklogApiService.exportDataPdf().subscribe(
             res => {
-              this.downloadFile(res, 'tavi50.pdf');
+                this.downloadFile(res, 'tavi50.pdf');
             },
             err => {
-              console.log(err);
-              alert(`Can't export to PDF file.`);
+                console.log(err);
+                alert(`Can't export to PDF file.`);
             }
-          );
+        );
     }
 
     downloadFile(data: any, filename: string) {
@@ -54,5 +55,5 @@ export class ProfileComponent implements OnInit {
         a.click();
         window.URL.revokeObjectURL(url);
         a.remove();
-      }
+    }
 }

@@ -26,6 +26,7 @@ export class WorklogApiService {
     private testMongo = '5bf6be9d4d844cb8f8465475';
     private userId = this.individualId;
     readonly apiPath = environment.api;
+
     constructor(
         private http: HttpClient
     ) { }
@@ -58,7 +59,7 @@ export class WorklogApiService {
     }
 
     // testLocal(): Observable<any> {
-    //     return this.http.post<any>(`${environment.api}login`, { 'token': this.userId });
+    //     return this.http.post<any>(`${environment.local}login`, { 'token': this.userId });
     // }
 
     getLogin(): Observable<any> {

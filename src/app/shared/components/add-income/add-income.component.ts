@@ -35,6 +35,7 @@ export class AddIncomeComponent implements OnInit {
 
   checkStatusUser() {
     this.worklogApiService.getIncomeByUserID().subscribe(res => {
+      console.log(res, '-- askdpqwkod');
       if (res === null) {
         this.setDefault();
       } else {
