@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { WorklogApiService } from 'src/app/core/worklog-api.service';
 
 @Component({
   selector: 'app-setting',
@@ -10,7 +11,8 @@ export class SettingComponent implements OnInit {
   fg: FormGroup;
   channelList;
   constructor(
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private worklogApiService: WorklogApiService
   ) { }
 
   ngOnInit() {
@@ -50,11 +52,22 @@ export class SettingComponent implements OnInit {
   }
 
   onSubmit() {
-    const date = Number(this.fg.controls['date'].value);
+    const date = this.fg.controls['date'].value;
     const message = this.fg.controls['message'].value;
     if (this.fg.valid) {
       if (date >= 25 && date <= 27) {
         if (message.length <= 144) {
+          const body = {
+            name: 'reminder',
+            setting: {
+              date: date,
+              slack: true,
+              message: message
+            }
+          };
+          this.worklogApiService.sendMessage(body).subscribe(response => {
+            console.log(response, 'res');
+          });
           alert('Message เข้าแล้วจ้า');
         } else {
           alert('Message เกินพิกัดครับ');

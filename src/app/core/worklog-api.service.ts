@@ -114,4 +114,13 @@ export class WorklogApiService {
             responseType: 'blob'
         });
     }
+
+    sendMessage(body): Observable<any> {
+        return this.http.post(`${environment.api}setting/reminder`, body, {
+            headers: new HttpHeaders({
+                'Authorization': sessionStorage.getItem('token')
+            }),
+
+        });
+    }
 }

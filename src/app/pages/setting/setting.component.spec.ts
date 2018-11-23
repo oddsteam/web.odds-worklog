@@ -3,6 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { SettingComponent } from './setting.component';
 import { FormsModule } from '@angular/forms';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('SettingComponent', () => {
   let component: SettingComponent;
@@ -11,7 +12,7 @@ describe('SettingComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [SettingComponent],
-      imports: [FormsModule, SharedModule.forRoot()],
+      imports: [FormsModule, SharedModule.forRoot(), HttpClientTestingModule],
     })
       .compileComponents();
   }));
