@@ -88,7 +88,6 @@ export class WorklogApiService {
     updateIncomeService(data): Observable<AddIncomeResponse> {
         return this.http.put<AddIncomeResponse>(`${environment.api}incomes/${IncomeFlag.id}`, data, this.getHttpHeaderOption());
     }
-
     exportDataCorporate(): Observable<Blob> {
         return this.http.get(`${environment.api}incomes/export/corporate`, {
             headers: new HttpHeaders({
@@ -107,8 +106,8 @@ export class WorklogApiService {
         });
     }
 
-    exportDataPdf(): Observable<Blob> {
-        return this.http.get(`${environment.api}incomes/export/pdf`, {
+    exportDataPdf(id: string = this.userId): Observable<Blob> {
+        return this.http.get(`${environment.api}incomes/export/pdf/${id}`, {
             headers: new HttpHeaders({
                 'Authorization': sessionStorage.getItem('token')
             }),
