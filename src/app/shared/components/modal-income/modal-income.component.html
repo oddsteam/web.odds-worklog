@@ -41,7 +41,7 @@
         <div class="row mb-2">
           <div class="col col-2"></div>
           <div class="col col-3">รายได้สุทธิ์ :</div>
-          <div class="col col-5 text-right label-totalIncome">{{ addIncomeData.totalIncome | number: '1.2-2'}}
+          <div class="col col-5 text-right" id="addIncomeTotalIncome">{{ addIncomeData.totalIncome | number: '1.2-2'}}
             <span>บาท</span>
           </div>
           <div class="col col-2"></div>
@@ -50,7 +50,7 @@
         <div class="row mb-2" *ngIf="isVat()">
           <div class="col col-2"></div>
           <div class="col col-3">Vat 7% :</div>
-          <div class="col col-5 text-right label-vat">{{ addIncomeData.vat | number: '1.2-2' }}
+          <div class="col col-5 text-right" id="addIncomeVat">{{ addIncomeData.vat | number: '1.2-2' }}
             <span>บาท</span>
           </div>
           <div class="col col-2"></div>
@@ -58,7 +58,7 @@
         <div class="row mb-2">
           <div class="col col-2"></div>
           <div class="col col-3">Wht 3% :</div>
-          <div class="col col-5 text-right label-wht">{{ addIncomeData.wht | number: '1.2-2' }}
+          <div class="col col-5 text-right" id="addIncomeWht">{{ addIncomeData.wht | number: '1.2-2' }}
             <span>บาท</span>
           </div>
           <div class="col col-2"></div>
@@ -66,7 +66,7 @@
         <div class="row mb-2">
           <div class="col col-2"></div>
           <div class="col col-3 border-total">เงินที่ได้รับ :</div>
-          <div class="col col-5 border-total text-right font-weight-bold label-netIncome">{{ addIncomeData.netIncome | number: '1.2-2'
+          <div class="col col-5 border-total text-right font-weight-bold" id="addIncomeNetIncome">{{ addIncomeData.netIncome | number: '1.2-2'
             }}
             <span>บาท</span>
           </div>

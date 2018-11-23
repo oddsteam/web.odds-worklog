@@ -3,10 +3,10 @@
       รายได้สุทธิของคุณ {{ salary | number: '1.2-2' }} บาท , บันทึก : {{ note }}
     </div>
     <div>
-      <button id="btn-add" *ngIf="userFlag === 'N'" type="button" class="btn btn-blue" (click)="openTemplateModal()">
+      <button id="btn-add" *ngIf="userFlag === 'Y'" type="button" class="btn btn-blue" (click)="openTemplateModal()">
         Add Income
     </button>
-    <button id="btn-edit" *ngIf="userFlag === 'Y'" type="button" class="btn btn-red" (click)="openTemplateModal()">
+    <button id="btn-edit" *ngIf="userFlag === 'N'" type="button" class="btn btn-red" (click)="openTemplateModal()">
         Edit Income
     </button>
     </div>
