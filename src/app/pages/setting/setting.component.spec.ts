@@ -43,6 +43,43 @@ describe('SettingComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('form date period should be 25', () => {
+    const date = component.fg.controls['date'];
+    date.setValue('25');
+    const dateValueEqualTwentyFive = date.value === '25';
+    expect(dateValueEqualTwentyFive).toBeTruthy();
+  });
+
+  it('form date period not 25', () => {
+    const date = component.fg.controls['date'];
+    date.setValue('1');
+    const dateValueEqualTwentyFive = date.value === '25';
+    expect(dateValueEqualTwentyFive).toBeFalsy();
+  });
+
+  it('form message length should be less than or equal 144', () => {
+    const message = component.fg.controls['message'];
+    message.setValue('มึงจะเอาเงินมั้ย');
+    const messageLessthanOrEqualOneHundredAndFortyFour = message.value.length <= 144;
+    expect(messageLessthanOrEqualOneHundredAndFortyFour).toBeTruthy();
+  });
+
+  it('form message length not less than or equal 144', () => {
+    const message = component.fg.controls['message'];
+    message.setValue(
+      'มึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ย' +
+      'มึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ย' +
+      'มึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ย' +
+      'มึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ย' +
+      'มึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ย' +
+      'มึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ย' +
+      'มึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ย' +
+      'มึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ย'
+    );
+    const messageLessthanOrEqualOneHundredAndFortyFour = message.value.length <= 144;
+    expect(messageLessthanOrEqualOneHundredAndFortyFour).toBeFalsy();
+  });
+
   it('should call getSettingData in worklogApiService when call getSettingData in component', () => {
     spyOn(worklogApiService, 'getSettingData').and.returnValue(of(mockSettingResponse));
     component.getSettingData();
@@ -206,43 +243,4 @@ describe('SettingComponent', () => {
     component.onSubmit();
     expect(window.alert).toHaveBeenCalledWith(`ใส่ได้แค่ 144 ตัวโว้ย กลับไปใส่ใหม่ !`);
   });
-
-  it('form date period should be 25', () => {
-    const date = component.fg.controls['date'];
-    date.setValue('25');
-    const dateValueEqualTwentyFive = date.value === '25';
-    expect(dateValueEqualTwentyFive).toBeTruthy();
-  });
-
-  it('form date period not 25', () => {
-    const date = component.fg.controls['date'];
-    date.setValue('1');
-    const dateValueEqualTwentyFive = date.value === '25';
-    expect(dateValueEqualTwentyFive).toBeFalsy();
-  });
-
-  it('form message length should be less than or equal 144', () => {
-    const message = component.fg.controls['message'];
-    message.setValue('มึงจะเอาเงินมั้ย');
-    const messageLessthanOrEqualOneHundredAndFortyFour = message.value.length <= 144;
-    expect(messageLessthanOrEqualOneHundredAndFortyFour).toBeTruthy();
-  });
-
-  it('form message length not less than or equal 144', () => {
-    const message = component.fg.controls['message'];
-    message.setValue(
-      'มึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ย' +
-      'มึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ย' +
-      'มึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ย' +
-      'มึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ย' +
-      'มึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ย' +
-      'มึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ย' +
-      'มึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ย' +
-      'มึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ยมึงจะเอาเงินมั้ย'
-    );
-    const messageLessthanOrEqualOneHundredAndFortyFour = message.value.length <= 144;
-    expect(messageLessthanOrEqualOneHundredAndFortyFour).toBeFalsy();
-  });
-
-
 });
