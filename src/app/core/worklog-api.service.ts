@@ -26,6 +26,7 @@ export class WorklogApiService {
     private testMongo = '5bf6be9d4d844cb8f8465475';
     private userId = this.individualId;
     readonly apiPath = environment.api;
+    readonly token = sessionStorage.getItem('token');
 
     constructor(
         private http: HttpClient
@@ -52,7 +53,7 @@ export class WorklogApiService {
         const httpOptions = {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
-                'Authorization': sessionStorage.getItem('token')
+                'Authorization': this.token
             })
         };
         return httpOptions;
@@ -93,7 +94,7 @@ export class WorklogApiService {
     exportDataCorporate(): Observable<Blob> {
         return this.http.get(`${this.apiPath}incomes/export/corporate`, {
             headers: new HttpHeaders({
-                'Authorization': sessionStorage.getItem('token')
+                'Authorization': this.token
             }),
             responseType: 'blob'
         });
@@ -102,7 +103,7 @@ export class WorklogApiService {
     exportDataIndividual(): Observable<Blob> {
         return this.http.get(`${this.apiPath}incomes/export/individual`, {
             headers: new HttpHeaders({
-                'Authorization': sessionStorage.getItem('token')
+                'Authorization': this.token
             }),
             responseType: 'blob'
         });
@@ -111,7 +112,7 @@ export class WorklogApiService {
     exportDataPdf(): Observable<Blob> {
         return this.http.get(`${this.apiPath}incomes/export/pdf`, {
             headers: new HttpHeaders({
-                'Authorization': sessionStorage.getItem('token')
+                'Authorization': this.token
             }),
             responseType: 'blob'
         });
@@ -120,7 +121,7 @@ export class WorklogApiService {
     sendMessage(body): Observable<any> {
         return this.http.post(`${this.apiPath}setting/reminder`, body, {
             headers: new HttpHeaders({
-                'Authorization': sessionStorage.getItem('token')
+                'Authorization': this.token
             })
         });
     }
@@ -128,7 +129,7 @@ export class WorklogApiService {
     getSettingData(): Observable<SettingReminder> {
         return this.http.get<SettingReminder>(`${this.apiPath}setting/reminder`, {
             headers: new HttpHeaders({
-                'Authorization': sessionStorage.getItem('token')
+                'Authorization': this.token
             })
         });
     }
