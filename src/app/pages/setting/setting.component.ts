@@ -84,6 +84,7 @@ export class SettingComponent implements OnInit {
           this.worklogApiService.sendMessage(body).subscribe(response => {
             // console.log(response, 'res');
           });
+          alert('บันทึกสำเร็จแล้ว');
         } else {
           alert('ใส่ได้แค่ 144 ตัวโว้ย กลับไปใส่ใหม่ !');
         }
