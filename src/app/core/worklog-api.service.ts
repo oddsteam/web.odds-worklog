@@ -41,7 +41,7 @@ export class WorklogApiService {
     forCheckTokenPleaseRemoveMeIfFlowLoginFinnished(): Observable<any> {
         return Observable.create(observer => {
             const checkTokenInterval = setInterval(() => {
-                if (this.token) {
+                if (sessionStorage.getItem('token')) {
                     observer.next();
                     clearInterval(checkTokenInterval);
                 }
@@ -53,7 +53,7 @@ export class WorklogApiService {
         const httpOptions = {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
-                'Authorization': this.token
+                'Authorization': sessionStorage.getItem('token')
             })
         };
         return httpOptions;
@@ -94,7 +94,7 @@ export class WorklogApiService {
     exportDataCorporate(): Observable<Blob> {
         return this.http.get(`${this.apiPath}incomes/export/corporate`, {
             headers: new HttpHeaders({
-                'Authorization': this.token
+                'Authorization': sessionStorage.getItem('token')
             }),
             responseType: 'blob'
         });
@@ -103,7 +103,7 @@ export class WorklogApiService {
     exportDataIndividual(): Observable<Blob> {
         return this.http.get(`${this.apiPath}incomes/export/individual`, {
             headers: new HttpHeaders({
-                'Authorization': this.token
+                'Authorization': sessionStorage.getItem('token')
             }),
             responseType: 'blob'
         });
@@ -112,7 +112,7 @@ export class WorklogApiService {
     exportDataPdf(): Observable<Blob> {
         return this.http.get(`${this.apiPath}incomes/export/pdf`, {
             headers: new HttpHeaders({
-                'Authorization': this.token
+                'Authorization': sessionStorage.getItem('token')
             }),
             responseType: 'blob'
         });
@@ -121,7 +121,7 @@ export class WorklogApiService {
     sendMessage(body): Observable<any> {
         return this.http.post(`${this.apiPath}setting/reminder`, body, {
             headers: new HttpHeaders({
-                'Authorization': this.token
+                'Authorization': sessionStorage.getItem('token')
             })
         });
     }
@@ -129,7 +129,7 @@ export class WorklogApiService {
     getSettingData(): Observable<SettingReminder> {
         return this.http.get<SettingReminder>(`${this.apiPath}setting/reminder`, {
             headers: new HttpHeaders({
-                'Authorization': this.token
+                'Authorization': sessionStorage.getItem('token')
             })
         });
     }
