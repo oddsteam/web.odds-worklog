@@ -23,7 +23,7 @@ Checked length message
     Should Be True  ${length}<144
 
 Checked slack checkbox
-    Click Element   ${CHANNEL_SLACK}
+    Checkbox Should Be Selected   ${CHANNEL_SLACK}
 
 Clicked submit button
     Click Button    ${SUBMIT_BUTTON}
