@@ -39,6 +39,13 @@ describe('Service: WorklogApi', () => {
     backEnd.verify();
   });
 
+  it('should call get list corporate api correctly', () => {
+    mockService.getListIncomeCorporate().subscribe();
+    const req = backEnd.expectOne(`${environment.api}incomes/status/corporate`);
+    expect(req.request.method).toEqual('GET');
+    backEnd.verify();
+  });
+
   it('should get list income corporate correctly', () => {
     const listIncomeResponse: ListIncomeResponse = {
       status: 'active',
@@ -60,7 +67,6 @@ describe('Service: WorklogApi', () => {
     });
     const req = backEnd.expectOne(`${environment.api}incomes/status/corporate`);
     req.flush(listIncomeResponse);
-    expect(req.request.method).toEqual('GET');
     backEnd.verify();
   });
 
@@ -85,7 +91,6 @@ describe('Service: WorklogApi', () => {
     });
     const req = backEnd.expectOne(`${environment.api}incomes/status/individual`);
     req.flush(listIncomeIndividual);
-    expect(req.request.method).toEqual('GET');
     backEnd.verify();
   });
 
@@ -119,6 +124,7 @@ describe('Service: WorklogApi', () => {
     mockService.exportDataCorporate().subscribe();
     const req = backEnd.expectOne(`${environment.api}incomes/export/corporate`);
     expect(req.request.method).toEqual('GET');
+    expect(req.request.responseType).toEqual('blob');
     backEnd.verify();
   });
 
@@ -126,6 +132,7 @@ describe('Service: WorklogApi', () => {
     mockService.exportDataIndividual().subscribe();
     const req = backEnd.expectOne(`${environment.api}incomes/export/individual`);
     expect(req.request.method).toEqual('GET');
+    expect(req.request.responseType).toEqual('blob');
     backEnd.verify();
   });
 
