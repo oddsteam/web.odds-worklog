@@ -7,10 +7,20 @@ Go to setting page
     Click Element   ${SETTING_URL}
 
 Insert date
-    Input Text  ${DATE}    25
+    ${period}=    Get Value   ${DATE}
+    Input Text  ${DATE}    ${period}
+
+Checked period date
+    ${period}=    Get Value   ${DATE}
+    Should Be True  ${period}==25 or ${period}==26 or ${period}==27
 
 Insert message
-    Input Text  ${MESSAGE}  มึงจะเอาเงินมั้ย
+    ${text}=    Get Value   ${MESSAGE}
+    Input Text  ${MESSAGE}  ${text}
+
+Checked length message
+    ${length}=  Get Length  ${MESSAGE}
+    Should Be True  ${length}<144
 
 Checked slack checkbox
     Click Element   ${CHANNEL_SLACK}

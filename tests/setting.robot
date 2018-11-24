@@ -7,6 +7,8 @@ Suite Teardown           Close All Browsers
 Save success
     Go to setting page
     Insert date
+    Checked period date
     Insert message
+    Checked length message
     Checked slack checkbox
     Clicked submit button
