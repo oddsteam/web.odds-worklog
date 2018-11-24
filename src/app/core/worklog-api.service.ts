@@ -41,7 +41,7 @@ export class WorklogApiService {
     forCheckTokenPleaseRemoveMeIfFlowLoginFinnished(): Observable<any> {
         return Observable.create(observer => {
             const checkTokenInterval = setInterval(() => {
-                if (sessionStorage.getItem('token')) {
+                if (this.token) {
                     observer.next();
                     clearInterval(checkTokenInterval);
                 }
