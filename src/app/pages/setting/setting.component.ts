@@ -72,7 +72,9 @@ export class SettingComponent implements OnInit {
     this.channelList.map(data => {
       setting[data.name] = data.value;
     });
-    if (this.fg.valid) {
+    const listFlag = this.channelList.map(x => x.value);
+    const cantSubmit = listFlag.includes(true);
+    if (this.fg.valid && cantSubmit) {
       if (date >= 25 && date <= 27) {
         if (message.length <= 144) {
           const body = {
