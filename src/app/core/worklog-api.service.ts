@@ -26,7 +26,7 @@ export class WorklogApiService {
     private testMongo = '5bf6be9d4d844cb8f8465475';
     private userId = this.individualId;
     readonly apiPath = environment.api;
-    readonly token = sessionStorage.getItem('token');
+    private token = sessionStorage.getItem('token');
 
     constructor(
         private http: HttpClient
