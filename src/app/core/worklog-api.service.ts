@@ -61,26 +61,26 @@ export class WorklogApiService {
   // }
 
   getLogin(): Observable<any> {
-    return this.http.post<any>(`${this.apiPath}/login`, { token: this.userId });
+    return this.http.post<any>(`${this.apiPath}login`, { token: this.userId });
   }
 
   getUserByID(id: string = this.userId) {
     return this.http.get<Users>(
-      `${this.apiPath}/users/${id}`,
+      `${this.apiPath}users/${id}`,
       this.getHttpHeaderOption()
     );
   }
 
   getListIncomeCorporate(): Observable<ListIncomeResponse> {
     return this.http.get<ListIncomeResponse>(
-      `${this.apiPath}/incomes/status/corporate`,
+      `${this.apiPath}incomes/status/corporate`,
       this.getHttpHeaderOption()
     );
   }
 
   getListIncomeIndividual(): Observable<ListIncomeResponse> {
     return this.http.get<ListIncomeResponse>(
-      `${this.apiPath}/incomes/status/individual`,
+      `${this.apiPath}incomes/status/individual`,
       this.getHttpHeaderOption()
     );
   }
@@ -88,14 +88,14 @@ export class WorklogApiService {
   // เช็คว่า add-income ไปรึยัง
   getIncomeByUserID(id: string = this.userId): Observable<AddIncomeResponse> {
     return this.http.get<AddIncomeResponse>(
-      `${this.apiPath}/incomes/month/${id}`,
+      `${this.apiPath}incomes/month/${id}`,
       this.getHttpHeaderOption()
     );
   }
 
   addIncomeConfirm(data): Observable<AddIncomeResponse> {
     return this.http.post<AddIncomeResponse>(
-      `${this.apiPath}/incomes`,
+      `${this.apiPath}incomes`,
       data,
       this.getHttpHeaderOption()
     );
@@ -103,13 +103,13 @@ export class WorklogApiService {
 
   updateIncomeService(data): Observable<AddIncomeResponse> {
     return this.http.put<AddIncomeResponse>(
-      `${this.apiPath}/incomes/${IncomeFlag.id}`,
+      `${this.apiPath}incomes/${IncomeFlag.id}`,
       data,
       this.getHttpHeaderOption()
     );
   }
   exportDataCorporate(): Observable<Blob> {
-    return this.http.get(`${this.apiPath}/incomes/export/corporate`, {
+    return this.http.get(`${this.apiPath}incomes/export/corporate`, {
       headers: new HttpHeaders({
         Authorization: sessionStorage.getItem("token")
       }),
@@ -118,7 +118,7 @@ export class WorklogApiService {
   }
 
   exportDataIndividual(): Observable<Blob> {
-    return this.http.get(`${this.apiPath}/incomes/export/individual`, {
+    return this.http.get(`${this.apiPath}incomes/export/individual`, {
       headers: new HttpHeaders({
         Authorization: sessionStorage.getItem("token")
       }),
@@ -127,7 +127,7 @@ export class WorklogApiService {
   }
 
   exportDataPdf(): Observable<Blob> {
-    return this.http.get(`${this.apiPath}/incomes/export/pdf`, {
+    return this.http.get(`${this.apiPath}incomes/export/pdf`, {
       headers: new HttpHeaders({
         Authorization: sessionStorage.getItem("token")
       }),
@@ -136,7 +136,7 @@ export class WorklogApiService {
   }
 
   sendMessage(body): Observable<any> {
-    return this.http.post(`${this.apiPath}/reminder/setting`, body, {
+    return this.http.post(`${this.apiPath}reminder/setting`, body, {
       headers: new HttpHeaders({
         Authorization: sessionStorage.getItem("token")
       })
@@ -144,7 +144,7 @@ export class WorklogApiService {
   }
 
   getSettingData(): Observable<SettingReminder> {
-    return this.http.get<SettingReminder>(`${this.apiPath}/reminder/setting`, {
+    return this.http.get<SettingReminder>(`${this.apiPath}reminder/setting`, {
       headers: new HttpHeaders({
         Authorization: sessionStorage.getItem("token")
       })
