@@ -119,7 +119,7 @@ export class WorklogApiService {
     }
 
     sendMessage(body): Observable<any> {
-        return this.http.post(`${this.apiPath}setting/reminder`, body, {
+        return this.http.post(`${this.apiPath}reminder/setting`, body, {
             headers: new HttpHeaders({
                 'Authorization': sessionStorage.getItem('token')
             })
@@ -127,7 +127,7 @@ export class WorklogApiService {
     }
 
     getSettingData(): Observable<SettingReminder> {
-        return this.http.get<SettingReminder>(`${this.apiPath}setting/reminder`, {
+        return this.http.get<SettingReminder>(`${this.apiPath}reminder/setting`, {
             headers: new HttpHeaders({
                 'Authorization': sessionStorage.getItem('token')
             })
