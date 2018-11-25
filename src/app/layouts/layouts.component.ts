@@ -8,7 +8,7 @@ import { WorklogApiService } from '../core/worklog-api.service';
     styleUrls: ['./layouts.component.scss']
 })
 export class LayoutsComponent implements OnInit {
-
+    personType: string;
     constructor(
         private worklogApiService: WorklogApiService,
         private router: Router,
@@ -16,16 +16,22 @@ export class LayoutsComponent implements OnInit {
     }
 
     ngOnInit() {
+
         this.worklogApiService.getLogin().subscribe(res => {
             if (res) {
                 sessionStorage.setItem('token', 'Bearer ' + res.token);
-                this.goToPage();
             }
+        });
+        this.worklogApiService.getUserByID().subscribe(res => {
+            this.personType = res.corporateFlag;
+            this.goToPage();
         });
     }
     goToPage() {
-        this.router.navigate([
-            `/corporate`
-        ]);
+        if (this.personType === 'N') {
+            this.router.navigate([`/individual`]);
+        } else {
+            this.router.navigate([`/corporate`]);
+        }
     }
 }

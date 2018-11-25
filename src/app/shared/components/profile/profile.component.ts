@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { WorklogApiService } from 'src/app/core/worklog-api.service';
 import { StateService } from 'src/app/core/state.service';
+import { WorklogApiService } from 'src/app/core/worklog-api.service';
 
 @Component({
     selector: 'app-profile',
@@ -26,7 +26,7 @@ export class ProfileComponent implements OnInit {
 
     getUserID() {
         this.worklogApiService.getUserByID().subscribe(res => {
-            console.log(res, '-- res');
+            console.log('res.corporateFlag', res.corporateFlag);
             this.stateService.setFlagUser(res.corporateFlag);
             this.name = res.fullnameEn;
         });

@@ -1,8 +1,8 @@
-<div>
-    <div class="card-container">
-      <app-add-income></app-add-income>
-    </div>
-    <div>
-      <app-list-individual></app-list-individual>
-    </div>
+<div *ngIf="personType === 'N'">
+  <div class="card-container">
+    <app-add-income></app-add-income>
+  </div>
+  <div>
+    <app-list-individual></app-list-individual>
+  </div>
 </div>

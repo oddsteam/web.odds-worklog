@@ -2,18 +2,18 @@ import { CommonModule } from '@angular/common';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateFakeLoader, TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { of } from 'rxjs';
 import { StateService } from '../core/state.service';
 import { WorklogApiService } from '../core/worklog-api.service';
+import { AddIncomeComponent } from '../shared/components/add-income/add-income.component';
+import { ModalIncomeComponent } from '../shared/components/modal-income/modal-income.component';
 import { ProfileComponent } from '../shared/components/profile/profile.component';
 import { TabMenuComponent } from '../shared/components/tab-menu/tab-menu.component';
 import { Users } from '../shared/model/user-model';
 import { LayoutsComponent } from './layouts.component';
-import { AddIncomeComponent } from '../shared/components/add-income/add-income.component';
-import { ModalIncomeComponent } from '../shared/components/modal-income/modal-income.component';
-import { Router } from '@angular/router';
 
 class MockRouterService {
   navigate() { }
@@ -80,6 +80,7 @@ describe('LayoutsComponent', () => {
       token: '.eyJ1c2VySWQiOiJbyZVcdWZmZmQ6Mlx1MDAwNFx1ZmZmZGBcdWZmZmRcclx1ZmZ'
     };
     spyOn(worklogApiService, 'getLogin').and.returnValues(of(mockToken));
+    spyOn(worklogApiService, 'getUserByID').and.returnValue(of(''));
     spyOn(component, 'goToPage');
     component.ngOnInit();
     expect(component.goToPage).toHaveBeenCalled();

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { WorklogApiService } from 'src/app/core/worklog-api.service';
 
 @Component({
   selector: 'app-corporate',
@@ -6,10 +7,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./corporate.component.scss']
 })
 export class CorporateComponent implements OnInit {
-
-  constructor() { }
+  personType: string;
+  constructor(
+    private worklogApiService: WorklogApiService
+  ) { }
 
   ngOnInit() {
+    this.worklogApiService.getUserByID().subscribe(data => {
+      this.personType = data.corporateFlag;
+    });
   }
 
 }

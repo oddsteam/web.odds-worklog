@@ -1,8 +1,8 @@
-import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
-import { AddIncomeResponse } from 'src/app/shared/model/add-income-model-response';
-import { WorklogApiService } from 'src/app/core/worklog-api.service';
 import { StateService } from 'src/app/core/state.service';
+import { WorklogApiService } from 'src/app/core/worklog-api.service';
+import { AddIncomeResponse } from 'src/app/shared/model/add-income-model-response';
 import { IncomeFlag } from 'src/app/shared/model/income-flag';
 
 @Component({
@@ -35,7 +35,6 @@ export class AddIncomeComponent implements OnInit {
 
   checkStatusUser() {
     this.worklogApiService.getIncomeByUserID().subscribe(res => {
-      console.log(res, '-- askdpqwkod');
       if (res === null) {
         this.setDefault();
       } else {
