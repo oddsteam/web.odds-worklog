@@ -1,4 +1,9 @@
-<table datatable class="row-border hover" [dtOptions]="dtOption" [dtTrigger]="dtTrigger">
+<table
+  datatable
+  class="row-border hover"
+  [dtOptions]="dtOption"
+  [dtTrigger]="dtTrigger"
+>
   <thead>
     <tr>
       <th class="text-left pl-4">ชื่อ-สกุล(อังกฤษ)</th>
@@ -10,14 +15,24 @@
     </tr>
   </thead>
   <tbody>
+    <div *ngIf="ListData" class="d-flex">
+      <div class="loader justify-content-center"></div>
+      <div class="loader justify-content-center"></div>
+    </div>
     <tr *ngFor="let listData of ListData">
-      <td class="text-left pl-4">{{listData.user?.fullnameEn}}</td>
-      <td class="text-left">{{listData.user?.email}}</td>
-      <td class="text-left">{{listData.user?.bankAccountName}}</td>
-      <td class="text-center">{{listData.user?.bankAccountNumber}}</td>
-      <td class="text-left">{{listData?.submitDate == ''? '-' : listData?.submitDate | date:'dd/MM/yyyy HH:mm:ss'}}</td>
-      <td class="text-center" appStatusHighlight [Status]='listData?.status'>
-        {{listData?.status === 'Y'? 'กรอกแล้ว' : 'ยังไม่ได้กรอก'}}
+      <td class="text-left pl-4">{{ listData.user?.fullnameEn }}</td>
+      <td class="text-left">{{ listData.user?.email }}</td>
+      <td class="text-left">{{ listData.user?.bankAccountName }}</td>
+      <td class="text-center">{{ listData.user?.bankAccountNumber }}</td>
+      <td class="text-left">
+        {{
+          listData?.submitDate == ""
+            ? "-"
+            : (listData?.submitDate | date: "dd/MM/yyyy HH:mm:ss")
+        }}
+      </td>
+      <td class="text-center" appStatusHighlight [Status]="listData?.status">
+        {{ listData?.status === "Y" ? "กรอกแล้ว" : "ยังไม่ได้กรอก" }}
       </td>
     </tr>
   </tbody>
