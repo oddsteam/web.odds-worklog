@@ -23,7 +23,7 @@ export class WorklogApiService {
     private corporateId = '5bde550643b39700012727f2';
     private individualId = '5bde4e2e1a044b8c9ce44fe4';
     private testMongo = '5bf6be9d4d844cb8f8465475';
-    private userId = this.corporateId;
+    private userId = this.individualId;
     readonly apiPath = environment.api;
     private token = sessionStorage.getItem('token');
 

@@ -5,11 +5,11 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angul
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { WorklogApiService } from 'src/app/core/worklog-api.service';
-import { ModalIncomeComponent } from './modal-income.component';
 import { of } from 'rxjs';
+import { WorklogApiService } from 'src/app/core/worklog-api.service';
 import { AddIncomeResponse } from '../../model/add-income-model-response';
 import { IncomeFlag } from '../../model/income-flag';
+import { ModalIncomeComponent } from './modal-income.component';
 
 describe('ModalIncomeComponent', () => {
   let component: ModalIncomeComponent;
