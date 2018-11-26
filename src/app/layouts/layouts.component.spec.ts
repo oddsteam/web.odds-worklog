@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -91,4 +91,30 @@ describe('LayoutsComponent', () => {
     component.goToPage();
     expect(mockRouterService.navigate).toHaveBeenCalledWith([`/corporate`]);
   });
+
+  it('', inject([Router], (router: Router) => {
+    const res = {
+      corporateFlag: 'N'
+    };
+    spyOn(worklogApiService, 'getUserByID').and.returnValue(of(res));
+    spyOn(router, 'navigate');
+
+    component.ngOnInit();
+
+    expect(component.personType).toEqual('N');
+    expect(router.navigate).toHaveBeenCalledWith(['/individual']);
+  }));
+
+  it('', inject([Router], (router: Router) => {
+    const res = {
+      corporateFlag: 'Y'
+    };
+    spyOn(worklogApiService, 'getUserByID').and.returnValue(of(res));
+    spyOn(router, 'navigate');
+
+    component.ngOnInit();
+
+    expect(component.personType).toEqual('Y');
+    expect(router.navigate).toHaveBeenCalledWith(['/corporate']);
+  }));
 });
