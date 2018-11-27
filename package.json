@@ -21,6 +21,7 @@
     "@angular/platform-browser-dynamic": "^6.1.0",
     "@angular/router": "^6.1.0",
     "@fortawesome/fontawesome-free": "^5.4.1",
+    "@netbasal/content-loader": "^1.1.0",
     "@ng-bootstrap/ng-bootstrap": "^3.2.2",
     "@ngx-translate/core": "^10.0.2",
     "@ngx-translate/http-loader": "^3.0.1",
@@ -32,6 +33,7 @@
     "datatables.net-dt": "^1.10.19",
     "jquery": "^3.3.1",
     "ngx-bootstrap": "^3.1.1",
+    "ngx-order-pipe": "^2.0.2",
     "puppeteer": "^1.10.0",
     "rxjs": "~6.2.0",
     "zone.js": "~0.8.26"

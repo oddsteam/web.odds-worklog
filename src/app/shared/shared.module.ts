@@ -10,12 +10,16 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { DataTablesModule } from 'angular-datatables';
 import { AddIncomeComponent } from './components/add-income/add-income.component';
+import { ContentLoaderModule } from '@netbasal/content-loader';
+import { OrderModule } from 'ngx-order-pipe';
 @NgModule({
   imports: [
     CommonModule,
     TranslateModule,
     NgbModule,
     FormsModule,
+    ContentLoaderModule,
+    OrderModule,
     ReactiveFormsModule,
     ModalModule.forRoot(),
     DataTablesModule.forRoot()

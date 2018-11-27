@@ -1,6 +1,4 @@
 import { Component, Input, OnInit, OnDestroy, ViewChild, OnChanges } from '@angular/core';
-import { WorklogApiService } from 'src/app/core/worklog-api.service';
-import { IncomeFlag } from '../../model/income-flag';
 import { Subject } from 'rxjs';
 
 @Component({
@@ -10,12 +8,10 @@ import { Subject } from 'rxjs';
 })
 export class TableListComponent implements OnInit, OnDestroy, OnChanges {
     @Input() ListData;
-    dtOption;
     dtTrigger: Subject<any> = new Subject();
-
-    constructor(
-    ) { }
-
+    reverse = false;
+    order = 'status';
+    constructor() { }
 
     ngOnChanges(): void {
         if (this.ListData) {
@@ -24,23 +20,16 @@ export class TableListComponent implements OnInit, OnDestroy, OnChanges {
     }
 
     ngOnInit() {
-        this.dtOption = {
-            paging: false,
-            searching: false,
-            info: false,
-            language: {
-                emptyTable: 'ไม่มีข้อมูล'
-            },
-            columnDefs: [{
-                targets: [0, 1, 2, 3, 4],
-                orderable: false
-            }],
-            order: [[5, 'asc']],
-            destroy: true,
-        };
     }
 
     ngOnDestroy(): void {
         this.dtTrigger.unsubscribe();
+    }
+
+
+    setOrder() {
+        console.log('ssdsss');
+        this.reverse = !this.reverse;
+
     }
 }

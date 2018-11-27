@@ -10,6 +10,8 @@ import { TableListComponent } from './table-list.component';
 import { IncomeFlag } from '../../model/income-flag';
 import { Observable, of } from 'rxjs';
 import { DataTablesModule } from 'angular-datatables';
+import { ContentLoaderModule } from '@netbasal/content-loader';
+import { OrderModule } from 'ngx-order-pipe';
 
 const mockBlob = new Blob([], { type: 'text/csv;charset=utf-8;' });
 class MockWorklogApiService extends WorklogApiService {
@@ -29,7 +31,8 @@ describe('TabelListComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [TableListComponent, StatusHighlightDirective],
-      imports: [FormsModule, CommonModule, RouterTestingModule, NgbModule.forRoot(), HttpClientTestingModule, DataTablesModule],
+      imports: [FormsModule, CommonModule, RouterTestingModule, NgbModule.forRoot(),
+         HttpClientTestingModule, ContentLoaderModule, OrderModule],
       providers: [
         { provide: WorklogApiService, useClass: MockWorklogApiService }
       ]

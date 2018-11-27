@@ -7,6 +7,8 @@ import { TableListComponent } from 'src/app/shared/components/table-list/table-l
 import { StatusHighlightDirective } from 'src/app/shared/directives/status-highlight.directive';
 import { ListCorporateComponent } from './list-corporate.component';
 import { DataTablesModule } from 'angular-datatables';
+import { ContentLoaderModule } from '@netbasal/content-loader';
+import { OrderModule } from 'ngx-order-pipe';
 
 
 describe('ListCorporateComponent', () => {
@@ -17,7 +19,7 @@ describe('ListCorporateComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ListCorporateComponent, TableListComponent, StatusHighlightDirective],
-      imports: [HttpClientTestingModule, DataTablesModule.forRoot()]
+      imports: [HttpClientTestingModule, ContentLoaderModule, OrderModule]
     })
       .compileComponents();
   }));

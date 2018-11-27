@@ -6,6 +6,11 @@ import { TableListComponent } from 'src/app/shared/components/table-list/table-l
 import { StatusHighlightDirective } from 'src/app/shared/directives/status-highlight.directive';
 import { ListIndividualComponent } from './components/list-individual/list-individual.component';
 import { IndividualComponent } from './individual.component';
+import { OrderModule } from 'ngx-order-pipe';
+import { ContentLoaderModule } from '@netbasal/content-loader';
+import { AddIncomeComponent } from 'src/app/shared/components/add-income/add-income.component';
+import { ModalIncomeComponent } from 'src/app/shared/components/modal-income/modal-income.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 describe('IndividualComponent', () => {
@@ -14,8 +19,10 @@ describe('IndividualComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [IndividualComponent, TableListComponent, StatusHighlightDirective, ListIndividualComponent],
-      imports: [NgbModule.forRoot(), HttpClientTestingModule],
+      declarations: [IndividualComponent, TableListComponent, StatusHighlightDirective,
+        ListIndividualComponent, AddIncomeComponent, ModalIncomeComponent],
+      imports: [NgbModule.forRoot(), HttpClientTestingModule, ContentLoaderModule, OrderModule,
+      FormsModule, ReactiveFormsModule],
     })
       .compileComponents();
   }));
@@ -26,7 +33,7 @@ describe('IndividualComponent', () => {
     fixture.detectChanges();
   });
 
-  // it('should create', () => {
-  //   expect(component).toBeTruthy();
-  // });
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
 });
