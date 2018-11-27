@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnDestroy, ViewChild, OnChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnDestroy, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 
 @Component({
@@ -9,7 +9,7 @@ import { Subject } from 'rxjs';
 export class TableListComponent implements OnInit, OnDestroy, OnChanges {
     @Input() ListData;
     dtTrigger: Subject<any> = new Subject();
-    reverse = false;
+    swapArrowIconSort = false;
     order = 'status';
     constructor() { }
 
@@ -28,8 +28,6 @@ export class TableListComponent implements OnInit, OnDestroy, OnChanges {
 
 
     setOrder() {
-        console.log('ssdsss');
-        this.reverse = !this.reverse;
-
+        this.swapArrowIconSort = !this.swapArrowIconSort;
     }
 }

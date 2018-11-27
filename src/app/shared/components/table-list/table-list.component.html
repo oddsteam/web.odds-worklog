@@ -7,7 +7,7 @@
       <th class="text-center">เลขที่บัญชี</th>
       <th class="text-left">วันที่กรอก</th>
       <th class="text-center status-sort" (click)="setOrder()">
-        สถานะ <span [hidden]="reverse">▼</span><span [hidden]="!reverse">▲</span>
+        สถานะ <i [ngClass]="swapArrowIconSort ? 'fa fa-caret-up' : 'fa fa-caret-down'"></i>
       </th>
     </tr>
   </thead>
