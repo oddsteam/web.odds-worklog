@@ -9,7 +9,7 @@ import { WorklogApiService } from 'src/app/core/worklog-api.service';
     styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent implements OnInit {
-    name = 'ODDS';
+    name: string;
     constructor(
         public translate: TranslateService,
         private worklogApiService: WorklogApiService,

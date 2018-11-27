@@ -63,7 +63,9 @@ export class WorklogApiService {
     getLogin(): Observable<any> {
         return this.http.post<any>(`${this.apiPath}login`, { token: this.userId });
     }
-
+    getLoginGoogle(idtoken: string): Observable<any> {
+        return this.http.post<any>(`${this.apiPath}login-google`, { 'token': idtoken });
+    }
     getUserByID(id: string = this.userId) {
         return this.http.get<Users>(
             `${this.apiPath}users/${id}`,
