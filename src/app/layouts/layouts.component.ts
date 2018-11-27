@@ -15,23 +15,5 @@ export class LayoutsComponent implements OnInit {
     ) {
     }
 
-    ngOnInit() {
-
-        this.worklogApiService.getLogin().subscribe(res => {
-            if (res) {
-                sessionStorage.setItem('token', 'Bearer ' + res.token);
-            }
-        });
-        this.worklogApiService.getUserByID().subscribe(res => {
-            this.personType = res.corporateFlag;
-            this.goToPage();
-        });
-    }
-    goToPage() {
-        if (this.personType === 'N') {
-            this.router.navigate([`/individual`]);
-        } else {
-            this.router.navigate([`/corporate`]);
-        }
-    }
+    ngOnInit() {}
 }

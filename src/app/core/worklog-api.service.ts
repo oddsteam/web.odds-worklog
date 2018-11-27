@@ -8,13 +8,6 @@ import { ListIncomeResponse } from '../shared/model/list-income-model-response';
 import { SettingReminder } from '../shared/model/setting-reminder-model';
 import { Users } from '../shared/model/user-model';
 
-// const httpOptions = {
-//     headers: new HttpHeaders({
-//         'Content-Type': 'application/json',
-//         'Authorization': sessionStorage.getItem('token')
-//     })
-// };
-
 @Injectable({
     providedIn: 'root'
 })
@@ -56,10 +49,6 @@ export class WorklogApiService {
         return httpOptions;
     }
 
-    // testLocal(): Observable<any> {
-    //     return this.http.post<any>(`${environment.local}login`, { 'token': this.userId });
-    // }
-
     getLogin(): Observable<any> {
         return this.http.post<any>(`${this.apiPath}login`, { token: this.userId });
     }
@@ -87,7 +76,6 @@ export class WorklogApiService {
         );
     }
 
-    // เช็คว่า add-income ไปรึยัง
     getIncomeByUserID(id: string = this.userId): Observable<AddIncomeResponse> {
         return this.http.get<AddIncomeResponse>(
             `${this.apiPath}incomes/month/${id}`,
