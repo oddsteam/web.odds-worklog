@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { WorklogApiService } from '../../core/worklog-api.service';
 import { Users } from '../../shared/model/user-model';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-first-login',
@@ -39,12 +39,12 @@ export class FirstLoginComponent implements OnInit {
     this.user.corporateFlag = this.firstLogin.get('corporateFlag').value;
     this.user.thaiCitizenId = '12324567890';
     this.user.vat = 'non-vt';
-    this.worklogService.createUserFirstLogin(this.user).subscribe(res => {
+    this.worklogService.updateUser(sessionStorage.getItem('idUser'), this.user).subscribe(res => {
       sessionStorage.setItem('firstLogin', 'N');
       this.router.navigate(['corporate']);
     },
-    err => {
-      this.router.navigate(['login']);
-    });
+      err => {
+        this.router.navigate(['login']);
+      });
   }
 }

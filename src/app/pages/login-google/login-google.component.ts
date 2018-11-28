@@ -34,6 +34,7 @@ export class LoginGoogleComponent implements OnInit {
             } else {
               sessionStorage.setItem('token', 'Bearer ' + res.token);
               sessionStorage.setItem('firstLogin', res.firstLogin);
+              sessionStorage.setItem('idUser', res.idUser);
               this.router.navigate(['firstlogin']);
             }
           });
