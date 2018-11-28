@@ -42,10 +42,12 @@ export class AddIncomeComponent implements OnInit {
         this.addIncomeResponse = res;
         this.salary = Number(res.netIncome);
         this.note = res.note;
+        this.stateService.setFlagUser('N');
       }
     }, error => {
       this.setDefault();
     });
+
   }
 
   setDefault() {

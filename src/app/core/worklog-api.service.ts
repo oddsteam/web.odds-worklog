@@ -64,6 +64,13 @@ export class WorklogApiService {
     getUserByID(id: string = this.userId) {
         return this.http.get<Users>(
             `${this.apiPath}users/${id}`,
+            this.getHttpHeaderOption(),
+        );
+    }
+
+    getIncomeMonth(id: string = this.userId) {
+        return this.http.get<Users>(
+            `${this.apiPath}incomes/month/${id}`,
             this.getHttpHeaderOption()
         );
     }

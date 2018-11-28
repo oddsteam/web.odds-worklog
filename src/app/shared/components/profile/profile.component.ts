@@ -21,14 +21,24 @@ export class ProfileComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.worklogApiService.forCheckTokenPleaseRemoveMeIfFlowLoginFinnished().subscribe(() => this.getUserID());
+        this.worklogApiService.forCheckTokenPleaseRemoveMeIfFlowLoginFinnished()
+            .subscribe(() => { this.getUserID(), this.getUserIncome(); });
 
     }
 
     getUserID() {
         this.worklogApiService.getUserByID(this.id).subscribe(res => {
-            this.stateService.setFlagUser(res.corporateFlag);
             this.name = res.fullnameEn;
+        });
+    }
+
+    getUserIncome() {
+        this.worklogApiService.getIncomeMonth(this.id).subscribe(res => {
+            if (res) {
+                this.stateService.setFlagUser('N');
+            } else {
+                this.stateService.setFlagUser('Y');
+            }
         });
     }
 
