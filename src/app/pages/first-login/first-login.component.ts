@@ -22,6 +22,18 @@ export class FirstLoginComponent implements OnInit {
       name: 'non-vat'
     },
   ];
+  corporateFlag = [
+    {
+      value: true,
+      name: 'บุคคลธรรมดา'
+    },
+    {
+      value: false,
+      name: 'นิติบุคคล'
+    }
+  ];
+  corporate = 'N';
+  vat = 'Y';
   constructor(private fb: FormBuilder,
     private worklogService: WorklogApiService,
     private router: Router,
@@ -36,31 +48,50 @@ export class FirstLoginComponent implements OnInit {
       fullName: ['', Validators.required],
       bankAccountName: ['', Validators.required],
       bankAccountNumber: ['', Validators.required],
-      corporateFlag: ['', Validators.required]
+      corporateFlag: [true, Validators.required],
+      vat : [true, Validators.required]
     });
   }
 
   submit() {
-    this.user = new Users();
-    this.user.fullnameEn = this.firstLogin.get('fullName').value;
-    this.user.email = sessionStorage.getItem('email');
-    this.user.bankAccountName = this.firstLogin.get('bankAccountName').value;
-    this.user.bankAccountNumber = this.firstLogin.get('bankAccountNumber').value;
-    this.user.corporateFlag = this.firstLogin.get('corporateFlag').value;
-    this.user.thaiCitizenId = '12324567890';
-    this.user.vat = 'non-vt';
-    this.worklogService.updateUser(sessionStorage.getItem('idUser'), this.user).subscribe(res => {
-      sessionStorage.setItem('firstLogin', 'N');
-      this.router.navigate(['corporate']);
-    },
-      err => {
-        this.router.navigate(['login']);
-      });
+    if (this.firstLogin.valid === true && this.firstLogin.controls.corporateFlag.value === true
+    && this.firstLogin.controls.vat.value === true) {
+      this.user = new Users();
+      this.user.fullnameEn = this.firstLogin.get('fullName').value;
+      this.user.email = sessionStorage.getItem('email');
+      this.user.bankAccountName = this.firstLogin.get('bankAccountName').value;
+      this.user.bankAccountNumber = this.firstLogin.get('bankAccountNumber').value;
+      this.user.corporateFlag = this.corporate;
+      this.user.thaiCitizenId = '12324567890';
+      this.user.vat = this.vat;
+      this.worklogService.updateUser(sessionStorage.getItem('idUser'), this.user).subscribe(res => {
+        sessionStorage.setItem('firstLogin', 'N');
+        this.router.navigate(['corporate']);
+      },
+        err => {
+          this.router.navigate(['login']);
+        });
+    }
+    console.log(this.firstLogin);
   }
-  onCheckBoxVat(vat) {
+  onCheckBoxVat(vatName) {
+    this.vat = (vatName === 'non-vat') ? 'N' : 'Y';
     this.vatList.map(data => {
-      if (data.name !== vat) {
+      if (data.name !== vatName) {
         data.value = false;
+      } else {
+        data.value = true;
+
+      }
+    });
+  }
+  onCheckBoxCorporateFlag(corporate) {
+    this.corporate = (corporate === 'บุคคลธรรมดา') ? 'N' : 'Y';
+    this.corporateFlag.map(data => {
+      if (data.name !== corporate) {
+        data.value = false;
+      } else {
+        data.value = true;
       }
     });
   }

@@ -4,6 +4,7 @@ import { TranslateFakeLoader, TranslateLoader, TranslateModule } from '@ngx-tran
 import { ProfileComponent } from './profile.component';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
 import { of, throwError } from 'rxjs';
+import { RouterTestingModule } from '@angular/router/testing';
 
 
 describe('ProfileComponent', () => {
@@ -14,6 +15,7 @@ describe('ProfileComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ProfileComponent],
       imports: [
+        RouterTestingModule,
         TranslateModule.forRoot({
           loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
         }), HttpClientTestingModule

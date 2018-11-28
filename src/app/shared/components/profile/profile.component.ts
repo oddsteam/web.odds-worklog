@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { StateService } from 'src/app/core/state.service';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
@@ -14,7 +15,8 @@ export class ProfileComponent implements OnInit {
     constructor(
         public translate: TranslateService,
         private worklogApiService: WorklogApiService,
-        private stateService: StateService
+        private stateService: StateService,
+        private router: Router
     ) {
         translate.setDefaultLang('en');
         translate.use('th');
@@ -52,6 +54,11 @@ export class ProfileComponent implements OnInit {
                 alert(`Can't export to PDF file.`);
             }
         );
+    }
+
+    logout() {
+        sessionStorage.clear();
+        this.router.navigate(['login']);
     }
 
     downloadFile(data: any, filename: string) {
