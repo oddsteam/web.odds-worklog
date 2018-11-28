@@ -12,6 +12,16 @@ import { Users } from '../../shared/model/user-model';
 export class FirstLoginComponent implements OnInit {
   firstLogin: FormGroup;
   user: Users;
+  vatList = [
+    {
+      value: true,
+      name: 'vat'
+    },
+    {
+      value: false,
+      name: 'non-vat'
+    },
+  ];
   constructor(private fb: FormBuilder,
     private worklogService: WorklogApiService,
     private router: Router,
@@ -46,5 +56,12 @@ export class FirstLoginComponent implements OnInit {
       err => {
         this.router.navigate(['login']);
       });
+  }
+  onCheckBoxVat(vat) {
+    this.vatList.map(data => {
+      if (data.name !== vat) {
+        data.value = false;
+      }
+    });
   }
 }
