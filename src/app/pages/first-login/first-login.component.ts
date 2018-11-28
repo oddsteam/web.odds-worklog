@@ -40,6 +40,7 @@ export class FirstLoginComponent implements OnInit {
     this.user.thaiCitizenId = '12324567890';
     this.user.vat = 'non-vt';
     this.worklogService.createUserFirstLogin(this.user).subscribe(res => {
+      sessionStorage.setItem('firstLogin', 'N');
       this.router.navigate(['corporate']);
     },
     err => {
