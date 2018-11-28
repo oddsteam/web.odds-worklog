@@ -12,7 +12,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let listData of ListData | orderBy: order:reverse:'case-insensitive'">
+    <tr *ngFor="let listData of ListData | orderBy: order:swapArrowIconSort:'case-insensitive'">
       <td class="text-left pl-4">{{ listData.user?.fullnameEn }}</td>
       <td class="text-left">{{ listData.user?.email }}</td>
       <td class="text-left">{{ listData.user?.bankAccountName }}</td>
@@ -31,5 +31,5 @@
   </tbody>
 </table>
 <ng-template #ContentLoader>
-  <list-content-loader [width]="300" [secondaryColor]="'#F0F0F0'" [primaryColor]="'#A1A1A1'"></list-content-loader>
+  <list-content-loader [width]="300" [speed]="1" [secondaryColor]="'#F0F0F0'" [primaryColor]="'#A1A1A1'"></list-content-loader>
 </ng-template>
