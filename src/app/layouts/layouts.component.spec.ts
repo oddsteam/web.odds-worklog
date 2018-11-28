@@ -12,7 +12,6 @@ import { AddIncomeComponent } from '../shared/components/add-income/add-income.c
 import { ModalIncomeComponent } from '../shared/components/modal-income/modal-income.component';
 import { ProfileComponent } from '../shared/components/profile/profile.component';
 import { TabMenuComponent } from '../shared/components/tab-menu/tab-menu.component';
-import { Users } from '../shared/model/user-model';
 import { LayoutsComponent } from './layouts.component';
 
 class MockRouterService {
@@ -24,7 +23,7 @@ describe('LayoutsComponent', () => {
   let component: LayoutsComponent;
   let fixture: ComponentFixture<LayoutsComponent>;
   let worklogApiService: WorklogApiService;
-  let mockUsers: Users;
+  // let mockUsers: Users;
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [LayoutsComponent, TabMenuComponent, ProfileComponent, AddIncomeComponent, ModalIncomeComponent],
@@ -45,20 +44,20 @@ describe('LayoutsComponent', () => {
     fixture = TestBed.createComponent(LayoutsComponent);
     worklogApiService = TestBed.get(WorklogApiService);
     component = fixture.componentInstance;
-    mockUsers = <Users>{
-      id: '1234567890',
-      fullnameEn: 'ทดสอบ ชอบลงทุน',
-      email: 'abc@abc.com',
-      bankAccountName: 'ทดสอบ ชอบลงทุน',
-      bankAccountNumber: '0987654321',
-      corporateFlag: 'Y',
-      thaiCitizenId: '1234567890',
-    };
+    // mockUsers = <Users>{
+    //   id: '1234567890',
+    //   fullnameEn: 'ทดสอบ ชอบลงทุน',
+    //   email: 'abc@abc.com',
+    //   bankAccountName: 'ทดสอบ ชอบลงทุน',
+    //   bankAccountNumber: '0987654321',
+    //   corporateFlag: 'Y',
+    //   thaiCitizenId: '1234567890',
+    // };
   });
 
-  // it('should create', () => {
-  //   expect(component).toBeTruthy();
-  // });
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
 
   // it('should call method getLogin to Have Been Called worklogApiService getUserById ', () => {
   //   spyOn(worklogApiService, 'getLogin').and.returnValues(of(mockUsers));
@@ -75,46 +74,46 @@ describe('LayoutsComponent', () => {
   //   expect(sessionStorage.getItem('token')).toEqual('Bearer ' + mockToken.token);
   // });
 
-  // it('should call goToPage when worklogApiService return response', () => {
-  //   const mockToken = {
-  //     token: '.eyJ1c2VySWQiOiJbyZVcdWZmZmQ6Mlx1MDAwNFx1ZmZmZGBcdWZmZmRcclx1ZmZ'
-  //   };
-  //   spyOn(worklogApiService, 'getLogin').and.returnValues(of(mockToken));
-  //   spyOn(worklogApiService, 'getUserByID').and.returnValue(of(''));
-  //   spyOn(component, 'goToPage');
-  //   component.ngOnInit();
-  //   expect(component.goToPage).toHaveBeenCalled();
-  // });
+  it('should call goToPage when worklogApiService return response', () => {
+    const mockToken = {
+      token: '.eyJ1c2VySWQiOiJbyZVcdWZmZmQ6Mlx1MDAwNFx1ZmZmZGBcdWZmZmRcclx1ZmZ'
+    };
+    spyOn(worklogApiService, 'getLogin').and.returnValues(of(mockToken));
+    spyOn(worklogApiService, 'getUserByID').and.returnValue(of(''));
+    spyOn(component, 'goToPage');
+    component.ngOnInit();
+    expect(component.goToPage).toHaveBeenCalled();
+  });
 
-  // it('should navigate to /corporate when call goToPage', () => {
-  //   spyOn(mockRouterService, 'navigate');
-  //   component.goToPage();
-  //   expect(mockRouterService.navigate).toHaveBeenCalledWith([`/corporate`]);
-  // });
+  it('should navigate to /corporate when call goToPage', () => {
+    spyOn(mockRouterService, 'navigate');
+    component.goToPage();
+    expect(mockRouterService.navigate).toHaveBeenCalledWith([`/corporate`]);
+  });
 
-  // it('', inject([Router], (router: Router) => {
-  //   const res = {
-  //     corporateFlag: 'N'
-  //   };
-  //   spyOn(worklogApiService, 'getUserByID').and.returnValue(of(res));
-  //   spyOn(router, 'navigate');
+  it('', inject([Router], (router: Router) => {
+    const res = {
+      corporateFlag: 'N'
+    };
+    spyOn(worklogApiService, 'getUserByID').and.returnValue(of(res));
+    spyOn(router, 'navigate');
 
-  //   component.ngOnInit();
+    component.ngOnInit();
 
-  //   expect(component.personType).toEqual('N');
-  //   expect(router.navigate).toHaveBeenCalledWith(['/individual']);
-  // }));
+    expect(component.personType).toEqual('N');
+    expect(router.navigate).toHaveBeenCalledWith(['/individual']);
+  }));
 
-  // it('', inject([Router], (router: Router) => {
-  //   const res = {
-  //     corporateFlag: 'Y'
-  //   };
-  //   spyOn(worklogApiService, 'getUserByID').and.returnValue(of(res));
-  //   spyOn(router, 'navigate');
+  it('', inject([Router], (router: Router) => {
+    const res = {
+      corporateFlag: 'Y'
+    };
+    spyOn(worklogApiService, 'getUserByID').and.returnValue(of(res));
+    spyOn(router, 'navigate');
 
-  //   component.ngOnInit();
+    component.ngOnInit();
 
-  //   expect(component.personType).toEqual('Y');
-  //   expect(router.navigate).toHaveBeenCalledWith(['/corporate']);
-  // }));
+    expect(component.personType).toEqual('Y');
+    expect(router.navigate).toHaveBeenCalledWith(['/corporate']);
+  }));
 });

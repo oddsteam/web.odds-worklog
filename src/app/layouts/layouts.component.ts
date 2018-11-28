@@ -9,11 +9,25 @@ import { WorklogApiService } from '../core/worklog-api.service';
 })
 export class LayoutsComponent implements OnInit {
     personType: string;
+    id = sessionStorage.getItem('idUser');
     constructor(
         private worklogApiService: WorklogApiService,
         private router: Router,
     ) {
     }
 
-    ngOnInit() {}
+    ngOnInit() {
+        this.worklogApiService.getUserByID(this.id).subscribe(res => {
+            this.personType = res.corporateFlag;
+            this.goToPage();
+        });
+    }
+
+    goToPage() {
+        if (this.personType === 'N') {
+            this.router.navigate([`/individual`]);
+        } else {
+            this.router.navigate([`/corporate`]);
+        }
+    }
 }
