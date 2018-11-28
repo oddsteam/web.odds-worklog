@@ -1,3 +1,4 @@
+<form [formGroup]="firstLogin"> 
 <div class="wrapper">
   <div class="col-md-4 mx-auto">
     <div class="card rounded-0 shadow">
@@ -7,27 +8,28 @@
       <div class="d-flex flex-column align-items-center px-3">
         <div class="form-group col-10">
           <label for="GivenName">ชื่อ :</label>
-          <input id="GivenName" class="form-control" placeholder="Given Name" type="text" />
+          <input id="GivenName" class="form-control" placeholder="Given Name" type="text" formControlName="fullName" />
         </div>
 
         <div class="form-group col-10">
           <label for="Surname">ชื่อบัญชี :</label>
-          <input id="Surname" class="form-control" placeholder="Surname" type="text" />
+          <input id="Surname" class="form-control" placeholder="Surname" type="text" formControlName="bankAccountName" />
         </div>
 
         <div class="form-group col-10">
           <label for="Email">เลขที่บัญชี :</label>
-          <input id="Email" class="form-control" placeholder="Email" type="text" />
+          <input id="Email" class="form-control" placeholder="Email" type="text" formControlName="bankAccountNumber"/>
         </div>
 
         <div class="form-group col-10">
           <label for="Username">ประเภท :</label>
-          <input id="Username" class="form-control"  placeholder="Username" type="text" />
+          <input id="Username" class="form-control"  placeholder="Username" type="text" formControlName="corporateFlag"/>
         </div>
         <div class="form-group text-right col-10">
-            <button type="button" class="btn btn-blue" >Save</button>
+            <button type="button" class="btn btn-blue" (click)="submit()" >Save</button>
           </div>
       </div>
     </div>
   </div>
 </div>
+</form>

@@ -97,7 +97,8 @@ describe('ListCorporateComponent', () => {
           bankAccountName: 'odds odds',
           bankAccountNumber: '112211221122',
           corporateFlag: 'Y',
-          thaiCitizenId: '12345423'
+          thaiCitizenId: '12345423',
+          vat: 'non-vat'
         },
         {
           id: '1233',
@@ -106,7 +107,9 @@ describe('ListCorporateComponent', () => {
           bankAccountName: 'odds odds',
           bankAccountNumber: '112211221122',
           corporateFlag: 'Y',
-          thaiCitizenId: '12345423'
+          thaiCitizenId: '12345423',
+          vat: 'non-vat'
+
         },
       ]
     };

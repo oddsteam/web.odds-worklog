@@ -21,20 +21,20 @@ export class LoginGoogleComponent implements OnInit {
     let socialPlatformProvider;
     if (socialPlatform === 'google') {
       socialPlatformProvider = GoogleLoginProvider.PROVIDER_ID;
-
-
       this.socialAuthService.signIn(socialPlatformProvider).then(
         (userData) => {
           console.log(socialPlatform + ' sign in data : ', userData);
-          sessionStorage.setItem('name', userData.name);
+          sessionStorage.setItem('email', userData.email);
           this.worklogService.getLoginGoogle(userData.idToken).subscribe(res => {
             if (res.firstLogin === 'N') {
               sessionStorage.setItem('token', 'Bearer ' + res.token);
+              sessionStorage.setItem('firstLogin', res.firstLogin);
+
               this.router.navigate(['corporate']);
             } else {
+              sessionStorage.setItem('token', 'Bearer ' + res.token);
+              sessionStorage.setItem('firstLogin', res.firstLogin);
               this.router.navigate(['firstlogin']);
-            }
-            {
             }
           });
 

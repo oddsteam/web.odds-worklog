@@ -58,7 +58,9 @@ describe('Service: WorklogApi', () => {
           bankAccountName: 'ทดสอบชอบลงทุน',
           bankAccountNumber: '123123123123',
           thaiCitizenId: '1234567890123',
-          corporateFlag: 'Y'
+          corporateFlag: 'Y',
+          vat: 'non-vat'
+
         }
       ]
     };
@@ -82,7 +84,8 @@ describe('Service: WorklogApi', () => {
           bankAccountName: 'ทดสอบชอบลงทุน',
           bankAccountNumber: '123123123123',
           thaiCitizenId: '1234567890123',
-          corporateFlag: 'N'
+          corporateFlag: 'N',
+          vat: 'non-vat'
         }
       ]
     };

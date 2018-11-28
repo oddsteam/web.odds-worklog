@@ -6,4 +6,5 @@ export class Users {
     bankAccountNumber: string;
     corporateFlag: string;
     thaiCitizenId: string;
+    vat: string;
 }

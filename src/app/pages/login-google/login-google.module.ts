@@ -1,12 +1,12 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LoginGoogleComponent } from './login-google.component';
+import { NgModule } from '@angular/core';
 import { LoginGoogleRoutingModule } from './login-google-routing.module';
+import { LoginGoogleComponent } from './login-google.component';
 
 @NgModule({
   imports: [
     CommonModule,
-    LoginGoogleRoutingModule
+    LoginGoogleRoutingModule,
   ],
   declarations: [LoginGoogleComponent]
 })

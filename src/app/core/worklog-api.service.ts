@@ -49,6 +49,11 @@ export class WorklogApiService {
         return httpOptions;
     }
 
+    createUserFirstLogin(user: Users): Observable<any> {
+        return this.http.post<Users>(`${this.apiPath}users`, user,
+        this.getHttpHeaderOption()
+    );
+    }
     getLogin(): Observable<any> {
         return this.http.post<any>(`${this.apiPath}login`, { token: this.userId });
     }
