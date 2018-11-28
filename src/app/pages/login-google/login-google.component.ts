@@ -17,31 +17,28 @@ export class LoginGoogleComponent implements OnInit {
 
   ngOnInit() {
   }
-  public socialSignIn(socialPlatform: string) {
+  socialSignIn() {
     let socialPlatformProvider;
-    if (socialPlatform === 'google') {
-      socialPlatformProvider = GoogleLoginProvider.PROVIDER_ID;
-      this.socialAuthService.signIn(socialPlatformProvider).then(
-        (userData) => {
-          console.log(socialPlatform + ' sign in data : ', userData);
-          sessionStorage.setItem('email', userData.email);
-          this.worklogService.getLoginGoogle(userData.idToken).subscribe(res => {
-            if (res.firstLogin === 'N') {
-              sessionStorage.setItem('token', 'Bearer ' + res.token);
-              sessionStorage.setItem('firstLogin', res.firstLogin);
+    socialPlatformProvider = GoogleLoginProvider.PROVIDER_ID;
+    this.socialAuthService.signIn(socialPlatformProvider).then(
+      (userData) => {
+        sessionStorage.setItem('email', userData.email);
+        this.worklogService.getLoginGoogle(userData.idToken).subscribe(res => {
+          if (res.firstLogin === 'N') {
+            sessionStorage.setItem('token', 'Bearer ' + res.token);
+            sessionStorage.setItem('firstLogin', res.firstLogin);
+            sessionStorage.setItem('idUser', res.idUser);
+            this.router.navigate(['corporate']);
+          } else {
+            sessionStorage.setItem('token', 'Bearer ' + res.token);
+            sessionStorage.setItem('firstLogin', res.firstLogin);
+            sessionStorage.setItem('idUser', res.idUser);
+            this.router.navigate(['firstlogin']);
+          }
+        });
 
-              this.router.navigate(['corporate']);
-            } else {
-              sessionStorage.setItem('token', 'Bearer ' + res.token);
-              sessionStorage.setItem('firstLogin', res.firstLogin);
-              sessionStorage.setItem('idUser', res.idUser);
-              this.router.navigate(['firstlogin']);
-            }
-          });
-
-        }
-      );
-    }
+      }
+    );
 
   }
 }

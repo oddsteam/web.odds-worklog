@@ -8,12 +8,13 @@ import { WorklogApiService } from 'src/app/core/worklog-api.service';
 })
 export class CorporateComponent implements OnInit {
   personType: string;
+  id = sessionStorage.getItem('idUser');
   constructor(
     private worklogApiService: WorklogApiService
   ) { }
 
   ngOnInit() {
-    this.worklogApiService.getUserByID().subscribe(data => {
+    this.worklogApiService.getUserByID(this.id).subscribe(data => {
       this.personType = data.corporateFlag;
     });
   }

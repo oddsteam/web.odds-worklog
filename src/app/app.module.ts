@@ -7,7 +7,7 @@ import { AuthService, AuthServiceConfig, GoogleLoginProvider, SocialLoginModule 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SharedModule } from './shared/shared.module';
-import { AuthorizationInterceptor } from './shared/interceptors/authorization.interceptor';
+// import { AuthorizationInterceptor } from './shared/interceptors/authorization.interceptor';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -44,16 +44,15 @@ export function getAuthServiceConfigs() {
     }),
   ],
   providers: [
-    AuthService,
     {
       provide: AuthServiceConfig,
       useFactory: getAuthServiceConfigs
     },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: AuthorizationInterceptor,
-      multi: true
-    }
+    // {
+    //   provide: HTTP_INTERCEPTORS,
+    //   useClass: AuthorizationInterceptor,
+    //   multi: true
+    // }
   ],
   bootstrap: [AppComponent],
 

@@ -10,6 +10,7 @@ import { WorklogApiService } from 'src/app/core/worklog-api.service';
 })
 export class ProfileComponent implements OnInit {
     name: string;
+    id = sessionStorage.getItem('idUser');
     constructor(
         public translate: TranslateService,
         private worklogApiService: WorklogApiService,
@@ -25,7 +26,7 @@ export class ProfileComponent implements OnInit {
     }
 
     getUserID() {
-        this.worklogApiService.getUserByID().subscribe(res => {
+        this.worklogApiService.getUserByID(this.id).subscribe(res => {
             this.stateService.setFlagUser(res.corporateFlag);
             this.name = res.fullnameEn;
         });

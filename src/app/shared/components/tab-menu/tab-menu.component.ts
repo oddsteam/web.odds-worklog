@@ -9,6 +9,7 @@ import { IncomeFlag } from '../../model/income-flag';
   styleUrls: ['./tab-menu.component.scss']
 })
 export class TabMenuComponent implements OnInit {
+  id = sessionStorage.getItem('idUser');
   personType: string;
   recentTab: string;
   constructor(
@@ -18,7 +19,7 @@ export class TabMenuComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.worklogApiService.getUserByID().subscribe(res => {
+    this.worklogApiService.getUserByID(this.id).subscribe(res => {
       this.personType = res.corporateFlag;
 
       if (this.personType === 'N') {

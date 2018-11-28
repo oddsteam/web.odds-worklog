@@ -11,7 +11,7 @@ import { IncomeFlag } from 'src/app/shared/model/income-flag';
   styleUrls: ['./add-income.component.scss']
 })
 export class AddIncomeComponent implements OnInit {
-
+  id = sessionStorage.getItem('idUser');
   salary = 0;
   @ViewChild('templateModal') templateModal: TemplateRef<any>;
   modalRef: BsModalRef;
@@ -34,7 +34,7 @@ export class AddIncomeComponent implements OnInit {
   }
 
   checkStatusUser() {
-    this.worklogApiService.getIncomeByUserID().subscribe(res => {
+    this.worklogApiService.getIncomeByUserID(this.id).subscribe(res => {
       if (res === null) {
         this.setDefault();
       } else {
