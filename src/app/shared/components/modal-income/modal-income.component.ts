@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
 import { AddIncomeResponse } from '../../model/add-income-model-response';
 import { IncomeFlag } from '../../model/income-flag';
@@ -31,7 +31,8 @@ export class ModalIncomeComponent implements OnInit {
   }
 
   isVat(): boolean {
-    return this.typeUser === 'corporate' ? true : false;
+    console.log(this.typeUser);
+    return this.typeUser === 'Y' ? true : false;
   }
 
 
@@ -93,7 +94,7 @@ export class ModalIncomeComponent implements OnInit {
     this.addIncomeData.wht = this.calWHT(this.addIncomeData.totalIncome);
     this.addIncomeData.netIncome = this.calNetIncome(
       this.addIncomeData.totalIncome,
-      this.typeUser === 'corporate' ? this.addIncomeData.vat : '0',
+      this.typeUser === 'Y' ? this.addIncomeData.vat : '0',
       this.addIncomeData.wht
     );
   }

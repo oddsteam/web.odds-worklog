@@ -16,7 +16,7 @@ export class AddIncomeComponent implements OnInit {
   @ViewChild('templateModal') templateModal: TemplateRef<any>;
   modalRef: BsModalRef;
   note = 'อยากได้เงินก็กรอกมาสิ';
-  typeUser = 'individual';
+  typeUser: string;
   userFlag: string;
   addIncomeResponse: AddIncomeResponse;
 
@@ -28,6 +28,9 @@ export class AddIncomeComponent implements OnInit {
 
   ngOnInit() {
     this.worklogApiService.forCheckTokenPleaseRemoveMeIfFlowLoginFinnished().subscribe(() => this.checkStatusUser());
+    this.stateService.isUserType.subscribe(flag => {
+      this.typeUser = flag;
+    });
     this.stateService.isUserFlag.subscribe(flag => {
       this.userFlag = flag;
     });

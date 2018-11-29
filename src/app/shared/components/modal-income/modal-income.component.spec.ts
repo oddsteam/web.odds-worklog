@@ -44,13 +44,13 @@ describe('ModalIncomeComponent', () => {
     expect(component.fg.valid).toBeFalsy();
   });
 
-  it('should return true if typeUser = corporate', () => {
-    component.typeUser = 'corporate';
+  it('should return true if typeUser = Y', () => {
+    component.typeUser = 'Y';
     expect(component.isVat).toBeTruthy();
   });
 
-  it('should return false if typeUser != corporate', () => {
-    component.typeUser = 'individual';
+  it('should return false if typeUser != Y', () => {
+    component.typeUser = 'N';
     component.addIncomeData = null;
     fixture.detectChanges();
     expect(component.isVat()).toBeFalsy();
@@ -287,22 +287,22 @@ describe('ModalIncomeComponent', () => {
     expect(component.addIncomeData.wht).toEqual('300');
   });
 
-  it('if user is corporate when call updateData addIncomeData.net should have not call calNetIncome with vat = 0', () => {
+  it('if user is Y when call updateData addIncomeData.net should have not call calNetIncome with vat = 0', () => {
     component.addIncomeData = null;
     component.onSetupForm();
     component.addIncomeData.totalIncome = '10000';
-    component.typeUser = 'corporate';
+    component.typeUser = 'Y';
     spyOn(component, 'calNetIncome');
     component.updateData();
     expect(component.calNetIncome).toHaveBeenCalledWith(component.addIncomeData.totalIncome, component.addIncomeData.vat,
       component.addIncomeData.wht);
   });
 
-  it('if user is individual when call updateData addIncomeData.net should have call calNetIncome with vat = 0', () => {
+  it('if user is N when call updateData addIncomeData.net should have call calNetIncome with vat = 0', () => {
     component.addIncomeData = null;
     component.onSetupForm();
     component.addIncomeData.totalIncome = '10000';
-    component.typeUser = 'individual';
+    component.typeUser = 'N';
     spyOn(component, 'calNetIncome');
     component.updateData();
     expect(component.calNetIncome).toHaveBeenCalledWith(component.addIncomeData.totalIncome, '0',
