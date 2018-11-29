@@ -7,6 +7,7 @@ import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 export class StateService {
   isUserType = new BehaviorSubject<string>(null);
   isUserFlag = new BehaviorSubject<string>(null);
+  isVatType = new BehaviorSubject<string>(null);
   listIncomeCorporateTrigger = new BehaviorSubject<boolean>(null);
 
   constructor() { }
@@ -17,6 +18,10 @@ export class StateService {
 
   setFlagUser(flag: string) {
     this.isUserFlag.next(flag);
+  }
+
+  setFlagVat(flag: string) {
+    this.isVatType.next(flag);
   }
 
   triggerListIncomeCorporate() {

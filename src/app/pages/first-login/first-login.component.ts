@@ -34,6 +34,7 @@ export class FirstLoginComponent implements OnInit {
   ];
   corporate = 'N';
   vat = 'Y';
+  isCheckCorporateFlag = true;
   constructor(private fb: FormBuilder,
     private worklogService: WorklogApiService,
     private router: Router,
@@ -86,6 +87,8 @@ export class FirstLoginComponent implements OnInit {
   }
   onCheckBoxCorporateFlag(corporate) {
     this.corporate = (corporate === 'บุคคลธรรมดา') ? 'N' : 'Y';
+    this.isCheckCorporateFlag = (corporate === 'บุคคลธรรมดา') ? true : false;
+    this.vat = (this.isCheckCorporateFlag === true) ? 'N' : 'N';
     this.corporateFlag.map(data => {
       if (data.name !== corporate) {
         data.value = false;

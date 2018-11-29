@@ -17,6 +17,7 @@ export class AddIncomeComponent implements OnInit {
   modalRef: BsModalRef;
   note = 'อยากได้เงินก็กรอกมาสิ';
   typeUser: string;
+  typeVat: string;
   userFlag: string;
   addIncomeResponse: AddIncomeResponse;
 
@@ -33,6 +34,9 @@ export class AddIncomeComponent implements OnInit {
     });
     this.stateService.isUserFlag.subscribe(flag => {
       this.userFlag = flag;
+    });
+    this.stateService.isVatType.subscribe(flag => {
+      this.typeVat = flag;
     });
   }
 

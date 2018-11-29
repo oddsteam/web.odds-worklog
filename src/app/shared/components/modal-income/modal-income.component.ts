@@ -14,6 +14,7 @@ export class ModalIncomeComponent implements OnInit {
   @Input() openModal;
   @Input() typeUser;
   @Input() addIncomeData: AddIncomeResponse;
+  @Input() typeVat;
   title: string;
   numberFormat: string;
   flagChange: Boolean = false;
@@ -31,8 +32,7 @@ export class ModalIncomeComponent implements OnInit {
   }
 
   isVat(): boolean {
-    console.log(this.typeUser);
-    return this.typeUser === 'Y' ? true : false;
+    return this.typeVat === 'Y' ? true : false;
   }
 
 
@@ -94,7 +94,7 @@ export class ModalIncomeComponent implements OnInit {
     this.addIncomeData.wht = this.calWHT(this.addIncomeData.totalIncome);
     this.addIncomeData.netIncome = this.calNetIncome(
       this.addIncomeData.totalIncome,
-      this.typeUser === 'Y' ? this.addIncomeData.vat : '0',
+      this.typeVat === 'Y' ? this.addIncomeData.vat : '0',
       this.addIncomeData.wht
     );
   }

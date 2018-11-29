@@ -292,6 +292,7 @@ describe('ModalIncomeComponent', () => {
     component.onSetupForm();
     component.addIncomeData.totalIncome = '10000';
     component.typeUser = 'Y';
+    component.typeVat = 'Y';
     spyOn(component, 'calNetIncome');
     component.updateData();
     expect(component.calNetIncome).toHaveBeenCalledWith(component.addIncomeData.totalIncome, component.addIncomeData.vat,
