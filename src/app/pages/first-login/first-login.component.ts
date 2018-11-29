@@ -33,7 +33,7 @@ export class FirstLoginComponent implements OnInit {
     }
   ];
   corporate = 'N';
-  vat = 'Y';
+  vat = 'N';
   isCheckCorporateFlag = true;
   constructor(private fb: FormBuilder,
     private worklogService: WorklogApiService,
