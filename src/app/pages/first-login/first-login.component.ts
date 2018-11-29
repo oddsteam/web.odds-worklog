@@ -88,7 +88,7 @@ export class FirstLoginComponent implements OnInit {
   onCheckBoxCorporateFlag(corporate) {
     this.corporate = (corporate === 'บุคคลธรรมดา') ? 'N' : 'Y';
     this.isCheckCorporateFlag = (corporate === 'บุคคลธรรมดา') ? true : false;
-    this.vat = (this.isCheckCorporateFlag === true) ? 'N' : 'N';
+    this.vat = (this.isCheckCorporateFlag === true) ? 'N' : 'Y';
     this.corporateFlag.map(data => {
       if (data.name !== corporate) {
         data.value = false;
