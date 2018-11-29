@@ -72,7 +72,6 @@ export class FirstLoginComponent implements OnInit {
           this.router.navigate(['login']);
         });
     }
-    console.log(this.firstLogin);
   }
   onCheckBoxVat(vatName) {
     this.vat = (vatName === 'non-vat') ? 'N' : 'Y';
