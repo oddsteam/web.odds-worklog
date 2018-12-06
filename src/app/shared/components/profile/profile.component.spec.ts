@@ -45,7 +45,8 @@ describe('ProfileComponent', () => {
   it('should call getUserByID in workLog service', () => {
     const mockResponse = {
       id: '5bde550643b397000127274re',
-      fullnameEn: 'odds jung',
+      firstName: 'odds',
+      lastName: 'jung',
       email: 'test@abc.com',
       bankAccountName: 'ทดสอบชอบลงทุน',
       bankAccountNumber: '123123123123',
@@ -60,7 +61,8 @@ describe('ProfileComponent', () => {
   it('name in component should be equal response from getUserByID in workLog service', () => {
     const mockResponse = {
       id: '5bde550643b397000127274re',
-      fullnameEn: 'odds jung',
+      firstName: 'odds',
+      lastName: 'jung',
       email: 'test@abc.com',
       bankAccountName: 'ทดสอบชอบลงทุน',
       bankAccountNumber: '123123123123',
@@ -69,7 +71,7 @@ describe('ProfileComponent', () => {
     };
     spyOn(workLogService, 'getUserByID').and.returnValue(of(mockResponse));
     component.getUserID();
-    expect(component.name).toEqual(mockResponse.fullnameEn);
+    expect(component.name).toEqual(mockResponse.firstName + ' ' + mockResponse.lastName);
   });
 
   it('should call exportDataPdf from worklogApiService when call exportTavi50', () => {

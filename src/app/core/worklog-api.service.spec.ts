@@ -53,7 +53,8 @@ describe('Service: WorklogApi', () => {
       user: [
         {
           id: '5bde550643b39700012727f2',
-          fullnameEn: 'odds jung',
+          firstName: 'odds',
+          lastName: 'jung',
           email: 'test@abc.com',
           bankAccountName: 'ทดสอบชอบลงทุน',
           bankAccountNumber: '123123123123',
@@ -79,7 +80,8 @@ describe('Service: WorklogApi', () => {
       user: [
         {
           id: '5bde550643b397000127274re',
-          fullnameEn: 'odds jung',
+          firstName: 'odds',
+          lastName: 'jung',
           email: 'test@abc.com',
           bankAccountName: 'ทดสอบชอบลงทุน',
           bankAccountNumber: '123123123123',

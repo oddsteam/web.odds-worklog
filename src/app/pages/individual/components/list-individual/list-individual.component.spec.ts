@@ -77,7 +77,8 @@ describe('ListIndividualComponent', () => {
       user: [
         {
           id: '1233',
-          fullnameEn: 'ODDS ODDS',
+          firstName: 'ODDS',
+          lastName: 'ODDS',
           email: 'odds@odds.team',
           bankAccountName: 'odds odds',
           bankAccountNumber: '112211221122',
@@ -87,7 +88,8 @@ describe('ListIndividualComponent', () => {
         },
         {
           id: '1233',
-          fullnameEn: 'ODDS ODDS',
+          firstName: 'ODDS',
+          lastName: 'ODDS',
           email: 'odds@odds.team',
           bankAccountName: 'odds odds',
           bankAccountNumber: '112211221122',

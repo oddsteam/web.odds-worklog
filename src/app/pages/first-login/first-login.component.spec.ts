@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 describe('FirstLoginComponent', () => {
   let component: FirstLoginComponent;
   let fixture: ComponentFixture<FirstLoginComponent>;
-  let worklogapiService : WorklogApiService;
+  let worklogapiService: WorklogApiService;
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [FirstLoginComponent],
@@ -31,18 +31,18 @@ describe('FirstLoginComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call method submit', inject([Router], (router: Router) => {
+  it('should call method submit', () => {
     component.ngOnInit();
-    component.firstLogin.get('fullName').setValue('test');
+    component.firstLogin.get('firstName').setValue('test');
+    component.firstLogin.get('lastName').setValue('lastTest');
     component.firstLogin.get('bankAccountName').setValue('ทดสอบ');
     component.firstLogin.get('bankAccountNumber').setValue('1234567890');
     spyOn(worklogapiService, 'updateUser').and.returnValue(of());
-    spyOn(router, 'navigate');
     component.submit();
-    expect(component.user.fullnameEn).toEqual('test');
+    expect(component.user.firstName).toEqual('test');
+    expect(component.user.lastName).toEqual('lastTest');
     expect(component.user.bankAccountName).toEqual('ทดสอบ');
     expect(component.user.bankAccountNumber).toEqual('1234567890');
     expect(worklogapiService.updateUser).toHaveBeenCalled();
-
-  }));
+  });
 });

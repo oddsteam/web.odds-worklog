@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService, GoogleLoginProvider } from 'angular-6-social-login';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
+import { FirstLogin } from '../../shared/model/user-model';
 
 @Component({
   selector: 'app-login-google',
@@ -9,7 +10,6 @@ import { WorklogApiService } from 'src/app/core/worklog-api.service';
   styleUrls: ['./login-google.component.scss']
 })
 export class LoginGoogleComponent implements OnInit {
-
   constructor(private socialAuthService: AuthService,
     private router: Router,
     private worklogService: WorklogApiService
@@ -22,16 +22,19 @@ export class LoginGoogleComponent implements OnInit {
     socialPlatformProvider = GoogleLoginProvider.PROVIDER_ID;
     this.socialAuthService.signIn(socialPlatformProvider).then(
       (userData) => {
-        sessionStorage.setItem('email', userData.email);
+        const firstLogin = new FirstLogin();
+        firstLogin.email = userData.email;
         this.worklogService.getLoginGoogle(userData.idToken).subscribe(res => {
           if (res.firstLogin === 'N') {
             sessionStorage.setItem('token', 'Bearer ' + res.token);
-            sessionStorage.setItem('firstLogin', res.firstLogin);
+            firstLogin.firstLogin = res.firstLogin;
+            this.worklogService.setFirstLogin(firstLogin);
             sessionStorage.setItem('idUser', res.idUser);
             this.router.navigate(['corporate']);
           } else {
             sessionStorage.setItem('token', 'Bearer ' + res.token);
-            sessionStorage.setItem('firstLogin', res.firstLogin);
+            firstLogin.firstLogin = res.firstLogin;
+            this.worklogService.setFirstLogin(firstLogin);
             sessionStorage.setItem('idUser', res.idUser);
             this.router.navigate(['firstlogin']);
           }

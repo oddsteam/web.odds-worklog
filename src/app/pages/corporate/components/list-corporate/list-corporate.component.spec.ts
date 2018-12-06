@@ -1,14 +1,13 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ContentLoaderModule } from '@netbasal/content-loader';
+import { OrderModule } from 'ngx-order-pipe';
 import { of, throwError } from 'rxjs';
 import { StateService } from 'src/app/core/state.service';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
 import { TableListComponent } from 'src/app/shared/components/table-list/table-list.component';
 import { StatusHighlightDirective } from 'src/app/shared/directives/status-highlight.directive';
 import { ListCorporateComponent } from './list-corporate.component';
-import { DataTablesModule } from 'angular-datatables';
-import { ContentLoaderModule } from '@netbasal/content-loader';
-import { OrderModule } from 'ngx-order-pipe';
 
 
 describe('ListCorporateComponent', () => {
@@ -92,7 +91,8 @@ describe('ListCorporateComponent', () => {
       user: [
         {
           id: '1233',
-          fullnameEn: 'ODDS ODDS',
+          firstName: 'ODDS',
+          lastName: 'ODDS',
           email: 'odds@odds.team',
           bankAccountName: 'odds odds',
           bankAccountNumber: '112211221122',
@@ -102,7 +102,8 @@ describe('ListCorporateComponent', () => {
         },
         {
           id: '1233',
-          fullnameEn: 'ODDS ODDS',
+          firstName: 'ODDS',
+          lastName: 'ODDS',
           email: 'odds@odds.team',
           bankAccountName: 'odds odds',
           bankAccountNumber: '112211221122',

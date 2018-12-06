@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { WorklogApiService } from '../../core/worklog-api.service';
-import { Users } from '../../shared/model/user-model';
+import { Users, FirstLogin } from '../../shared/model/user-model';
 
 @Component({
   selector: 'app-first-login',
@@ -12,6 +12,7 @@ import { Users } from '../../shared/model/user-model';
 export class FirstLoginComponent implements OnInit {
   firstLogin: FormGroup;
   user: Users;
+  fl: FirstLogin;
   vatList = [
     {
       value: true,
@@ -46,7 +47,8 @@ export class FirstLoginComponent implements OnInit {
 
   setupForm() {
     this.firstLogin = this.fb.group({
-      fullName: ['', Validators.required],
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
       bankAccountName: ['', Validators.required],
       bankAccountNumber: ['', Validators.required],
       corporateFlag: [true, Validators.required],
@@ -58,15 +60,19 @@ export class FirstLoginComponent implements OnInit {
     if (this.firstLogin.valid === true && this.firstLogin.controls.corporateFlag.value === true
     && this.firstLogin.controls.vat.value === true) {
       this.user = new Users();
-      this.user.fullnameEn = this.firstLogin.get('fullName').value;
-      this.user.email = sessionStorage.getItem('email');
+      this.user.firstName = this.firstLogin.get('firstName').value;
+      this.user.lastName = this.firstLogin.get('lastName').value;
+      this.user.email =  this.worklogService.getFirstLogin().email;
       this.user.bankAccountName = this.firstLogin.get('bankAccountName').value;
       this.user.bankAccountNumber = this.firstLogin.get('bankAccountNumber').value;
       this.user.corporateFlag = this.corporate;
       this.user.thaiCitizenId = '12324567890';
       this.user.vat = this.vat;
       this.worklogService.updateUser(sessionStorage.getItem('idUser'), this.user).subscribe(res => {
-        sessionStorage.setItem('firstLogin', 'N');
+      this.fl = new FirstLogin();
+      this.fl.email = this.worklogService.getFirstLogin().email;
+      this.fl.firstLogin = 'N';
+      this.worklogService.setFirstLogin(this.fl);
         this.router.navigate(['corporate']);
       },
         err => {
