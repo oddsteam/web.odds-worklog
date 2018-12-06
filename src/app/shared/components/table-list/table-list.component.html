@@ -13,7 +13,7 @@
   </thead>
   <tbody>
     <tr *ngFor="let listData of ListData | orderBy: order:swapArrowIconSort:'case-insensitive'">
-      <td class="text-left pl-4">{{ listData.user?.fullnameEn }}</td>
+      <td class="text-left pl-4">{{ listData.user?.firstName + ' ' + listData.user?.lastName }}</td>
       <td class="text-left">{{ listData.user?.email }}</td>
       <td class="text-left">{{ listData.user?.bankAccountName }}</td>
       <td class="text-center">{{ listData.user?.bankAccountNumber }}</td>
