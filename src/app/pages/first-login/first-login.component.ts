@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { WorklogApiService } from '../../core/worklog-api.service';
-import { Users, FirstLogin } from '../../shared/model/user-model';
+import { User } from '../../shared/model/user';
 
 @Component({
   selector: 'app-first-login',
@@ -10,9 +10,8 @@ import { Users, FirstLogin } from '../../shared/model/user-model';
   styleUrls: ['./first-login.component.scss']
 })
 export class FirstLoginComponent implements OnInit {
-  firstLogin: FormGroup;
-  user: Users;
-  fl: FirstLogin;
+  loginForm: FormGroup;
+  user: User;
   vatList = [
     {
       value: true,
@@ -23,7 +22,7 @@ export class FirstLoginComponent implements OnInit {
       name: 'non-vat'
     },
   ];
-  corporateFlag = [
+  roles = [
     {
       value: true,
       name: 'บุคคลธรรมดา'
@@ -33,9 +32,9 @@ export class FirstLoginComponent implements OnInit {
       name: 'นิติบุคคล'
     }
   ];
-  corporate = 'N';
+  role = 'individual';
   vat = 'N';
-  isCheckCorporateFlag = true;
+  isCheckRole = true;
   constructor(private fb: FormBuilder,
     private worklogService: WorklogApiService,
     private router: Router,
@@ -46,40 +45,47 @@ export class FirstLoginComponent implements OnInit {
   }
 
   setupForm() {
-    this.firstLogin = this.fb.group({
+    this.loginForm = this.fb.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       bankAccountName: ['', Validators.required],
       bankAccountNumber: ['', Validators.required],
-      corporateFlag: [true, Validators.required],
-      vat : [true, Validators.required]
+      role: [true, Validators.required],
+      vat: [true, Validators.required]
     });
   }
 
   submit() {
-    if (this.firstLogin.valid === true && this.firstLogin.controls.corporateFlag.value === true
-    && this.firstLogin.controls.vat.value === true) {
-      this.user = new Users();
-      this.user.firstName = this.firstLogin.get('firstName').value;
-      this.user.lastName = this.firstLogin.get('lastName').value;
-      this.user.email =  this.worklogService.getFirstLogin().email;
-      this.user.bankAccountName = this.firstLogin.get('bankAccountName').value;
-      this.user.bankAccountNumber = this.firstLogin.get('bankAccountNumber').value;
-      this.user.corporateFlag = this.corporate;
-      this.user.thaiCitizenId = '12324567890';
+    if (this.loginForm.valid === true
+      && this.loginForm.controls.role.value === true
+      && this.loginForm.controls.vat.value === true
+    ) {
+      this.user = new User();
+      this.user.firstName = this.loginForm.get('firstName').value;
+      this.user.lastName = this.loginForm.get('lastName').value;
+      this.user.bankAccountName = this.loginForm.get('bankAccountName').value;
+      this.user.bankAccountNumber = this.loginForm.get('bankAccountNumber').value;
+      this.user.role = this.role;
       this.user.vat = this.vat;
-      this.worklogService.updateUser(sessionStorage.getItem('idUser'), this.user).subscribe(res => {
-      this.fl = new FirstLogin();
-      this.fl.email = this.worklogService.getFirstLogin().email;
-      this.fl.firstLogin = 'N';
-      this.worklogService.setFirstLogin(this.fl);
-        this.router.navigate(['corporate']);
+      this.updateUser();
+    }
+  }
+
+  private updateUser() {
+    this.worklogService.updateUser(sessionStorage.getItem('idUser'), this.user)
+      .subscribe(res => {
+        console.log(res);
+        if (res.role === 'admin') {
+          this.router.navigate(['corporate']);
+        } else {
+          this.router.navigate([res.role]);
+        }
       },
         err => {
           this.router.navigate(['login']);
         });
-    }
   }
+
   onCheckBoxVat(vatName) {
     this.vat = (vatName === 'non-vat') ? 'N' : 'Y';
     this.vatList.map(data => {
@@ -91,12 +97,13 @@ export class FirstLoginComponent implements OnInit {
       }
     });
   }
-  onCheckBoxCorporateFlag(corporate) {
-    this.corporate = (corporate === 'บุคคลธรรมดา') ? 'N' : 'Y';
-    this.isCheckCorporateFlag = (corporate === 'บุคคลธรรมดา') ? true : false;
-    this.vat = (this.isCheckCorporateFlag === true) ? 'N' : 'Y';
-    this.corporateFlag.map(data => {
-      if (data.name !== corporate) {
+
+  onCheckBoxRole(role) {
+    this.role = (role === 'บุคคลธรรมดา') ? 'individual' : 'corporate';
+    this.isCheckRole = (role === 'บุคคลธรรมดา') ? true : false;
+    this.vat = (this.isCheckRole === true) ? 'individual' : 'corporate';
+    this.roles.map(data => {
+      if (data.name !== role) {
         data.value = false;
       } else {
         data.value = true;

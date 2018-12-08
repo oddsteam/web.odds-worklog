@@ -5,7 +5,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { FirstLoginComponent } from './first-login.component';
 import { WorklogApiService } from '../../core/worklog-api.service';
 import { of } from 'rxjs';
-import { Router } from '@angular/router';
 
 describe('FirstLoginComponent', () => {
   let component: FirstLoginComponent;
@@ -33,10 +32,10 @@ describe('FirstLoginComponent', () => {
 
   it('should call method submit', () => {
     component.ngOnInit();
-    component.firstLogin.get('firstName').setValue('test');
-    component.firstLogin.get('lastName').setValue('lastTest');
-    component.firstLogin.get('bankAccountName').setValue('ทดสอบ');
-    component.firstLogin.get('bankAccountNumber').setValue('1234567890');
+    component.loginForm.get('firstName').setValue('test');
+    component.loginForm.get('lastName').setValue('lastTest');
+    component.loginForm.get('bankAccountName').setValue('ทดสอบ');
+    component.loginForm.get('bankAccountNumber').setValue('1234567890');
     spyOn(worklogapiService, 'updateUser').and.returnValue(of());
     component.submit();
     expect(component.user.firstName).toEqual('test');

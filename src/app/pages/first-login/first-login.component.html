@@ -1,53 +1,57 @@
-<form [formGroup]="firstLogin"> 
-<div class="wrapper">
-  <div class="col-md-4 mx-auto">
-    <div class="card rounded-0 shadow">
-      <div class="d-flex justify-content-center pt-4 pb-2">
-       <h3>ข้อมูลส่วนตัว</h3>
-      </div>
+<form [formGroup]="loginForm">
+  <div class="wrapper">
+    <div class="col-md-4 mx-auto">
+      <div class="card rounded-0 shadow">
+        <div class="d-flex justify-content-center pt-4 pb-2">
+          <h3>ข้อมูลส่วนตัว</h3>
+        </div>
 
-      <div class="d-flex flex-column align-items-center px-3">
+        <div class="d-flex flex-column align-items-center px-3">
           <div class="col-10 pb-3">
             <label for="FirstName">ชื่อ (ภาษาอังกฤษ) :</label>
-                <div class="d-flex justify-content-start form-group">
-                  <input id="FirstName" class="form-control" placeholder="กรุณากรอกชื่อ" type="text" formControlName="firstName" />
-                </div>
-                <label for="LastName">นามสกุล (ภาษาอังกฤษ) :</label>
-                  <div class="d-flex justify-content-start form-group">
-                  <input id="LastName" class="form-control" placeholder="กรุณากรอกนามสกุล" type="text" formControlName="lastName" />
-                </div>
-          </div>
-        <div class="form-group col-10">
-          <label for="bankAccountName">ชื่อบัญชี (ภาษาไทย):</label>
-          <input id="bankAccountName" class="form-control" placeholder="กรุณากรอกชื่อบัญชี" type="text" formControlName="bankAccountName" />
-        </div>
-
-        <div class="form-group col-10">
-          <label for="bankAccountNumber">เลขที่บัญชี :</label>
-          <input id="bankAccountNumber" class="form-control" placeholder="กรุณากรอกเลขที่บัญชี" type="text" formControlName="bankAccountNumber"/>
-        </div>
-
-        <div class="col-10 pb-3">
-          <div>ประเภทบุคคล :</div>
-            <div class="d-flex justify-content-start">
-              <div class="checkbox col-auto" *ngFor="let corporate of corporateFlag">
-                  <label><input type="checkbox" [checked]="corporate.value" (change)="onCheckBoxCorporateFlag(corporate.name ,$event)" formControlName="corporateFlag"> {{corporate.name}}</label>
-                </div>
-          </div>
-        </div>
-        <div class="col-10 pb-3" *ngIf="!isCheckCorporateFlag">
-          <div>Select Vat :</div>
-              <div class="d-flex justify-content-start">
-                <div class="checkbox col-auto" *ngFor="let vat of vatList">
-                    <label><input type="checkbox" [checked]="vat.value" (change)="onCheckBoxVat(vat.name ,$event)" formControlName="vat"> {{vat.name}}</label>
-                  </div>
+            <div class="d-flex justify-content-start form-group">
+              <input id="FirstName" class="form-control" placeholder="กรุณากรอกชื่อ" type="text" formControlName="firstName" />
+            </div>
+            <label for="LastName">นามสกุล (ภาษาอังกฤษ) :</label>
+            <div class="d-flex justify-content-start form-group">
+              <input id="LastName" class="form-control" placeholder="กรุณากรอกนามสกุล" type="text" formControlName="lastName" />
             </div>
           </div>
-        <div class="form-group text-right col-10">
-            <button type="button" class="btn btn-blue" (click)="submit()" >Save</button>
+          <div class="form-group col-10">
+            <label for="bankAccountName">ชื่อบัญชี (ภาษาไทย):</label>
+            <input id="bankAccountName" class="form-control" placeholder="กรุณากรอกชื่อบัญชี" type="text"
+              formControlName="bankAccountName" />
           </div>
+
+          <div class="form-group col-10">
+            <label for="bankAccountNumber">เลขที่บัญชี :</label>
+            <input id="bankAccountNumber" class="form-control" placeholder="กรุณากรอกเลขที่บัญชี" type="text"
+              formControlName="bankAccountNumber" />
+          </div>
+
+          <div class="col-10 pb-3">
+            <div>ประเภทบุคคล :</div>
+            <div class="d-flex justify-content-start">
+              <div class="checkbox col-auto" *ngFor="let role of roles">
+                <label><input type="checkbox" [checked]="role.value" (change)="onCheckBoxRole(role.name ,$event)"
+                    formControlName="role"> {{role.name}}</label>
+              </div>
+            </div>
+          </div>
+          <div class="col-10 pb-3" *ngIf="!isCheckRole">
+            <div>Select Vat :</div>
+            <div class="d-flex justify-content-start">
+              <div class="checkbox col-auto" *ngFor="let vat of vatList">
+                <label><input type="checkbox" [checked]="vat.value" (change)="onCheckBoxVat(vat.name ,$event)"
+                    formControlName="vat"> {{vat.name}}</label>
+              </div>
+            </div>
+          </div>
+          <div class="form-group text-right col-10">
+            <button type="button" class="btn btn-blue" (click)="submit()">Save</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-</div>
 </form>
