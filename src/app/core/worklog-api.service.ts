@@ -1,3 +1,4 @@
+import { Login } from './../shared/model/login';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -6,14 +7,13 @@ import { AddIncomeResponse } from '../shared/model/add-income-model-response';
 import { IncomeFlag } from '../shared/model/income-flag';
 import { ListIncomeResponse } from '../shared/model/list-income-model-response';
 import { SettingReminder } from '../shared/model/setting-reminder-model';
-import { FirstLogin, Users } from '../shared/model/user-model';
+import { User } from '../shared/model/user';
 
 @Injectable({
     providedIn: 'root'
 })
 export class WorklogApiService {
     // user test
-    firstLoginInfo: FirstLogin;
     private corporateId = '5bde550643b39700012727f2';
     private individualId = '5bde4e2e1a044b8c9ce44fe4';
     private testMongo = '5bf6be9d4d844cb8f8465475';
@@ -22,9 +22,7 @@ export class WorklogApiService {
     readonly apiPath = environment.api;
     private token = sessionStorage.getItem('token');
 
-    constructor(private http: HttpClient) {
-        this.firstLoginInfo = new FirstLogin();
-    }
+    constructor(private http: HttpClient) { }
 
     /*
       user test
@@ -53,26 +51,29 @@ export class WorklogApiService {
         return httpOptions;
     }
 
-    updateUser(id: string, user: Users): Observable<any> {
-        return this.http.put<Users>(`${this.apiPath}users/${id}`, user,
+    updateUser(id: string, user: User): Observable<User> {
+        return this.http.put<User>(`${this.apiPath}users/${id}`, user,
             this.getHttpHeaderOption()
         );
     }
+
     getLogin(): Observable<any> {
         return this.http.post<any>(`${this.apiPath}login`, { token: this.userId });
     }
-    getLoginGoogle(idtoken: string): Observable<any> {
+
+    getLoginGoogle(idtoken: string): Observable<Login> {
         return this.http.post<any>(`${this.apiPath}login-google`, { 'token': idtoken });
     }
+
     getUserByID(id: string = this.userId) {
-        return this.http.get<Users>(
+        return this.http.get<User>(
             `${this.apiPath}users/${id}`,
             this.getHttpHeaderOption(),
         );
     }
 
     getIncomeMonth() {
-        return this.http.get<Users>(
+        return this.http.get<User>(
             `${this.apiPath}incomes/month`,
             this.getHttpHeaderOption()
         );
@@ -155,14 +156,5 @@ export class WorklogApiService {
                 Authorization: sessionStorage.getItem('token')
             })
         });
-    }
-
-    getFirstLogin(): FirstLogin {
-        return this.firstLoginInfo;
-    }
-
-    setFirstLogin(firstLogin: FirstLogin) {
-        console.log('firstLogin', firstLogin);
-        this.firstLoginInfo = firstLogin;
     }
 }

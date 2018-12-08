@@ -53,15 +53,17 @@ describe('Service: WorklogApi', () => {
       user: [
         {
           id: '5bde550643b39700012727f2',
+          role: 'corporate',
           firstName: 'odds',
           lastName: 'jung',
-          email: 'test@abc.com',
+          email: 'test@odds.team',
           bankAccountName: 'ทดสอบชอบลงทุน',
           bankAccountNumber: '123123123123',
           thaiCitizenId: '1234567890123',
-          corporateFlag: 'Y',
-          vat: 'non-vat'
-
+          vat: 'non-vat',
+          slackAccount: 'test@odds.team',
+          transcript: '',
+          siteId: ''
         }
       ]
     };
@@ -80,14 +82,17 @@ describe('Service: WorklogApi', () => {
       user: [
         {
           id: '5bde550643b397000127274re',
+          role: 'individual',
           firstName: 'odds',
           lastName: 'jung',
-          email: 'test@abc.com',
+          email: 'test@odds.team',
           bankAccountName: 'ทดสอบชอบลงทุน',
           bankAccountNumber: '123123123123',
           thaiCitizenId: '1234567890123',
-          corporateFlag: 'N',
-          vat: 'non-vat'
+          vat: 'non-vat',
+          slackAccount: 'test@odds.team',
+          transcript: '',
+          siteId: ''
         }
       ]
     };
