@@ -31,5 +31,6 @@
   </tbody>
 </table>
 <ng-template #ContentLoader>
-  <list-content-loader [width]="300" [speed]="1" [secondaryColor]="'#F0F0F0'" [primaryColor]="'#A1A1A1'"></list-content-loader>
+  <div *ngIf="isNoData" class="text-center">ไม่มีข้อมูล</div>
+  <list-content-loader *ngIf="isShowLoading" [width]="300" [speed]="1" [secondaryColor]="'#F0F0F0'" [primaryColor]="'#A1A1A1'"></list-content-loader>
 </ng-template>

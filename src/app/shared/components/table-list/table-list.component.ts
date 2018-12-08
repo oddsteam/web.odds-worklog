@@ -11,11 +11,17 @@ export class TableListComponent implements OnInit, OnDestroy, OnChanges {
     dtTrigger: Subject<any> = new Subject();
     swapArrowIconSort = false;
     order = 'status';
+    isNoData = false;
+    isShowLoading = true;
+
     constructor() { }
 
     ngOnChanges(): void {
         if (this.ListData) {
             this.dtTrigger.next();
+        } else {
+            this.isNoData = true;
+            this.isShowLoading = false;
         }
     }
 
