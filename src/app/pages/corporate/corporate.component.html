@@ -1,8 +1,8 @@
-<div *ngIf="personType === 'Y'">
+<div *ngIf="isShowData()">
   <div class="card-container">
     <app-add-income></app-add-income>
   </div>
   <div>
-    <app-list-corporate></app-list-corporate>
+    <app-list-corporate role="personType"></app-list-corporate>
   </div>
 </div>

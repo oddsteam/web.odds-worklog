@@ -15,8 +15,12 @@ export class CorporateComponent implements OnInit {
 
   ngOnInit() {
     this.worklogApiService.getUserByID(this.id).subscribe(data => {
-      this.personType = data.corporateFlag;
+      this.personType = data.role;
     });
+  }
+
+  isShowData(): boolean {
+    return this.personType === 'corporate' || this.personType === 'admin';
   }
 
 }

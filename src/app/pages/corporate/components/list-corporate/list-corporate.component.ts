@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { StateService } from 'src/app/core/state.service';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
 import { ListIncomeResponse } from 'src/app/shared/model/list-income-model-response';
@@ -9,8 +9,11 @@ import { ListIncomeResponse } from 'src/app/shared/model/list-income-model-respo
   styleUrls: ['./list-corporate.component.scss'],
 })
 export class ListCorporateComponent implements OnInit {
+
+  @Input() role: string;
   date = new Date();
   listIncome: ListIncomeResponse;
+
   constructor(
     private worklogApiService: WorklogApiService,
     private stateService: StateService
