@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
 import { ListIncomeResponse } from 'src/app/shared/model/list-income-model-response';
 
@@ -9,8 +9,10 @@ import { ListIncomeResponse } from 'src/app/shared/model/list-income-model-respo
 })
 export class ListIndividualComponent implements OnInit {
 
+  @Input() role: string;
   date = new Date();
   listIncomeIndividual: ListIncomeResponse;
+
   constructor(private worklogApiService: WorklogApiService) { }
 
   ngOnInit() {
@@ -36,6 +38,7 @@ export class ListIndividualComponent implements OnInit {
       }
     );
   }
+
   downloadFile(data: any, filename: string) {
     const blob = new Blob([data], { type: 'text/csv;charset=utf-8;' });
     const url = window.URL.createObjectURL(blob);

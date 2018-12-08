@@ -42,15 +42,15 @@ describe('IndividualComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should be personType to equal Y when coporateFlag is Y', () => {
+  it('should be personType to equal individual when role is individual', () => {
     const res = {
-      corporateFlag: 'N'
+      role: 'individual'
     };
     spyOn(worklogApiService, 'getUserByID').and.returnValue(of(res));
 
     component.ngOnInit();
 
-    expect(component.personType).toEqual('N');
+    expect(component.personType).toEqual('individual');
     expect(worklogApiService.getUserByID).toHaveBeenCalled();
   });
 });

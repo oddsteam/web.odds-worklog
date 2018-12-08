@@ -47,21 +47,27 @@ describe('ListIndividualComponent', () => {
       user: [
         {
           id: '1233',
+          role: 'individual',
           fullnameEn: 'ODDS ODDS',
           email: 'odds@odds.team',
           bankAccountName: 'ชวินธร odds',
           bankAccountNumber: '112211221122',
-          corporateFlag: 'N',
-          thaiCitizenId: '12345423'
+          thaiCitizenId: '12345423',
+          slackAccount: 'odds@odds.team',
+          siteId: '',
+          transcript: ''
         },
         {
           id: '1233',
+          role: 'individual',
           fullnameEn: 'ODDS ODDS',
           email: 'odds@odds.team',
           bankAccountName: 'ชวินธรสอง odds',
           bankAccountNumber: '112211221122',
-          corporateFlag: 'N',
-          thaiCitizenId: '12345423'
+          thaiCitizenId: '12345423',
+          slackAccount: 'odds@odds.team',
+          siteId: '',
+          transcript: ''
         },
       ]
     };
@@ -77,25 +83,31 @@ describe('ListIndividualComponent', () => {
       user: [
         {
           id: '1233',
+          role: 'individual',
           firstName: 'ODDS',
           lastName: 'ODDS',
           email: 'odds@odds.team',
           bankAccountName: 'odds odds',
           bankAccountNumber: '112211221122',
-          corporateFlag: 'N',
           thaiCitizenId: '12345423',
-          vat: 'non-vat'
+          vat: 'non-vat',
+          slackAccount: 'odds@odds.team',
+          siteId: '',
+          transcript: ''
         },
         {
           id: '1233',
+          role: 'individual',
           firstName: 'ODDS',
           lastName: 'ODDS',
           email: 'odds@odds.team',
           bankAccountName: 'odds odds',
           bankAccountNumber: '112211221122',
-          corporateFlag: 'N',
           thaiCitizenId: '12345423',
-          vat: 'non-vat'
+          vat: 'non-vat',
+          slackAccount: 'odds@odds.team',
+          siteId: '',
+          transcript: ''
         },
       ]
     };
