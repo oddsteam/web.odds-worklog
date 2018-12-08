@@ -2,19 +2,19 @@
   <img src="assets/images/odds_logo_white.png">
 </div>
 <ul class="tab-without-padding">
-  <li [ngClass]="recentTab === 'corporate' ? 'active' : ''" *ngIf="personType === 'Y'">
+  <li [ngClass]="isActiveTabCorporate() ? 'active' : ''" *ngIf="isEnableShowTabCorporate()">
     <a class="d-flex align-items-center" (click)="routerTo('corporate')" id="corporate">
       <i class="fa fa-building pl-4"></i>
       <span class="px-2">CORPORATE</span>
     </a>
   </li>
-  <li [ngClass]="recentTab === 'individual' ? 'active' : ''" *ngIf="personType === 'N'">
+  <li [ngClass]="isActiveTabIndividual() ? 'active' : ''" *ngIf="isEnableShowTabIndividual()">
     <a class="d-flex align-items-center" (click)="routerTo('individual')" id="individual">
       <i class="fa fa-user pl-4"></i>
       <span class="px-2">INDIVIDUAL</span>
     </a>
   </li>
-  <li [ngClass]="recentTab === 'settings' ? 'active' : ''">
+  <li [ngClass]="isActiveTabSettings() ? 'active' : ''" *ngIf="isEnableShowTabSetting()">
     <a class="d-flex align-items-center" (click)="routerTo('settings')" id="setting">
       <i class="fa fa-cog pl-4"></i>
       <span class="px-2">SETTINGS</span>

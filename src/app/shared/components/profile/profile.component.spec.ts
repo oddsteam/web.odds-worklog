@@ -6,7 +6,6 @@ import { WorklogApiService } from 'src/app/core/worklog-api.service';
 import { of, throwError } from 'rxjs';
 import { RouterTestingModule } from '@angular/router/testing';
 
-
 describe('ProfileComponent', () => {
   let component: ProfileComponent;
   let fixture: ComponentFixture<ProfileComponent>;
@@ -45,13 +44,16 @@ describe('ProfileComponent', () => {
   it('should call getUserByID in workLog service', () => {
     const mockResponse = {
       id: '5bde550643b397000127274re',
+      role: 'individual',
       firstName: 'odds',
       lastName: 'jung',
       email: 'test@abc.com',
       bankAccountName: 'ทดสอบชอบลงทุน',
       bankAccountNumber: '123123123123',
       thaiCitizenId: '1234567890123',
-      corporateFlag: 'N'
+      slackAccount: '',
+      transcript: '',
+      siteId: ''
     };
     spyOn(workLogService, 'getUserByID').and.returnValue(of(mockResponse));
     component.getUserID();
@@ -61,13 +63,16 @@ describe('ProfileComponent', () => {
   it('name in component should be equal response from getUserByID in workLog service', () => {
     const mockResponse = {
       id: '5bde550643b397000127274re',
+      role: 'individual',
       firstName: 'odds',
       lastName: 'jung',
       email: 'test@abc.com',
       bankAccountName: 'ทดสอบชอบลงทุน',
       bankAccountNumber: '123123123123',
       thaiCitizenId: '1234567890123',
-      corporateFlag: 'N'
+      slackAccount: '',
+      transcript: '',
+      siteId: ''
     };
     spyOn(workLogService, 'getUserByID').and.returnValue(of(mockResponse));
     component.getUserID();

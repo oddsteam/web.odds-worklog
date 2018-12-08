@@ -31,7 +31,7 @@ export class ProfileComponent implements OnInit {
     getUserID() {
         this.worklogApiService.getUserByID(this.id).subscribe(res => {
             this.name = res.firstName + ' ' + res.lastName;
-            this.stateService.setTypeUser(res.corporateFlag);
+            this.stateService.setTypeUser(res.role);
             this.stateService.setFlagVat(res.vat);
         });
     }

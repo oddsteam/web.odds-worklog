@@ -1,7 +1,7 @@
-import { Users } from './user-model';
+import { User } from './user';
 
 export class ListIncomeResponse {
   submitDate: string;
   status: string;
-  user: Users[];
+  user: User[];
 }

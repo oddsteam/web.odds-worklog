@@ -44,23 +44,23 @@ describe('TabMenuComponent', () => {
     expect(mockRouter.navigate).toHaveBeenCalledWith(['/individual']);
   });
 
-  it('should be recentTap to equal individual when corporateFlag to equal N', () => {
+  it('should be tabActive to equal individual when role to equal individual', () => {
     const res = {
-      corporateFlag: 'N'
+      role: 'individual'
     };
     spyOn(worklogApiService, 'getUserByID').and.returnValue(of(res));
     component.ngOnInit();
-    expect(component.personType).toEqual('N');
-    expect(component.recentTab).toEqual('individual');
+    expect(component.personType).toEqual('individual');
+    expect(component.tabActive).toEqual('individual');
   });
 
-  it('should be recentTap to equal corporate when corporateFlag to equal Y', () => {
+  it('should be tabActive to equal corporate when role to equal corporate', () => {
     const res = {
-      corporateFlag: 'Y'
+      role: 'corporate'
     };
     spyOn(worklogApiService, 'getUserByID').and.returnValue(of(res));
     component.ngOnInit();
-    expect(component.personType).toEqual('Y');
-    expect(component.recentTab).toEqual('corporate');
+    expect(component.personType).toEqual('corporate');
+    expect(component.tabActive).toEqual('corporate');
   });
 });
