@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService, GoogleLoginProvider } from 'angular-6-social-login';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
-import { FirstLogin } from '../../shared/model/user-model';
 
 @Component({
   selector: 'app-login-google',
@@ -17,31 +16,52 @@ export class LoginGoogleComponent implements OnInit {
 
   ngOnInit() {
   }
+
   socialSignIn() {
     let socialPlatformProvider;
     socialPlatformProvider = GoogleLoginProvider.PROVIDER_ID;
     this.socialAuthService.signIn(socialPlatformProvider).then(
       (userData) => {
-        const firstLogin = new FirstLogin();
-        firstLogin.email = userData.email;
-        this.worklogService.getLoginGoogle(userData.idToken).subscribe(res => {
-          if (res.firstLogin === 'N') {
-            sessionStorage.setItem('token', 'Bearer ' + res.token);
-            firstLogin.firstLogin = res.firstLogin;
-            this.worklogService.setFirstLogin(firstLogin);
-            sessionStorage.setItem('idUser', res.idUser);
-            this.router.navigate(['corporate']);
-          } else {
-            sessionStorage.setItem('token', 'Bearer ' + res.token);
-            firstLogin.firstLogin = res.firstLogin;
-            this.worklogService.setFirstLogin(firstLogin);
-            sessionStorage.setItem('idUser', res.idUser);
-            this.router.navigate(['firstlogin']);
-          }
-        });
-
+        if (this.isOddsTeam(userData.email)) {
+          this.loginGoogle(userData.idToken);
+        }
       }
     );
+  }
 
+  private loginGoogle(idToken: string) {
+    this.worklogService.getLoginGoogle(idToken).subscribe(res => {
+      console.log(res);
+      if (res.firstLogin === 'N') {
+        sessionStorage.setItem('token', 'Bearer ' + res.token);
+        sessionStorage.setItem('idUser', res.user.id);
+
+        if (res.user.role === 'admin') {
+          this.router.navigate(['corporate']);
+        } else {
+          this.router.navigate([res.user.role]);
+        }
+      } else {
+        sessionStorage.setItem('token', 'Bearer ' + res.token);
+        sessionStorage.setItem('idUser', res.user.id);
+        this.router.navigate(['firstlogin']);
+      }
+    });
+
+  }
+
+  private isOddsTeam(email: string): boolean {
+    if (!email || email.length < 10) {
+      alert('อีเมลไม่ถูกต้องครับ');
+      return false;
+    }
+
+    const host = email.slice(-10);
+    if (host !== '@odds.team') {
+      alert('ไม่ใช่บัญชีของ odds.team ไม่สามารถเข้าใช้งานได้นะครับ ^_^');
+      return false;
+    }
+
+    return true;
   }
 }
