@@ -46,11 +46,11 @@ describe('LayoutsComponent', () => {
     component = fixture.componentInstance;
     // mockUsers = <Users>{
     //   id: '1234567890',
+    //   role: 'corporate',
     //   fullnameEn: 'ทดสอบ ชอบลงทุน',
     //   email: 'abc@abc.com',
     //   bankAccountName: 'ทดสอบ ชอบลงทุน',
     //   bankAccountNumber: '0987654321',
-    //   corporateFlag: 'Y',
     //   thaiCitizenId: '1234567890',
     // };
   });
@@ -74,7 +74,7 @@ describe('LayoutsComponent', () => {
   //   expect(sessionStorage.getItem('token')).toEqual('Bearer ' + mockToken.token);
   // });
 
-  it('should call goToPage when worklogApiService return response', () => {
+  it('should not call goToPage when worklogApiService return response null', () => {
     const mockToken = {
       token: '.eyJ1c2VySWQiOiJbyZVcdWZmZmQ6Mlx1MDAwNFx1ZmZmZGBcdWZmZmRcclx1ZmZ'
     };
@@ -82,38 +82,45 @@ describe('LayoutsComponent', () => {
     spyOn(worklogApiService, 'getUserByID').and.returnValue(of(''));
     spyOn(component, 'goToPage');
     component.ngOnInit();
-    expect(component.goToPage).toHaveBeenCalled();
+    expect(component.goToPage).toHaveBeenCalledTimes(0);
   });
 
-  it('should navigate to /corporate when call goToPage', () => {
-    spyOn(mockRouterService, 'navigate');
-    component.goToPage();
-    expect(mockRouterService.navigate).toHaveBeenCalledWith([`/corporate`]);
-  });
-
-  it('', inject([Router], (router: Router) => {
+  it('should navigate to /corporate when role is admin', inject([Router], (router: Router) => {
     const res = {
-      corporateFlag: 'N'
+      role: 'admin'
     };
     spyOn(worklogApiService, 'getUserByID').and.returnValue(of(res));
     spyOn(router, 'navigate');
 
     component.ngOnInit();
 
-    expect(component.personType).toEqual('N');
+    expect(component.personType).toEqual('admin');
+    expect(router.navigate).toHaveBeenCalledWith(['/corporate']);
+  }));
+
+  it('should navigate to /individual when role is individual', inject([Router], (router: Router) => {
+    const res = {
+      role: 'individual'
+    };
+    spyOn(worklogApiService, 'getUserByID').and.returnValue(of(res));
+    spyOn(router, 'navigate');
+
+    component.ngOnInit();
+
+    expect(component.personType).toEqual('individual');
     expect(router.navigate).toHaveBeenCalledWith(['/individual']);
   }));
 
-  it('', inject([Router], (router: Router) => {
+  it('should navigate to /corporate when role is corporate', inject([Router], (router: Router) => {
     const res = {
-      corporateFlag: 'Y'
+      role: 'corporate'
     };
     spyOn(worklogApiService, 'getUserByID').and.returnValue(of(res));
     spyOn(router, 'navigate');
 
     component.ngOnInit();
 
-    expect(component.personType).toEqual('Y');
+    expect(component.personType).toEqual('corporate');
     expect(router.navigate).toHaveBeenCalledWith(['/corporate']);
   }));
 });

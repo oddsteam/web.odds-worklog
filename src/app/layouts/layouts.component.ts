@@ -18,16 +18,27 @@ export class LayoutsComponent implements OnInit {
 
     ngOnInit() {
         this.worklogApiService.getUserByID(this.id).subscribe(res => {
-            this.personType = res.corporateFlag;
+            console.log(res);
+            if (!res) {
+                sessionStorage.clear();
+                this.router.navigate([`/login`]);
+                return;
+            }
+
+            if (res.firstName === '' || res.lastName === '') {
+                this.router.navigate([`/firstlogin`]);
+                return;
+            }
+            this.personType = res.role;
             this.goToPage();
         });
     }
 
     goToPage() {
-        if (this.personType === 'N') {
-            this.router.navigate([`/individual`]);
-        } else {
+        if (this.personType === 'admin') {
             this.router.navigate([`/corporate`]);
+        } else {
+            this.router.navigate([`/${this.personType}`]);
         }
     }
 }
