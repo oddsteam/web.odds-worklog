@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, AfterViewChecked } from '@angular/core';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
 import { ListIncomeResponse } from 'src/app/shared/model/list-income-model-response';
 
@@ -7,9 +7,10 @@ import { ListIncomeResponse } from 'src/app/shared/model/list-income-model-respo
   templateUrl: './list-individual.component.html',
   styleUrls: ['./list-individual.component.scss']
 })
-export class ListIndividualComponent implements OnInit {
+export class ListIndividualComponent implements OnInit, OnChanges {
 
   @Input() role: string;
+  @Input() isUpdateList: boolean;
   date = new Date();
   listIncomeIndividual: ListIncomeResponse;
 
@@ -19,6 +20,12 @@ export class ListIndividualComponent implements OnInit {
     this.worklogApiService.forCheckTokenPleaseRemoveMeIfFlowLoginFinnished()
       .subscribe(() => this.getListIncomeIndividual());
 
+  }
+
+  ngOnChanges() {
+   if (this.isUpdateList) {
+     this.getListIncomeIndividual();
+   }
   }
 
   getListIncomeIndividual() {

@@ -11,6 +11,7 @@ import { IncomeFlag } from '../../model/income-flag';
 })
 export class ModalIncomeComponent implements OnInit {
   @Output() closeModalEmit = new EventEmitter();
+  @Output() addIncomeEmit = new EventEmitter();
   @Input() openModal;
   @Input() typeUser;
   @Input() addIncomeData: AddIncomeResponse;
@@ -87,6 +88,7 @@ export class ModalIncomeComponent implements OnInit {
       this.addIncomeConfirm(totalIncome);
     }
     this.closeModalEmit.emit(true);
+    this.addIncomeEmit.emit(true);
   }
 
   updateData() {

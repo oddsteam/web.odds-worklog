@@ -9,6 +9,7 @@ import { WorklogApiService } from 'src/app/core/worklog-api.service';
 export class IndividualComponent implements OnInit {
   id = sessionStorage.getItem('idUser');
   personType: string;
+  isUpdateIncome: boolean;
   constructor(
     private worklogApiService: WorklogApiService
   ) { }
@@ -21,6 +22,12 @@ export class IndividualComponent implements OnInit {
 
   isShowData(): boolean {
     return this.personType === 'individual' || this.personType === 'admin';
+  }
+
+  addIncomeEmit(event) {
+    if (event) {
+      this.isUpdateIncome = event;
+    }
   }
 
 }

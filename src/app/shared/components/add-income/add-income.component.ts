@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild, Output, EventEmitter } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { StateService } from 'src/app/core/state.service';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
@@ -14,6 +14,7 @@ export class AddIncomeComponent implements OnInit {
   id = sessionStorage.getItem('idUser');
   salary = 0;
   @ViewChild('templateModal') templateModal: TemplateRef<any>;
+  @Output() addIncomeAlready = new EventEmitter();
   modalRef: BsModalRef;
   note = 'อยากได้เงินก็กรอกมาสิ';
   typeUser: string;
@@ -79,6 +80,14 @@ export class AddIncomeComponent implements OnInit {
     if (event) {
       this.closeModal();
       this.ngOnInit();
+    }
+  }
+
+  addIncomeEmit(event) {
+    if (event) {
+      this.addIncomeAlready.emit(true);
+    } else {
+      this.addIncomeAlready.emit(false);
     }
   }
 
