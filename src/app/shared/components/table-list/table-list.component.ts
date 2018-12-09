@@ -17,7 +17,18 @@ export class TableListComponent implements OnInit, OnDestroy, OnChanges {
     constructor() { }
 
     ngOnChanges(): void {
+        let index;
         if (this.ListData) {
+            const array: any = this.ListData;
+            array.forEach((element, i) => {
+                index = element.user.id.indexOf(sessionStorage.getItem('idUser'));
+                if (index !== -1) {
+                    index = i;
+                    return;
+                }
+            });
+            array.splice(0, 0, array.splice(index, 1)[0]);
+            this.ListData = array;
             this.dtTrigger.next();
         } else {
             this.isNoData = true;
@@ -36,4 +47,5 @@ export class TableListComponent implements OnInit, OnDestroy, OnChanges {
     setOrder() {
         this.swapArrowIconSort = !this.swapArrowIconSort;
     }
+
 }

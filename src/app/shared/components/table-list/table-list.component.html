@@ -12,7 +12,23 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let listData of ListData | orderBy: order:swapArrowIconSort:'case-insensitive'">
+    <tr>
+        <td class="text-left pl-4">{{ ListData[0].user?.firstName + ' ' + ListData[0].user?.lastName }}</td>
+        <td class="text-left">{{ ListData[0].user?.email }}</td>
+        <td class="text-left">{{ ListData[0].user?.bankAccountName }}</td>
+        <td class="text-center">{{ ListData[0].user?.bankAccountNumber }}</td>
+        <td class="text-left">
+          {{
+          ListData[0]?.submitDate == ""
+          ? "-"
+          : (ListData[0]?.submitDate | date: "dd/MM/yyyy HH:mm:ss")
+          }}
+        </td>
+        <td class="text-center" appStatusHighlight [Status]="ListData[0]?.status">
+          {{ ListData[0]?.status === "Y" ? "กรอกแล้ว" : "ยังไม่ได้กรอก" }}
+        </td>
+    </tr>
+    <tr *ngFor="let listData of ListData | slice : 1 : ListData.length | orderBy: order:swapArrowIconSort:'case-insensitive'">
       <td class="text-left pl-4">{{ listData.user?.firstName + ' ' + listData.user?.lastName }}</td>
       <td class="text-left">{{ listData.user?.email }}</td>
       <td class="text-left">{{ listData.user?.bankAccountName }}</td>
