@@ -46,10 +46,11 @@ export class FirstLoginComponent implements OnInit {
 
   setupForm() {
     this.loginForm = this.fb.group({
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
+      firstName: ['', Validators.pattern('[a-zA-Z]{2,20}')],
+      lastName: ['', Validators.pattern('[a-zA-Z]{2,20}')],
       bankAccountName: ['', Validators.required],
-      bankAccountNumber: ['', Validators.required],
+      bankAccountNumber: ['', Validators.pattern('\\d{9,16}')],
+      slackAccount: ['', Validators.email],
       role: [true, Validators.required],
       vat: [true, Validators.required]
     });
@@ -65,6 +66,7 @@ export class FirstLoginComponent implements OnInit {
       this.user.lastName = this.loginForm.get('lastName').value;
       this.user.bankAccountName = this.loginForm.get('bankAccountName').value;
       this.user.bankAccountNumber = this.loginForm.get('bankAccountNumber').value;
+      this.user.slackAccount = this.loginForm.get('slackAccount').value;
       this.user.role = this.role;
       this.user.vat = this.vat;
       this.updateUser();

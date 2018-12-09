@@ -36,12 +36,14 @@ describe('FirstLoginComponent', () => {
     component.loginForm.get('lastName').setValue('lastTest');
     component.loginForm.get('bankAccountName').setValue('ทดสอบ');
     component.loginForm.get('bankAccountNumber').setValue('1234567890');
+    component.loginForm.get('slackAccount').setValue('test@odds.team');
     spyOn(worklogapiService, 'updateUser').and.returnValue(of());
     component.submit();
     expect(component.user.firstName).toEqual('test');
     expect(component.user.lastName).toEqual('lastTest');
     expect(component.user.bankAccountName).toEqual('ทดสอบ');
     expect(component.user.bankAccountNumber).toEqual('1234567890');
+    expect(component.user.slackAccount).toEqual('test@odds.team');
     expect(worklogapiService.updateUser).toHaveBeenCalled();
   });
 });
