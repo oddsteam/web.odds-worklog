@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges, AfterViewChecked } from '@angular/core';
+import { Component, OnInit, Input, OnChanges } from '@angular/core';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
 import { ListIncomeResponse } from 'src/app/shared/model/list-income-model-response';
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnChanges } from '@angular/core';
 import { StateService } from 'src/app/core/state.service';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
 import { ListIncomeResponse } from 'src/app/shared/model/list-income-model-response';
@@ -8,9 +8,10 @@ import { ListIncomeResponse } from 'src/app/shared/model/list-income-model-respo
   templateUrl: './list-corporate.component.html',
   styleUrls: ['./list-corporate.component.scss'],
 })
-export class ListCorporateComponent implements OnInit {
+export class ListCorporateComponent implements OnInit, OnChanges {
 
   @Input() role: string;
+  @Input() isUpdateList: boolean;
   date = new Date();
   listIncome: ListIncomeResponse;
 
@@ -24,6 +25,12 @@ export class ListCorporateComponent implements OnInit {
     this.stateService.listIncomeCorporateTrigger.subscribe(trigger => {
       this.getListIncomeCorporate();
     });
+  }
+
+  ngOnChanges() {
+    if (this.isUpdateList) {
+      this.getListIncomeCorporate();
+    }
   }
 
   getListIncomeCorporate() {
