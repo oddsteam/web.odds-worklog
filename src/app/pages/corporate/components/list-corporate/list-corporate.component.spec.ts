@@ -154,4 +154,44 @@ describe('ListCorporateComponent', () => {
     expect(window.alert).toHaveBeenCalledWith(`Can't export corporate income to CSV file.`);
   });
 
+  it('should call getListIncomeCorporate when isUpdateList = true', () => {
+    const mockResponse = {
+      submitDate: '2018-10-09:00:00:00',
+      status: 'Y',
+      user: [
+        {
+          id: '1233',
+          role: 'corporate',
+          firstName: 'ODDS',
+          lastName: 'ODDS',
+          email: 'odds@odds.team',
+          bankAccountName: 'odds odds',
+          bankAccountNumber: '112211221122',
+          thaiCitizenId: '12345423',
+          vat: 'non-vat',
+          slackAccount: 'odds@odds.team',
+          siteId: '',
+          transcript: ''
+        },
+        {
+          id: '1233',
+          role: 'corporate',
+          firstName: 'ODDS',
+          lastName: 'ODDS',
+          email: 'odds@odds.team',
+          bankAccountName: 'odds odds',
+          bankAccountNumber: '112211221122',
+          thaiCitizenId: '12345423',
+          vat: 'non-vat',
+          slackAccount: 'odds@odds.team',
+          siteId: '',
+          transcript: ''
+        },
+      ]
+    };
+    spyOn(worklogService, 'getListIncomeCorporate').and.returnValue(of(mockResponse));
+    component.isUpdateList = true;
+    component.ngOnChanges();
+    expect(worklogService.getListIncomeCorporate).toHaveBeenCalled();
+  });
 });

@@ -346,5 +346,18 @@ describe('ModalIncomeComponent', () => {
     component.onSubmit();
     expect(component.addIncomeData.totalIncome).toEqual(component.totalIncome.value);
   });
+
+  it('should emit addIncomeEmit with true when call onConfirm()', () => {
+    spyOn(component.addIncomeEmit, 'emit');
+    component.addIncomeData = null;
+    component.onSetupForm();
+    component.fg.patchValue({
+      totalIncome: '100000',
+      note: ''
+    });
+    fixture.detectChanges();
+    component.onConfirm();
+    expect(component.addIncomeEmit.emit).toHaveBeenCalledWith(true);
+  });
 });
 
