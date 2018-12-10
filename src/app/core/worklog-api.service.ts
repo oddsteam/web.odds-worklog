@@ -72,13 +72,6 @@ export class WorklogApiService {
         );
     }
 
-    getIncomeMonth() {
-        return this.http.get<User>(
-            `${this.apiPath}incomes/month`,
-            this.getHttpHeaderOption()
-        );
-    }
-
     getListIncomeCorporate(): Observable<ListIncomeResponse> {
         return this.http.get<ListIncomeResponse>(
             `${this.apiPath}incomes/status/corporate`,
@@ -93,9 +86,9 @@ export class WorklogApiService {
         );
     }
 
-    getIncomeByUserID(): Observable<AddIncomeResponse> {
+    getIncomeByUserID(id: string): Observable<AddIncomeResponse> {
         return this.http.get<AddIncomeResponse>(
-            `${this.apiPath}incomes/month`,
+            `${this.apiPath}incomes/current-month/${id}`,
             this.getHttpHeaderOption()
         );
     }

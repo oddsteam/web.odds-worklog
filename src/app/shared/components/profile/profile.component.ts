@@ -37,7 +37,7 @@ export class ProfileComponent implements OnInit {
     }
 
     getUserIncome() {
-        this.worklogApiService.getIncomeMonth().subscribe(res => {
+        this.worklogApiService.getIncomeByUserID(this.id).subscribe(res => {
             if (res) {
                 this.stateService.setFlagUser('N');
             } else {
