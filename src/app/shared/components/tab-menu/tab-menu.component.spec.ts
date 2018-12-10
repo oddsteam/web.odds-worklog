@@ -51,7 +51,6 @@ describe('TabMenuComponent', () => {
     spyOn(worklogApiService, 'getUserByID').and.returnValue(of(res));
     component.ngOnInit();
     expect(component.personType).toEqual('individual');
-    expect(component.tabActive).toEqual('individual');
   });
 
   it('should be tabActive to equal corporate when role to equal corporate', () => {
@@ -61,6 +60,5 @@ describe('TabMenuComponent', () => {
     spyOn(worklogApiService, 'getUserByID').and.returnValue(of(res));
     component.ngOnInit();
     expect(component.personType).toEqual('corporate');
-    expect(component.tabActive).toEqual('corporate');
   });
 });
