@@ -2,22 +2,12 @@
   <img src="assets/images/odds_logo_white.png">
 </div>
 <ul class="tab-without-padding">
-  <li [ngClass]="isActiveTabCorporate() ? 'active' : ''" *ngIf="isEnableShowTabCorporate()">
-    <a class="d-flex align-items-center" (click)="routerTo('corporate')" id="corporate">
-      <i class="fa fa-building pl-4"></i>
-      <span class="px-2">CORPORATE</span>
-    </a>
-  </li>
-  <li [ngClass]="isActiveTabIndividual() ? 'active' : ''" *ngIf="isEnableShowTabIndividual()">
-    <a class="d-flex align-items-center" (click)="routerTo('individual')" id="individual">
-      <i class="fa fa-user pl-4"></i>
-      <span class="px-2">INDIVIDUAL</span>
-    </a>
-  </li>
-  <li [ngClass]="isActiveTabSettings() ? 'active' : ''" *ngIf="isEnableShowTabSetting()">
-    <a class="d-flex align-items-center" (click)="routerTo('settings')" id="setting">
-      <i class="fa fa-cog pl-4"></i>
-      <span class="px-2">SETTINGS</span>
-    </a>
-  </li>
+ <ng-container *ngFor="let tabMenu of listTabMenuShow">
+  <li [ngClass]="{'active' : personType === tabMenu?.id }" >
+      <a class="d-flex align-items-center" (click)="routerTo(tabMenu?.id)" [style.padding-left]="tabMenu?.level * 1 + 'rem'">
+        <i class="fa pl-4" [ngClass]="tabMenu?.icon"></i>
+        <span class="px-2">{{tabMenu?.text}}</span>
+      </a>
+    </li>
+</ng-container>
 </ul>

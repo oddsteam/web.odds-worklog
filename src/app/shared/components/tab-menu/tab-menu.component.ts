@@ -12,7 +12,16 @@ export class TabMenuComponent implements OnInit {
 
   tabActive: string;
   personType: string;
-
+  listTabMenu = [
+    {id: 'profile', text: 'PROFILE', icon: 'fa-user-circle', level: 0 },
+    {id: 'corporate', text: 'CORPORATE', icon: 'fa-building', level: 0},
+    {id: 'individual', text: 'INDIVIDUAL', icon: 'fa-user', level: 0},
+    {id: 'management', text: 'MANAGEMENT', icon: 'fa-users', level: 0 },
+    {id: 'users', text: 'USERS', icon: '', level: 1 },
+    {id: 'groups', text: 'GROUPS', icon: '', level: 1 },
+    {id: 'settings', text: 'SETTINGS', icon: 'fa-cog', level: 0 },
+  ];
+  listTabMenuShow = [];
   private id = sessionStorage.getItem('idUser');
 
   constructor(
@@ -23,43 +32,17 @@ export class TabMenuComponent implements OnInit {
   ngOnInit() {
     this.worklogApiService.getUserByID(this.id).subscribe(res => {
       this.personType = res.role;
-
-      if (this.personType === 'admin') {
-        this.tabActive = 'corporate';
+      if (this.personType !== 'admin') {
+        this.listTabMenuShow = this.listTabMenu.filter( x => x.id === this.personType);
       } else {
-        this.tabActive = this.personType;
+        this.listTabMenuShow = this.listTabMenu;
       }
     });
   }
 
   routerTo(path) {
-    this.tabActive = path;
+    this.personType = path;
     IncomeFlag.typeGetListService = path;
     this.router.navigate([`/${path}`]);
   }
-
-  isEnableShowTabCorporate(): boolean {
-    return this.personType === 'corporate' || this.personType === 'admin';
-  }
-
-  isEnableShowTabIndividual(): boolean {
-    return this.personType === 'individual' || this.personType === 'admin';
-  }
-
-  isEnableShowTabSetting(): boolean {
-    return this.personType === 'admin';
-  }
-
-  isActiveTabCorporate(): boolean {
-    return this.tabActive === 'corporate';
-  }
-
-  isActiveTabIndividual(): boolean {
-    return this.tabActive === 'individual';
-  }
-
-  isActiveTabSettings(): boolean {
-    return this.tabActive === 'settings';
-  }
-
 }
