@@ -12,6 +12,7 @@ export class TabMenuComponent implements OnInit {
 
   tabActive: string;
   personType: string;
+  isShowLess = true;
   listTabMenu = [
     {id: 'profile', text: 'PROFILE', icon: 'fa-user-circle', level: 0 },
     {id: 'corporate', text: 'CORPORATE', icon: 'fa-building', level: 0},
@@ -41,8 +42,12 @@ export class TabMenuComponent implements OnInit {
   }
 
   routerTo(path) {
-    this.personType = path;
-    IncomeFlag.typeGetListService = path;
-    this.router.navigate([`/${path}`]);
+    if (path === 'management') {
+      this.isShowLess = !this.isShowLess;
+    } else {
+      this.personType = path;
+      IncomeFlag.typeGetListService = path;
+      this.router.navigate([`/${path}`]);
+    }
   }
 }

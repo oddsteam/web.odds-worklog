@@ -14,10 +14,10 @@ div {
   ul {
     list-style-type: none;
     width: 100%;
-    background-color: #2b303a;
+    background-color: #303641;
   }
   
-  li a {
+  li div{
     color: #aaabae;
     padding: 15px;
     cursor: pointer;
@@ -32,8 +32,18 @@ div {
     color: white;
   }
   .active {
-    background-color: rgba(69, 74, 84, 0.7);
+    background-color: rgba(69, 74, 84, 0.7) !important;
     a {
       color: white;
     }
   }
+
+  .background-dark-gray{
+    background: #2b303a;
+  }
+
+  .display-gray-row-none {
+    li[class="background-dark-gray"] {
+        display: none;
+    }
+}
