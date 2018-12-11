@@ -17,17 +17,16 @@ export class TableListComponent implements OnInit, OnDestroy, OnChanges {
     constructor() { }
 
     ngOnChanges(): void {
-        let index;
+        let indexOfCurrentUser;
         if (this.ListData) {
             const array: any = this.ListData;
-            array.forEach((element, i) => {
-                index = element.user.id.indexOf(sessionStorage.getItem('idUser'));
-                if (index !== -1) {
-                    index = i;
+            array.forEach((element, index) => {
+                indexOfCurrentUser = element.user.id.indexOf(sessionStorage.getItem('idUser'));
+                if (indexOfCurrentUser !== -1) {
+                    array.splice(0, 0, array.splice(index, 1)[0]);
                     return;
                 }
             });
-            array.splice(0, 0, array.splice(index, 1)[0]);
             this.ListData = array;
             this.dtTrigger.next();
         } else {
