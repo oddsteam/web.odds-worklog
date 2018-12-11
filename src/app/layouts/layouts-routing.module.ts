@@ -4,6 +4,7 @@ import { CorporateComponent } from '../pages/corporate/corporate.component';
 import { IndividualComponent } from '../pages/individual/individual.component';
 import { SettingComponent } from '../pages/setting/setting.component';
 import { LayoutsComponent } from './layouts.component';
+import { UsersManagementComponent } from '../pages/users-management/users-management.component';
 
 const routes: Routes = [
     {
@@ -21,6 +22,10 @@ const routes: Routes = [
             {
                 path: 'settings',
                 component: SettingComponent
+            },
+            {
+                path: 'usersManagement',
+                component: UsersManagementComponent
             },
 
         ]

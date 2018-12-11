@@ -17,8 +17,8 @@ export class TabMenuComponent implements OnInit {
     {id: 'corporate', text: 'CORPORATE', icon: 'fa-building', level: 0},
     {id: 'individual', text: 'INDIVIDUAL', icon: 'fa-user', level: 0},
     {id: 'management', text: 'MANAGEMENT', icon: 'fa-users', level: 0 },
-    {id: 'users', text: 'USERS', icon: '', level: 1 },
-    {id: 'groups', text: 'GROUPS', icon: '', level: 1 },
+    {id: 'usersManagement', text: 'USERS', icon: '', level: 1 },
+    {id: 'groupsManagement', text: 'GROUPS', icon: '', level: 1 },
     {id: 'settings', text: 'SETTINGS', icon: 'fa-cog', level: 0 },
   ];
   listTabMenuShow = [];

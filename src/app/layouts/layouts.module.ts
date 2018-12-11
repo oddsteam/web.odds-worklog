@@ -8,6 +8,7 @@ import { ProfileComponent } from '../shared/components/profile/profile.component
 import { SharedModule } from '../shared/shared.module';
 import { LayoutsRoutingModule } from './layouts-routing.module';
 import { LayoutsComponent } from './layouts.component';
+import { UsersManagementModule } from '../pages/users-management/users-management.module';
 
 @NgModule({
     imports: [
@@ -18,6 +19,7 @@ import { LayoutsComponent } from './layouts.component';
         SharedModule,
         CorporateModule,
         IndividualModule,
+        UsersManagementModule,
         SettingModule
     ],
     declarations: [
