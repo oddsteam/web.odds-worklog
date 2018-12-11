@@ -8,6 +8,7 @@ import { IncomeFlag } from '../shared/model/income-flag';
 import { ListIncomeResponse } from '../shared/model/list-income-model-response';
 import { SettingReminder } from '../shared/model/setting-reminder-model';
 import { User } from '../shared/model/user';
+import { Sites } from '../shared/model/sites';
 
 @Injectable({
     providedIn: 'root'
@@ -145,6 +146,13 @@ export class WorklogApiService {
 
     getSettingData(): Observable<SettingReminder> {
         return this.http.get<SettingReminder>(`${this.apiPath}reminder/setting`, {
+            headers: new HttpHeaders({
+                Authorization: sessionStorage.getItem('token')
+            })
+        });
+    }
+    getUsersData():  Observable<User> {
+        return this.http.get<User>(`${this.apiPath}users`, {
             headers: new HttpHeaders({
                 Authorization: sessionStorage.getItem('token')
             })
