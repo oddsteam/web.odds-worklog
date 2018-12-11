@@ -76,7 +76,6 @@ export class FirstLoginComponent implements OnInit {
   private updateUser() {
     this.worklogService.updateUser(sessionStorage.getItem('idUser'), this.user)
       .subscribe(res => {
-        console.log(res);
         if (res.role === 'admin') {
           this.router.navigate(['corporate']);
         } else {

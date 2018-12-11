@@ -1,10 +1,4 @@
-import {
-  Directive,
-  Input,
-  ElementRef,
-  OnChanges,
-  Renderer2,
-} from '@angular/core';
+import { Directive, ElementRef, Input, OnChanges } from '@angular/core';
 
 @Directive({
   selector: '[appStatusHighlight]',
@@ -12,13 +6,13 @@ import {
 export class StatusHighlightDirective implements OnChanges {
   @Input()
   Status: string;
-  constructor(private el: ElementRef, private renderer: Renderer2) { }
+  constructor(private el: ElementRef) { }
   ngOnChanges() {
     const Status = this.Status;
     if (Status === 'Y') {
-      this.renderer.addClass(this.el.nativeElement, 'change--positive');
+      this.el.nativeElement.style.color = 'green';
     } else {
-      this.renderer.addClass(this.el.nativeElement, 'change-negative');
+      this.el.nativeElement.style.color = 'red';
     }
   }
 }

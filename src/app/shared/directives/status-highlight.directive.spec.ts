@@ -1,6 +1,6 @@
-import { By } from '@angular/platform-browser';
-import { Input, Component, DebugElement } from '@angular/core';
+import { Component, DebugElement, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { StatusHighlightDirective } from './status-highlight.directive';
 
 @Component({
@@ -28,13 +28,13 @@ describe('Directive In Event Input Component', () => {
   it('when status = Y element should have class change--positive', () => {
     component.listData = 'Y';
     fixture.detectChanges();
-    expect(inputElement.nativeElement.className).toEqual('change--positive');
+    expect(inputElement.nativeElement.style.color).toEqual('green');
   });
 
   it('when status = N element should have class change-negative', () => {
     component.listData = 'N';
     fixture.detectChanges();
-    expect(inputElement.nativeElement.className).toEqual('change-negative');
+    expect(inputElement.nativeElement.style.color).toEqual('red');
   });
 
 });

@@ -31,7 +31,6 @@ export class LoginGoogleComponent implements OnInit {
 
   private loginGoogle(idToken: string) {
     this.worklogService.getLoginGoogle(idToken).subscribe(res => {
-      console.log(res);
       if (res.firstLogin === 'N') {
         sessionStorage.setItem('token', 'Bearer ' + res.token);
         sessionStorage.setItem('idUser', res.user.id);

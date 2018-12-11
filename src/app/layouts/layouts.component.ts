@@ -18,7 +18,6 @@ export class LayoutsComponent implements OnInit {
 
     ngOnInit() {
         this.worklogApiService.getUserByID(this.id).subscribe(res => {
-            console.log(res);
             if (!res) {
                 sessionStorage.clear();
                 this.router.navigate([`/login`]);
