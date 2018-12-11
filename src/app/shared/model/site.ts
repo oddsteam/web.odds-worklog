@@ -1,4 +1,4 @@
-export class Sites {
+export class Site {
   id: string;
   name: string;
 }

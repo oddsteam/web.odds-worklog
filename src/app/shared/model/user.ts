@@ -1,4 +1,4 @@
-import { Sites } from './sites';
+import { Site } from './site';
 
 export class User {
     id: string;
@@ -13,5 +13,5 @@ export class User {
     slackAccount: string;
     transcript: string;
     siteId: string;
-    sites: Sites;
+    site?: Site;
 }

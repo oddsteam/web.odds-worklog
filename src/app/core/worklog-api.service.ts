@@ -8,7 +8,6 @@ import { IncomeFlag } from '../shared/model/income-flag';
 import { ListIncomeResponse } from '../shared/model/list-income-model-response';
 import { SettingReminder } from '../shared/model/setting-reminder-model';
 import { User } from '../shared/model/user';
-import { Sites } from '../shared/model/sites';
 
 @Injectable({
     providedIn: 'root'
