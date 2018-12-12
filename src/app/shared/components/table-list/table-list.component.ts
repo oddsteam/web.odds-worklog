@@ -25,7 +25,6 @@ export class TableListComponent implements OnInit, OnDestroy, OnChanges {
                 if (indexOfCurrentUser !== -1) {
                     array.splice(0, 0, array.splice(index, 1)[0]);
                     this.ListData = array;
-                    console.log(this.ListData);
                     return;
                 }
             });

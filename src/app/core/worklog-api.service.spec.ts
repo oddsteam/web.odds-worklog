@@ -146,4 +146,41 @@ describe('Service: WorklogApi', () => {
     backEnd.verify();
   });
 
+  it('should call export pdf api correctly', () => {
+    mockService.exportDataPdf().subscribe();
+    const req = backEnd.expectOne(`${mockService.apiPath}incomes/export/pdf`);
+    expect(req.request.method).toEqual('GET');
+    expect(req.request.responseType).toEqual('blob');
+    backEnd.verify();
+  });
+
+  it('should call reminder setting api correctly', () => {
+    const body = {
+      name: 'reminder',
+      setting: {
+        date: new Date,
+        message: 'message'
+      }
+    };
+    mockService.sendMessage(body).subscribe();
+    const req = backEnd.expectOne(`${mockService.apiPath}reminder/setting`);
+    expect(req.request.method).toEqual('POST');
+    expect(req.request.responseType).toEqual('json');
+    backEnd.verify();
+  });
+
+  it('should call get setting data api correctly', () => {
+    mockService.getSettingData().subscribe();
+    const req = backEnd.expectOne(`${mockService.apiPath}reminder/setting`);
+    expect(req.request.method).toEqual('GET');
+    backEnd.verify();
+  });
+
+  it('should call get users api correctly', () => {
+    mockService.getUsersData().subscribe();
+    const req = backEnd.expectOne(`${mockService.apiPath}users`);
+    expect(req.request.method).toEqual('GET');
+    backEnd.verify();
+  });
+
 });
