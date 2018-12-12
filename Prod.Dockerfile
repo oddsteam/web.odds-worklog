@@ -1,5 +1,5 @@
 # STEP 1 build static website
-FROM trion/ng-cli-e2e:6.2.3 as builder
+FROM suphakrit/ng-cli-e2e:6.2.3 as builder
 
 # Create app directory
 WORKDIR /app
