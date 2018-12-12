@@ -44,6 +44,11 @@ describe('TabMenuComponent', () => {
     expect(mockRouter.navigate).toHaveBeenCalledWith(['/individual']);
   });
 
+  it('should set isShowLess to false if path = management', () => {
+    component.routerTo('management');
+    expect(component.isShowLess).toBeFalsy();
+  });
+
   it('should be tabActive to equal individual when role to equal individual', () => {
     const res = {
       role: 'individual'
@@ -60,5 +65,14 @@ describe('TabMenuComponent', () => {
     spyOn(worklogApiService, 'getUserByID').and.returnValue(of(res));
     component.ngOnInit();
     expect(component.personType).toEqual('corporate');
+  });
+
+  it('should show all list tab menu when role to equal admin', () => {
+    const res = {
+      role: 'admin'
+    };
+    spyOn(worklogApiService, 'getUserByID').and.returnValue(of(res));
+    component.ngOnInit();
+    expect(component.listTabMenuShow).toEqual(component.listTabMenu);
   });
 });
