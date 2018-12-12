@@ -14,13 +14,13 @@ export class TabMenuComponent implements OnInit {
   personType: string;
   isShowLess = true;
   listTabMenu = [
-    {id: 'profile', text: 'PROFILE', icon: 'fa-user-circle', level: 0 },
-    {id: 'corporate', text: 'CORPORATE', icon: 'fa-building', level: 0},
-    {id: 'individual', text: 'INDIVIDUAL', icon: 'fa-user', level: 0},
-    {id: 'management', text: 'MANAGEMENT', icon: 'fa-users', level: 0 },
-    {id: 'usersManagement', text: 'USERS', icon: '', level: 1 },
-    {id: 'groupsManagement', text: 'GROUPS', icon: '', level: 1 },
-    {id: 'settings', text: 'SETTINGS', icon: 'fa-cog', level: 0 },
+    { id: 'editProfile', text: 'PROFILE', icon: 'fa-user-circle', level: 0 },
+    { id: 'corporate', text: 'CORPORATE', icon: 'fa-building', level: 0 },
+    { id: 'individual', text: 'INDIVIDUAL', icon: 'fa-user', level: 0 },
+    { id: 'management', text: 'MANAGEMENT', icon: 'fa-users', level: 0 },
+    { id: 'usersManagement', text: 'USERS', icon: '', level: 1 },
+    { id: 'groupsManagement', text: 'GROUPS', icon: '', level: 1 },
+    { id: 'settings', text: 'SETTINGS', icon: 'fa-cog', level: 0 },
   ];
   listTabMenuShow = [];
   private id = sessionStorage.getItem('idUser');
@@ -34,7 +34,7 @@ export class TabMenuComponent implements OnInit {
     this.worklogApiService.getUserByID(this.id).subscribe(res => {
       this.personType = res.role;
       if (this.personType !== 'admin') {
-        this.listTabMenuShow = this.listTabMenu.filter( x => x.id === this.personType);
+        this.listTabMenuShow = this.listTabMenu.filter(x => x.id === this.personType);
       } else {
         this.listTabMenuShow = this.listTabMenu;
       }

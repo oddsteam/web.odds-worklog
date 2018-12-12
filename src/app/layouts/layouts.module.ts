@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CorporateModule } from '../pages/corporate/corporate.module';
+import { EditProfileModule } from '../pages/edit-profile/edit-profile.module';
 import { GrouopManagementModule } from '../pages/group-management/group-management.module';
 import { IndividualModule } from '../pages/individual/individual.module';
 import { SettingModule } from '../pages/setting/setting.module';
@@ -22,7 +23,8 @@ import { LayoutsComponent } from './layouts.component';
         IndividualModule,
         UsersManagementModule,
         SettingModule,
-        GrouopManagementModule
+        GrouopManagementModule,
+        EditProfileModule
     ],
     declarations: [
         LayoutsComponent,
