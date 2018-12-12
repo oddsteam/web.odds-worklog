@@ -1,4 +1,3 @@
-import { Login } from './../shared/model/login';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -8,11 +7,14 @@ import { IncomeFlag } from '../shared/model/income-flag';
 import { ListIncomeResponse } from '../shared/model/list-income-model-response';
 import { SettingReminder } from '../shared/model/setting-reminder-model';
 import { User } from '../shared/model/user';
+import { Login } from './../shared/model/login';
 
 @Injectable({
     providedIn: 'root'
 })
 export class WorklogApiService {
+    listData: User[] = [];
+    siteName: string;
     // user test
     private corporateId = '5bde550643b39700012727f2';
     private individualId = '5bde4e2e1a044b8c9ce44fe4';
@@ -150,11 +152,38 @@ export class WorklogApiService {
             })
         });
     }
-    getUsersData():  Observable<User> {
+    getUsersData(): Observable<User> {
         return this.http.get<User>(`${this.apiPath}users`, {
             headers: new HttpHeaders({
                 Authorization: sessionStorage.getItem('token')
             })
         });
+    }
+    getSitesData(): Observable<any> {
+        return this.http.get(`${this.apiPath}sites`, {
+            headers: new HttpHeaders({
+                Authorization: sessionStorage.getItem('token')
+            })
+        });
+    }
+
+    getUserBySiteId(id: string): Observable<any> {
+        return this.http.get(`${this.apiPath}users/site/${id}`, {
+            headers: new HttpHeaders({
+                Authorization: sessionStorage.getItem('token')
+            })
+        });
+    }
+
+    getListData() {
+        return this.listData;
+    }
+    setListData(users: User[], siteName: string) {
+        this.listData = users;
+        this.siteName = siteName;
+    }
+
+    getSiteName() {
+        return this.siteName;
     }
 }
