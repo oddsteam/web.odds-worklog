@@ -63,7 +63,8 @@ describe('Service: WorklogApi', () => {
           vat: 'non-vat',
           slackAccount: 'test@odds.team',
           transcript: '',
-          siteId: ''
+          siteId: '',
+          site:  null
         }
       ]
     };
@@ -92,7 +93,8 @@ describe('Service: WorklogApi', () => {
           vat: 'non-vat',
           slackAccount: 'test@odds.team',
           transcript: '',
-          siteId: ''
+          siteId: '',
+          site:  null
         }
       ]
     };

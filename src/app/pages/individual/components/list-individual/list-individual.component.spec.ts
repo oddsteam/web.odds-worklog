@@ -55,7 +55,8 @@ describe('ListIndividualComponent', () => {
           thaiCitizenId: '12345423',
           slackAccount: 'odds@odds.team',
           siteId: '',
-          transcript: ''
+          transcript: '',
+          site: null
         },
         {
           id: '1233',
@@ -67,7 +68,8 @@ describe('ListIndividualComponent', () => {
           thaiCitizenId: '12345423',
           slackAccount: 'odds@odds.team',
           siteId: '',
-          transcript: ''
+          transcript: '',
+          site: null
         },
       ]
     };
@@ -93,7 +95,8 @@ describe('ListIndividualComponent', () => {
           vat: 'non-vat',
           slackAccount: 'odds@odds.team',
           siteId: '',
-          transcript: ''
+          transcript: '',
+          site: null
         },
         {
           id: '1233',
@@ -107,7 +110,8 @@ describe('ListIndividualComponent', () => {
           vat: 'non-vat',
           slackAccount: 'odds@odds.team',
           siteId: '',
-          transcript: ''
+          transcript: '',
+          site: null
         },
       ]
     };
@@ -157,7 +161,8 @@ describe('ListIndividualComponent', () => {
           vat: 'non-vat',
           slackAccount: 'odds@odds.team',
           siteId: '',
-          transcript: ''
+          transcript: '',
+          site: null
         },
         {
           id: '1233',
@@ -171,7 +176,8 @@ describe('ListIndividualComponent', () => {
           vat: 'non-vat',
           slackAccount: 'odds@odds.team',
           siteId: '',
-          transcript: ''
+          transcript: '',
+          site: null
         },
       ]
     };

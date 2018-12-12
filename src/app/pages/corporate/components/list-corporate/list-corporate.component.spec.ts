@@ -107,7 +107,8 @@ describe('ListCorporateComponent', () => {
           vat: 'non-vat',
           slackAccount: 'odds@odds.team',
           siteId: '',
-          transcript: ''
+          transcript: '',
+          site: null
         },
         {
           id: '1233',
@@ -121,7 +122,8 @@ describe('ListCorporateComponent', () => {
           vat: 'non-vat',
           slackAccount: 'odds@odds.team',
           siteId: '',
-          transcript: ''
+          transcript: '',
+          site: null
         },
       ]
     };
