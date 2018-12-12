@@ -1,5 +1,5 @@
 # STEP 1 build static website
-FROM trion/ng-cli-e2e:6.2.3 as builder
+FROM suphakrit/ng-cli-e2e:6.2.3 as builder
 
 # Create app directory
 WORKDIR /app
@@ -15,8 +15,6 @@ RUN ng test --watch false
 
 # Run e2e Test
 RUN ng e2e
-
-RUN ./node_modules/protractor/node_modules/webdriver-manager/bin/webdriver-manager update --versions.chrome 2.44
 
 # Build
 RUN ng build
