@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { WorklogApiService } from '../../core/worklog-api.service';
-import { Site } from '../../shared/model/site';
+import { ListSite, Site } from '../../shared/model/site';
 import { User } from '../../shared/model/user';
 
 @Component({
@@ -21,7 +21,7 @@ export class GroupManagementComponent implements OnInit {
     this.worklogAPIService.getSitesData().subscribe((res) => {
       res.forEach(value => {
         this.worklogAPIService.getUserBySiteId(value.id).subscribe((data) => {
-          const site = new Site();
+          const site = new ListSite();
           site.id = value.id;
           site.name = value.name;
           site.length = data.length;
