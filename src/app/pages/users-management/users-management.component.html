@@ -12,7 +12,7 @@
          <tr *ngFor="let users of user ">
            <td>{{users.firstName + ' ' + users.lastName}}</td>
            <td>{{users.email}}</td>
-           <td>{{users?.sites?.name !== null ? users?.sites?.name : '-'}}</td>
+           <td>{{users?.site?.name !== null ? users?.site?.name : '-'}}</td>
            <td  class="text-center">
              <a href="javascript:void(0)">
               <i class="fa fa-edit"></i>

@@ -13,5 +13,5 @@ export class User {
     slackAccount: string;
     transcript: string;
     siteId: string;
-    site?: Site;
+    site: Site;
 }

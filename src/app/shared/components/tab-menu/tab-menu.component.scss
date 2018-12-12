@@ -46,4 +46,7 @@ div {
     li[class="background-dark-gray"] {
         display: none;
     }
+    li[class="active background-dark-gray"] {
+      display: none;
+  }
 }
