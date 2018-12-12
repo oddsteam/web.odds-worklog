@@ -186,7 +186,7 @@ export class WorklogApiService {
     getSiteName() {
         return this.siteName;
     }
-    uploadFilesTranscript(file): Observable<string> {
+    uploadFileTranscript(file): Observable<string> {
         const payload = new FormData();
         payload.append('file', file);
         return this.http.post<string>(`${this.apiPath}/files/transcript`, payload, {
