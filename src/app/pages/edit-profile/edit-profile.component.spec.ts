@@ -1,10 +1,11 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RouterTestingModule } from '@angular/router/testing';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { of } from 'rxjs';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
 import { EditProfileComponent } from './edit-profile.component';
-import { SharedModule } from 'src/app/shared/shared.module';
 
 
 describe('EditProfileComponent', () => {
@@ -15,7 +16,8 @@ describe('EditProfileComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [EditProfileComponent],
-      imports: [ReactiveFormsModule, HttpClientTestingModule, FormsModule, SharedModule],
+      imports: [ReactiveFormsModule, HttpClientTestingModule, FormsModule
+        , RouterTestingModule, NgbModule.forRoot()],
       providers: []
     })
       .compileComponents();

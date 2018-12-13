@@ -1,4 +1,7 @@
 <div>
+  <p>
+    <ngb-alert type="success" *ngIf="showSuccessMessage" [dismissible]="false">{{ successMessage }}</ngb-alert>
+  </p>
   <div class="container">
     <form [formGroup]="transcriptForm">
       <div class="row">
@@ -93,8 +96,8 @@
 
           <hr>
           <div class="prepend-top-default append-bottom-default inner">
-            <button class="btn button-green">Update profile settings</button>
-            <button class="btn" style="float: right;">Cancel</button>
+            <button class="btn button-green" (click)="updateData()">Update profile settings</button>
+            <button class="btn" (click)="goHome()" style="float: right;">Cancel</button>
           </div>
       </div>
     </div>

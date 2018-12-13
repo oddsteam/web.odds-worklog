@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
+import { User } from 'src/app/shared/model/user';
 
 @Component({
   selector: 'app-edit-profile',
@@ -22,15 +24,21 @@ export class EditProfileComponent implements OnInit {
     { key: 'AIS', value: 'AIS' },
     { key: 'KBTG', value: 'KBTG' },
   ];
+  userInfo: User;
+  personType: string;
+  showSuccessMessage = false;
+  successMessage: string;
 
   constructor(
     private formBuilder: FormBuilder,
-    private worklogApiService: WorklogApiService
+    private worklogApiService: WorklogApiService,
+    private router: Router
   ) { }
 
   ngOnInit() {
     this.createForm();
     this.getData();
+
   }
 
   createForm() {
@@ -65,6 +73,8 @@ export class EditProfileComponent implements OnInit {
 
   getData() {
     this.worklogApiService.getUserByID(this.id).subscribe(data => {
+      this.userInfo = data;
+      this.personType = data.role;
       this.firstNameForm.setValue(data.firstName);
       this.lastNameForm.setValue(data.lastName);
       this.emailForm.setValue(data.email);
@@ -72,6 +82,33 @@ export class EditProfileComponent implements OnInit {
       this.bankAccountNumberForm.setValue(data.bankAccountNumber);
       this.slackAccount.setValue(data.slackAccount);
     });
+  }
+
+  updateData() {
+    this.setDataToModel();
+    this.worklogApiService.updateUser(this.id, this.userInfo).subscribe();
+    this.showSuccessMessage = true;
+    this.successMessage = 'Saved';
+    window.scrollTo(0, 0);
+  }
+
+  setDataToModel() {
+    this.userInfo.firstName = this.firstNameForm.value;
+    this.userInfo.lastName = this.lastNameForm.value;
+    this.userInfo.email = this.emailForm.value;
+    this.userInfo.bankAccountName = this.bankAccountForm.value;
+    this.userInfo.bankAccountNumber = this.bankAccountNumberForm.value;
+    this.userInfo.slackAccount = this.slackAccount.value;
+  }
+
+  goHome() {
+    if (this.personType === 'individual') {
+      this.router.navigate([`/individual`]);
+      location.reload();
+    } else {
+      this.router.navigate([`/corporate`]);
+      location.reload();
+    }
   }
 
   get getTranscriptFile(): Object {
