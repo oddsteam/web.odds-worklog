@@ -14,12 +14,12 @@ export class TabMenuComponent implements OnInit {
   personType: string;
   isShowLess = true;
   listTabMenu = [
-    { id: 'editProfile', text: 'PROFILE', icon: 'fa-user-circle', level: 0 },
     { id: 'corporate', text: 'CORPORATE', icon: 'fa-building', level: 0 },
     { id: 'individual', text: 'INDIVIDUAL', icon: 'fa-user', level: 0 },
     { id: 'management', text: 'MANAGEMENT', icon: 'fa-users', level: 0 },
     { id: 'usersManagement', text: 'USERS', icon: '', level: 1 },
     { id: 'groupsManagement', text: 'GROUPS', icon: '', level: 1 },
+    { id: 'editProfile', text: 'PROFILE', icon: 'fa-user-circle', level: 0 },
     { id: 'settings', text: 'SETTINGS', icon: 'fa-cog', level: 0 },
   ];
   listTabMenuShow = [];
@@ -34,7 +34,7 @@ export class TabMenuComponent implements OnInit {
     this.worklogApiService.getUserByID(this.id).subscribe(res => {
       this.personType = res.role;
       if (this.personType !== 'admin') {
-        this.listTabMenuShow = this.listTabMenu.filter(x => x.id === this.personType);
+        this.listTabMenuShow = this.listTabMenu.filter(x => x.id === this.personType || x.id === 'editProfile');
       } else {
         this.listTabMenuShow = this.listTabMenu;
       }

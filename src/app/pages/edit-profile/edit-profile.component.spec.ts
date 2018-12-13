@@ -51,6 +51,7 @@ describe('EditProfileComponent', () => {
     expect(component.emailForm.value).toEqual('who@odds.team');
     expect(component.bankAccountForm.value).toEqual('กอไก่ ขอไข่');
     expect(component.bankAccountNumberForm.value).toEqual('0123456789');
+    expect(component.slackAccount.value).toEqual('who@odds.team');
 
   });
 });

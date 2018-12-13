@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
-import { User } from 'src/app/shared/model/user';
 
 @Component({
   selector: 'app-edit-profile',
@@ -9,11 +8,9 @@ import { User } from 'src/app/shared/model/user';
   styleUrls: ['./edit-profile.component.scss']
 })
 export class EditProfileComponent implements OnInit {
-
   profileForm: FormGroup;
   transcriptForm: FormGroup;
   id = sessionStorage.getItem('idUser');
-  profileUser: User;
   transcriptFile: File = null;
   oldTranscriptFile = null;
 
@@ -34,6 +31,7 @@ export class EditProfileComponent implements OnInit {
       email: ['', Validators.required],
       bankAccount: ['', Validators.required],
       bankAccountNumber: ['', Validators.required],
+      slackAccount: ['', Validators.required]
     });
 
     this.transcriptForm = this.formBuilder.group({
@@ -63,6 +61,7 @@ export class EditProfileComponent implements OnInit {
       this.emailForm.setValue(data.email);
       this.bankAccountForm.setValue(data.bankAccountName);
       this.bankAccountNumberForm.setValue(data.bankAccountNumber);
+      this.slackAccount.setValue(data.slackAccount);
     });
   }
 
@@ -100,5 +99,8 @@ export class EditProfileComponent implements OnInit {
 
   get bankAccountNumberForm(): FormControl {
     return this.profileForm.get('bankAccountNumber') as FormControl;
+  }
+  get slackAccount(): FormControl {
+    return this.profileForm.get('slackAccount') as FormControl;
   }
 }
