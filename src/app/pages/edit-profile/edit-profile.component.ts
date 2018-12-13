@@ -13,6 +13,15 @@ export class EditProfileComponent implements OnInit {
   id = sessionStorage.getItem('idUser');
   transcriptFile: File = null;
   oldTranscriptFile = null;
+  dataListSite = [
+    { key: 'Default', value: 'No Site' },
+    { key: 'KTB', value: 'KTB' },
+    { key: 'SET', value: 'SET' },
+    { key: 'DTAC', value: 'DTAC' },
+    { key: 'SEC', value: 'SEC' },
+    { key: 'AIS', value: 'AIS' },
+    { key: 'KBTG', value: 'KBTG' },
+  ];
 
   constructor(
     private formBuilder: FormBuilder,

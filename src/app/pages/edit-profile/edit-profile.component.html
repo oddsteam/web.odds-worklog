@@ -47,7 +47,6 @@
         </div>
 
         <div class="col-lg-8">
-
           <div class="row">
             <div class="form-group col-md-6">
               <label>First Name</label>
@@ -62,7 +61,7 @@
           <div class="row">
             <div class="form-group col-md-12">
               <label>Email</label>
-              <input class="form-control" type="text" formControlName="email">
+              <input class="form-control" type="text" formControlName="email" disabled>
             </div>
           </div>
 
@@ -79,11 +78,16 @@
               <input class="form-control" type="text" formControlName="bankAccountNumber">
             </div>
           </div>
-
           <div class="row">
             <div class="form-group col-md-12">
               <label>Slack Account</label>
               <input class="form-control" type="text" formControlName="slackAccount">
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-md-12">
+              <label>Site</label>
+              <app-drop-down [defaultSelect]="" [listSources]="dataListSite"></app-drop-down>
             </div>
           </div>
 
@@ -92,9 +96,8 @@
             <button class="btn button-green">Update profile settings</button>
             <button class="btn" style="float: right;">Cancel</button>
           </div>
-        </div>
-
       </div>
+    </div>
     </form>
   </div>
 </div>

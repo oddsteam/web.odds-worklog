@@ -12,12 +12,15 @@ import { DataTablesModule } from 'angular-datatables';
 import { AddIncomeComponent } from './components/add-income/add-income.component';
 import { ContentLoaderModule } from '@netbasal/content-loader';
 import { OrderModule } from 'ngx-order-pipe';
+import { BsDropdownModule } from 'ngx-bootstrap';
+import { DropDownComponent } from './components/drop-down/drop-down.component';
 @NgModule({
   imports: [
     CommonModule,
     TranslateModule,
     NgbModule,
     FormsModule,
+    BsDropdownModule.forRoot(),
     ContentLoaderModule,
     OrderModule,
     ReactiveFormsModule,
@@ -30,6 +33,7 @@ import { OrderModule } from 'ngx-order-pipe';
     TableListComponent,
     ModalIncomeComponent,
     AddIncomeComponent,
+    DropDownComponent,
   ],
   exports: [
     StatusHighlightDirective,
@@ -42,7 +46,9 @@ import { OrderModule } from 'ngx-order-pipe';
     ReactiveFormsModule,
     ModalModule,
     DataTablesModule,
-    AddIncomeComponent
+    AddIncomeComponent,
+    BsDropdownModule,
+    DropDownComponent,
   ]
 })
 export class SharedModule {
