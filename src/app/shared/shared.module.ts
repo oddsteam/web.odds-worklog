@@ -14,6 +14,7 @@ import { ContentLoaderModule } from '@netbasal/content-loader';
 import { OrderModule } from 'ngx-order-pipe';
 import { BsDropdownModule } from 'ngx-bootstrap';
 import { DropDownComponent } from './components/drop-down/drop-down.component';
+import { ToolTipSiteComponent } from './components/tool-tip-site/tool-tip-site.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -34,6 +35,7 @@ import { DropDownComponent } from './components/drop-down/drop-down.component';
     ModalIncomeComponent,
     AddIncomeComponent,
     DropDownComponent,
+    ToolTipSiteComponent,
   ],
   exports: [
     StatusHighlightDirective,
@@ -49,6 +51,7 @@ import { DropDownComponent } from './components/drop-down/drop-down.component';
     AddIncomeComponent,
     BsDropdownModule,
     DropDownComponent,
+    ToolTipSiteComponent,
   ]
 })
 export class SharedModule {

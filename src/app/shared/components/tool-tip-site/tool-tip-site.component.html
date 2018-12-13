@@ -1,0 +1,13 @@
+<a href="javascript:void(0)"  (click)="toggleTooltip($event)">
+  <i class="fa fa-edit"></i>
+  <div class="tooltip-site" *ngIf="isShowTooltip">
+    <div class="tooltip-site-text">
+      <div class="drop-down-site px-1 pb-1">
+        <app-drop-down
+          [listSources]="dataListSite"
+          (emitSource)="onSelectedListSite($event)"
+        ></app-drop-down>
+      </div>
+    </div>
+  </div>
+</a>
