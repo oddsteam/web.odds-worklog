@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { of } from 'rxjs';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
 import { EditProfileComponent } from './edit-profile.component';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 
 describe('EditProfileComponent', () => {
@@ -14,7 +15,7 @@ describe('EditProfileComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [EditProfileComponent],
-      imports: [ReactiveFormsModule, HttpClientTestingModule, FormsModule],
+      imports: [ReactiveFormsModule, HttpClientTestingModule, FormsModule, SharedModule],
       providers: []
     })
       .compileComponents();

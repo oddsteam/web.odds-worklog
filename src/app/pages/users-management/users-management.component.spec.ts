@@ -6,6 +6,8 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
 import { of } from 'rxjs';
 import { User } from 'src/app/shared/model/user';
+import { ToolTipSiteComponent } from './components/tool-tip-site/tool-tip-site.component';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 describe('UsersManagementComponent', () => {
   let component: UsersManagementComponent;
@@ -13,8 +15,8 @@ describe('UsersManagementComponent', () => {
   let worklogApiService: WorklogApiService;
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [UsersManagementComponent],
-      imports: [NgbModule.forRoot(), HttpClientTestingModule],
+      declarations: [UsersManagementComponent, ToolTipSiteComponent],
+      imports: [NgbModule.forRoot(), HttpClientTestingModule, SharedModule],
       providers: [WorklogApiService]
     })
       .compileComponents();
