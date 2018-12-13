@@ -1,24 +1,24 @@
 <div class="container">
-  <form>
+  <form [formGroup]="transcriptForm">
     <div class="row">
 
-      <div class="col-lg-4 profile-settings-sidebar">
+      <div class="col-lg-6 profile-settings-sidebar">
         <h5 class="prepend-top-0">Upload Transcript</h5>
         <div class="prepend-top-5 append-bottom-10">
-          <button class="btn" type="button">Choose file...</button>
-          <span class="avatar-file-name prepend-left-default">No file chosen</span>
+          <div class="upload-file-wrapper">
+            <button class="btn upload-btn" type="button">Choose file...</button>
+            <input formControlName="transcriptFile" type="file" accept="application/pdf" (change)="onChangeFile($event)" />
+            <span class="avatar-file-name prepend-left-default">
+              {{ getTranscriptFile.fileName }}
+            </span>
+          </div>
         </div>
         <div class="form-text text-muted">The maximum file size allowed is 200KB.</div>
         <hr>
         <button id="btn-edit" type="button" class="btn button-red">Remove Transcript</button>
       </div>
 
-      <div class="col-lg-8">
-        <div class="clearfix avatar-image append-bottom-default">
-          <a target="_blank" rel="noopener noreferrer" href="assets/images/odds_logo_white.png">
-            <img src="assets/images/odds_logo_white.png" alt="odds" style="width:150px">
-          </a>
-        </div>
+      <div class="col-lg-6">
         <h5 class="prepend-top-0">Upload new avatar</h5>
         <div class="prepend-top-5 append-bottom-10">
           <button class="btn" type="button">Choose file...</button>

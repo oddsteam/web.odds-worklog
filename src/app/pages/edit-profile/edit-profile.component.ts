@@ -11,8 +11,12 @@ import { User } from 'src/app/shared/model/user';
 export class EditProfileComponent implements OnInit {
 
   profileForm: FormGroup;
+  transcriptForm: FormGroup;
   id = sessionStorage.getItem('idUser');
   profileUser: User;
+  transcriptFile: File = null;
+  oldTranscriptFile = null;
+
   constructor(
     private formBuilder: FormBuilder,
     private worklogApiService: WorklogApiService
@@ -29,7 +33,26 @@ export class EditProfileComponent implements OnInit {
       lastName: ['', Validators.required],
       email: ['', Validators.required],
       bankAccount: ['', Validators.required],
-      bankAccountNumber: ['', Validators.required]
+      bankAccountNumber: ['', Validators.required],
+    });
+
+    this.transcriptForm = this.formBuilder.group({
+      transcriptFile: [null]
+    });
+  }
+
+  onChangeFile(event) {
+    const file = event.target.files[0];
+    this.transcriptFile = event.target.files[0];
+    if (file) {
+      this.onSubmit(file);
+    }
+  }
+
+  onSubmit(file) {
+    this.worklogApiService.uploadFileTranscript(file).subscribe(response => {
+      const message = response['message'];
+      alert(message);
     });
   }
 
@@ -41,6 +64,22 @@ export class EditProfileComponent implements OnInit {
       this.bankAccountForm.setValue(data.bankAccountName);
       this.bankAccountNumberForm.setValue(data.bankAccountNumber);
     });
+  }
+
+  get getTranscriptFile(): Object {
+    if (this.transcriptFile) {
+      return {
+        fileName: this.transcriptFile.name,
+        fileItem: this.transcriptFile
+      };
+    }
+    return { fileName: 'No file was chosen.', fileItem: null };
+  }
+
+  get hasOldTranscriptFileAtStart(): Boolean {
+    return this.oldTranscriptFile !== null && this.transcriptFile === null
+      ? true
+      : false;
   }
 
   get firstNameForm(): FormControl {

@@ -120,3 +120,18 @@
 .disable-color {
   background-color: #dddddd;
 }
+
+.upload-file-wrapper {
+  line-height: normal;
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+}
+
+.upload-file-wrapper input[type=file] {
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  font-size: 19px;
+}

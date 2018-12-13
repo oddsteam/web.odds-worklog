@@ -186,10 +186,10 @@ export class WorklogApiService {
     getSiteName() {
         return this.siteName;
     }
-    uploadFileTranscript(file): Observable<string> {
+    uploadFileTranscript(file): Observable<object> {
         const payload = new FormData();
         payload.append('file', file);
-        return this.http.post<string>(`${this.apiPath}/files/transcript`, payload, {
+        return this.http.post<object>(`${this.apiPath}/files/transcript`, payload, {
             headers: new HttpHeaders({
                 Authorization: sessionStorage.getItem('token')
             })
