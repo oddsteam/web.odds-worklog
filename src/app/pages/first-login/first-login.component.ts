@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { WorklogApiService } from '../../core/worklog-api.service';
 import { User } from '../../shared/model/user';
+import { Site } from '../../shared/model/site';
 
 @Component({
   selector: 'app-first-login',
@@ -12,6 +13,7 @@ import { User } from '../../shared/model/user';
 export class FirstLoginComponent implements OnInit {
   loginForm: FormGroup;
   user: User;
+  siteList: Site[];
   vatList = [
     {
       value: true,
@@ -41,6 +43,7 @@ export class FirstLoginComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.getListSite();
     this.setupForm();
   }
 
@@ -52,7 +55,8 @@ export class FirstLoginComponent implements OnInit {
       bankAccountNumber: ['', Validators.pattern('\\d{9,16}')],
       slackAccount: ['', Validators.email],
       role: [true, Validators.required],
-      vat: [true, Validators.required]
+      vat: [true, Validators.required],
+      siteId: ['กรุณาเลือก site ที่อยู่', Validators.required]
     });
   }
 
@@ -69,6 +73,7 @@ export class FirstLoginComponent implements OnInit {
       this.user.slackAccount = this.loginForm.get('slackAccount').value;
       this.user.role = this.role;
       this.user.vat = this.vat;
+      this.user.siteId = this.loginForm.get('siteId').value;
       this.updateUser();
     }
   }
@@ -110,5 +115,11 @@ export class FirstLoginComponent implements OnInit {
         data.value = true;
       }
     });
+  }
+
+  getListSite() {
+    this.worklogService.getSitesData().subscribe((res) => {
+      this.siteList = res;
+   });
   }
 }
