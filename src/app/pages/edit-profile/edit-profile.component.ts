@@ -11,9 +11,10 @@ import { User } from 'src/app/shared/model/user';
 })
 export class EditProfileComponent implements OnInit {
   profileForm: FormGroup;
-  transcriptForm: FormGroup;
+  fileForm: FormGroup;
   id = sessionStorage.getItem('idUser');
   transcriptFile: File = null;
+  imageFile: File = null;
   oldTranscriptFile = null;
   dataListSite = [
     { key: 'Default', value: 'No Site' },
@@ -51,17 +52,22 @@ export class EditProfileComponent implements OnInit {
       slackAccount: ['', Validators.required]
     });
 
-    this.transcriptForm = this.formBuilder.group({
-      transcriptFile: [null]
+    this.fileForm = this.formBuilder.group({
+      transcriptFile: [null],
+      imageFile: [null]
     });
   }
 
-  onChangeFile(event) {
+  onChangeTranscriptFile(event) {
     const file = event.target.files[0];
     this.transcriptFile = event.target.files[0];
     if (file) {
       this.onSubmit(file);
     }
+  }
+
+  onChangeImageFile(event) {
+    this.imageFile = event.target.files[0];
   }
 
   onSubmit(file) {
@@ -116,6 +122,16 @@ export class EditProfileComponent implements OnInit {
       return {
         fileName: this.transcriptFile.name,
         fileItem: this.transcriptFile
+      };
+    }
+    return { fileName: 'No file was chosen.', fileItem: null };
+  }
+
+  get getImageFile(): Object {
+    if (this.imageFile) {
+      return {
+        fileName: this.imageFile.name,
+        fileItem: this.imageFile
       };
     }
     return { fileName: 'No file was chosen.', fileItem: null };

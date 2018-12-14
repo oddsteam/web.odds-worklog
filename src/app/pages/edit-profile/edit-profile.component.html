@@ -3,15 +3,15 @@
     <ngb-alert type="success" *ngIf="showSuccessMessage" [dismissible]="false">{{ successMessage }}</ngb-alert>
   </p>
   <div class="container">
-    <form [formGroup]="transcriptForm">
+    <form [formGroup]="fileForm">
       <div class="row">
 
-        <div class="col-lg-6 profile-settings-sidebar">
+        <div class="col-lg-6">
           <h5 class="prepend-top-0">Upload Transcript</h5>
           <div class="prepend-top-5 append-bottom-10">
             <div class="upload-file-wrapper">
               <button class="btn upload-btn" type="button">Choose file...</button>
-              <input formControlName="transcriptFile" type="file" accept="application/pdf" (change)="onChangeFile($event)" />
+              <input formControlName="transcriptFile" type="file" accept="application/pdf" (change)="onChangeTranscriptFile($event)" />
               <span class="avatar-file-name prepend-left-default">
                 {{ getTranscriptFile.fileName }}
               </span>
@@ -25,8 +25,15 @@
         <div class="col-lg-6">
           <h5 class="prepend-top-0">Upload new avatar</h5>
           <div class="prepend-top-5 append-bottom-10">
-            <button class="btn" type="button">Choose file...</button>
-            <span class="avatar-file-name prepend-left-default">No file chosen</span>
+            <div class="upload-file-wrapper">
+              <button class="btn" type="button">Choose file...</button>
+              <input formControlName="imageFile" type="file" accept="image/x-png,image/gif,image/jpeg" (change)="onChangeImageFile($event)" />
+              <span class="avatar-file-name prepend-left-default">
+                {{ getImageFile.fileName }}
+              </span>
+            </div>
+            <!-- <button class="btn" type="button">Choose file...</button>
+            <span class="avatar-file-name prepend-left-default">No file chosen</span> -->
           </div>
           <div class="form-text text-muted">The maximum file size allowed is 200KB.</div>
           <hr>
@@ -99,8 +106,8 @@
             <button class="btn button-green" (click)="updateData()">Update profile settings</button>
             <button class="btn" (click)="goHome()" style="float: right;">Cancel</button>
           </div>
+        </div>
       </div>
-    </div>
     </form>
   </div>
 </div>

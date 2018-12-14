@@ -6,6 +6,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { of } from 'rxjs';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
 import { EditProfileComponent } from './edit-profile.component';
+import { DropDownComponent } from 'src/app/shared/components/drop-down/drop-down.component';
 
 
 describe('EditProfileComponent', () => {
@@ -15,7 +16,7 @@ describe('EditProfileComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [EditProfileComponent],
+      declarations: [EditProfileComponent, DropDownComponent],
       imports: [ReactiveFormsModule, HttpClientTestingModule, FormsModule
         , RouterTestingModule, NgbModule.forRoot()],
       providers: []
