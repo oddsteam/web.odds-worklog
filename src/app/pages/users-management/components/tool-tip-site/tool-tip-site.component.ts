@@ -25,7 +25,7 @@ export class ToolTipSiteComponent implements OnInit {
   ngOnInit() {
   }
 
-  toggleTooltip() {
+  toggleTooltip(event) {
     this.clickedElement = event.target;
     this.isShowTooltip = true;
   }

@@ -3,6 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Router } from '@angular/router';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
 import { User } from 'src/app/shared/model/user';
+import { MyFile } from './file';
 
 @Component({
   selector: 'app-edit-profile',
@@ -87,10 +88,10 @@ export class EditProfileComponent implements OnInit {
       this.bankAccountForm.setValue(data.bankAccountName);
       this.bankAccountNumberForm.setValue(data.bankAccountNumber);
       this.slackAccount.setValue(data.slackAccount);
-      this.getSiteData();
+      this.getNameSite();
     });
   }
-  getSiteData() {
+  getNameSite() {
     this.worklogApiService.getSitesData().subscribe(res => {
       const result = res.filter(val => val.id === this.userInfo.siteId);
       this.site = result[0].name;
@@ -123,7 +124,14 @@ export class EditProfileComponent implements OnInit {
     }
   }
 
-  get getTranscriptFile(): Object {
+  getEmitSource(event) {
+    this.worklogApiService.getSitesData().subscribe(res => {
+      const result = res.filter(val => val.name === event);
+      this.userInfo.siteId = result[0].id;
+    });
+  }
+
+  get getTranscriptFile(): MyFile {
     if (this.transcriptFile) {
       return {
         fileName: this.transcriptFile.name,
@@ -137,7 +145,7 @@ export class EditProfileComponent implements OnInit {
     }
   }
 
-  get getImageFile(): Object {
+  get getImageFile(): MyFile {
     if (this.imageFile) {
       return {
         fileName: this.imageFile.name,
