@@ -29,7 +29,7 @@ export class EditProfileComponent implements OnInit {
   personType: string;
   showSuccessMessage = false;
   successMessage: string;
-
+  site = '';
   constructor(
     private formBuilder: FormBuilder,
     private worklogApiService: WorklogApiService,
@@ -87,9 +87,15 @@ export class EditProfileComponent implements OnInit {
       this.bankAccountForm.setValue(data.bankAccountName);
       this.bankAccountNumberForm.setValue(data.bankAccountNumber);
       this.slackAccount.setValue(data.slackAccount);
+      this.getSiteData();
     });
   }
-
+  getSiteData() {
+    this.worklogApiService.getSitesData().subscribe(res => {
+      const result = res.filter(val => val.id === this.userInfo.siteId);
+      this.site = result[0].name;
+    });
+  }
   updateData() {
     this.setDataToModel();
     this.worklogApiService.updateUser(this.id, this.userInfo).subscribe();
@@ -138,9 +144,7 @@ export class EditProfileComponent implements OnInit {
   }
 
   get hasOldTranscriptFileAtStart(): Boolean {
-    return this.oldTranscriptFile !== null && this.transcriptFile === null
-      ? true
-      : false;
+    return !this.oldTranscriptFile !== null && this.transcriptFile === null ? true : false;
   }
 
   get firstNameForm(): FormControl {
