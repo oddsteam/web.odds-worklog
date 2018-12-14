@@ -129,8 +129,12 @@ export class EditProfileComponent implements OnInit {
         fileName: this.transcriptFile.name,
         fileItem: this.transcriptFile
       };
+    } else if (this.userInfo.transcript) {
+      const fileName = this.userInfo.transcript.split('/');
+      return { fileName: fileName[2], fileItem: null };
+    } else {
+      return { fileName: 'No file was chosen.', fileItem: null };
     }
-    return { fileName: 'No file was chosen.', fileItem: null };
   }
 
   get getImageFile(): Object {
