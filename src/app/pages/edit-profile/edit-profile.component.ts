@@ -87,10 +87,10 @@ export class EditProfileComponent implements OnInit {
       this.bankAccountForm.setValue(data.bankAccountName);
       this.bankAccountNumberForm.setValue(data.bankAccountNumber);
       this.slackAccount.setValue(data.slackAccount);
-      this.getSiteData();
+      this.getNameSite();
     });
   }
-  getSiteData() {
+  getNameSite() {
     this.worklogApiService.getSitesData().subscribe(res => {
       const result = res.filter(val => val.id === this.userInfo.siteId);
       this.site = result[0].name;
@@ -121,6 +121,13 @@ export class EditProfileComponent implements OnInit {
       this.router.navigate([`/corporate`]);
       location.reload();
     }
+  }
+
+  getEmitSource(event) {
+    this.worklogApiService.getSitesData().subscribe(res => {
+      const result = res.filter(val => val.name === event);
+      this.userInfo.siteId = result[0].id;
+    });
   }
 
   get getTranscriptFile(): Object {

@@ -88,9 +88,9 @@ describe('EditProfileComponent', () => {
       },
     ];
     spyOn(worklogApiService, 'getUserByID').and.returnValue(of(data));
-    spyOn(component, 'getSiteData').and.returnValue(of(mockListSites));
+    spyOn(component, 'getNameSite').and.returnValue(of(mockListSites));
     component.getData();
-    expect(component.getSiteData).toHaveBeenCalled();
+    expect(component.getNameSite).toHaveBeenCalled();
   });
 
   it('component.site should equal to user info', () => {
@@ -127,7 +127,7 @@ describe('EditProfileComponent', () => {
       },
     ];
     spyOn(worklogApiService, 'getSitesData').and.returnValue(of(mockListSites));
-    component.getSiteData();
+    component.getNameSite();
     expect(component.site).toEqual(mockListSites[0].name);
   });
 });
