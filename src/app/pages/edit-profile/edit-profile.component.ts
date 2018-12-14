@@ -46,7 +46,7 @@ export class EditProfileComponent implements OnInit {
     this.profileForm = this.formBuilder.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
-      email: ['', Validators.required],
+      email: [{ value: '', disabled: true }, Validators.required],
       bankAccount: ['', Validators.required],
       bankAccountNumber: ['', Validators.required],
       slackAccount: ['', Validators.required]
@@ -129,8 +129,12 @@ export class EditProfileComponent implements OnInit {
         fileName: this.transcriptFile.name,
         fileItem: this.transcriptFile
       };
+    } else if (this.userInfo && this.userInfo.transcript) {
+      const fileName = this.userInfo.transcript.split('/');
+      return { fileName: fileName[2], fileItem: null };
+    } else {
+      return { fileName: 'No file was chosen.', fileItem: null };
     }
-    return { fileName: 'No file was chosen.', fileItem: null };
   }
 
   get getImageFile(): Object {
