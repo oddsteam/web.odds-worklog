@@ -1,0 +1,23 @@
+{
+    "PROFILE": {
+        "HEADER": "Profile",
+        "LOGOUT": "Login"
+    },
+
+    "MODAL": {
+        "ADD_INCOME": {
+
+        },
+        "CONFIRM_INCOME": {
+            "HEADER": "Confirm Income",
+            "TITLE": "เงินที่คุณจะได้รับ :",
+            "NO_OK": "ไม่ OK",
+            "OK": "OK",
+            "NET_INCOME": "รายได้สุทธิ",
+            "VAT": "VAT",
+            "WHT": "WHT",
+            "TOTAL_INCOME": "ผลรวม"
+        }
+    },
+    "BATH": "บาท"
+}

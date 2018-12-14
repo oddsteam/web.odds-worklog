@@ -1,0 +1,19 @@
+<div class="d-flex justify-content-between p-3">
+    <div class="d-flex align-items-center" id="salary">
+      รายได้สุทธิของคุณ {{ salary | number: '1.2-2' }} บาท , บันทึก : {{ note }}
+    </div>
+    <div>
+      <button id="btn-add" *ngIf="userFlag === 'Y'" type="button" class="btn btn-blue" (click)="openTemplateModal()">
+        Add Income
+    </button>
+    <button id="btn-edit" *ngIf="userFlag === 'N'" type="button" class="btn btn-red" (click)="openTemplateModal()">
+        Edit Income
+    </button>
+    </div>
+  </div>
+  
+  <ng-template #templateModal>
+    <div>
+      <app-modal-income  (addIncomeEmit)="addIncomeEmit($event)"  (closeModalEmit)="closeModalEvent($event)" [addIncomeData]="addIncomeResponse" [typeUser]="typeUser" [typeVat]="typeVat" ></app-modal-income>
+    </div>
+  </ng-template>

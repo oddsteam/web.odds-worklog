@@ -1,0 +1,68 @@
+.btn-list {
+    width: 100% !important;
+    text-align: left;
+    height: calc(2.25rem + 2px);
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    span {
+      font-size: inherit;
+      color: inherit;
+    }
+  
+    i {
+      position: absolute;
+      right: 10px;
+      top: 20%;
+    }
+  }
+  
+  .btn-group {
+    width: 100%;
+  }
+  
+  .btn-list:focus {
+    outline: 0;
+    border-radius: .25rem;
+  }
+  
+  .dropdown-toggle::after {
+    position: absolute;
+    left: 75%;
+    top: 40%;
+    border: none;
+  }
+  
+  .fa-angle-down {
+    color: gray;
+    font-size: 18px;
+  }
+  
+  .dropdown-menu {
+    min-width: 110px !important;
+    height: auto;
+    max-height: 100px;
+    overflow-x: hidden;
+  }
+  
+  ul.dropdown-menu {
+    min-width: 7rem;
+    width: 100%;
+  }
+  
+  .dropdown-item {
+    padding: 3px 20px;
+  }
+  
+  li:hover {
+    cursor: pointer;
+  }
+  
+  .dropdown-item:active {
+    background-color: #e2e6ea;
+  }

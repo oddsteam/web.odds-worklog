@@ -1,0 +1,14 @@
+<div>
+  <div class="d-flex justify-content-between pb-3 px-3" *ngIf="role === 'admin'">
+    <div class="d-flex align-items-end">
+      <h2 class="mb-0">{{ date | date: 'MMMM yyyy'}}</h2>
+    </div>
+    <button class="rounded export-container">
+      <a href="javascript:void(0)" (click)="exportIndividual()">
+        <i class="fas fa-download"></i>
+        Export
+      </a>
+    </button>
+  </div>
+  <app-table-list [ListData]="listIncomeIndividual"></app-table-list>
+</div>

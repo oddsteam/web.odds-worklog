@@ -1,0 +1,49 @@
+<div>
+  <h5 class="mt-2 ml-2">Reminder</h5>
+  <div class="card-container p-3">
+    <form [formGroup]="fg">
+      <div class="row">
+        <div class="col-3 d-flex justify-content-end">
+          Date:
+        </div>
+        <div class="col-3">
+          <input type="text" class="form-control" id="date" formControlName="date">
+        </div>
+      </div>
+      <div class="row mt-2">
+        <div class="col-3 d-flex justify-content-end">
+          Message:
+        </div>
+        <div class="col-3">
+          <textarea name="message" class="form-control" id="message" formControlName="message"></textarea>
+        </div>
+      </div>
+      <div class="row mt-2">
+        <div class="col-3 d-flex justify-content-end">
+          Time:
+        </div>
+        <div class="col-3">
+          <input type="text" id="time" formControlName="time" class="form-control disable-color">
+        </div>
+      </div>
+      <div class="row mt-2">
+        <div class="col-3 d-flex justify-content-end">
+          Channel:
+        </div>
+        <div class="col-3">
+          <div class="d-flex justify-content-start">
+            <div *ngFor="let channel of channelList" class="pr-2">
+              <input type="checkbox" formControlName="channel" [checked]="channel.value" (change)="checkBoxEvent(channel.name, $event)"
+                [id]="'channel' + channel.name"> {{channel.name}}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-3 mr-1">
+        <div class="col-12 d-flex justify-content-end">
+          <button id="submitButton" class="btn btn-blue" (click)="onSubmit()">Submit</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

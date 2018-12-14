@@ -1,0 +1,8 @@
+<div *ngIf="isShowData()">
+  <div class="card-container">
+    <app-add-income (addIncomeAlready)="addIncomeEmit($event)"></app-add-income>
+  </div>
+  <div>
+    <app-list-individual role="personType" [isUpdateList]="isUpdateIncome"></app-list-individual>
+  </div>
+</div>

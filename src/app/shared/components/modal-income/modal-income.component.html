@@ -1,0 +1,88 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title">{{ title }}</h4>
+  <button type="button" class="close btn-close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<ng-container *ngIf="!addIncomeAlready">
+  <div class="modal-body mx-sm-5">
+    <div class="py-2 bg-color">
+      <div class="text-blue">
+        <strong>ตัวอย่าง</strong>
+      </div>
+      <div class="text-blue font-middle">น้อง A ทำงานได้เงินวันละ 100 บาท ทำงาน 20 วัน กรอก "2,000" นะ</div>
+    </div>
+    <form [formGroup]="fg">
+      <div class="form-group my-2">
+        <label>รายได้ : </label>
+        <input id="totalIncome" type="text" style="text-align:right" class="form-control" formControlName="totalIncome" (keyup)="inputIncomeAmount()">
+      </div>
+      <div class="form-group">
+        <label>บันทึก :</label>
+        <textarea id="note" type="text" class="form-control" formControlName="note"></textarea>
+      </div>
+    </form>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="addIncomeAlready">
+  <div class="modal-body mx-sm-5">
+
+    <div class="row">
+      <div class="col-12 content-container">
+        <div class="row row mb-3">
+          <div class="col col-2"></div>
+          <div class="col col-10 detail">
+            <strong>เงินที่คุณจะได้รับ</strong>
+          </div>
+
+        </div>
+        <div class="row mb-2">
+          <div class="col col-2"></div>
+          <div class="col col-3">รายได้สุทธิ์ :</div>
+          <div class="col col-5 text-right" id="addIncomeTotalIncome">{{ addIncomeData.totalIncome | number: '1.2-2'}}
+            <span>บาท</span>
+          </div>
+          <div class="col col-2"></div>
+        </div>
+
+        <div class="row mb-2" *ngIf="isVat()">
+          <div class="col col-2"></div>
+          <div class="col col-3">Vat 7% :</div>
+          <div class="col col-5 text-right" id="addIncomeVat">{{ addIncomeData.vat | number: '1.2-2' }}
+            <span>บาท</span>
+          </div>
+          <div class="col col-2"></div>
+        </div>
+        <div class="row mb-2">
+          <div class="col col-2"></div>
+          <div class="col col-3">Wht 3% :</div>
+          <div class="col col-5 text-right" id="addIncomeWht">{{ addIncomeData.wht | number: '1.2-2' }}
+            <span>บาท</span>
+          </div>
+          <div class="col col-2"></div>
+        </div>
+        <div class="row mb-2">
+          <div class="col col-2"></div>
+          <div class="col col-3 border-total">เงินที่ได้รับ :</div>
+          <div class="col col-5 border-total text-right font-weight-bold" id="addIncomeNetIncome">{{ addIncomeData.netIncome | number: '1.2-2'
+            }}
+            <span>บาท</span>
+          </div>
+          <div class="col col-2"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>
+
+<div class="modal-footer">
+  <ng-container *ngIf="!addIncomeAlready">
+    <button id="btn-submit" type="button" class="btn btn-blue" (click)="onSubmit()" [disabled]="disableButton()">Submit</button>
+  </ng-container>
+  <ng-container *ngIf="addIncomeAlready">
+    <button id="btn-cancel" type="button" class="btn btn-gray" (click)="onCancel()">ไม่ OK</button>
+    <button id="btn-confirm" type="button" class="btn btn-green" (click)="onConfirm()">OK</button>
+  </ng-container>
+</div>

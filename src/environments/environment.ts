@@ -3,7 +3,10 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  api: `https://worklog-dev.odds.team/api/v1/`,
+  local: `http://localhost:8080/v1/`
+  //   api: `http://worklog.odds.team/api`
 };
 
 /*

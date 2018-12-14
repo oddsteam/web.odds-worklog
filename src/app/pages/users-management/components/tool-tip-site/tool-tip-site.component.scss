@@ -1,0 +1,24 @@
+.drop-down-site{
+  width: 150px;
+}
+.tooltip-site {
+    position: relative;
+  }
+  
+  .tooltip-site .tooltip-site-text {
+    visibility: visible;
+    width: 160px;
+    height: 60px;
+    background-color: #fff;
+    color: black;
+    border-radius: 4px;
+    position: absolute;
+    z-index: 1;
+    top: -30px;
+    right: 70%;
+    white-space: pre-wrap;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.12), 0 2px 8px 0 rgba(0, 0, 0, 0.24);
+  }

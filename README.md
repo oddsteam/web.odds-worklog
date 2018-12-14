@@ -1,6 +1,16 @@
 # Odds Worklog
+### Online Prod [http://worklog.odds.team/](http://worklog.odds.team/) ###
+### Online Dev [http://worklog-dev.odds.team:32835/](http://worklog.odds.team/) ###
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.2.1.
+# API 
+### [http://worklog-dev.odds.team/api/v1/](http://worklog-dev.odds.team/api/v1/) ###
+
+# Swagger
+### [http://worklog-dev.odds.team/api/v1/swagger/index.html](http://worklog-dev.odds.team/api/v1/swagger/index.html) ###
+
+# Test trgger
+
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.2.3.
 
 ## Docker build and run production
 Build `docker build -t odds-worklog:prod .`

@@ -34,6 +34,10 @@ yarn-error.log
 testem.log
 /typings
 
+# e2e
+/e2e/*.ts
+
+
 # System Files
 .DS_Store
 Thumbs.db
