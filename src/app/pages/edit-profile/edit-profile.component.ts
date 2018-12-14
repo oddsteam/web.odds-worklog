@@ -46,7 +46,7 @@ export class EditProfileComponent implements OnInit {
     this.profileForm = this.formBuilder.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
-      email: ['', Validators.required],
+      email: [{ value: '', disabled: true }, Validators.required],
       bankAccount: ['', Validators.required],
       bankAccountNumber: ['', Validators.required],
       slackAccount: ['', Validators.required]
