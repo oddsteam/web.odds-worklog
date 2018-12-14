@@ -129,7 +129,7 @@ export class EditProfileComponent implements OnInit {
         fileName: this.transcriptFile.name,
         fileItem: this.transcriptFile
       };
-    } else if (this.userInfo.transcript) {
+    } else if (this.userInfo && this.userInfo.transcript) {
       const fileName = this.userInfo.transcript.split('/');
       return { fileName: fileName[2], fileItem: null };
     } else {
