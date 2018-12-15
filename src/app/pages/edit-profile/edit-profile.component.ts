@@ -94,7 +94,9 @@ export class EditProfileComponent implements OnInit {
   getNameSite() {
     this.worklogApiService.getSitesData().subscribe(res => {
       const result = res.filter(val => val.id === this.userInfo.siteId);
-      this.site = result[0].name;
+      if (result.length !== 0) {
+        this.site = result[0].name;
+      }
     });
   }
   updateData() {
@@ -102,6 +104,9 @@ export class EditProfileComponent implements OnInit {
     this.worklogApiService.updateUser(this.id, this.userInfo).subscribe();
     this.showSuccessMessage = true;
     this.successMessage = 'Saved';
+    setTimeout(() => {
+      this.showSuccessMessage = false;
+    }, 5000);
     window.scrollTo(0, 0);
   }
 
@@ -117,10 +122,8 @@ export class EditProfileComponent implements OnInit {
   goHome() {
     if (this.personType === 'individual') {
       this.router.navigate([`/individual`]);
-      location.reload();
     } else {
       this.router.navigate([`/corporate`]);
-      location.reload();
     }
   }
 

@@ -1,5 +1,5 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -8,6 +8,8 @@ import { WorklogApiService } from 'src/app/core/worklog-api.service';
 import { DropDownComponent } from 'src/app/shared/components/drop-down/drop-down.component';
 import { Site } from 'src/app/shared/model/site';
 import { EditProfileComponent } from './edit-profile.component';
+import { Router } from '@angular/router';
+import { User } from 'src/app/shared/model/user';
 
 
 describe('EditProfileComponent', () => {
@@ -129,5 +131,106 @@ describe('EditProfileComponent', () => {
     spyOn(worklogApiService, 'getSitesData').and.returnValue(of(mockListSites));
     component.getNameSite();
     expect(component.site).toEqual(mockListSites[0].name);
+  });
+  it('should call onSubmit if file is not undifined', () => {
+    const file = {
+      target: {
+        files: [
+          { name: 'xxx.pdf' }
+        ]
+      }
+    };
+    spyOn(component, 'onSubmit');
+    component.onChangeTranscriptFile(file);
+    expect(component.onSubmit).toHaveBeenCalledWith(file.target.files[0]);
+  });
+
+  it('should call uploadFileTranscript in service', () => {
+    const file = {
+      target: {
+        files: [
+          { name: 'xxx.pdf' }
+        ]
+      }
+    };
+    spyOn(worklogApiService, 'uploadFileTranscript').and.returnValues(of('message'));
+    component.onSubmit(file);
+    expect(worklogApiService.uploadFileTranscript).toHaveBeenCalledWith(file);
+  });
+
+  it('should call getSitesData in worklog service', () => {
+    const data = {
+      bankAccountName: 'กอไก่ ขอไข่',
+      bankAccountNumber: '0123456789',
+      email: 'who@odds.team',
+      firstName: 'aaa',
+      id: '5c0fa703780bf500019a5aea',
+      lastName: 'bbb',
+      role: 'admin',
+      slackAccount: 'who@odds.team',
+      siteId: '5c0fb860f37e2f8698989cdd',
+      vat: 'N',
+      site: {
+        id: '5c0fb860f37e2f8698989cdd',
+        name: 'SEC'
+      },
+      thaiCitizenId: '112233445566',
+      transcript: null
+    };
+    spyOn(worklogApiService, 'getUserByID').and.returnValue(of(data));
+    component.getData();
+    const mockListSites: Site[] = [
+      {
+        id: '5c0fb860f37e2f8698989cdd',
+        name: 'SEC'
+      }
+    ];
+    spyOn(worklogApiService, 'getSitesData').and.returnValues(of(mockListSites));
+    const siteName = 'SEC';
+    component.getEmitSource(siteName);
+    expect(worklogApiService.getSitesData).toHaveBeenCalled();
+  });
+
+  it('should navigate to individual if personType = individual', inject([Router], (router: Router) => {
+    component.personType = 'individual';
+    spyOn(router, 'navigate');
+    fixture.detectChanges();
+    component.goHome();
+    expect(router.navigate).toHaveBeenCalledWith(['/individual']);
+  }));
+
+  it('should call updateUser in worklog service correctly', () => {
+    const mockResponse: User = {
+      bankAccountName: 'กอไก่ ขอไข่',
+      bankAccountNumber: '0123456789',
+      email: 'who@odds.team',
+      firstName: 'aaa',
+      id: '5c0fa703780bf500019a5aea',
+      lastName: 'bbb',
+      role: 'admin',
+      slackAccount: 'who@odds.team',
+      siteId: '5c0fb860f37e2f8698989cdd',
+      vat: 'N',
+      site: {
+        id: '5c0fb860f37e2f8698989cdd',
+        name: 'SEC'
+      },
+      thaiCitizenId: '112233445566',
+      transcript: null
+    };
+    component.userInfo = new User();
+    component.id = mockResponse.id;
+    component.profileForm.setValue({
+      firstName: 'ODDS',
+      lastName: 'ODDS',
+      email: 'odds@odds.team',
+      bankAccount: 'odds odds',
+      bankAccountNumber: '1122334455',
+      slackAccount: 'odds@odds.team'
+    });
+    fixture.detectChanges();
+    spyOn(worklogApiService, 'updateUser').and.returnValue(of(mockResponse));
+    component.updateData();
+    expect(worklogApiService.updateUser).toHaveBeenCalled();
   });
 });
