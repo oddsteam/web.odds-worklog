@@ -1,13 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { CorporateComponent } from '../pages/corporate/corporate.component';
-import { EditProfileComponent } from '../pages/edit-profile/edit-profile.component';
-// tslint:disable-next-line:max-line-length
-import { TableListUserBySiteComponent } from '../pages/group-management/component/table-list-user-by-site/table-list-user-by-site.component';
-import { GroupManagementComponent } from '../pages/group-management/group-management.component';
-import { IndividualComponent } from '../pages/individual/individual.component';
-import { SettingComponent } from '../pages/setting/setting.component';
-import { UsersManagementComponent } from '../pages/users-management/users-management.component';
 import { LayoutsComponent } from './layouts.component';
 
 const routes: Routes = [
@@ -17,31 +9,42 @@ const routes: Routes = [
         children: [
             {
                 path: 'profile',
-                component: EditProfileComponent
+                loadChildren:
+                '../pages/edit-profile/edit-profile.module#EditProfileModule',
             },
             {
                 path: 'corporate',
-                component: CorporateComponent
+                loadChildren:
+                '../pages/corporate/corporate.module#CorporateModule',
             },
             {
                 path: 'individual',
-                component: IndividualComponent
+                loadChildren:
+                '../pages/individual/individual.module#IndividualModule',
             },
             {
                 path: 'settings',
-                component: SettingComponent
+                loadChildren:
+                '../pages/setting/setting.module#SettingModule',
             },
             {
-                path: 'usersManagement',
-                component: UsersManagementComponent
+                path: 'users',
+                loadChildren:
+                '../pages/users-management/users-management.module#UsersManagementModule',
             },
             {
-                path: 'groupsManagement',
-                component: GroupManagementComponent
+                path: 'groups',
+                loadChildren:
+                '../pages/group-management/group-management.module#GroupManagementModule',
             },
+            // {
+            //     path: 'groups/users',
+            //     component: TableListUserBySiteComponent
+            // },
             {
-                path: 'groupsManagement/users',
-                component: TableListUserBySiteComponent
+                path: 'company',
+                loadChildren:
+                '../pages/company/company.module#CompanyModule',
             }
 
         ]

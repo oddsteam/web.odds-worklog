@@ -16,9 +16,10 @@ export class TabMenuComponent implements OnInit {
   listTabMenu = [
     { id: 'corporate', text: 'CORPORATE', icon: 'fa-building', level: 0 },
     { id: 'individual', text: 'INDIVIDUAL', icon: 'fa-user', level: 0 },
-    { id: 'management', text: 'MANAGEMENT', icon: 'fa-users', level: 0 },
-    { id: 'usersManagement', text: 'USERS', icon: '', level: 1 },
-    { id: 'groupsManagement', text: 'GROUPS', icon: '', level: 1 },
+    { id: 'servant', text: 'SERVANT', icon: 'fa-users', level: 0 },
+    { id: 'users', text: 'USERS', icon: '', level: 1 },
+    { id: 'groups', text: 'GROUPS', icon: '', level: 1 },
+    { id: 'company', text: 'COMPANY', icon: '', level: 1 },
     { id: 'profile', text: 'PROFILE', icon: 'fa-user-circle', level: 0 },
     { id: 'settings', text: 'SETTINGS', icon: 'fa-cog', level: 0 },
   ];
@@ -42,7 +43,7 @@ export class TabMenuComponent implements OnInit {
   }
 
   routerTo(path) {
-    if (path === 'management') {
+    if (path === 'servant') {
       this.isShowLess = !this.isShowLess;
     } else {
       this.personType = path;

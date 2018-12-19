@@ -34,7 +34,7 @@ export class GroupManagementComponent implements OnInit {
 
   gotoUserListSite(users: User[], siteName: string) {
     this.worklogAPIService.setListData(users, siteName);
-    this.router.navigate(['groupsManagement/users']);
+    this.router.navigate(['groups/users']);
   }
 
 }

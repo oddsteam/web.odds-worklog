@@ -14,12 +14,14 @@ import { ContentLoaderModule } from '@netbasal/content-loader';
 import { OrderModule } from 'ngx-order-pipe';
 import { BsDropdownModule } from 'ngx-bootstrap';
 import { DropDownComponent } from './components/drop-down/drop-down.component';
+import { RouterModule } from '@angular/router';
 @NgModule({
   imports: [
     CommonModule,
     TranslateModule,
     NgbModule,
     FormsModule,
+    RouterModule,
     BsDropdownModule.forRoot(),
     ContentLoaderModule,
     OrderModule,

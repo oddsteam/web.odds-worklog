@@ -11,10 +11,10 @@
           <i class="fa pl-4" [ngClass]="tabMenu?.icon"></i>
           <span class="px-2">{{tabMenu?.text}}</span>
         </a>
-        <span class="text-right" *ngIf="tabMenu?.id === 'management' && isShowLess">
+        <span class="text-right" *ngIf="tabMenu?.id === 'servant' && isShowLess">
           <i class="fa fa-angle-right"></i>
         </span>
-        <span class="text-right" *ngIf="tabMenu?.id === 'management' && !isShowLess">
+        <span class="text-right" *ngIf="tabMenu?.id === 'servant' && !isShowLess">
           <i class="fa fa-angle-down"></i>
         </span>
       </div>
