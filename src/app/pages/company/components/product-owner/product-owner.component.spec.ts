@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { RouterTestingModule } from '@angular/router/testing';
 import { ProductOwnerComponent } from './product-owner.component';
+
 
 describe('ProductOwnerComponent', () => {
   let component: ProductOwnerComponent;
@@ -8,9 +9,10 @@ describe('ProductOwnerComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ProductOwnerComponent ]
+      declarations: [ProductOwnerComponent],
+      imports: [RouterTestingModule]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
