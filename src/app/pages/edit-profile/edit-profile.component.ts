@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
 import { User } from 'src/app/shared/model/user';
 import { MyFile } from './file';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-edit-profile',
@@ -17,6 +18,7 @@ export class EditProfileComponent implements OnInit {
   transcriptFile: File = null;
   imageFile: File = null;
   oldTranscriptFile = null;
+  urlDownloadTranscriptFile = null;
   dataListSite = [
     { key: 'Default', value: 'No Site' },
     { key: 'KTB', value: 'KTB' },
@@ -30,6 +32,17 @@ export class EditProfileComponent implements OnInit {
   personType: string;
   showSuccessMessage = false;
   successMessage: string;
+  vatList = [
+    {
+      value: true,
+      name: 'vat'
+    },
+    {
+      value: false,
+      name: 'non-vat'
+    },
+  ];
+  isVat = 'N';
   site = '';
   constructor(
     private formBuilder: FormBuilder,
@@ -50,7 +63,7 @@ export class EditProfileComponent implements OnInit {
       email: [{ value: '', disabled: true }, Validators.required],
       bankAccount: ['', Validators.required],
       bankAccountNumber: ['', Validators.required],
-      slackAccount: ['', Validators.required]
+      slackAccount: ['', Validators.required],
     });
 
     this.fileForm = this.formBuilder.group({
@@ -81,6 +94,7 @@ export class EditProfileComponent implements OnInit {
   getData() {
     this.worklogApiService.getUserByID(this.id).subscribe(data => {
       this.userInfo = data;
+      this.urlDownloadTranscriptFile = `${environment.api}files/transcript` + data.id;
       this.personType = data.role;
       this.firstNameForm.setValue(data.firstName);
       this.lastNameForm.setValue(data.lastName);
@@ -88,6 +102,11 @@ export class EditProfileComponent implements OnInit {
       this.bankAccountForm.setValue(data.bankAccountName);
       this.bankAccountNumberForm.setValue(data.bankAccountNumber);
       this.slackAccount.setValue(data.slackAccount);
+      this.isVat = data.vat;
+      if (data.vat === 'N') {
+        this.vatList[0].value = false;
+        this.vatList[1].value = true;
+      }
       this.getNameSite();
     });
   }
@@ -117,6 +136,7 @@ export class EditProfileComponent implements OnInit {
     this.userInfo.bankAccountName = this.bankAccountForm.value;
     this.userInfo.bankAccountNumber = this.bankAccountNumberForm.value;
     this.userInfo.slackAccount = this.slackAccount.value;
+    this.userInfo.vat = this.isVat;
   }
 
   // goHome() {
@@ -138,6 +158,18 @@ export class EditProfileComponent implements OnInit {
     });
   }
 
+  onCheckBoxVat(vatName) {
+    this.isVat = (vatName === 'non-vat') ? 'N' : 'Y';
+    this.vatList.map(data => {
+      if (data.name !== vatName) {
+        data.value = false;
+        // this.vat.setValue(false);
+      } else {
+        data.value = true;
+        // this.vat.setValue(true);
+      }
+    });
+  }
   get getTranscriptFile(): MyFile {
     if (this.transcriptFile) {
       return {

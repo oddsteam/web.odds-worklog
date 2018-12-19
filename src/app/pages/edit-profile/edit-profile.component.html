@@ -10,10 +10,13 @@
           <h5 class="prepend-top-0">Upload Transcript</h5>
           <div class="prepend-top-5 append-bottom-10">
             <div class="upload-file-wrapper">
-              <button class="btn upload-btn" type="button">Choose file...</button>
+              <button class="btn upload-btn" type="button" [hidden]="(userInfo && userInfo.transcript)">
+                Choose file...
+              </button>
               <input formControlName="transcriptFile" type="file" accept="application/pdf" (change)="onChangeTranscriptFile($event)" />
               <span class="avatar-file-name prepend-left-default">
-                {{ getTranscriptFile.fileName }}
+                <a href="{{urlDownloadTranscriptFile}}" target="_blank" *ngIf="userInfo && userInfo.transcript">{{
+                  getTranscriptFile.fileName }}</a>
               </span>
             </div>
           </div>
@@ -92,6 +95,15 @@
             <div class="form-group col-md-12">
               <label>Slack Account</label>
               <input class="form-control" type="text" formControlName="slackAccount">
+            </div>
+          </div>
+          <div class="row" *ngIf="userInfo && userInfo.role === 'corporate'">
+            <div class="form-group col-md-12">
+              <label>VAT</label><br>
+              <div class="checkbox custom-control-inline" *ngFor="let item of vatList">
+                <label><input type="checkbox" [checked]="item.value" (change)="onCheckBoxVat(item.name ,$event)">
+                  {{item.name}}</label>
+              </div>
             </div>
           </div>
           <div class="row">
