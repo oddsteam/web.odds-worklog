@@ -1,5 +1,5 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -7,9 +7,8 @@ import { of } from 'rxjs';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
 import { DropDownComponent } from 'src/app/shared/components/drop-down/drop-down.component';
 import { Site } from 'src/app/shared/model/site';
-import { EditProfileComponent } from './edit-profile.component';
-import { Router } from '@angular/router';
 import { User } from 'src/app/shared/model/user';
+import { EditProfileComponent } from './edit-profile.component';
 
 
 describe('EditProfileComponent', () => {
@@ -226,5 +225,13 @@ describe('EditProfileComponent', () => {
     spyOn(worklogApiService, 'updateUser').and.returnValue(of(mockResponse));
     component.updateData();
     expect(worklogApiService.updateUser).toHaveBeenCalled();
+  });
+
+  it('when call onReset() must call getData()', () => {
+    spyOn(component, 'getData');
+
+    component.onReset();
+
+    expect(component.getData).toHaveBeenCalled();
   });
 });
