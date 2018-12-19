@@ -15,14 +15,14 @@
               </button>
               <input formControlName="transcriptFile" type="file" accept="application/pdf" (change)="onChangeTranscriptFile($event)" />
               <span class="avatar-file-name prepend-left-default">
-                <a href="{{urlDownloadTranscriptFile}}" target="_blank" *ngIf="userInfo && userInfo.transcript">{{
-                  getTranscriptFile.fileName }}</a>
+                <a href="{{urlDownloadTranscriptFile}}" target="_blank" *ngIf="userInfo && userInfo.transcript">
+                  {{ getTranscriptFile.fileName }}</a>
               </span>
             </div>
           </div>
           <div class="form-text text-muted">The maximum file size allowed is 200KB.</div>
-          <hr>
-          <button id="btn-edit" type="button" class="btn button-red">Remove Transcript</button>
+          <!-- <hr> -->
+          <!-- <button id="btn-edit" type="button" class="btn button-red">Remove Transcript</button> -->
         </div>
 
         <div class="col-lg-6">
@@ -35,12 +35,10 @@
                 {{ getImageFile.fileName }}
               </span>
             </div>
-            <!-- <button class="btn" type="button">Choose file...</button>
-            <span class="avatar-file-name prepend-left-default">No file chosen</span> -->
           </div>
           <div class="form-text text-muted">The maximum file size allowed is 200KB.</div>
-          <hr>
-          <button id="btn-edit" type="button" class="btn button-red">Remove Avatar</button>
+          <!-- <hr> -->
+          <!-- <button id="btn-edit" type="button" class="btn button-red">Remove Avatar</button> -->
         </div>
 
       </div>

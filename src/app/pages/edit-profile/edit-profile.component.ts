@@ -139,14 +139,6 @@ export class EditProfileComponent implements OnInit {
     this.userInfo.vat = this.isVat;
   }
 
-  // goHome() {
-  //   if (this.personType === 'individual') {
-  //     this.router.navigate([`/individual`]);
-  //   } else {
-  //     this.router.navigate([`/corporate`]);
-  //   }
-  // }
-
   onReset() {
     this.getData();
   }
