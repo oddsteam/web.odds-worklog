@@ -191,13 +191,7 @@ describe('EditProfileComponent', () => {
     expect(worklogApiService.getSitesData).toHaveBeenCalled();
   });
 
-  it('should navigate to individual if personType = individual', inject([Router], (router: Router) => {
-    component.personType = 'individual';
-    spyOn(router, 'navigate');
-    fixture.detectChanges();
-    component.goHome();
-    expect(router.navigate).toHaveBeenCalledWith(['/individual']);
-  }));
+  // onReset Test
 
   it('should call updateUser in worklog service correctly', () => {
     const mockResponse: User = {

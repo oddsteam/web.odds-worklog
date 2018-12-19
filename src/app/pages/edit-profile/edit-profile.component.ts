@@ -119,12 +119,16 @@ export class EditProfileComponent implements OnInit {
     this.userInfo.slackAccount = this.slackAccount.value;
   }
 
-  goHome() {
-    if (this.personType === 'individual') {
-      this.router.navigate([`/individual`]);
-    } else {
-      this.router.navigate([`/corporate`]);
-    }
+  // goHome() {
+  //   if (this.personType === 'individual') {
+  //     this.router.navigate([`/individual`]);
+  //   } else {
+  //     this.router.navigate([`/corporate`]);
+  //   }
+  // }
+
+  onReset() {
+    this.getData();
   }
 
   getEmitSource(event) {
