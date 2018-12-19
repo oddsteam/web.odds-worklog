@@ -1,17 +1,17 @@
-<div> 
+<div>
   <span class="text-title">{{ siteName }}</span>
 </div>
 <table class="table table-hover">
-    <thead>
-      <tr>
-        <th class="text-left ">ชื่อ-สกุล(อังกฤษ)</th>
-        <th class="text-left">E-mail</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let listData of listData; let i = index" >
-        <td>{{ listData.firstName }}</td>
-        <td>{{ listData.email }}</td>
-      </tr>
-    </tbody>
-  </table>
+  <thead>
+    <tr>
+      <th class="text-left ">ชื่อ-สกุล(อังกฤษ)</th>
+      <th class="text-left">E-mail</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let listData of listData; let i = index">
+      <td>{{ listData.firstName }} {{ listData.lastName }}</td>
+      <td>{{ listData.email }}</td>
+    </tr>
+  </tbody>
+</table>
