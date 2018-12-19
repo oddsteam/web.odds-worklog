@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CorporateComponent } from '../pages/corporate/corporate.component';
 import { EditProfileComponent } from '../pages/edit-profile/edit-profile.component';
+// tslint:disable-next-line:max-line-length
 import { TableListUserBySiteComponent } from '../pages/group-management/component/table-list-user-by-site/table-list-user-by-site.component';
 import { GroupManagementComponent } from '../pages/group-management/group-management.component';
 import { IndividualComponent } from '../pages/individual/individual.component';
@@ -15,7 +16,7 @@ const routes: Routes = [
         component: LayoutsComponent,
         children: [
             {
-                path: 'editProfile',
+                path: 'profile',
                 component: EditProfileComponent
             },
             {
