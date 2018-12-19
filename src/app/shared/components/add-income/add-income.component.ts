@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef, ViewChild, Output, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { StateService } from 'src/app/core/state.service';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
@@ -15,6 +15,7 @@ export class AddIncomeComponent implements OnInit {
   salary = 0;
   @ViewChild('templateModal') templateModal: TemplateRef<any>;
   @Output() addIncomeAlready = new EventEmitter();
+  @Input() role: string;
   modalRef: BsModalRef;
   note = 'อยากได้เงินก็กรอกมาสิ';
   typeUser: string;
