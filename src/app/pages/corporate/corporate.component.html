@@ -3,6 +3,6 @@
     <app-add-income (addIncomeAlready)="addIncomeEmit($event)"></app-add-income>
   </div>
   <div>
-    <app-list-corporate role="personType" [isUpdateList]="isUpdateIncome"></app-list-corporate>
+    <app-list-corporate [role]="personType" [isUpdateList]="isUpdateIncome"></app-list-corporate>
   </div>
 </div>
