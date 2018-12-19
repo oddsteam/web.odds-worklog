@@ -23,9 +23,16 @@ export class WorklogApiService {
     private userId = this.id;
     readonly apiPath = environment.api;
     private token = sessionStorage.getItem('token');
+    individualListed: ListIncomeResponse;
+    corporateListed: ListIncomeResponse;
 
-    constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient) {
+        this.initDataService();
+    }
 
+    getIndividualListed = () => this.individualListed;
+
+    getCorporateListed = () => this.corporateListed;
     /*
       user test
           corporate  id = 5bde550643b39700012727f2
@@ -41,6 +48,18 @@ export class WorklogApiService {
                 }
             }, 200);
         });
+    }
+
+    initDataService() {
+        if (this.forCheckTokenPleaseRemoveMeIfFlowLoginFinnished()) {
+            this.getListIncomeIndividual().subscribe(individual => {
+                this.individualListed = individual;
+            });
+
+            this.getListIncomeCorporate().subscribe(corporate => {
+                this.corporateListed = corporate;
+            });
+        }
     }
 
     getHttpHeaderOption(): { headers: HttpHeaders } {

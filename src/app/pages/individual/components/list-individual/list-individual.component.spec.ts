@@ -1,20 +1,21 @@
 /* tslint:disable:no-unused-variable */
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ContentLoaderModule } from '@netbasal/content-loader';
+import { DataTablesModule } from 'angular-datatables';
+import { OrderModule } from 'ngx-order-pipe';
 import { of, throwError } from 'rxjs';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
 import { TableListComponent } from 'src/app/shared/components/table-list/table-list.component';
 import { StatusHighlightDirective } from 'src/app/shared/directives/status-highlight.directive';
 import { ListIndividualComponent } from './list-individual.component';
-import { DataTablesModule } from 'angular-datatables';
-import { ContentLoaderModule } from '@netbasal/content-loader';
-import { OrderModule } from 'ngx-order-pipe';
 
 
 describe('ListIndividualComponent', () => {
   let component: ListIndividualComponent;
   let fixture: ComponentFixture<ListIndividualComponent>;
   let worklogService: WorklogApiService;
+  let individualListed;
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ListIndividualComponent, TableListComponent, StatusHighlightDirective],
@@ -28,6 +29,13 @@ describe('ListIndividualComponent', () => {
     worklogService = TestBed.get(WorklogApiService);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    individualListed = [{
+      user: {
+        id: '5c0c7f34ee10e80001cb3c9b', role: 'individual'
+        , firstName: 'aaa', lastName: 'bbb', email: 'who@odds.team', bankAccountName: 'มานะ ไม่มา'
+        , bankAccountNumber: '9898144777', vat: 'N', slackAccount: ''
+      }, submitDate: '', status: 'N'
+    }];
   });
 
   it('should create', () => {
@@ -35,9 +43,9 @@ describe('ListIndividualComponent', () => {
   });
 
   it('should call forCheckTokenPleaseRemoveMeIfFlowLoginFinnished in worklog service', () => {
-    spyOn(worklogService, 'forCheckTokenPleaseRemoveMeIfFlowLoginFinnished').and.returnValue(of());
+    spyOn(worklogService, 'getIndividualListed').and.returnValue(individualListed);
     component.ngOnInit();
-    expect(worklogService.forCheckTokenPleaseRemoveMeIfFlowLoginFinnished).toHaveBeenCalled();
+    expect(component.listIncomeIndividual).toEqual(individualListed);
   });
 
   it('should call getListIncomeIndividual in worklog service', () => {

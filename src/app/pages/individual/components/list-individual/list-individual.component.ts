@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
 import { ListIncomeResponse } from 'src/app/shared/model/list-income-model-response';
 
@@ -17,20 +17,19 @@ export class ListIndividualComponent implements OnInit, OnChanges {
   constructor(private worklogApiService: WorklogApiService) { }
 
   ngOnInit() {
-    this.worklogApiService.forCheckTokenPleaseRemoveMeIfFlowLoginFinnished()
-      .subscribe(() => this.getListIncomeIndividual());
-
+    this.listIncomeIndividual = this.worklogApiService.getIndividualListed();
   }
 
   ngOnChanges() {
-   if (this.isUpdateList) {
-     this.getListIncomeIndividual();
-   }
+    if (this.isUpdateList) {
+      this.getListIncomeIndividual();
+    }
   }
 
   getListIncomeIndividual() {
     this.worklogApiService.getListIncomeIndividual().subscribe(response => {
       this.listIncomeIndividual = response;
+      this.worklogApiService.individualListed = this.listIncomeIndividual;
     });
   }
 

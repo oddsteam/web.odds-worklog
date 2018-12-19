@@ -15,6 +15,7 @@ describe('ListCorporateComponent', () => {
   let fixture: ComponentFixture<ListCorporateComponent>;
   let worklogService: WorklogApiService;
   let stateService: StateService;
+  let corporateListed;
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ListCorporateComponent, TableListComponent, StatusHighlightDirective],
@@ -29,6 +30,13 @@ describe('ListCorporateComponent', () => {
     stateService = TestBed.get(StateService);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    corporateListed = [{
+      user: {
+        id: '5c0c7f34ee10e80001cb3c9b', role: 'individual'
+        , firstName: 'aaa', lastName: 'bbb', email: 'who@odds.team', bankAccountName: 'มานะ ไม่มา'
+        , bankAccountNumber: '9898144777', vat: 'N', slackAccount: ''
+      }, submitDate: '', status: 'N'
+    }];
   });
 
   it('should create', () => {
@@ -36,22 +44,15 @@ describe('ListCorporateComponent', () => {
   });
 
   it('should call forCheckTokenPleaseRemoveMeIfFlowLoginFinnished in worklog service', () => {
-    spyOn(worklogService, 'forCheckTokenPleaseRemoveMeIfFlowLoginFinnished').and.returnValue(of());
+    spyOn(worklogService, 'getCorporateListed').and.returnValue(corporateListed);
     component.ngOnInit();
-    expect(worklogService.forCheckTokenPleaseRemoveMeIfFlowLoginFinnished).toHaveBeenCalled();
+    expect(component.listIncome).toEqual(corporateListed);
   });
 
   it('forCheckTokenPleaseRemoveMeIfFlowLoginFinnished should be defined', () => {
     spyOn(stateService, 'listIncomeCorporateTrigger').and.returnValue(of());
     component.ngOnInit();
     expect(stateService.listIncomeCorporateTrigger).toBeDefined();
-  });
-
-  it('should call getListIncomeCorporate', () => {
-    spyOn(stateService, 'listIncomeCorporateTrigger').and.returnValue(of());
-    spyOn(component, 'getListIncomeCorporate');
-    component.ngOnInit();
-    expect(component.getListIncomeCorporate).toHaveBeenCalled();
   });
 
   it('should call getListIncomeCorporate in worklog service', () => {

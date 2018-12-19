@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService, GoogleLoginProvider } from 'angular-6-social-login';
+import { forkJoin } from 'rxjs';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
 
 @Component({
@@ -45,6 +46,7 @@ export class LoginGoogleComponent implements OnInit {
         sessionStorage.setItem('idUser', res.user.id);
         this.router.navigate(['firstlogin']);
       }
+      this.cacheData();
     });
 
   }
@@ -62,5 +64,17 @@ export class LoginGoogleComponent implements OnInit {
     }
 
     return true;
+  }
+
+  cacheData() {
+    const individualListed = this.worklogService.getListIncomeIndividual();
+    const corporateListed = this.worklogService.getListIncomeCorporate();
+
+    forkJoin([corporateListed, individualListed]).subscribe(
+      result => {
+        this.worklogService.corporateListed = result[0];
+        this.worklogService.individualListed = result[1];
+      }
+    );
   }
 }
