@@ -2,6 +2,7 @@
 
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { inject, TestBed } from '@angular/core/testing';
+import { of } from 'rxjs';
 import { AddIncome } from '../shared/model/add-income-model';
 import { ListIncomeResponse } from '../shared/model/list-income-model-response';
 import { WorklogApiService } from './worklog-api.service';
@@ -248,6 +249,26 @@ describe('Service: WorklogApi', () => {
       fileName: mockFile.name
     });
     backEnd.verify();
+  });
+
+  it('should set getListIncomeIndividual, getListIncomeCorporate when call initDataService()', () => {
+    spyOn(mockService, 'forCheckTokenPleaseRemoveMeIfFlowLoginFinnished').and.returnValue(false);
+    spyOn(mockService, 'getListIncomeIndividual').and.returnValue(of());
+    spyOn(mockService, 'getListIncomeCorporate').and.returnValue(of());
+    mockService.initDataService();
+    expect(mockService.getListIncomeIndividual).not.toHaveBeenCalled();
+    expect(mockService.getListIncomeCorporate).not.toHaveBeenCalled();
+
+  });
+
+  it('should not set getListIncomeIndividual, getListIncomeCorporate when forcheck() fucntion return false', () => {
+    spyOn(mockService, 'forCheckTokenPleaseRemoveMeIfFlowLoginFinnished').and.returnValue(true);
+    spyOn(mockService, 'getListIncomeIndividual').and.returnValue(of());
+    spyOn(mockService, 'getListIncomeCorporate').and.returnValue(of());
+    mockService.initDataService();
+    expect(mockService.getListIncomeIndividual).toHaveBeenCalled();
+    expect(mockService.getListIncomeCorporate).toHaveBeenCalled();
+
   });
 
 });
