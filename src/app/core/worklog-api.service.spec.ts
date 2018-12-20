@@ -236,7 +236,7 @@ describe('Service: WorklogApi', () => {
     mockFormData.append('file', mockFile);
 
     mockService.uploadFileTranscript(mockFile).subscribe();
-    const req = backEnd.expectOne(`${mockService.apiPath}/files/transcript`);
+    const req = backEnd.expectOne(`${mockService.apiPath}files/transcript`);
     const req1 = backEnd.expectOne(`${mockService.apiPath}incomes/status/individual`);
     const req2 = backEnd.expectOne(`${mockService.apiPath}incomes/status/corporate`);
     expect(req.request.method).toEqual('POST');

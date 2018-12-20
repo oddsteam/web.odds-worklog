@@ -213,7 +213,18 @@ export class WorklogApiService {
     uploadFileTranscript(file): Observable<object> {
         const payload = new FormData();
         payload.append('file', file);
-        return this.http.post<object>(`${this.apiPath}/files/transcript`, payload, {
+        return this.http.post<object>(`${this.apiPath}files/transcript`, payload, {
+            headers: new HttpHeaders({
+                Authorization: sessionStorage.getItem('token')
+            })
+        }
+        );
+    }
+
+    uploadImageProfile(file): Observable<object> {
+        const payload = new FormData();
+        payload.append('image-profile', file);
+        return this.http.post<object>(`${this.apiPath}files/image`, payload, {
             headers: new HttpHeaders({
                 Authorization: sessionStorage.getItem('token')
             })

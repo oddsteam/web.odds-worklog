@@ -75,6 +75,9 @@ export class EditProfileComponent implements OnInit {
 
   onChangeImageFile(event) {
     this.imageFile = event.target.files[0];
+    this.worklogApiService.uploadImageProfile(this.imageFile).subscribe(res => {
+      alert(res['message']);
+    });
   }
 
   getData() {
