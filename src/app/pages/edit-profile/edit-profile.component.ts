@@ -32,6 +32,7 @@ export class EditProfileComponent implements OnInit {
   personType: string;
   showSuccessMessage = false;
   successMessage: string;
+  fileNamePdf: string;
   vatList = [
     {
       value: true,
@@ -44,6 +45,7 @@ export class EditProfileComponent implements OnInit {
   ];
   isVat = 'N';
   site = '';
+
   constructor(
     private formBuilder: FormBuilder,
     private worklogApiService: WorklogApiService,
@@ -53,7 +55,6 @@ export class EditProfileComponent implements OnInit {
   ngOnInit() {
     this.createForm();
     this.getData();
-
   }
 
   createForm() {
@@ -72,29 +73,14 @@ export class EditProfileComponent implements OnInit {
     });
   }
 
-  onChangeTranscriptFile(event) {
-    const file = event.target.files[0];
-    this.transcriptFile = event.target.files[0];
-    if (file) {
-      this.onSubmit(file);
-    }
-  }
-
   onChangeImageFile(event) {
     this.imageFile = event.target.files[0];
-  }
-
-  onSubmit(file) {
-    this.worklogApiService.uploadFileTranscript(file).subscribe(response => {
-      const message = response['message'];
-      alert(message);
-    });
   }
 
   getData() {
     this.worklogApiService.getUserByID(this.id).subscribe(data => {
       this.userInfo = data;
-      this.urlDownloadTranscriptFile = `${environment.api}files/transcript` + data.id;
+      // this.urlDownloadTranscriptFile = `${environment.api}files/transcript` + data.id;
       this.personType = data.role;
       this.firstNameForm.setValue(data.firstName);
       this.lastNameForm.setValue(data.lastName);
@@ -110,6 +96,7 @@ export class EditProfileComponent implements OnInit {
       this.getNameSite();
     });
   }
+
   getNameSite() {
     this.worklogApiService.getSitesData().subscribe(res => {
       const result = res.filter(val => val.id === this.userInfo.siteId);
@@ -118,6 +105,7 @@ export class EditProfileComponent implements OnInit {
       }
     });
   }
+
   updateData() {
     this.setDataToModel();
     this.worklogApiService.updateUser(this.id, this.userInfo).subscribe();
@@ -143,6 +131,39 @@ export class EditProfileComponent implements OnInit {
     this.getData();
   }
 
+  onChangeTranscriptFile(event) {
+    const file = event.target.files[0];
+    this.transcriptFile = event.target.files[0];
+    if (file) {
+      this.onSubmit(file);
+    }
+  }
+
+  onSubmit(file) {
+    this.worklogApiService.uploadFileTranscript(file).subscribe(response => {
+      const message = response['message'];
+      alert(message);
+      if (message) {
+        this.ngOnInit();
+      }
+    });
+  }
+
+  onDownload() {
+    const fileName = this.fileNamePdf;
+    if (fileName) {
+      this.worklogApiService.downloadTranscriptFile().subscribe(response => {
+        this.downloadFile(response, fileName);
+      }, err => {
+        console.log(err);
+      });
+    }
+  }
+
+  onRemove() {
+
+  }
+
   getEmitSource(event) {
     this.worklogApiService.getSitesData().subscribe(res => {
       const result = res.filter(val => val.name === event);
@@ -155,13 +176,25 @@ export class EditProfileComponent implements OnInit {
     this.vatList.map(data => {
       if (data.name !== vatName) {
         data.value = false;
-        // this.vat.setValue(false);
       } else {
         data.value = true;
-        // this.vat.setValue(true);
       }
     });
   }
+
+  downloadFile(data: any, filename: string) {
+    const blob = new Blob([data], { type: 'text/csv;charset=utf-8;' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    document.body.appendChild(a);
+    a.setAttribute('style', 'display: none');
+    a.href = url;
+    a.download = filename;
+    a.click();
+    window.URL.revokeObjectURL(url);
+    a.remove();
+  }
+
   get getTranscriptFile(): MyFile {
     if (this.transcriptFile) {
       return {
@@ -170,9 +203,16 @@ export class EditProfileComponent implements OnInit {
       };
     } else if (this.userInfo && this.userInfo.transcript) {
       const fileName = this.userInfo.transcript.split('/');
-      return { fileName: fileName[2], fileItem: null };
+      this.fileNamePdf = fileName[2];
+      return {
+        fileName: fileName[2],
+        fileItem: null
+      };
     } else {
-      return { fileName: 'No file was chosen.', fileItem: null };
+      return {
+        fileName: 'No file was chosen.',
+        fileItem: null
+      };
     }
   }
 

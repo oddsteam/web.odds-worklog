@@ -10,19 +10,26 @@
           <h5 class="prepend-top-0">Upload Transcript</h5>
           <div class="prepend-top-5 append-bottom-10">
             <div class="upload-file-wrapper">
-              <button class="btn upload-btn" type="button" [hidden]="(userInfo && userInfo.transcript)">
-                Choose file...
-              </button>
-              <input formControlName="transcriptFile" type="file" accept="application/pdf" (change)="onChangeTranscriptFile($event)" />
-              <span class="avatar-file-name prepend-left-default">
-                <a href="{{urlDownloadTranscriptFile}}" target="_blank" *ngIf="userInfo && userInfo.transcript">
-                  {{ getTranscriptFile.fileName }}</a>
+              <span [hidden]="(userInfo && userInfo.transcript)">
+                <button class="btn" type="button">
+                  Choose file...
+                </button>
+                <input formControlName="transcriptFile" type="file" accept="application/pdf" (change)="onChangeTranscriptFile($event)" />
+              </span>
+              <span [hidden]="!(userInfo && userInfo.transcript)">
+                <button class="btn button-download" type="button" (click)="onDownload()">
+                  Download
+                </button>
+                <button class="btn button-remove" type="button" (click)="onRemove()">
+                  Remove
+                </button>
+              </span>
+              <span class="avatar-file-name prepend-left-default" *ngIf="!(userInfo && userInfo.transcript)">
+                {{ getTranscriptFile.fileName }}
               </span>
             </div>
           </div>
           <div class="form-text text-muted">The maximum file size allowed is 200KB.</div>
-          <!-- <hr> -->
-          <!-- <button id="btn-edit" type="button" class="btn button-red">Remove Transcript</button> -->
         </div>
 
         <div class="col-lg-6">
@@ -37,8 +44,6 @@
             </div>
           </div>
           <div class="form-text text-muted">The maximum file size allowed is 200KB.</div>
-          <!-- <hr> -->
-          <!-- <button id="btn-edit" type="button" class="btn button-red">Remove Avatar</button> -->
         </div>
 
       </div>

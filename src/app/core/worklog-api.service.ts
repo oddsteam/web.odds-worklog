@@ -129,6 +129,7 @@ export class WorklogApiService {
             this.getHttpHeaderOption()
         );
     }
+
     exportDataCorporate(): Observable<Blob> {
         return this.http.get(`${this.apiPath}incomes/export/corporate`, {
             headers: new HttpHeaders({
@@ -171,6 +172,7 @@ export class WorklogApiService {
             })
         });
     }
+
     getUsersData(): Observable<User> {
         return this.http.get<User>(`${this.apiPath}users`, {
             headers: new HttpHeaders({
@@ -178,6 +180,7 @@ export class WorklogApiService {
             })
         });
     }
+
     getSitesData(): Observable<any> {
         return this.http.get(`${this.apiPath}sites`, {
             headers: new HttpHeaders({
@@ -197,6 +200,7 @@ export class WorklogApiService {
     getListData() {
         return this.listData;
     }
+
     setListData(users: User[], siteName: string) {
         this.listData = users;
         this.siteName = siteName;
@@ -205,6 +209,7 @@ export class WorklogApiService {
     getSiteName() {
         return this.siteName;
     }
+
     uploadFileTranscript(file): Observable<object> {
         const payload = new FormData();
         payload.append('file', file);
@@ -214,5 +219,14 @@ export class WorklogApiService {
             })
         }
         );
+    }
+
+    downloadTranscriptFile(): Observable<Blob> {
+        return this.http.get(`${this.apiPath}files/transcript`, {
+            headers: new HttpHeaders({
+                Authorization: sessionStorage.getItem('token')
+            }),
+            responseType: 'blob'
+        });
     }
 }

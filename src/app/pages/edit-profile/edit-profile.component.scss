@@ -133,3 +133,22 @@ hr {
     display: inline-block;
     width: 100%;
 }
+
+.button-download {
+    float: left;
+}
+
+.button-remove {
+    margin-left: 1rem;
+    color: #fff;
+    background-color: #EE4749;
+    border-color: #B62020;
+    width: auto;
+}
+
+.button-remove:hover,
+.button-remove:focus {
+    color: #fff;
+    background-color: rgb(209, 72, 74);
+    border-color: rgb(199, 82, 82);
+}
