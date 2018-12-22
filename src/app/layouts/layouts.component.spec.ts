@@ -14,11 +14,6 @@ import { ProfileComponent } from '../shared/components/profile/profile.component
 import { TabMenuComponent } from '../shared/components/tab-menu/tab-menu.component';
 import { LayoutsComponent } from './layouts.component';
 
-class MockRouterService {
-  navigate() { }
-}
-const mockRouterService = new MockRouterService();
-
 describe('LayoutsComponent', () => {
   let component: LayoutsComponent;
   let fixture: ComponentFixture<LayoutsComponent>;
@@ -31,11 +26,7 @@ describe('LayoutsComponent', () => {
         , TranslateModule.forRoot({
           loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
         })],
-      providers: [WorklogApiService, StateService,
-        {
-          provide: Router,
-          useValue: mockRouterService,
-        }],
+      providers: [WorklogApiService, StateService],
     })
       .compileComponents();
   }));

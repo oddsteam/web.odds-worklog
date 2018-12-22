@@ -107,7 +107,7 @@ export class FirstLoginComponent implements OnInit {
   onCheckBoxRole(role) {
     this.role = (role === 'บุคคลธรรมดา') ? 'individual' : 'corporate';
     this.isCheckRole = (role === 'บุคคลธรรมดา') ? true : false;
-    this.vat = (this.isCheckRole === true) ? 'individual' : 'corporate';
+    this.vat = (this.isCheckRole === true) ? 'N' : 'Y';
     this.roles.map(data => {
       if (data.name !== role) {
         data.value = false;
