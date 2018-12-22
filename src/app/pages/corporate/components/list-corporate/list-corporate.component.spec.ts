@@ -109,7 +109,8 @@ describe('ListCorporateComponent', () => {
           slackAccount: 'odds@odds.team',
           siteId: '',
           transcript: '',
-          site: null
+          site: null,
+          imageProfile: null
         },
         {
           id: '1233',
@@ -124,7 +125,8 @@ describe('ListCorporateComponent', () => {
           slackAccount: 'odds@odds.team',
           siteId: '',
           transcript: '',
-          site: null
+          site: null,
+          imageProfile: null
         },
       ]
     };

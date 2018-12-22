@@ -5,6 +5,7 @@ import { WorklogApiService } from 'src/app/core/worklog-api.service';
 import { User } from 'src/app/shared/model/user';
 import { MyFile } from './file';
 import { environment } from 'src/environments/environment';
+import { FileService } from 'src/app/core/file.service';
 
 @Component({
   selector: 'app-edit-profile',
@@ -47,10 +48,8 @@ export class EditProfileComponent implements OnInit {
   site = '';
 
   constructor(
-    private formBuilder: FormBuilder,
-    private worklogApiService: WorklogApiService,
-    private router: Router
-  ) { }
+    private formBuilder: FormBuilder, private worklogApiService: WorklogApiService,
+    private router: Router, private fileService: FileService) { }
 
   ngOnInit() {
     this.createForm();
@@ -75,8 +74,8 @@ export class EditProfileComponent implements OnInit {
 
   onChangeImageFile(event) {
     this.imageFile = event.target.files[0];
-    this.worklogApiService.uploadImageProfile(this.imageFile).subscribe(res => {
-      alert(res['message']);
+    this.fileService.uploadImageProfile(this.imageFile).subscribe(res => {
+    alert(res['message']);
     });
   }
 
@@ -143,7 +142,7 @@ export class EditProfileComponent implements OnInit {
   }
 
   onSubmit(file) {
-    this.worklogApiService.uploadFileTranscript(file).subscribe(response => {
+    this.fileService.uploadFileTranscript(file).subscribe(response => {
       const message = response['message'];
       alert(message);
       if (message) {
@@ -153,9 +152,9 @@ export class EditProfileComponent implements OnInit {
   }
 
   onDownload() {
-    const fileName = this.fileNamePdf;
+    const fileName = this.getTranscriptFile.fileName;
     if (fileName) {
-      this.worklogApiService.downloadTranscriptFile().subscribe(response => {
+      this.fileService.downloadTranscriptFile().subscribe(response => {
         this.downloadFile(response, fileName);
       }, err => {
         console.log(err);
@@ -186,8 +185,7 @@ export class EditProfileComponent implements OnInit {
   }
 
   downloadFile(data: any, filename: string) {
-    const blob = new Blob([data], { type: 'text/csv;charset=utf-8;' });
-    const url = window.URL.createObjectURL(blob);
+    const url = window.URL.createObjectURL(data);
     const a = document.createElement('a');
     document.body.appendChild(a);
     a.setAttribute('style', 'display: none');

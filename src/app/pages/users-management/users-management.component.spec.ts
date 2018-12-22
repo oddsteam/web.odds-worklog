@@ -50,7 +50,8 @@ describe('UsersManagementComponent', () => {
       thaiCitizenId: '12345423',
       slackAccount: 'odds@odds.team',
       siteId: '',
-      transcript: ''
+      transcript: '',
+      imageProfile: null
     };
     spyOn(worklogApiService, 'getUsersData').and.returnValue(of(mockResponse));
     component.getUsersData();
@@ -74,7 +75,8 @@ describe('UsersManagementComponent', () => {
       thaiCitizenId: '12345423',
       slackAccount: 'odds@odds.team',
       siteId: '',
-      transcript: ''
+      transcript: '',
+      imageProfile: null
     };
     spyOn(worklogApiService, 'getUsersData').and.returnValue(of(mockResponse));
     component.getUsersData();

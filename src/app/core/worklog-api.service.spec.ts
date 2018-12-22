@@ -74,7 +74,8 @@ describe('Service: WorklogApi', () => {
           slackAccount: 'test@odds.team',
           transcript: '',
           siteId: '',
-          site: null
+          site: null,
+          imageProfile: null
         }
       ]
     };
@@ -105,7 +106,8 @@ describe('Service: WorklogApi', () => {
           slackAccount: 'test@odds.team',
           transcript: '',
           siteId: '',
-          site: null
+          site: null,
+          imageProfile: null
         }
       ]
     };
@@ -227,27 +229,6 @@ describe('Service: WorklogApi', () => {
     expect(req.request.method).toEqual('GET');
     expect(req1.request.method).toEqual('GET');
     expect(req2.request.method).toEqual('GET');
-    backEnd.verify();
-  });
-
-  it('should call upload file api correctly', () => {
-    const mockFile = new File([''], 'example.pdf', { type: 'application/pdf', lastModified: 1527052033702 });
-    const mockFormData: FormData = new FormData();
-    mockFormData.append('file', mockFile);
-
-    mockService.uploadFileTranscript(mockFile).subscribe();
-    const req = backEnd.expectOne(`${mockService.apiPath}files/transcript`);
-    const req1 = backEnd.expectOne(`${mockService.apiPath}incomes/status/individual`);
-    const req2 = backEnd.expectOne(`${mockService.apiPath}incomes/status/corporate`);
-    expect(req.request.method).toEqual('POST');
-    expect(req.request.body).toEqual(mockFormData);
-    expect(req1.request.method).toEqual('GET');
-    expect(req2.request.method).toEqual('GET');
-    req.flush({
-      tempFileName: '82d09f47-2fe3-4a33-b385-007a6dda8e13.pdf',
-      path: 'temp_uploads/82d09f47-2fe3-4a33-b385-007a6dda8e13.pdf',
-      fileName: mockFile.name
-    });
     backEnd.verify();
   });
 

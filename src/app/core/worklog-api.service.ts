@@ -209,35 +209,4 @@ export class WorklogApiService {
     getSiteName() {
         return this.siteName;
     }
-
-    uploadFileTranscript(file): Observable<object> {
-        const payload = new FormData();
-        payload.append('file', file);
-        return this.http.post<object>(`${this.apiPath}files/transcript`, payload, {
-            headers: new HttpHeaders({
-                Authorization: sessionStorage.getItem('token')
-            })
-        }
-        );
-    }
-
-    uploadImageProfile(file): Observable<object> {
-        const payload = new FormData();
-        payload.append('image-profile', file);
-        return this.http.post<object>(`${this.apiPath}files/image`, payload, {
-            headers: new HttpHeaders({
-                Authorization: sessionStorage.getItem('token')
-            })
-        }
-        );
-    }
-
-    downloadTranscriptFile(): Observable<Blob> {
-        return this.http.get(`${this.apiPath}files/transcript`, {
-            headers: new HttpHeaders({
-                Authorization: sessionStorage.getItem('token')
-            }),
-            responseType: 'blob'
-        });
-    }
 }

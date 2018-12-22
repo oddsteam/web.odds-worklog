@@ -9,13 +9,14 @@ import { DropDownComponent } from 'src/app/shared/components/drop-down/drop-down
 import { Site } from 'src/app/shared/model/site';
 import { User } from 'src/app/shared/model/user';
 import { EditProfileComponent } from './edit-profile.component';
+import { FileService } from 'src/app/core/file.service';
 
 
 describe('EditProfileComponent', () => {
   let component: EditProfileComponent;
   let fixture: ComponentFixture<EditProfileComponent>;
   let worklogApiService: WorklogApiService;
-
+  let fileService: FileService;
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [EditProfileComponent, DropDownComponent],
@@ -29,6 +30,7 @@ describe('EditProfileComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(EditProfileComponent);
     worklogApiService = TestBed.get(WorklogApiService);
+    fileService = TestBed.get(FileService);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -111,7 +113,8 @@ describe('EditProfileComponent', () => {
         name: 'SEC'
       },
       thaiCitizenId: '112233445566',
-      transcript: null
+      transcript: null,
+      imageProfile: null
     };
     const mockListSites: Site[] = [
       {
@@ -152,9 +155,9 @@ describe('EditProfileComponent', () => {
         ]
       }
     };
-    spyOn(worklogApiService, 'uploadFileTranscript').and.returnValues(of('message'));
+    spyOn(fileService, 'uploadFileTranscript').and.returnValues(of('message'));
     component.onSubmit(file);
-    expect(worklogApiService.uploadFileTranscript).toHaveBeenCalledWith(file);
+    expect(fileService.uploadFileTranscript).toHaveBeenCalledWith(file);
   });
 
   it('should call getSitesData in worklog service', () => {
@@ -209,7 +212,8 @@ describe('EditProfileComponent', () => {
         name: 'SEC'
       },
       thaiCitizenId: '112233445566',
-      transcript: null
+      transcript: null,
+      imageProfile: null
     };
     component.userInfo = new User();
     component.id = mockResponse.id;
@@ -229,9 +233,151 @@ describe('EditProfileComponent', () => {
 
   it('when call onReset() must call getData()', () => {
     spyOn(component, 'getData');
-
     component.onReset();
-
     expect(component.getData).toHaveBeenCalled();
+  });
+
+  it('should call uploadImageProfile in file service', () => {
+    const mockFile = {
+      target: {
+        files: [
+          { name: 'xxx.pdf' }
+        ]
+      }
+    };
+    spyOn(fileService, 'uploadImageProfile').and.returnValue(of('message'));
+    component.onChangeImageFile(mockFile);
+    expect(fileService.uploadImageProfile).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call downloadTranscriptFile in file service when call onDownload', () => {
+    const data = {
+      bankAccountName: 'กอไก่ ขอไข่',
+      bankAccountNumber: '0123456789',
+      email: 'who@odds.team',
+      firstName: 'aaa',
+      id: '5c0fa703780bf500019a5aea',
+      lastName: 'bbb',
+      role: 'admin',
+      slackAccount: 'who@odds.team',
+      vat: 'N',
+      transcript: null,
+      imageProfile: null
+    };
+    // get user data
+    spyOn(worklogApiService, 'getUserByID').and.returnValue(of(data));
+    component.getData();
+
+    component.userInfo.transcript = 'files/transcripts/ww_ww_Zt0mUDwp7LBx.pdf';
+    spyOn(fileService, 'downloadTranscriptFile').and.returnValue(of(new Blob));
+    component.onDownload();
+    expect(fileService.downloadTranscriptFile).toHaveBeenCalled();
+  });
+
+  it('if downloadTranscriptFile in file service is success it should call downloadFile', () => {
+    const data = {
+      bankAccountName: 'กอไก่ ขอไข่',
+      bankAccountNumber: '0123456789',
+      email: 'who@odds.team',
+      firstName: 'aaa',
+      id: '5c0fa703780bf500019a5aea',
+      lastName: 'bbb',
+      role: 'admin',
+      slackAccount: 'who@odds.team',
+      vat: 'N',
+      transcript: null,
+      imageProfile: null
+    };
+    // get user data
+    spyOn(worklogApiService, 'getUserByID').and.returnValue(of(data));
+    component.getData();
+
+    component.userInfo.transcript = 'files/transcripts/ww_ww_Zt0mUDwp7LBx.pdf';
+    const mockResponse = new Blob();
+    spyOn(fileService, 'downloadTranscriptFile').and.returnValue(of(mockResponse));
+    spyOn(component, 'downloadFile');
+    component.onDownload();
+    expect(component.downloadFile).toHaveBeenCalledWith(mockResponse, 'ww_ww_Zt0mUDwp7LBx.pdf');
+  });
+
+  it('should call getSiteData from worklog service when call getEmitSource', () => {
+    const mockListSites: Site[] = [
+      {
+        id: '5c0fb860f37e2f8698989cdd',
+        name: 'SEC'
+      },
+      {
+        id: '5c0fb860f37e2f8698989cff',
+        name: 'DTAC'
+      }
+    ];
+    const data = {
+      bankAccountName: 'กอไก่ ขอไข่',
+      bankAccountNumber: '0123456789',
+      email: 'who@odds.team',
+      firstName: 'aaa',
+      id: '5c0fa703780bf500019a5aea',
+      lastName: 'bbb',
+      role: 'admin',
+      slackAccount: 'who@odds.team',
+      vat: 'N',
+      transcript: null,
+      imageProfile: null,
+      siteId: '5c0fb860f37e2f8698989cff'
+    };
+    // get user data
+    spyOn(worklogApiService, 'getUserByID').and.returnValue(of(data));
+    component.getData();
+
+    spyOn(worklogApiService, 'getSitesData').and.returnValue(of(mockListSites));
+    component.getEmitSource('DTAC');
+    expect(worklogApiService.getSitesData).toHaveBeenCalled();
+  });
+
+  it('userInfo.siteId should equal to response value of getSiteData from worklog service when call getEmitSource', () => {
+    const mockListSites: Site[] = [
+      {
+        id: '5c0fb860f37e2f8698989cdd',
+        name: 'SEC'
+      },
+      {
+        id: '5c0fa703780bf500019a5aea',
+        name: 'DTAC'
+      }
+    ];
+    const data = {
+      bankAccountName: 'กอไก่ ขอไข่',
+      bankAccountNumber: '0123456789',
+      email: 'who@odds.team',
+      firstName: 'aaa',
+      id: '5c0fa703780bf500019a5aea',
+      lastName: 'bbb',
+      role: 'admin',
+      slackAccount: 'who@odds.team',
+      vat: 'N',
+      transcript: null,
+      imageProfile: null,
+      siteId: '5c0fb860f37e2f8698989cff'
+    };
+    // get user data
+    spyOn(worklogApiService, 'getUserByID').and.returnValue(of(data));
+    component.getData();
+    fixture.detectChanges();
+    spyOn(worklogApiService, 'getSitesData').and.returnValue(of(mockListSites));
+    component.getEmitSource('DTAC');
+    expect(component.userInfo.siteId).toEqual(mockListSites[1].id);
+  });
+
+  it('isVat should be Y if param in onCheckBoxVat is "vat"', () => {
+    component.onCheckBoxVat('vat');
+    expect(component.isVat).toEqual('Y');
+  });
+
+  it('vatList should have be swapping value of element in vatlist when call onCheckBoxVat', () => {
+    expect(component.vatList[0].value).toBeTruthy();
+    expect(component.vatList[1].value).toBeFalsy();
+    component.onCheckBoxVat('non-vat');
+    expect(component.vatList[0].value).toBeFalsy();
+    expect(component.vatList[1].value).toBeTruthy();
   });
 });
