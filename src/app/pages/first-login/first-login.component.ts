@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { WorklogApiService } from '../../core/worklog-api.service';
-import { User } from '../../shared/model/user';
 import { Site } from '../../shared/model/site';
+import { User } from '../../shared/model/user';
 
 @Component({
   selector: 'app-first-login',
@@ -78,7 +78,7 @@ export class FirstLoginComponent implements OnInit {
     }
   }
 
-  private updateUser() {
+  updateUser() {
     this.worklogService.updateUser(sessionStorage.getItem('idUser'), this.user)
       .subscribe(res => {
         if (res.role === 'admin') {
@@ -87,13 +87,14 @@ export class FirstLoginComponent implements OnInit {
           this.router.navigate([res.role]);
         }
       },
-        err => {
+        error => {
           this.router.navigate(['login']);
         });
   }
 
   onCheckBoxVat(vatName) {
     this.vat = (vatName === 'non-vat') ? 'N' : 'Y';
+
     this.vatList.map(data => {
       if (data.name !== vatName) {
         data.value = false;
@@ -120,6 +121,6 @@ export class FirstLoginComponent implements OnInit {
   getListSite() {
     this.worklogService.getSitesData().subscribe((res) => {
       this.siteList = res;
-   });
+    });
   }
 }
