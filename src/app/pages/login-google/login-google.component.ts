@@ -41,12 +41,12 @@ export class LoginGoogleComponent implements OnInit {
         } else {
           this.router.navigate([res.user.role]);
         }
+        this.cacheData();
       } else {
         sessionStorage.setItem('token', 'Bearer ' + res.token);
         sessionStorage.setItem('idUser', res.user.id);
         this.router.navigate(['firstlogin']);
       }
-      this.cacheData();
     });
 
   }

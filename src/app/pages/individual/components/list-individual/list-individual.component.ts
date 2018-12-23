@@ -18,6 +18,9 @@ export class ListIndividualComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.listIncomeIndividual = this.worklogApiService.getIndividualListed();
+    if (!this.listIncomeIndividual) {
+      this.getListIncomeIndividual();
+    }
   }
 
   ngOnChanges() {

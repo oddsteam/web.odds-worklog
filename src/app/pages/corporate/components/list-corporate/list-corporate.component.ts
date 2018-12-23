@@ -22,6 +22,9 @@ export class ListCorporateComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.listIncome = this.worklogApiService.getCorporateListed();
+    if (!this.listIncome) {
+      this.getListIncomeCorporate();
+    }
   }
 
   ngOnChanges() {
