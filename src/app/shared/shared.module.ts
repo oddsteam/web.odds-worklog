@@ -15,6 +15,7 @@ import { OrderModule } from 'ngx-order-pipe';
 import { BsDropdownModule } from 'ngx-bootstrap';
 import { DropDownComponent } from './components/drop-down/drop-down.component';
 import { RouterModule } from '@angular/router';
+import { MessageTooltipComponent } from './components/message-tooltip/message-tooltip.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -36,6 +37,7 @@ import { RouterModule } from '@angular/router';
     ModalIncomeComponent,
     AddIncomeComponent,
     DropDownComponent,
+    MessageTooltipComponent,
   ],
   exports: [
     StatusHighlightDirective,
@@ -51,6 +53,7 @@ import { RouterModule } from '@angular/router';
     AddIncomeComponent,
     BsDropdownModule,
     DropDownComponent,
+    MessageTooltipComponent,
   ]
 })
 export class SharedModule {

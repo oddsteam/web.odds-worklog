@@ -14,6 +14,7 @@ export class CustomersProfileComponent implements OnInit {
   @ViewChild('templateModal') templateModal: TemplateRef<any>;
   modalRef: BsModalRef;
   customers: Customers[];
+  showMessage = false;
   formGroupCustomer: FormGroup;
   constructor(private router: Router,
     private worklogApiService: WorklogApiService,
@@ -50,6 +51,11 @@ export class CustomersProfileComponent implements OnInit {
     if (this.formGroupCustomer.valid) {
       this.worklogApiService.saveCustomerProfile(this.formGroupCustomer.value).subscribe(data => {
         this.closeModal();
+        this.getCustomerData();
+        this.showMessage = true;
+        setTimeout(() => {
+          this.showMessage = false;
+        }, 3000);
       });
     } else {
      alert('กรุณากรอกข้อมมูลให้ครบถ้วน');
