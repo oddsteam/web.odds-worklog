@@ -8,6 +8,7 @@ import { ListIncomeResponse } from '../shared/model/list-income-model-response';
 import { SettingReminder } from '../shared/model/setting-reminder-model';
 import { User } from '../shared/model/user';
 import { Login } from './../shared/model/login';
+import { Customers } from '../shared/model/customers';
 
 @Injectable({
     providedIn: 'root'
@@ -208,5 +209,20 @@ export class WorklogApiService {
 
     getSiteName() {
         return this.siteName;
+    }
+
+    getCustomerResponse(): Observable<Customers[]> {
+        return this.http.get<Customers[]>(`${this.apiPath}customers`, {
+            headers: new HttpHeaders({
+                Authorization: sessionStorage.getItem('token')
+            })
+        });
+    }
+    saveCustomerProfile(data): Observable<any> {
+        return this.http.post(`${this.apiPath}customers`, data, {
+            headers: new HttpHeaders({
+                Authorization: sessionStorage.getItem('token')
+            })
+        });
     }
 }

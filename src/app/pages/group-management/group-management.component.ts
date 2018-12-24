@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { WorklogApiService } from '../../core/worklog-api.service';
 import { ListSite, Site } from '../../shared/model/site';
 import { User } from '../../shared/model/user';
@@ -11,10 +11,15 @@ import { User } from '../../shared/model/user';
 })
 export class GroupManagementComponent implements OnInit {
   sites: Site[] = [];
+  path = 'all';
   constructor(private worklogAPIService: WorklogApiService,
     private router: Router,
+    private activatedRoute: ActivatedRoute
   ) { }
   ngOnInit() {
+    this.activatedRoute.params.subscribe(param => {
+        this.path = param.id;
+    });
     this.getSitesData();
   }
   getSitesData() {

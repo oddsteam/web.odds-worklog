@@ -37,14 +37,10 @@ const routes: Routes = [
                 loadChildren:
                 '../pages/group-management/group-management.module#GroupManagementModule',
             },
-            // {
-            //     path: 'groups/users',
-            //     component: TableListUserBySiteComponent
-            // },
             {
-                path: 'company',
+                path: 'customers',
                 loadChildren:
-                '../pages/company/company.module#CompanyModule',
+                '../pages/customers/customers.module#CustomersModule',
             }
 
         ]

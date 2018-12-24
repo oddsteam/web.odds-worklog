@@ -18,8 +18,8 @@ export class TabMenuComponent implements OnInit {
     { id: 'individual', text: 'INDIVIDUAL', icon: 'fa-user', level: 0 },
     { id: 'servant', text: 'SERVANT', icon: 'fa-users', level: 0 },
     { id: 'users', text: 'USERS', icon: '', level: 1 },
-    { id: 'groups', text: 'GROUPS', icon: '', level: 1 },
-    { id: 'company', text: 'COMPANY', icon: '', level: 1 },
+    { id: 'groups/all', text: 'GROUPS', icon: '', level: 1 },
+    { id: 'customers/all', text: 'CUSTOMERS', icon: '', level: 1 },
     { id: 'profile', text: 'PROFILE', icon: 'fa-user-circle', level: 0 },
     { id: 'settings', text: 'SETTINGS', icon: 'fa-cog', level: 0 },
   ];
