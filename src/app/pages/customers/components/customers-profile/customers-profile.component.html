@@ -1,0 +1,57 @@
+<div>
+  <div class="d-flex justify-content-between pb-2 px-2">
+    <div class="d-flex align-items-end">
+      <h5 class="mt-2 ml-2">Customers Profile</h5>
+    </div>
+    <div>
+    <button class="btn btn-blue" type="button" (click)="onAddCustomer()">เพิ่มข้อมูล</button>
+    </div>
+  </div>
+  <div>
+    <table class="table">
+      <thead>
+        <th class="text-left">ชื่อ</th>
+        <th>ที่อยู่</th>
+      </thead>
+      <tbody *ngIf="customers?.length !== 0">
+        <tr *ngFor="let customer of customers">
+          <td>
+            <a class="link"  href="javascript:void(0)" (click)="goToProductOwnerPage()">{{customer?.name}}</a>
+          </td>
+          <td>{{customer?.address}}</td>
+        </tr>
+      </tbody>
+      <tbody *ngIf="customers?.length === 0">
+        <tr >
+          <td colspan="100%" class="text-center">
+            ยังไม่มีข้อมูล
+          </td>
+        </tr>
+      </tbody>
+    </table>
+ </div>
+</div>
+
+<ng-template #templateModal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">เพิ่มข้อมูล Customer</h4>
+    <button type="button" class="close btn-close" aria-label="Close" (click)="closeModal()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body mx-sm-5">
+    <form [formGroup]="formGroupCustomer">
+      <div class="form-group my-2">
+        <label>ชื่อบริษัท : </label>
+        <input id="name" type="text"  class="form-control" formControlName="name">
+      </div>
+      <div class="form-group">
+        <label>ที่อยู่(สำนักงานใหญ่) :</label>
+        <textarea id="address" type="text" class="form-control" formControlName="address"></textarea>
+      </div> 
+    </form>
+  </div>
+  <div class="modal-footer">
+      <button id="btn-submit" type="button" class="btn btn-blue" (click)="onSubmit()">Submit</button>
+  </div>
+</ng-template>

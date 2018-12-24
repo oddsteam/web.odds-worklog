@@ -1,0 +1,12 @@
+<div>
+  <app-breadcrumb></app-breadcrumb>
+</div>
+<div *ngIf="path === 'all'">
+  <app-customers-profile></app-customers-profile>
+</div>
+<div *ngIf="path === 'productOwner'">
+    <app-product-owner></app-product-owner>
+</div>
+<div *ngIf="path === 'invoice'">
+    <app-invoice></app-invoice>
+</div>

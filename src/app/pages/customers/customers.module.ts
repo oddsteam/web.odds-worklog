@@ -1,0 +1,17 @@
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { SharedModule } from 'src/app/shared/shared.module';
+import { CustomersComponent } from './customers.component';
+import { ProductOwnerComponent } from './components/product-owner/product-owner.component';
+import { InvoiceComponent } from './components/invoice/invoice.component';
+import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.component';
+import { CustomersRoutingModule } from './customers-routing.module';
+import { CustomersProfileComponent } from './components/customers-profile/customers-profile.component';
+
+@NgModule({
+  imports: [
+    CommonModule, SharedModule, CustomersRoutingModule
+  ],
+  declarations: [CustomersComponent, ProductOwnerComponent, InvoiceComponent, BreadcrumbComponent, CustomersProfileComponent]
+})
+export class CustomersModule { }
