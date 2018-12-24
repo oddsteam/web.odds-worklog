@@ -8,6 +8,7 @@ import { CustomersProfileComponent } from './components/customers-profile/custom
 import { BsModalService, ComponentLoaderFactory, PositioningService } from 'ngx-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { MessageTooltipComponent } from 'src/app/shared/components/message-tooltip/message-tooltip.component';
 
 
 describe('CustomersComponent', () => {
@@ -17,7 +18,7 @@ describe('CustomersComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [CustomersComponent, BreadcrumbComponent, CustomersProfileComponent,
-        ProductOwnerComponent, InvoiceComponent],
+        ProductOwnerComponent, InvoiceComponent, MessageTooltipComponent],
         imports: [RouterTestingModule, FormsModule, ReactiveFormsModule, HttpClientTestingModule],
         providers: [BsModalService, ComponentLoaderFactory, PositioningService]
     })
