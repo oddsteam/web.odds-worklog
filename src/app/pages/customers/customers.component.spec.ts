@@ -5,9 +5,12 @@ import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.componen
 import { InvoiceComponent } from './components/invoice/invoice.component';
 import { ProductOwnerComponent } from './components/product-owner/product-owner.component';
 import { CustomersProfileComponent } from './components/customers-profile/customers-profile.component';
+import { BsModalService, ComponentLoaderFactory, PositioningService } from 'ngx-bootstrap';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 
-describe('CompanyComponent', () => {
+describe('CustomersComponent', () => {
   let component: CustomersComponent;
   let fixture: ComponentFixture<CustomersComponent>;
 
@@ -15,7 +18,8 @@ describe('CompanyComponent', () => {
     TestBed.configureTestingModule({
       declarations: [CustomersComponent, BreadcrumbComponent, CustomersProfileComponent,
         ProductOwnerComponent, InvoiceComponent],
-      imports: [RouterTestingModule]
+        imports: [RouterTestingModule, FormsModule, ReactiveFormsModule, HttpClientTestingModule],
+        providers: [BsModalService, ComponentLoaderFactory, PositioningService]
     })
       .compileComponents();
   }));
