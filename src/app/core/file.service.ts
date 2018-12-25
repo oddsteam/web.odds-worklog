@@ -53,4 +53,14 @@ export class FileService {
       });
     }
   }
+
+  removeTranscript(): Observable<object> {
+    if (sessionStorage.getItem('idUser')) {
+      return this.http.delete(`${environment.api}files/transcript/${sessionStorage.getItem('idUser')}`, {
+        headers: new HttpHeaders({
+          Authorization: sessionStorage.getItem('token')
+        })
+      });
+    }
+  }
 }

@@ -72,4 +72,24 @@ describe('FileService', () => {
     backEnd.verify();
   });
 
+  it('should call remove transcript api correctly', () => {
+    sessionStorage.setItem('idUser', '5c0fa703780bf500019a5aea');
+    mockService.removeTranscript().subscribe();
+    const req = backEnd.expectOne(`${environment.api}files/transcript/${sessionStorage.getItem('idUser')}`);
+    expect(req.request.method).toEqual('DELETE');
+    backEnd.verify();
+  });
+
+  it('when remove transcript success response should be "Remove transcript success"', () => {
+    sessionStorage.setItem('idUser', '5c0fa703780bf500019a5aea');
+    mockService.removeTranscript().subscribe((res) => {
+      expect(res['message']).toEqual('Remove transcript success');
+    });
+    const req = backEnd.expectOne(`${environment.api}files/transcript/${sessionStorage.getItem('idUser')}`);
+    expect(req.request.method).toEqual('DELETE');
+    backEnd.verify();
+    req.flush({
+      message: 'Remove transcript success'
+    });
+  });
 });
