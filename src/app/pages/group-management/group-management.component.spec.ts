@@ -5,6 +5,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { of } from 'rxjs';
 import { WorklogApiService } from '../../core/worklog-api.service';
 import { GroupManagementComponent } from './group-management.component';
+import { TableListUserBySiteComponent } from './component/table-list-user-by-site/table-list-user-by-site.component';
 
 
 describe('GroupManagementComponent', () => {
@@ -13,7 +14,7 @@ describe('GroupManagementComponent', () => {
   let worklogAPIService: WorklogApiService;
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [GroupManagementComponent],
+      declarations: [GroupManagementComponent, TableListUserBySiteComponent],
       imports: [NgbModule.forRoot(), HttpClientTestingModule, RouterTestingModule]
     })
       .compileComponents();
