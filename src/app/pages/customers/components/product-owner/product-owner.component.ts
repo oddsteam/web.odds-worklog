@@ -35,6 +35,7 @@ export class ProductOwnerComponent implements OnInit {
 
   getProductOwnerData() {
     this.worklogApiService.getProductOwnerResponse(this.customerId).subscribe(res => {
+      // console.log(res);
       this.productOwner = res;
     });
   }
@@ -63,9 +64,10 @@ export class ProductOwnerComponent implements OnInit {
 
   onSubmit() {
     if (this.formGroupProductOw.valid) {
-      this.worklogApiService.saveCustomerProfile(this.formGroupProductOw.value).subscribe(data => {
+      this.worklogApiService.saveProductOwner(this.formGroupProductOw.value).subscribe(data => {
         this.closeModal();
         this.getProductOwnerData();
+        this.formGroupProductOw.reset();
         this.showMessage = true;
       });
     } else {

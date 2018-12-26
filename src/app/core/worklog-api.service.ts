@@ -222,6 +222,7 @@ export class WorklogApiService {
             })
         });
     }
+
     saveCustomerProfile(data): Observable<any> {
         return this.http.post(`${this.apiPath}customers`, data, {
             headers: new HttpHeaders({
@@ -229,6 +230,7 @@ export class WorklogApiService {
             })
         });
     }
+
     deleteCustomer(id: string) {
         return this.http.delete(`${this.apiPath}customers/${id}`,
             this.getHttpHeaderOption(),
@@ -237,7 +239,7 @@ export class WorklogApiService {
 
     setCustomerId(id: string) {
         this.getCustomerId.next(id);
-      }
+    }
 
     getProductOwnerResponse(customerId: string): Observable<ProductOwner[]> {
         return this.http.get<ProductOwner[]>(`${this.apiPath}poes/customer/${customerId}`, {
@@ -246,6 +248,7 @@ export class WorklogApiService {
             })
         });
     }
+
     saveProductOwner(data): Observable<any> {
         return this.http.post(`${this.apiPath}poes`, data, {
             headers: new HttpHeaders({
@@ -253,12 +256,14 @@ export class WorklogApiService {
             })
         });
     }
+
     deleteProductOwner(id: string) {
         return this.http.delete(`${this.apiPath}poes/${id}`,
             this.getHttpHeaderOption(),
         );
     }
+
     setProductOwnerId(id: string) {
         this.getProductOwnerId.next(id);
-      }
+    }
 }

@@ -30,6 +30,7 @@ export class CustomersProfileComponent implements OnInit {
 
   getCustomerData() {
     this.worklogApiService.getCustomerResponse().subscribe(res => {
+      console.log(res);
       this.customers = res;
     });
   }
@@ -56,6 +57,7 @@ export class CustomersProfileComponent implements OnInit {
       this.worklogApiService.saveCustomerProfile(this.formGroupCustomer.value).subscribe(data => {
         this.closeModal();
         this.getCustomerData();
+        this.formGroupCustomer.reset();
         this.showMessage = true;
       });
     } else {
