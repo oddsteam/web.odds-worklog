@@ -78,7 +78,6 @@ export class EditProfileComponent implements OnInit {
   getData() {
     this.worklogApiService.getUserByID(this.id).subscribe(data => {
       this.userInfo = data;
-      // this.urlDownloadTranscriptFile = `${environment.api}files/transcript` + data.id;
       this.personType = data.role;
       this.firstNameForm.setValue(data.firstName);
       this.lastNameForm.setValue(data.lastName);
@@ -184,7 +183,13 @@ export class EditProfileComponent implements OnInit {
   }
 
   onRemove(type) {
+    if (type === 'transcript') {
 
+    } else {
+      this.fileService.removeImage().subscribe(response => {
+        console.log(response);
+      });
+    }
   }
 
   getEmitSource(event) {
@@ -246,7 +251,7 @@ export class EditProfileComponent implements OnInit {
     } else if (this.userInfo && this.userInfo.imageProfile) {
       const fileName = this.userInfo.imageProfile.split('/');
       return {
-        fileName: fileName[1],
+        fileName: fileName[2],
         fileItem: null
       };
     } else {

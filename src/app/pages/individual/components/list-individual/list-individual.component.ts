@@ -14,7 +14,9 @@ export class ListIndividualComponent implements OnInit, OnChanges {
   date = new Date();
   listIncomeIndividual: ListIncomeResponse;
 
-  constructor(private worklogApiService: WorklogApiService) { }
+  constructor(
+    private worklogApiService: WorklogApiService
+  ) { }
 
   ngOnInit() {
     this.listIncomeIndividual = this.worklogApiService.getIndividualListed();
