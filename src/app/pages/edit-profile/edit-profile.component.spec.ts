@@ -144,7 +144,7 @@ describe('EditProfileComponent', () => {
     };
     spyOn(component, 'onSubmit');
     component.onChangeTranscriptFile(file);
-    expect(component.onSubmit).toHaveBeenCalledWith(file.target.files[0]);
+    expect(component.onSubmit).toHaveBeenCalledWith(file.target.files[0], 'transcript');
   });
 
   it('should call uploadFileTranscript in service', () => {
