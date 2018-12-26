@@ -61,20 +61,22 @@ export class FirstLoginComponent implements OnInit {
   }
 
   submit() {
-    if (this.loginForm.valid === true
-      && this.loginForm.controls.role.value === true
-      && this.loginForm.controls.vat.value === true
-    ) {
+    const { firstName, lastName, bankAccountName, bankAccountNumber, slackAccount, role, vat, siteId } = this.loginForm.getRawValue();
+
+    // tslint:disable-next-line:max-line-length
+    if (firstName && lastName && bankAccountName && bankAccountNumber && slackAccount && role && vat && (siteId !== 'กรุณาเลือก site ที่อยู่')) {
       this.user = new User();
-      this.user.firstName = this.loginForm.get('firstName').value;
-      this.user.lastName = this.loginForm.get('lastName').value;
-      this.user.bankAccountName = this.loginForm.get('bankAccountName').value;
-      this.user.bankAccountNumber = this.loginForm.get('bankAccountNumber').value;
-      this.user.slackAccount = this.loginForm.get('slackAccount').value;
+      this.user.firstName = firstName;
+      this.user.lastName = lastName;
+      this.user.bankAccountName = bankAccountName;
+      this.user.bankAccountNumber = bankAccountNumber;
+      this.user.slackAccount = slackAccount;
       this.user.role = this.role;
       this.user.vat = this.vat;
-      this.user.siteId = this.loginForm.get('siteId').value;
+      this.user.siteId = siteId;
       this.updateUser();
+    } else {
+      alert('กรุณากรอกข้อมูลให้ครบ');
     }
   }
 
