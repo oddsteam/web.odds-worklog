@@ -4,6 +4,7 @@ import { ProductOwnerComponent } from './product-owner.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BsModalService, ComponentLoaderFactory, PositioningService } from 'ngx-bootstrap';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 
 describe('ProductOwnerComponent', () => {
@@ -13,7 +14,7 @@ describe('ProductOwnerComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ProductOwnerComponent],
-      imports: [RouterTestingModule, FormsModule, ReactiveFormsModule],
+      imports: [RouterTestingModule, FormsModule, ReactiveFormsModule, HttpClientTestingModule],
       providers: [BsModalService, ComponentLoaderFactory, PositioningService],
       schemas: [NO_ERRORS_SCHEMA]
     })

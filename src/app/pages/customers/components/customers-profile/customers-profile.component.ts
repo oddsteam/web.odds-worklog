@@ -16,14 +16,16 @@ export class CustomersProfileComponent implements OnInit {
   customers: Customers[];
   showMessage = false;
   formGroupCustomer: FormGroup;
-  constructor(private router: Router,
+
+  constructor(
+    private router: Router,
     private worklogApiService: WorklogApiService,
     private modalService: BsModalService,
     private fb: FormBuilder) { }
 
   ngOnInit() {
-   this.getCustomerData();
-   this.onSetupDataForm();
+    this.getCustomerData();
+    this.onSetupDataForm();
   }
 
   getCustomerData() {
@@ -31,12 +33,14 @@ export class CustomersProfileComponent implements OnInit {
       this.customers = res;
     });
   }
+
   onSetupDataForm() {
     this.formGroupCustomer = this.fb.group({
       name: ['', Validators.required],
       address: ['', Validators.required]
     });
   }
+
   onAddCustomer() {
     this.openModal(this.templateModal);
   }
@@ -55,7 +59,7 @@ export class CustomersProfileComponent implements OnInit {
         this.showMessage = true;
       });
     } else {
-     alert('กรุณากรอกข้อมมูลให้ครบถ้วน');
+      alert('กรุณากรอกข้อมมูลให้ครบถ้วน');
     }
   }
 
@@ -67,12 +71,15 @@ export class CustomersProfileComponent implements OnInit {
     this.worklogApiService.setCustomerId(customerId);
     this.router.navigate(['customers/productOwner']);
   }
-  onEditCustomer() {}
+
+  onEditCustomer() {
+
+  }
 
   onDeleteCustomer(id) {
-     this.worklogApiService.deleteCustomer(id).subscribe(res => {
-       this.getCustomerData();
-       this.showMessage = true;
-     });
+    this.worklogApiService.deleteCustomer(id).subscribe(res => {
+      this.getCustomerData();
+      this.showMessage = true;
+    });
   }
 }
