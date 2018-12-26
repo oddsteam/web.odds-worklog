@@ -34,11 +34,16 @@ describe('FirstLoginComponent', () => {
 
   it('should call method submit', () => {
     component.ngOnInit();
-    component.loginForm.get('firstName').setValue('test');
-    component.loginForm.get('lastName').setValue('lastTest');
-    component.loginForm.get('bankAccountName').setValue('ทดสอบ');
-    component.loginForm.get('bankAccountNumber').setValue('1234567890');
-    component.loginForm.get('slackAccount').setValue('test@odds.team');
+    component.loginForm.setValue({
+      firstName: 'test',
+      lastName: 'lastTest',
+      bankAccountName: 'ทดสอบ',
+      bankAccountNumber: '1234567890',
+      slackAccount: 'test@odds.team',
+      role: 'individual',
+      vat: 'N',
+      siteId: 'DTAC'
+    });
     spyOn(worklogapiService, 'updateUser').and.returnValue(of());
     component.submit();
     expect(component.user.firstName).toEqual('test');
@@ -46,6 +51,9 @@ describe('FirstLoginComponent', () => {
     expect(component.user.bankAccountName).toEqual('ทดสอบ');
     expect(component.user.bankAccountNumber).toEqual('1234567890');
     expect(component.user.slackAccount).toEqual('test@odds.team');
+    expect(component.user.role).toEqual('individual');
+    expect(component.user.vat).toEqual('N');
+    expect(component.user.siteId).toEqual('DTAC');
     expect(worklogapiService.updateUser).toHaveBeenCalled();
   });
 
