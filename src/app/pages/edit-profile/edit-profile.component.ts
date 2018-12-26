@@ -48,8 +48,11 @@ export class EditProfileComponent implements OnInit {
   site = '';
 
   constructor(
-    private formBuilder: FormBuilder, private worklogApiService: WorklogApiService,
-    private router: Router, private fileService: FileService) { }
+    private formBuilder: FormBuilder,
+    private worklogApiService: WorklogApiService,
+    private router: Router,
+    private fileService: FileService
+  ) { }
 
   ngOnInit() {
     this.createForm();
@@ -69,13 +72,6 @@ export class EditProfileComponent implements OnInit {
     this.fileForm = this.formBuilder.group({
       transcriptFile: [null],
       imageFile: [null]
-    });
-  }
-
-  onChangeImageFile(event) {
-    this.imageFile = event.target.files[0];
-    this.fileService.uploadImageProfile(this.imageFile).subscribe(res => {
-    alert(res['message']);
     });
   }
 
@@ -133,28 +129,53 @@ export class EditProfileComponent implements OnInit {
     this.getData();
   }
 
+  onChangeImageFile(event) {
+    const file = event.target.files[0];
+    this.imageFile = event.target.files[0];
+    if (file) {
+      this.onSubmit(file, 'image');
+    }
+  }
+
   onChangeTranscriptFile(event) {
     const file = event.target.files[0];
     this.transcriptFile = event.target.files[0];
     if (file) {
-      this.onSubmit(file);
+      this.onSubmit(file, 'transcript');
     }
   }
 
-  onSubmit(file) {
-    this.fileService.uploadFileTranscript(file).subscribe(response => {
-      const message = response['message'];
-      alert(message);
-      if (message) {
-        this.ngOnInit();
-      }
-    });
+  onSubmit(file, type) {
+    if (type === 'transcript') {
+      this.fileService.uploadFileTranscript(file).subscribe(response => {
+        const message = response['message'];
+        alert(message);
+        if (message) {
+          this.ngOnInit();
+        }
+      });
+    } else {
+      this.fileService.uploadImageProfile(file).subscribe(response => {
+        const message = response['message'];
+        alert(message);
+        if (message) {
+          this.ngOnInit();
+        }
+      });
+    }
   }
 
-  onDownload() {
-    const fileName = this.getTranscriptFile.fileName;
-    if (fileName) {
+  onDownload(type) {
+    if (type === 'transcript') {
+      const fileName = this.getTranscriptFile.fileName;
       this.fileService.downloadTranscriptFile().subscribe(response => {
+        this.downloadFile(response, fileName);
+      }, err => {
+        console.log(err);
+      });
+    } else {
+      const fileName = this.getImageFile.fileName;
+      this.fileService.downloadImageProFile().subscribe(response => {
         this.downloadFile(response, fileName);
       }, err => {
         console.log(err);
@@ -162,7 +183,7 @@ export class EditProfileComponent implements OnInit {
     }
   }
 
-  onRemove() {
+  onRemove(type) {
 
   }
 
@@ -204,7 +225,6 @@ export class EditProfileComponent implements OnInit {
       };
     } else if (this.userInfo && this.userInfo.transcript) {
       const fileName = this.userInfo.transcript.split('/');
-      this.fileNamePdf = fileName[2];
       return {
         fileName: fileName[2],
         fileItem: null
@@ -223,8 +243,18 @@ export class EditProfileComponent implements OnInit {
         fileName: this.imageFile.name,
         fileItem: this.imageFile
       };
+    } else if (this.userInfo && this.userInfo.imageProfile) {
+      const fileName = this.userInfo.imageProfile.split('/');
+      return {
+        fileName: fileName[1],
+        fileItem: null
+      };
+    } else {
+      return {
+        fileName: 'No file was chosen.',
+        fileItem: null
+      };
     }
-    return { fileName: 'No file was chosen.', fileItem: null };
   }
 
   get hasOldTranscriptFileAtStart(): Boolean {

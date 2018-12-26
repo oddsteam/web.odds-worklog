@@ -156,7 +156,7 @@ describe('EditProfileComponent', () => {
       }
     };
     spyOn(fileService, 'uploadFileTranscript').and.returnValues(of('message'));
-    component.onSubmit(file);
+    component.onSubmit(file, 'transcript');
     expect(fileService.uploadFileTranscript).toHaveBeenCalledWith(file);
   });
 
@@ -270,7 +270,7 @@ describe('EditProfileComponent', () => {
 
     component.userInfo.transcript = 'files/transcripts/ww_ww_Zt0mUDwp7LBx.pdf';
     spyOn(fileService, 'downloadTranscriptFile').and.returnValue(of(new Blob));
-    component.onDownload();
+    component.onDownload('transcript');
     expect(fileService.downloadTranscriptFile).toHaveBeenCalled();
   });
 
@@ -296,7 +296,7 @@ describe('EditProfileComponent', () => {
     const mockResponse = new Blob();
     spyOn(fileService, 'downloadTranscriptFile').and.returnValue(of(mockResponse));
     spyOn(component, 'downloadFile');
-    component.onDownload();
+    component.onDownload('transcript');
     expect(component.downloadFile).toHaveBeenCalledWith(mockResponse, 'ww_ww_Zt0mUDwp7LBx.pdf');
   });
 

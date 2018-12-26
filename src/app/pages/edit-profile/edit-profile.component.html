@@ -17,10 +17,10 @@
                 <input formControlName="transcriptFile" type="file" accept="application/pdf" (change)="onChangeTranscriptFile($event)" />
               </span>
               <span [hidden]="!(userInfo && userInfo.transcript)">
-                <button class="btn button-download" type="button" (click)="onDownload()">
+                <button class="btn button-download" type="button" (click)="onDownload('transcript')">
                   Download
                 </button>
-                <button class="btn button-remove" type="button" (click)="onRemove()">
+                <button class="btn button-remove" type="button" (click)="onRemove('transcript')">
                   Remove
                 </button>
               </span>
@@ -36,9 +36,21 @@
           <h5 class="prepend-top-0">Upload new avatar</h5>
           <div class="prepend-top-5 append-bottom-10">
             <div class="upload-file-wrapper">
-              <button class="btn" type="button">Choose file...</button>
-              <input formControlName="imageFile" type="file" accept="image/x-png,image/gif,image/jpeg" (change)="onChangeImageFile($event)" />
-              <span class="avatar-file-name prepend-left-default">
+              <span [hidden]="(userInfo && userInfo.imageProfile)">
+                <button class="btn" type="button">
+                  Choose file...
+                </button>
+                <input formControlName="imageFile" type="file" accept="image/x-png,image/gif,image/jpeg" (change)="onChangeImageFile($event)" />
+              </span>
+              <span [hidden]="!(userInfo && userInfo.imageProfile)">
+                <button class="btn button-download" type="button" (click)="onDownload('image')">
+                  Download
+                </button>
+                <button class="btn button-remove" type="button" (click)="onRemove('image')">
+                  Remove
+                </button>
+              </span>
+              <span class="avatar-file-name prepend-left-default" *ngIf="!(userInfo && userInfo.imageProfile)">
                 {{ getImageFile.fileName }}
               </span>
             </div>
