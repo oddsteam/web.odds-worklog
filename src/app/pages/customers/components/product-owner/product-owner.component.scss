@@ -9,6 +9,10 @@ table {
     td {
       border-top: 1px solid #ebebeb;
     }
+    td:nth-child(3){
+      width: 200px;
+      text-align: center;
+    }
   }
 
 .link{
@@ -19,4 +23,13 @@ table {
   
   .link:hover {
     color: #949494;
+  }
+
+  .edit-link{
+    color: #147fb8;
+    font-size: 14px;
+  }
+  .d-mark{
+    padding: 0 5px;
+    color: #8b909d;
   }

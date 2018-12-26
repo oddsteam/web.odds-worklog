@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
+import { Component, OnInit, ViewChild, TemplateRef, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
 import { Customers } from 'src/app/shared/model/customers';
@@ -53,9 +53,6 @@ export class CustomersProfileComponent implements OnInit {
         this.closeModal();
         this.getCustomerData();
         this.showMessage = true;
-        setTimeout(() => {
-          this.showMessage = false;
-        }, 3000);
       });
     } else {
      alert('กรุณากรอกข้อมมูลให้ครบถ้วน');
@@ -66,7 +63,16 @@ export class CustomersProfileComponent implements OnInit {
     this.modalRef.hide();
   }
 
-  goToProductOwnerPage() {
+  goToProductOwnerPage(customerId) {
+    this.worklogApiService.setCustomerId(customerId);
     this.router.navigate(['customers/productOwner']);
+  }
+  onEditCustomer() {}
+
+  onDeleteCustomer(id) {
+     this.worklogApiService.deleteCustomer(id).subscribe(res => {
+       this.getCustomerData();
+       this.showMessage = true;
+     });
   }
 }

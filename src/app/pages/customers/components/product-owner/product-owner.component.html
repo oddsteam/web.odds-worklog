@@ -1,4 +1,7 @@
 <div>
+    <div *ngIf="showMessage">
+        <app-message-tooltip></app-message-tooltip>
+      </div>
     <div class="d-flex justify-content-between pb-2 px-2">
       <div class="d-flex align-items-end">
         <h5 class="mt-2 ml-2">Product Owner</h5>
@@ -13,15 +16,27 @@
            <th class="text-left">ชื่อ</th>
            <th>Amount</th>
          </thead>
-         <tbody>
-           <tr >
-             <td>
-               <a class="link"  href="javascript:void(0)" (click)="goToInvoicePage()">1111</a>
-             </td>
-             <td>2222</td>
-           </tr>
-         </tbody>
-       </table>
+         <tbody *ngIf="productOwner?.length !== 0">
+          <tr *ngFor="let productOwner of productOwner">
+            <td>
+              <a class="link"  href="javascript:void(0)" (click)="goToInvoicePage(productOwner?.id)">{{productOwner?.name}}</a>
+            </td>
+            <td>{{productOwner?.name}}</td>
+            <td>
+              <a class="edit-link" href="javascript:void(0)" (click)="onEditProductOwner()">Edit</a>
+              <span class="d-mark">|</span>
+              <a class="edit-link" href="javascript:void(0)" (click)="onDeleteProductOwner(productOwner?.id)">Delete</a>
+            </td>
+          </tr>
+        </tbody>
+        <tbody *ngIf="productOwner?.length === 0">
+          <tr >
+            <td colspan="100%" class="text-center">
+              ยังไม่มีข้อมูล
+            </td>
+          </tr>
+        </tbody>
+        </table>
     </div>
   </div>
 
@@ -33,18 +48,18 @@
       </button>
     </div>
     <div class="modal-body mx-sm-5">
-      <form [formGroup]="fg">
+      <form [formGroup]="formGroupProductOw">
         <div class="form-group my-2">
-          <label>ID : </label>
-          <input id="id" type="text"  class="form-control text-right" formControlName="id">
+          <label>PO No. : </label>
+          <input id="id" type="text"  class="form-control" formControlName="id">
         </div>
         <div class="form-group">
           <label>Amount :</label>
-          <input id="amount" type="text" class="form-control text-right" formControlName="amount" (keyup)="inputAmount()">
+          <input id="name" type="text" class="form-control text-right" formControlName="name">
         </div> 
       </form>
     </div>
     <div class="modal-footer">
-        <button id="btn-submit" type="button" class="btn btn-blue" (click)="onSubmit()" [disabled]="disableButton()">Submit</button>
+        <button id="btn-submit" type="button" class="btn btn-blue" (click)="onSubmit()">Submit</button>
     </div>
   </ng-template>

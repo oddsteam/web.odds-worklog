@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { AddIncomeResponse } from '../shared/model/add-income-model-response';
 import { IncomeFlag } from '../shared/model/income-flag';
@@ -9,6 +9,7 @@ import { SettingReminder } from '../shared/model/setting-reminder-model';
 import { User } from '../shared/model/user';
 import { Login } from './../shared/model/login';
 import { Customers } from '../shared/model/customers';
+import { ProductOwner } from '../shared/model/product-owner';
 
 @Injectable({
     providedIn: 'root'
@@ -16,6 +17,9 @@ import { Customers } from '../shared/model/customers';
 export class WorklogApiService {
     listData: User[] = [];
     siteName: string;
+    getCustomerId = new BehaviorSubject<string>(null);
+    getProductOwnerId = new BehaviorSubject<string>(null);
+
     // user test
     private corporateId = '5bde550643b39700012727f2';
     private individualId = '5bde4e2e1a044b8c9ce44fe4';
@@ -225,4 +229,36 @@ export class WorklogApiService {
             })
         });
     }
+    deleteCustomer(id: string) {
+        return this.http.delete(`${this.apiPath}customers/${id}`,
+            this.getHttpHeaderOption(),
+        );
+    }
+
+    setCustomerId(id: string) {
+        this.getCustomerId.next(id);
+      }
+
+    getProductOwnerResponse(customerId: string): Observable<ProductOwner[]> {
+        return this.http.get<ProductOwner[]>(`${this.apiPath}poes/customer/${customerId}`, {
+            headers: new HttpHeaders({
+                Authorization: sessionStorage.getItem('token')
+            })
+        });
+    }
+    saveProductOwner(data): Observable<any> {
+        return this.http.post(`${this.apiPath}poes`, data, {
+            headers: new HttpHeaders({
+                Authorization: sessionStorage.getItem('token')
+            })
+        });
+    }
+    deleteProductOwner(id: string) {
+        return this.http.delete(`${this.apiPath}poes/${id}`,
+            this.getHttpHeaderOption(),
+        );
+    }
+    setProductOwnerId(id: string) {
+        this.getProductOwnerId.next(id);
+      }
 }

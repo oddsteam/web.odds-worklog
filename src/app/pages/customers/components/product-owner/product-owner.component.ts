@@ -1,7 +1,9 @@
-import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
+import { Component, OnInit, ViewChild, TemplateRef, Input } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import { WorklogApiService } from 'src/app/core/worklog-api.service';
+import { ProductOwner } from 'src/app/shared/model/product-owner';
 
 @Component({
   selector: 'app-product-owner',
@@ -11,15 +13,34 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 export class ProductOwnerComponent implements OnInit {
   @ViewChild('templateModal') templateModal: TemplateRef<any>;
   modalRef: BsModalRef;
-  customer: string;
-  fg: FormGroup;
+  customerId: string;
+  formGroupProductOw: FormGroup;
+  productOwner: ProductOwner[];
+  showMessage = false;
   constructor(private router: Router,
-    private modalService: BsModalService) { }
+    private modalService: BsModalService,
+    private worklogApiService: WorklogApiService,
+    private fb: FormBuilder) { }
 
   ngOnInit() {
+    this.worklogApiService.getCustomerId.subscribe(id => {
+      this.customerId = id;
+    });
+    this.getProductOwnerData();
     this.onSetupForm();
   }
-  onSetupForm() {}
+  getProductOwnerData() {
+    this.worklogApiService.getProductOwnerResponse(this.customerId).subscribe(res => {
+       this.productOwner = res;
+    });
+  }
+  onSetupForm() {
+    this.formGroupProductOw = this.fb.group({
+      customerId: this.customerId,
+      id: ['', Validators.required],
+      name: ['', Validators.required]
+    });
+  }
 
   onAddData() {
     this.openModal(this.templateModal);
@@ -32,10 +53,26 @@ export class ProductOwnerComponent implements OnInit {
   closeModal() {
     this.modalRef.hide();
   }
-  onSubmit() {}
-  disableButton() {}
-  inputAmount() {}
-  goToInvoicePage() {
+  onSubmit() {
+    if (this.formGroupProductOw.valid) {
+      this.worklogApiService.saveCustomerProfile(this.formGroupProductOw.value).subscribe(data => {
+        this.closeModal();
+        this.getProductOwnerData();
+        this.showMessage = true;
+      });
+    } else {
+     alert('กรุณากรอกข้อมมูลให้ครบถ้วน');
+    }
+  }
+  goToInvoicePage(productOwnerId) {
+    this.worklogApiService.setProductOwnerId(productOwnerId);
     this.router.navigate(['customers/invoice']);
+  }
+  onEditProductOwner() {}
+  onDeleteProductOwner(id) {
+    this.worklogApiService.deleteProductOwner(id).subscribe(data => {
+      this.getProductOwnerData();
+      this.showMessage = true;
+    });
   }
 }

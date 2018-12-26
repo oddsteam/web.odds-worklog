@@ -15,13 +15,19 @@
       <thead>
         <th class="text-left">ชื่อ</th>
         <th>ที่อยู่</th>
+        <th></th>
       </thead>
       <tbody *ngIf="customers?.length !== 0">
         <tr *ngFor="let customer of customers">
           <td>
-            <a class="link"  href="javascript:void(0)" (click)="goToProductOwnerPage()">{{customer?.name}}</a>
+            <a class="link"  href="javascript:void(0)" (click)="goToProductOwnerPage(customer?.id)">{{customer?.name}}</a>
           </td>
           <td>{{customer?.address}}</td>
+          <td>
+            <a class="edit-link" href="javascript:void(0)" (click)="onEditCustomer()">Edit</a>
+            <span class="d-mark">|</span>
+            <a class="edit-link" href="javascript:void(0)" (click)="onDeleteCustomer(customer?.id)">Delete</a>
+          </td>
         </tr>
       </tbody>
       <tbody *ngIf="customers?.length === 0">

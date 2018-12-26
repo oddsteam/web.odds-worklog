@@ -8,6 +8,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 export class CustomersComponent implements OnInit {
   path = 'all';
+  customerId: string;
   constructor(private activatedRoute: ActivatedRoute,
     private router: Router ) {}
 

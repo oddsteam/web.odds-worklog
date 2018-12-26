@@ -10,6 +10,13 @@
     position: absolute;
     top: 5%;
     right: 1%;
+    animation:panel 1s 1;
+    -webkit-animation:panel 1s 1;
+    animation-fill-mode: forwards;
+    
+    animation-delay:3s;
+    -webkit-animation-delay:3s;
+    -webkit-animation-fill-mode: forwards;
     i{
         font-size: 28px;
         color: #00A651;
@@ -18,4 +25,14 @@
     span{
         font-size: 18px;
     }
+}
+
+@keyframes panel{
+    from {opacity :1;}
+    to {opacity :0;}
+}
+
+@-webkit-keyframes panel{
+    from {opacity :1;}
+    to {opacity :0;}
 }
