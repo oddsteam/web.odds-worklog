@@ -11,12 +11,12 @@ import { ProductOwner } from 'src/app/shared/model/product-owner';
   styleUrls: ['./product-owner.component.scss']
 })
 export class ProductOwnerComponent implements OnInit {
+
   @ViewChild('templateModal') templateModal: TemplateRef<any>;
   modalRef: BsModalRef;
   customerId: string;
   formGroupProductOw: FormGroup;
   productOwner: ProductOwner[];
-  // productOwner: any;
   showMessage = false;
 
   constructor(
@@ -46,9 +46,9 @@ export class ProductOwnerComponent implements OnInit {
 
   onSetupForm() {
     this.formGroupProductOw = this.fb.group({
-      customerId: this.customerId,
-      id: ['', Validators.required],
-      name: ['', Validators.required]
+      customerId: [this.customerId],
+      name: ['', Validators.required],
+      amount: ['', Validators.required]
     });
   }
 
@@ -68,7 +68,11 @@ export class ProductOwnerComponent implements OnInit {
 
   onSubmit() {
     if (this.formGroupProductOw.valid) {
-      this.worklogApiService.saveProductOwner(this.formGroupProductOw.value).subscribe(data => {
+      const body = {
+        customerId: this.customerId,
+        name: this.formGroupProductOw.get('name').value
+      };
+      this.worklogApiService.saveProductOwner(body).subscribe(data => {
         this.closeModal();
         this.getProductOwnerData();
         this.formGroupProductOw.reset();

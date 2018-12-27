@@ -22,8 +22,8 @@ export class InvoiceService {
         });
     }
 
-    getInvoiceListPoById(poId): Observable<InvoiceModel> {
-        return this.http.get<InvoiceModel>(`${environment.api}invoices/po/${poId}`, {
+    getInvoiceListPoById(poId): Observable<InvoiceModel[]> {
+        return this.http.get<InvoiceModel[]>(`${environment.api}invoices/po/${poId}`, {
             headers: new HttpHeaders({
                 Authorization: sessionStorage.getItem('token')
             })

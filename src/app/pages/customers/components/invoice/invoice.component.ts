@@ -17,6 +17,7 @@ export class InvoiceComponent implements OnInit {
   invoiceData: InvoiceModel[];
   showMessage: Boolean = false;
   poId: string;
+  invoiceNo: string;
   fg: FormGroup;
 
   constructor(
@@ -27,41 +28,65 @@ export class InvoiceComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.setupForm();
     this.getProductOwnerId();
     this.getInvoiceData();
-  }
-
-  setupForm() {
-    this.fg = this.fb.group({
-      invoiceNo: ['', Validators.required],
-      amount: ['', Validators.required]
-    });
+    this.setupForm();
+    this.getInvoiceNumber();
   }
 
   getProductOwnerId() {
     this.worklogService.getProductOwnerId.subscribe(id => {
       this.poId = id;
-    });
+    }, err => console.log(err));
+  }
+
+  getInvoiceNumber() {
+    this.invoiceService.getNextInvoiceNumber(this.poId).subscribe(response => {
+      this.invoiceNo = response.invoiceNo;
+      this.fg.get('invoiceNo').setValue(response.invoiceNo);
+    }, err => console.log(err));
   }
 
   getInvoiceData() {
-    this.invoiceService.getInvoiceById(this.poId).subscribe(response => {
-      this.invoiceData = response[0];
+    this.invoiceService.getInvoiceListPoById(this.poId).subscribe(response => {
+      this.invoiceData = response;
+    }, err => console.log(err));
+  }
+
+  setupForm() {
+    this.fg = this.fb.group({
+      poId: this.poId,
+      invoiceNo: this.invoiceNo,
+      amount: ['', Validators.required]
     });
+    this.fg.get('invoiceNo').disable();
   }
 
   onSubmit() {
     if (this.fg.valid) {
-      this.invoiceService.createNewInvoice(this.fg.value).subscribe(data => {
+      const body = {
+        poId: this.poId,
+        invoiceNo: this.invoiceNo,
+        amount: this.fg.get('amount').value
+      };
+      this.invoiceService.createNewInvoice(body).subscribe(data => {
         this.closeModal();
-        this.getInvoiceData();
-        this.fg.reset();
-        this.showMessage = true;
-      });
+        this.onReset();
+      }, err => console.log(err));
     } else {
       alert('กรุณากรอกข้อมมูลให้ครบถ้วน');
     }
+  }
+
+  onReset() {
+    this.getInvoiceData();
+    this.getInvoiceNumber();
+    this.showMessage = true;
+    this.fg.reset({
+      poId: this.poId,
+      invoiceNo: this.invoiceNo,
+      amount: ''
+    });
   }
 
   onAdd() {
@@ -86,7 +111,7 @@ export class InvoiceComponent implements OnInit {
     this.invoiceService.deleteInvoice(invoiceId).subscribe(response => {
       this.getInvoiceData();
       this.showMessage = true;
-    });
+    }, err => console.log(err));
   }
 
 }
