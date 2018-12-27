@@ -150,17 +150,19 @@ export class EditProfileComponent implements OnInit {
         const message = response['message'];
         alert(message);
         if (message) {
-          this.ngOnInit();
+          this.onReset();
         }
-      });
+      }, err =>
+          console.log(err));
     } else {
       this.fileService.uploadImageProfile(file).subscribe(response => {
         const message = response['message'];
         alert(message);
         if (message) {
-          this.ngOnInit();
+          this.onReset();
         }
-      });
+      }, err =>
+          console.log(err));
     }
   }
 
@@ -169,26 +171,32 @@ export class EditProfileComponent implements OnInit {
       const fileName = this.getTranscriptFile.fileName;
       this.fileService.downloadTranscriptFile().subscribe(response => {
         this.downloadFile(response, fileName);
-      }, err => {
-        console.log(err);
-      });
+      }, err =>
+          console.log(err));
     } else {
       const fileName = this.getImageFile.fileName;
       this.fileService.downloadImageProFile().subscribe(response => {
         this.downloadFile(response, fileName);
-      }, err => {
-        console.log(err);
-      });
+      }, err =>
+          console.log(err));
     }
   }
 
   onRemove(type) {
     if (type === 'transcript') {
-
+      this.fileService.removeTranscript().subscribe(response => {
+        alert(response['message']);
+        this.onReset();
+        this.transcriptFile = null;
+      }, err =>
+          console.log(err));
     } else {
       this.fileService.removeImage().subscribe(response => {
-        console.log(response);
-      });
+        alert(response['message']);
+        this.onReset();
+        this.imageFile = null;
+      }, err =>
+          console.log(err));
     }
   }
 

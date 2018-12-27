@@ -66,7 +66,7 @@ export class FileService {
 
   removeImage(): Observable<object> {
     if (sessionStorage.getItem('idUser')) {
-      return this.http.delete(`${environment.api}files/image/delete/${sessionStorage.getItem('idUser')}`, {
+      return this.http.delete(`${environment.api}files/image/${sessionStorage.getItem('idUser')}`, {
         headers: new HttpHeaders({
           Authorization: sessionStorage.getItem('token')
         })
