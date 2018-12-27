@@ -14,12 +14,13 @@
     <table class="table">
       <thead>
         <th class="text-left">ชื่อ</th>
-        <th>Amount</th>
+        <th>จำนวน</th>
+        <th></th>
       </thead>
       <tbody *ngIf="productOwner?.length !== 0">
         <tr *ngFor="let productOwner of productOwner">
           <td>
-            <a class="link" href="javascript:void(0)" (click)="goToInvoicePage(productOwner?.id)">{{productOwner?.name}}</a>
+            <a class="link" href="javascript:void(0)" (click)="goToInvoicePage(productOwner?.id)">{{productOwner?.id}}</a>
           </td>
           <td>{{productOwner?.name}}</td>
           <td>
@@ -31,7 +32,7 @@
       </tbody>
       <tbody *ngIf="productOwner?.length === 0">
         <tr>
-          <td colspan="100%" class="text-center">
+          <td colspan="100%" class="text-center text-danger">
             ยังไม่มีข้อมูล
           </td>
         </tr>

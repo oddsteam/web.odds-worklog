@@ -1,3 +1,65 @@
-<p>
-  invoice works!
-</p>
+<div>
+  <div *ngIf="showMessage">
+    <app-message-tooltip></app-message-tooltip>
+  </div>
+  <div class="d-flex justify-content-between pb-2 px-2">
+    <div class="d-flex align-items-end">
+      <h5 class="mt-2 ml-2">Invoice</h5>
+    </div>
+    <div>
+      <button class="btn btn-blue" type="button" (click)="onAdd()">เพิ่มข้อมูล</button>
+    </div>
+  </div>
+  <div>
+    <table class="table">
+      <thead>
+        <th class="text-left">ชื่อ</th>
+        <th>จำนวน</th>
+      </thead>
+      <tbody *ngIf="invoiceData?.length !== 0">
+        <tr *ngFor="let data of invoiceData">
+          <td>
+            {{data?.invoiceNo}}
+          </td>
+          <td>{{data?.amount}}</td>
+          <td>
+            <a class="edit-link" href="javascript:void(0)" (click)="onEditInvoice(data?.id)">Edit</a>
+            <span class="d-mark">|</span>
+            <a class="edit-link" href="javascript:void(0)" (click)="onDeleteInvoice(data?.id)">Delete</a>
+          </td>
+        </tr>
+      </tbody>
+      <tbody *ngIf="invoiceData?.length === 0">
+        <tr>
+          <td colspan="100%" class="text-center text-danger">
+            ยังไม่มีข้อมูล
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<ng-template #templateModal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">เพิ่มข้อมูล Invoice</h4>
+    <button type="button" class="close btn-close" aria-label="Close" (click)="closeModal()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body mx-sm-5">
+    <form [formGroup]="fg">
+      <div class="form-group my-2">
+        <label>Invoice Number : </label>
+        <input id="invoiceNo" type="text" class="form-control" formControlName="invoiceNo">
+      </div>
+      <div class="form-group">
+        <label>Amount : </label>
+        <input id="amount" type="text" class="form-control text-right" formControlName="amount">
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button id="btn-submit" type="button" class="btn btn-blue" (click)="onSubmit()">Submit</button>
+  </div>
+</ng-template>

@@ -30,7 +30,6 @@ export class CustomersProfileComponent implements OnInit {
 
   getCustomerData() {
     this.worklogApiService.getCustomerResponse().subscribe(res => {
-      console.log(res);
       this.customers = res;
     });
   }

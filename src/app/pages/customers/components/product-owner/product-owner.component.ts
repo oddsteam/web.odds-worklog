@@ -16,6 +16,7 @@ export class ProductOwnerComponent implements OnInit {
   customerId: string;
   formGroupProductOw: FormGroup;
   productOwner: ProductOwner[];
+  // productOwner: any;
   showMessage = false;
 
   constructor(
@@ -26,16 +27,19 @@ export class ProductOwnerComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.worklogApiService.getCustomerId.subscribe(id => {
-      this.customerId = id;
-    });
+    this.getCustomerId();
     this.getProductOwnerData();
     this.onSetupForm();
   }
 
+  getCustomerId() {
+    this.worklogApiService.getCustomerId.subscribe(id => {
+      this.customerId = id;
+    });
+  }
+
   getProductOwnerData() {
     this.worklogApiService.getProductOwnerResponse(this.customerId).subscribe(res => {
-      // console.log(res);
       this.productOwner = res;
     });
   }
