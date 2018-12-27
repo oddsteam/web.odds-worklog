@@ -223,6 +223,22 @@ export class WorklogApiService {
         });
     }
 
+    getCustomerById(customerId): Observable<Customers[]> {
+        return this.http.get<Customers[]>(`${this.apiPath}customers/${customerId}`, {
+            headers: new HttpHeaders({
+                Authorization: sessionStorage.getItem('token')
+            })
+        });
+    }
+
+    updateCustomerById(customerId, body): Observable<Customers[]> {
+        return this.http.put<Customers[]>(`${this.apiPath}customers/${customerId}`, body, {
+            headers: new HttpHeaders({
+                Authorization: sessionStorage.getItem('token')
+            })
+        });
+    }
+
     saveCustomerProfile(data): Observable<any> {
         return this.http.post(`${this.apiPath}customers`, data, {
             headers: new HttpHeaders({

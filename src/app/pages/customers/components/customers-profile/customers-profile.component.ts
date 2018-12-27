@@ -15,7 +15,9 @@ export class CustomersProfileComponent implements OnInit {
   modalRef: BsModalRef;
   customers: Customers[];
   showMessage = false;
+  updateFlag = false;
   formGroupCustomer: FormGroup;
+  customerId: string;
 
   constructor(
     private router: Router,
@@ -42,6 +44,7 @@ export class CustomersProfileComponent implements OnInit {
   }
 
   onAddCustomer() {
+    this.updateFlag = false;
     this.openModal(this.templateModal);
   }
 
@@ -64,8 +67,22 @@ export class CustomersProfileComponent implements OnInit {
     }
   }
 
+  onUpdate() {
+    if (this.formGroupCustomer.valid) {
+      this.worklogApiService.updateCustomerById(this.customerId, this.formGroupCustomer.value).subscribe(response => {
+        this.closeModal();
+        this.getCustomerData();
+        this.formGroupCustomer.reset();
+        this.showMessage = true;
+      }, err => console.log(err));
+    } else {
+      alert('กรุณากรอกข้อมมูลให้ครบถ้วน');
+    }
+  }
+
   closeModal() {
     this.modalRef.hide();
+    this.formGroupCustomer.reset();
   }
 
   goToProductOwnerPage(customerId) {
@@ -73,8 +90,16 @@ export class CustomersProfileComponent implements OnInit {
     this.router.navigate(['customers/productOwner']);
   }
 
-  onEditCustomer() {
-
+  onEditCustomer(customerId) {
+    this.customerId = customerId;
+    this.updateFlag = true;
+    this.worklogApiService.getCustomerById(customerId).subscribe(response => {
+      this.formGroupCustomer.setValue({
+        name: response['name'],
+        address: response['address']
+      });
+    });
+    this.openModal(this.templateModal);
   }
 
   onDeleteCustomer(id) {
