@@ -18,7 +18,7 @@ export class GroupManagementComponent implements OnInit {
   ) { }
   ngOnInit() {
     this.activatedRoute.params.subscribe(param => {
-        this.path = param.id;
+      this.path = param.id;
     });
     this.getSitesData();
   }
@@ -45,8 +45,9 @@ export class GroupManagementComponent implements OnInit {
   checkPath() {
     if (this.path === 'all') {
       return true;
+    } else {
+      return false;
     }
-    return false;
   }
 
 }

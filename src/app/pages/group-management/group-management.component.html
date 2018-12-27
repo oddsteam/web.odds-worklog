@@ -1,11 +1,11 @@
-<div class="row d-flex" *ngIf="checkPath()" >
-  <div class="card col-auto my-3 mx-3" *ngFor="let f of sites; let i = index" >
-      <div class="card-body">
-        <span (click)="gotoUserListSite(f.users,f.name)" class=" link-text card-title" target="_blank">{{ f.name }}</span>
-        <p class="card-text">จำนวนคนทั้งหมด : {{ f.length }}</p>
-      </div>
+<div class="row d-flex" *ngIf="checkPath()">
+  <div class="card col-auto my-3 mx-3" *ngFor="let f of sites; let i = index">
+    <div class="card-body">
+      <span (click)="gotoUserListSite(f.users,f.name)" class=" link-text card-title" target="_blank">{{ f.name }}</span>
+      <p class="card-text">จำนวนคนทั้งหมด : {{ f.length }}</p>
     </div>
+  </div>
 </div>
-<div *ngIf="checkPath()">
-<app-table-list-user-by-site></app-table-list-user-by-site>
+<div *ngIf="!checkPath()">
+  <app-table-list-user-by-site></app-table-list-user-by-site>
 </div>
