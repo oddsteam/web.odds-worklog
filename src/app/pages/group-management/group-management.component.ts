@@ -42,4 +42,11 @@ export class GroupManagementComponent implements OnInit {
     this.router.navigate(['groups/users']);
   }
 
+  checkPath() {
+    if (this.path === 'all') {
+      return true;
+    }
+    return false;
+  }
+
 }
