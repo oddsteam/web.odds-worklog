@@ -1,5 +1,5 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
@@ -52,6 +52,7 @@ export class ProductOwnerComponent implements OnInit {
       name: ['', Validators.required],
       amount: ['', Validators.required]
     });
+    this.onKeyAmount();
   }
 
   onAddData() {
@@ -128,4 +129,30 @@ export class ProductOwnerComponent implements OnInit {
       this.showMessage = true;
     });
   }
+
+  onKeyAmount() {
+    const amount = this.amountValue.value;
+    const numberAmount = this.formatInteger(amount);
+    const realFormat = this.formatCurrency(numberAmount);
+    this.amountValue.setValue(realFormat);
+  }
+
+  formatInteger(data: string): string {
+    data = data.replace(/[^0-9.]/g, '');
+    data = data.indexOf(',') !== -1 ? data.replace(/,/g, '') : data;
+    return data;
+  }
+
+  formatCurrency(Result: string): string {
+    Result = Result.substring(0, 9);
+    Result = Result.replace(/^(\d+)(\d{3})/, '$1,$2');
+    Result = Result.replace(/^(\d+)(\d{3})/, '$1,$2');
+    Result = Result.replace(/^(\d+)(\d{3})/, '$1,$2');
+    return Result;
+  }
+
+  get amountValue(): AbstractControl {
+    return this.formGroupProductOw.get('amount');
+  }
+
 }
