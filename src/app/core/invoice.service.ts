@@ -54,8 +54,8 @@ export class InvoiceService {
         });
     }
 
-    updateInvoice(invoiceId): Observable<InvoiceModel> {
-        return this.http.put<InvoiceModel>(`${environment.api}invoices/${invoiceId}`, {
+    updateInvoice(invoiceId, body): Observable<InvoiceModel> {
+        return this.http.put<InvoiceModel>(`${environment.api}invoices/${invoiceId}`, body, {
             headers: new HttpHeaders({
                 Authorization: sessionStorage.getItem('token')
             })

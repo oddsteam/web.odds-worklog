@@ -16,8 +16,10 @@ export class InvoiceComponent implements OnInit {
   modalRef: BsModalRef;
   invoiceData: InvoiceModel[];
   showMessage: Boolean = false;
+  updateFlag: Boolean = false;
   poId: string;
   invoiceNo: string;
+  invoiceId: string;
   fg: FormGroup;
 
   constructor(
@@ -50,6 +52,9 @@ export class InvoiceComponent implements OnInit {
   getInvoiceData() {
     this.invoiceService.getInvoiceListPoById(this.poId).subscribe(response => {
       this.invoiceData = response;
+      if (response.length === 0) {
+        this.getInvoiceNumber();
+      }
     }, err => console.log(err));
   }
 
@@ -78,6 +83,24 @@ export class InvoiceComponent implements OnInit {
     }
   }
 
+  onUpdate() {
+    if (this.fg.valid) {
+      this.invoiceService.updateInvoice(this.invoiceId, this.fg.value).subscribe(response => {
+        this.closeModal();
+        this.getInvoiceData();
+        this.showMessage = true;
+        this.updateFlag = false;
+        this.fg.reset({
+          poId: this.poId,
+          invoiceNo: this.invoiceNo,
+          amount: ''
+        });
+      }, err => console.log(err));
+    } else {
+      alert('กรุณากรอกข้อมมูลให้ครบถ้วน');
+    }
+  }
+
   onReset() {
     this.getInvoiceData();
     this.getInvoiceNumber();
@@ -91,6 +114,7 @@ export class InvoiceComponent implements OnInit {
 
   onAdd() {
     this.openModal(this.templateModal);
+    this.updateFlag = false;
   }
 
   openModal(template: TemplateRef<any>) {
@@ -101,10 +125,24 @@ export class InvoiceComponent implements OnInit {
 
   closeModal() {
     this.modalRef.hide();
+    this.fg.reset({
+      poId: this.poId,
+      invoiceNo: this.invoiceNo,
+      amount: '',
+    });
   }
 
   onEditInvoice(invoiceId) {
-
+    this.invoiceId = invoiceId;
+    this.updateFlag = true;
+    this.invoiceService.getInvoiceById(invoiceId).subscribe(response => {
+      this.fg.setValue({
+        poId: response['poId'],
+        invoiceNo: response['invoiceNo'],
+        amount: response['amount']
+      });
+    });
+    this.openModal(this.templateModal);
   }
 
   onDeleteInvoice(invoiceId) {

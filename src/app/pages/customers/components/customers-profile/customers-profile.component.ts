@@ -23,7 +23,8 @@ export class CustomersProfileComponent implements OnInit {
     private router: Router,
     private worklogApiService: WorklogApiService,
     private modalService: BsModalService,
-    private fb: FormBuilder) { }
+    private fb: FormBuilder
+  ) { }
 
   ngOnInit() {
     this.getCustomerData();

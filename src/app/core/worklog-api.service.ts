@@ -282,4 +282,20 @@ export class WorklogApiService {
     setProductOwnerId(id: string) {
         this.getProductOwnerId.next(id);
     }
+
+    getProductOwnerById(id: string) {
+        return this.http.get<ProductOwner[]>(`${this.apiPath}poes/${id}`, {
+            headers: new HttpHeaders({
+                Authorization: sessionStorage.getItem('token')
+            })
+        });
+    }
+
+    updateProductOwner(id: string, body) {
+        return this.http.put(`${this.apiPath}poes/${id}`, body, {
+            headers: new HttpHeaders({
+                Authorization: sessionStorage.getItem('token')
+            })
+        });
+    }
 }

@@ -24,7 +24,7 @@
           </td>
           <td>{{productOwner?.amount}}</td>
           <td>
-            <a class="edit-link" href="javascript:void(0)" (click)="onEditProductOwner()">Edit</a>
+            <a class="edit-link" href="javascript:void(0)" (click)="onEditProductOwner(productOwner?.id)">Edit</a>
             <span class="d-mark">|</span>
             <a class="edit-link" href="javascript:void(0)" (click)="onDeleteProductOwner(productOwner?.id)">Delete</a>
           </td>
@@ -43,7 +43,9 @@
 
 <ng-template #templateModal>
   <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">เพิ่มข้อมูล Product Owner</h4>
+    <!-- <h4 class="modal-title" id="modal-basic-title">เพิ่มข้อมูล Product Owner</h4> -->
+    <h4 *ngIf="!updateFlag" class="modal-title" id="modal-basic-title">เพิ่มข้อมูล Product Owner</h4>
+    <h4 *ngIf="updateFlag" class="modal-title" id="modal-basic-title">แก้ไขข้อมูล Product Owner</h4>
     <button type="button" class="close btn-close" aria-label="Close" (click)="closeModal()">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -61,6 +63,7 @@
     </form>
   </div>
   <div class="modal-footer">
-    <button id="btn-submit" type="button" class="btn btn-blue" (click)="onSubmit()">Submit</button>
+    <button *ngIf="!updateFlag" id="btn-submit" type="button" class="btn btn-blue" (click)="onSubmit()">Submit</button>
+    <button *ngIf="updateFlag" id="btn-submit" type="button" class="btn btn-green" (click)="onUpdate()">Update</button>
   </div>
 </ng-template>

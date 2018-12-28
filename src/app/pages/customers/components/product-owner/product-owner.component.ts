@@ -17,6 +17,8 @@ export class ProductOwnerComponent implements OnInit {
   customerId: string;
   formGroupProductOw: FormGroup;
   productOwner: ProductOwner[];
+  poId: string;
+  updateFlag = false;
   showMessage = false;
 
   constructor(
@@ -54,6 +56,7 @@ export class ProductOwnerComponent implements OnInit {
 
   onAddData() {
     this.openModal(this.templateModal);
+    this.updateFlag = false;
   }
 
   openModal(template: TemplateRef<any>) {
@@ -64,6 +67,11 @@ export class ProductOwnerComponent implements OnInit {
 
   closeModal() {
     this.modalRef.hide();
+    this.formGroupProductOw.reset({
+      customerId: this.customerId,
+      name: '',
+      amount: '',
+    });
   }
 
   onSubmit() {
@@ -83,13 +91,35 @@ export class ProductOwnerComponent implements OnInit {
     }
   }
 
+  onUpdate() {
+    if (this.formGroupProductOw.valid) {
+      this.worklogApiService.updateProductOwner(this.poId, this.formGroupProductOw.value).subscribe(response => {
+        this.closeModal();
+        this.getProductOwnerData();
+        this.formGroupProductOw.reset();
+        this.showMessage = true;
+      }, err => console.log(err));
+    } else {
+      alert('กรุณากรอกข้อมมูลให้ครบถ้วน');
+    }
+  }
+
   goToInvoicePage(productOwnerId) {
     this.worklogApiService.setProductOwnerId(productOwnerId);
     this.router.navigate(['customers/invoice']);
   }
 
-  onEditProductOwner() {
-
+  onEditProductOwner(poId) {
+    this.poId = poId;
+    this.updateFlag = true;
+    this.worklogApiService.getProductOwnerById(poId).subscribe(response => {
+      this.formGroupProductOw.setValue({
+        customerId: response['customerId'],
+        name: response['name'],
+        amount: '100000'
+      });
+    });
+    this.openModal(this.templateModal);
   }
 
   onDeleteProductOwner(id) {
