@@ -9,7 +9,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class BreadcrumbComponent implements OnInit {
   listBreadcrumb = [
     { key: 'all', text: 'Customers' },
-    { key: 'pc', text: 'Product Owner' },
+    { key: 'product-owner', text: 'Product Owner' },
     { key: 'invoice', text: 'Invoice' }
   ];
   path = 'all';

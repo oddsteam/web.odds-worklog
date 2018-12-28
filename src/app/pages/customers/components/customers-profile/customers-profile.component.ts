@@ -88,7 +88,7 @@ export class CustomersProfileComponent implements OnInit {
 
   goToProductOwnerPage(customerId) {
     this.worklogApiService.setCustomerId(customerId);
-    this.router.navigate(['customers/pc']);
+    this.router.navigate(['customers/product-owner']);
   }
 
   onEditCustomer(customerId) {
