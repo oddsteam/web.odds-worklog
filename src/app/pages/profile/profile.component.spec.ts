@@ -114,7 +114,8 @@ describe('ProfileComponent', () => {
       },
       thaiCitizenId: '112233445566',
       transcript: null,
-      imageProfile: null
+      imageProfile: null,
+      project: ''
     };
     const mockListSites: Site[] = [
       {
@@ -180,7 +181,8 @@ describe('ProfileComponent', () => {
       },
       thaiCitizenId: '112233445566',
       transcript: null,
-      imageProfile: null
+      imageProfile: null,
+      project: ''
     };
     component.userInfo = new User();
     component.id = mockResponse.id;
@@ -190,7 +192,8 @@ describe('ProfileComponent', () => {
       email: 'odds@odds.team',
       bankAccount: 'odds odds',
       bankAccountNumber: '1122334455',
-      slackAccount: 'odds@odds.team'
+      slackAccount: 'odds@odds.team',
+      project: ''
     });
     fixture.detectChanges();
     spyOn(worklogApiService, 'updateUser').and.returnValue(of(mockResponse));

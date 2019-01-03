@@ -75,6 +75,7 @@ describe('Service: WorklogApi', () => {
           transcript: '',
           siteId: '',
           site: null,
+          project: '',
           imageProfile: null
         }
       ]
@@ -107,6 +108,7 @@ describe('Service: WorklogApi', () => {
           transcript: '',
           siteId: '',
           site: null,
+          project: '',
           imageProfile: null
         }
       ]

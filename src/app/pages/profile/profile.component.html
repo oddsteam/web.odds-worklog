@@ -127,6 +127,12 @@
               <app-drop-down [defaultSelect]="site" [listSources]="dataListSite" (emitSource)="getEmitSource($event)"></app-drop-down>
             </div>
           </div>
+          <div class="row">
+            <div class="form-group col-md-12">
+              <label>Project or team</label>
+              <input class="form-control" type="text" formControlName="project">
+            </div>
+          </div>
 
           <hr>
           <div class="prepend-top-default append-bottom-default inner">

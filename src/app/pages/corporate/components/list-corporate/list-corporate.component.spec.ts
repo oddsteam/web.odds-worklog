@@ -70,7 +70,8 @@ describe('ListCorporateComponent', () => {
           thaiCitizenId: '12345423',
           slackAccount: 'odds@odds.team',
           siteId: '',
-          transcript: ''
+          transcript: '',
+          project: ''
         },
         {
           id: '1233',
@@ -82,7 +83,8 @@ describe('ListCorporateComponent', () => {
           thaiCitizenId: '12345423',
           slackAccount: 'odds@odds.team',
           siteId: '',
-          transcript: ''
+          transcript: '',
+          project: ''
         },
       ]
     };
@@ -110,7 +112,8 @@ describe('ListCorporateComponent', () => {
           siteId: '',
           transcript: '',
           site: null,
-          imageProfile: null
+          imageProfile: null,
+          project: ''
         },
         {
           id: '1233',
@@ -126,7 +129,8 @@ describe('ListCorporateComponent', () => {
           siteId: '',
           transcript: '',
           site: null,
-          imageProfile: null
+          imageProfile: null,
+          project: ''
         },
       ]
     };

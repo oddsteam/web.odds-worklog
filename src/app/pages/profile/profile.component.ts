@@ -59,6 +59,7 @@ export class ProfileComponent implements OnInit {
       bankAccount: ['', Validators.required],
       bankAccountNumber: ['', Validators.required],
       slackAccount: ['', Validators.required],
+      project: ['']
     });
 
     this.fileForm = this.formBuilder.group({
@@ -77,6 +78,7 @@ export class ProfileComponent implements OnInit {
       this.bankAccountForm.setValue(data.bankAccountName);
       this.bankAccountNumberForm.setValue(data.bankAccountNumber);
       this.slackAccount.setValue(data.slackAccount);
+      this.project.setValue(data.project);
       this.isVat = data.vat;
       if (data.vat === 'N') {
         this.vatList[0].value = false;
@@ -112,6 +114,7 @@ export class ProfileComponent implements OnInit {
     this.userInfo.bankAccountNumber = this.bankAccountNumberForm.value;
     this.userInfo.slackAccount = this.slackAccount.value;
     this.userInfo.vat = this.isVat;
+    this.userInfo.project = this.project.value;
   }
 
   onReset() {
@@ -280,7 +283,12 @@ export class ProfileComponent implements OnInit {
   get bankAccountNumberForm(): FormControl {
     return this.profileForm.get('bankAccountNumber') as FormControl;
   }
+
   get slackAccount(): FormControl {
     return this.profileForm.get('slackAccount') as FormControl;
+  }
+
+  get project(): FormControl {
+    return this.profileForm.get('project') as FormControl;
   }
 }

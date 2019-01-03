@@ -64,7 +64,8 @@ describe('ListIndividualComponent', () => {
           slackAccount: 'odds@odds.team',
           siteId: '',
           transcript: '',
-          site: null
+          site: null,
+          project: ''
         },
         {
           id: '1233',
@@ -77,7 +78,8 @@ describe('ListIndividualComponent', () => {
           slackAccount: 'odds@odds.team',
           siteId: '',
           transcript: '',
-          site: null
+          site: null,
+          project: ''
         },
       ]
     };
@@ -105,7 +107,8 @@ describe('ListIndividualComponent', () => {
           siteId: '',
           transcript: '',
           site: null,
-          imageProfile: null
+          imageProfile: null,
+          project: ''
         },
         {
           id: '1233',
@@ -121,7 +124,8 @@ describe('ListIndividualComponent', () => {
           siteId: '',
           transcript: '',
           site: null,
-          imageProfile: null
+          imageProfile: null,
+          project: ''
         },
       ]
     };

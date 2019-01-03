@@ -57,15 +57,25 @@ export class FirstLoginComponent implements OnInit {
       slackAccount: ['', Validators.email],
       role: [true, Validators.required],
       vat: [true, Validators.required],
-      siteId: ['กรุณาเลือก site ที่อยู่', Validators.required]
+      siteId: ['กรุณาเลือก site ที่อยู่', Validators.required],
+      project: ['']
     });
   }
 
   submit() {
-    const { firstName, lastName, bankAccountName, bankAccountNumber, slackAccount, role, vat, siteId } = this.loginForm.getRawValue();
+    // tslint:disable-next-line:max-line-length
+    const { firstName, lastName, bankAccountName, bankAccountNumber, slackAccount, role, vat, siteId, project } = this.loginForm.getRawValue();
 
     // tslint:disable-next-line:max-line-length
-    if (firstName && lastName && bankAccountName && bankAccountNumber && slackAccount && role && vat && (siteId !== 'กรุณาเลือก site ที่อยู่')) {
+    if (firstName
+      && lastName
+      && bankAccountName
+      && bankAccountNumber
+      && slackAccount
+      && role
+      && vat
+      && (siteId !== 'กรุณาเลือก site ที่อยู่')
+    ) {
       this.user = new User();
       this.user.firstName = firstName;
       this.user.lastName = lastName;
@@ -75,6 +85,7 @@ export class FirstLoginComponent implements OnInit {
       this.user.role = this.role;
       this.user.vat = this.vat;
       this.user.siteId = siteId;
+      this.user.project = project;
       this.updateUser();
     } else {
       alert('กรุณากรอกข้อมูลให้ครบ');

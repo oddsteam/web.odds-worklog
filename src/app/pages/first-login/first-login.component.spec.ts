@@ -42,7 +42,8 @@ describe('FirstLoginComponent', () => {
       slackAccount: 'test@odds.team',
       role: 'individual',
       vat: 'N',
-      siteId: 'DTAC'
+      siteId: 'DTAC',
+      project: ''
     });
     spyOn(worklogapiService, 'updateUser').and.returnValue(of());
     component.submit();
