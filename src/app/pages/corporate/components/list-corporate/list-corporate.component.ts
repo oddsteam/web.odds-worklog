@@ -25,6 +25,9 @@ export class ListCorporateComponent implements OnInit, OnChanges {
     if (!this.listIncome) {
       this.getListIncomeCorporate();
     }
+    this.stateService.listIncomeCorporateTrigger.subscribe(_ => {
+      this.getListIncomeCorporate();
+    });
   }
 
   ngOnChanges() {

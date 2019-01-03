@@ -1,6 +1,7 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
 import { ListIncomeResponse } from 'src/app/shared/model/list-income-model-response';
+import { StateService } from 'src/app/core/state.service';
 
 @Component({
   selector: 'app-list-individual',
@@ -15,7 +16,8 @@ export class ListIndividualComponent implements OnInit, OnChanges {
   listIncomeIndividual: ListIncomeResponse;
 
   constructor(
-    private worklogApiService: WorklogApiService
+    private worklogApiService: WorklogApiService,
+    private stateService: StateService
   ) { }
 
   ngOnInit() {
@@ -23,6 +25,9 @@ export class ListIndividualComponent implements OnInit, OnChanges {
     if (!this.listIncomeIndividual) {
       this.getListIncomeIndividual();
     }
+    this.stateService.listIncomeIndividualTrigger.subscribe(_ => {
+      this.getListIncomeIndividual();
+    });
   }
 
   ngOnChanges() {

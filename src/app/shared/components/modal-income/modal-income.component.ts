@@ -3,6 +3,7 @@ import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/fo
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
 import { AddIncomeResponse } from '../../model/add-income-model-response';
 import { IncomeFlag } from '../../model/income-flag';
+import { StateService } from 'src/app/core/state.service';
 
 @Component({
   selector: 'app-modal-income',
@@ -24,7 +25,8 @@ export class ModalIncomeComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private worklogApiService: WorklogApiService
+    private worklogApiService: WorklogApiService,
+    private stateService: StateService
   ) { }
 
   ngOnInit() {
@@ -120,6 +122,8 @@ export class ModalIncomeComponent implements OnInit {
     });
     const addIncome = this.fg.value;
     this.worklogApiService.updateIncomeService(addIncome).subscribe(res => {
+      this.stateService.triggerListIncomeCorporate();
+      this.stateService.triggerListIncomeIndividual();
       this.closeModalEmit.emit(true);
     }, err => {
       console.log(err);
