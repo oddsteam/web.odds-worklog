@@ -1,18 +1,18 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateFakeLoader, TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import { ProfileComponent } from './profile.component';
+import { HeaderComponent } from './header.component';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
 import { of, throwError } from 'rxjs';
 import { RouterTestingModule } from '@angular/router/testing';
 
-describe('ProfileComponent', () => {
-  let component: ProfileComponent;
-  let fixture: ComponentFixture<ProfileComponent>;
+describe('HeaderComponent', () => {
+  let component: HeaderComponent;
+  let fixture: ComponentFixture<HeaderComponent>;
   let workLogService: WorklogApiService;
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ProfileComponent],
+      declarations: [HeaderComponent],
       imports: [
         RouterTestingModule,
         TranslateModule.forRoot({
@@ -25,7 +25,7 @@ describe('ProfileComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ProfileComponent);
+    fixture = TestBed.createComponent(HeaderComponent);
     workLogService = TestBed.get(WorklogApiService);
     component = fixture.componentInstance;
     fixture.detectChanges();

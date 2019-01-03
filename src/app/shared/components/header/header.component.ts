@@ -5,11 +5,11 @@ import { StateService } from 'src/app/core/state.service';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
 
 @Component({
-    selector: 'app-profile',
-    templateUrl: './profile.component.html',
-    styleUrls: ['./profile.component.scss']
+    selector: 'app-header',
+    templateUrl: './header.component.html',
+    styleUrls: ['./header.component.scss']
 })
-export class ProfileComponent implements OnInit {
+export class HeaderComponent implements OnInit {
     name: string;
     id = sessionStorage.getItem('idUser');
     constructor(
