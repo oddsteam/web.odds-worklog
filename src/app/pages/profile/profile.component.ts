@@ -1,3 +1,4 @@
+import { Site } from 'src/app/shared/model/site';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -19,15 +20,7 @@ export class ProfileComponent implements OnInit {
   imageFile: File = null;
   oldTranscriptFile = null;
   urlDownloadTranscriptFile = null;
-  dataListSite = [
-    { key: 'Default', value: 'No Site' },
-    { key: 'KTB', value: 'KTB' },
-    { key: 'SET', value: 'SET' },
-    { key: 'DTAC', value: 'DTAC' },
-    { key: 'SEC', value: 'SEC' },
-    { key: 'AIS', value: 'AIS' },
-    { key: 'KBTG', value: 'KBTG' },
-  ];
+  dataListSite: Site[] = [];
   userInfo: User;
   personType: string;
   showSuccessMessage = false;
@@ -95,10 +88,8 @@ export class ProfileComponent implements OnInit {
 
   getNameSite() {
     this.worklogApiService.getSitesData().subscribe(res => {
-      const result = res.filter(val => val.id === this.userInfo.siteId);
-      if (result.length !== 0) {
-        this.site = result[0].name;
-      }
+      this.dataListSite = res;
+      this.site = this.userInfo.siteId;
     });
   }
 
@@ -200,10 +191,7 @@ export class ProfileComponent implements OnInit {
   }
 
   getEmitSource(event) {
-    this.worklogApiService.getSitesData().subscribe(res => {
-      const result = res.filter(val => val.name === event);
-      this.userInfo.siteId = result[0].id;
-    });
+    this.userInfo.siteId = event.id;
   }
 
   onCheckBoxVat(vatName) {

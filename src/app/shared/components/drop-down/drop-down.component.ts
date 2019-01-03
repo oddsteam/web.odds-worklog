@@ -26,7 +26,7 @@ export class DropDownComponent implements OnInit, OnChanges {
       this.listSources.length > 0
     ) {
       this.currentSelect = this.listSources.find(
-        element => element.key === this.defaultSelect
+        element => element.id === this.defaultSelect
       );
     }
     this.selectItem(this.currentSelect);
@@ -35,7 +35,7 @@ export class DropDownComponent implements OnInit, OnChanges {
   selectItem(source) {
     if (source != null) {
       this.currentSelect = source;
-      this.emitSource.emit(source.key);
+      this.emitSource.emit(source.id);
     } else {
       if (this.listSources) {
         this.currentSelect = this.listSources[0];

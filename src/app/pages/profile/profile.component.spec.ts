@@ -132,7 +132,7 @@ describe('ProfileComponent', () => {
     ];
     spyOn(worklogApiService, 'getSitesData').and.returnValue(of(mockListSites));
     component.getNameSite();
-    expect(component.site).toEqual(mockListSites[0].name);
+    expect(component.site).toEqual(mockListSites[0].id);
   });
   it('should call onSubmit if file is not undifined', () => {
     const file = {
@@ -158,39 +158,6 @@ describe('ProfileComponent', () => {
     spyOn(fileService, 'uploadFileTranscript').and.returnValues(of('message'));
     component.onSubmit(file, 'transcript');
     expect(fileService.uploadFileTranscript).toHaveBeenCalledWith(file);
-  });
-
-  it('should call getSitesData in worklog service', () => {
-    const data = {
-      bankAccountName: 'กอไก่ ขอไข่',
-      bankAccountNumber: '0123456789',
-      email: 'who@odds.team',
-      firstName: 'aaa',
-      id: '5c0fa703780bf500019a5aea',
-      lastName: 'bbb',
-      role: 'admin',
-      slackAccount: 'who@odds.team',
-      siteId: '5c0fb860f37e2f8698989cdd',
-      vat: 'N',
-      site: {
-        id: '5c0fb860f37e2f8698989cdd',
-        name: 'SEC'
-      },
-      thaiCitizenId: '112233445566',
-      transcript: null
-    };
-    spyOn(worklogApiService, 'getUserByID').and.returnValue(of(data));
-    component.getData();
-    const mockListSites: Site[] = [
-      {
-        id: '5c0fb860f37e2f8698989cdd',
-        name: 'SEC'
-      }
-    ];
-    spyOn(worklogApiService, 'getSitesData').and.returnValues(of(mockListSites));
-    const siteName = 'SEC';
-    component.getEmitSource(siteName);
-    expect(worklogApiService.getSitesData).toHaveBeenCalled();
   });
 
   // onReset Test
@@ -300,17 +267,7 @@ describe('ProfileComponent', () => {
     expect(component.downloadFile).toHaveBeenCalledWith(mockResponse, 'ww_ww_Zt0mUDwp7LBx.pdf');
   });
 
-  it('should call getSiteData from worklog service when call getEmitSource', () => {
-    const mockListSites: Site[] = [
-      {
-        id: '5c0fb860f37e2f8698989cdd',
-        name: 'SEC'
-      },
-      {
-        id: '5c0fb860f37e2f8698989cff',
-        name: 'DTAC'
-      }
-    ];
+  it('should set user site id when call getEmitSource', () => {
     const data = {
       bankAccountName: 'กอไก่ ขอไข่',
       bankAccountNumber: '0123456789',
@@ -328,44 +285,8 @@ describe('ProfileComponent', () => {
     // get user data
     spyOn(worklogApiService, 'getUserByID').and.returnValue(of(data));
     component.getData();
-
-    spyOn(worklogApiService, 'getSitesData').and.returnValue(of(mockListSites));
-    component.getEmitSource('DTAC');
-    expect(worklogApiService.getSitesData).toHaveBeenCalled();
-  });
-
-  it('userInfo.siteId should equal to response value of getSiteData from worklog service when call getEmitSource', () => {
-    const mockListSites: Site[] = [
-      {
-        id: '5c0fb860f37e2f8698989cdd',
-        name: 'SEC'
-      },
-      {
-        id: '5c0fa703780bf500019a5aea',
-        name: 'DTAC'
-      }
-    ];
-    const data = {
-      bankAccountName: 'กอไก่ ขอไข่',
-      bankAccountNumber: '0123456789',
-      email: 'who@odds.team',
-      firstName: 'aaa',
-      id: '5c0fa703780bf500019a5aea',
-      lastName: 'bbb',
-      role: 'admin',
-      slackAccount: 'who@odds.team',
-      vat: 'N',
-      transcript: null,
-      imageProfile: null,
-      siteId: '5c0fb860f37e2f8698989cff'
-    };
-    // get user data
-    spyOn(worklogApiService, 'getUserByID').and.returnValue(of(data));
-    component.getData();
-    fixture.detectChanges();
-    spyOn(worklogApiService, 'getSitesData').and.returnValue(of(mockListSites));
-    component.getEmitSource('DTAC');
-    expect(component.userInfo.siteId).toEqual(mockListSites[1].id);
+    component.getEmitSource({ id: '5c0fb860f37e2f8698989cf0' });
+    expect(component.userInfo.siteId).toEqual('5c0fb860f37e2f8698989cf0');
   });
 
   it('isVat should be Y if param in onCheckBoxVat is "vat"', () => {

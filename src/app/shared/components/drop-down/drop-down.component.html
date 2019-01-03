@@ -1,11 +1,11 @@
 <div id="dropdown" class="btn-group" dropdown>
   <button dropdownToggle type="button" class="btn btn-list dropdown-toggle" aria-controls="dropdown-basic">
-    <span>{{currentSelect?.value}}</span>
+    <span>{{currentSelect?.name}}</span>
     <i class="fas fa-angle-down"></i>
   </button>
   <ul *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-basic">
     <li *ngFor="let source of listSources" role="menuitem">
-      <a (click)="selectItem(source)" class="dropdown-item">{{ source?.value }}</a>
+      <a (click)="selectItem(source)" class="dropdown-item">{{ source?.name }}</a>
     </li>
   </ul>
 </div>

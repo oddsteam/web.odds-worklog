@@ -14,7 +14,7 @@
            <td>{{users.email}}</td>
            <td>{{users?.site?.name !== null ? users?.site?.name : '-'}}</td>
            <td  class="text-center">
-              <app-tool-tip-site [userId]="users?.id"></app-tool-tip-site>
+              <app-tool-tip-site [listSources]="sites" [userId]="users?.id"></app-tool-tip-site>
             </td>
          </tr>
        </tbody>

@@ -1,3 +1,4 @@
+import { Site } from './../shared/model/site';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
@@ -176,8 +177,8 @@ export class WorklogApiService {
         });
     }
 
-    getSitesData(): Observable<any> {
-        return this.http.get(`${this.apiPath}sites`, {
+    getSitesData(): Observable<Site[]> {
+        return this.http.get<Site[]>(`${this.apiPath}sites`, {
             headers: new HttpHeaders({
                 Authorization: sessionStorage.getItem('token')
             })
