@@ -4,15 +4,14 @@ import { Router } from '@angular/router';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
 import { User } from 'src/app/shared/model/user';
 import { MyFile } from './file';
-import { environment } from 'src/environments/environment';
 import { FileService } from 'src/app/core/file.service';
 
 @Component({
-  selector: 'app-edit-profile',
-  templateUrl: './edit-profile.component.html',
-  styleUrls: ['./edit-profile.component.scss']
+  selector: 'app-profile',
+  templateUrl: './profile.component.html',
+  styleUrls: ['./profile.component.scss']
 })
-export class EditProfileComponent implements OnInit {
+export class ProfileComponent implements OnInit {
   profileForm: FormGroup;
   fileForm: FormGroup;
   id = sessionStorage.getItem('idUser');

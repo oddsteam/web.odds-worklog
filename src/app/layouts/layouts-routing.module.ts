@@ -10,7 +10,7 @@ const routes: Routes = [
             {
                 path: 'profile',
                 loadChildren:
-                '../pages/edit-profile/edit-profile.module#EditProfileModule',
+                '../pages/profile/profile.module#ProfileModule',
             },
             {
                 path: 'corporate',

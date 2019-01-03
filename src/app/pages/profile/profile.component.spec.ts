@@ -8,18 +8,18 @@ import { WorklogApiService } from 'src/app/core/worklog-api.service';
 import { DropDownComponent } from 'src/app/shared/components/drop-down/drop-down.component';
 import { Site } from 'src/app/shared/model/site';
 import { User } from 'src/app/shared/model/user';
-import { EditProfileComponent } from './edit-profile.component';
+import { ProfileComponent } from './profile.component';
 import { FileService } from 'src/app/core/file.service';
 
 
-describe('EditProfileComponent', () => {
-  let component: EditProfileComponent;
-  let fixture: ComponentFixture<EditProfileComponent>;
+describe('ProfileComponent', () => {
+  let component: ProfileComponent;
+  let fixture: ComponentFixture<ProfileComponent>;
   let worklogApiService: WorklogApiService;
   let fileService: FileService;
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [EditProfileComponent, DropDownComponent],
+      declarations: [ProfileComponent, DropDownComponent],
       imports: [ReactiveFormsModule, HttpClientTestingModule, FormsModule
         , RouterTestingModule, NgbModule.forRoot()],
       providers: []
@@ -28,7 +28,7 @@ describe('EditProfileComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(EditProfileComponent);
+    fixture = TestBed.createComponent(ProfileComponent);
     worklogApiService = TestBed.get(WorklogApiService);
     fileService = TestBed.get(FileService);
     component = fixture.componentInstance;
