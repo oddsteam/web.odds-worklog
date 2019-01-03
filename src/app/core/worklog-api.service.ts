@@ -20,14 +20,9 @@ export class WorklogApiService {
     getCustomerId = new BehaviorSubject<string>(null);
     getProductOwnerId = new BehaviorSubject<string>(null);
 
-    // user test
-    private corporateId = '5bde550643b39700012727f2';
-    private individualId = '5bde4e2e1a044b8c9ce44fe4';
-    private testMongo = '5bf6be9d4d844cb8f8465475';
     id = sessionStorage.getItem('idUser');
     private userId = this.id;
     readonly apiPath = environment.api;
-    private token = sessionStorage.getItem('token');
     individualListed: ListIncomeResponse;
     corporateListed: ListIncomeResponse;
 
@@ -38,11 +33,6 @@ export class WorklogApiService {
     getIndividualListed = () => this.individualListed;
 
     getCorporateListed = () => this.corporateListed;
-    /*
-      user test
-          corporate  id = 5bde550643b39700012727f2
-          individual id = 5bde4e2e1a044b8c9ce44fe4
-      */
 
     forCheckTokenPleaseRemoveMeIfFlowLoginFinnished(): Observable<any> {
         return Observable.create(observer => {
