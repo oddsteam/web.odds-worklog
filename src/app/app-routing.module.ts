@@ -9,11 +9,6 @@ const routes: Routes = [
         canActivate: [AuthGuard]
     },
     {
-        path: '**',
-        loadChildren: './layouts/layouts.module#LayoutsModule',
-        canActivate: [AuthGuard]
-    },
-    {
         path: 'login',
         loadChildren: './layouts/login-layout/login-layout.module#LoginLayoutModule',
     },
