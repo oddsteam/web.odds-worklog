@@ -22,7 +22,7 @@
           <td>
             <a class="link" href="javascript:void(0)" (click)="goToInvoicePage(productOwner?.id)">{{productOwner?.name}}</a>
           </td>
-          <td>{{productOwner?.amount}}</td>
+          <td>{{formatCurrency(productOwner?.amount)}}</td>
           <td>
             <a class="edit-link" href="javascript:void(0)" (click)="onEditProductOwner(productOwner?.id)">Edit</a>
             <span class="d-mark">|</span>

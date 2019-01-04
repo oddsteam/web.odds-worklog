@@ -1,3 +1,4 @@
+import { NumberUtil } from 'src/app/shared/utils/number.util';
 import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
 import { InvoiceModel } from 'src/app/shared/model/invoice-model';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -72,12 +73,12 @@ export class InvoiceComponent implements OnInit {
       const body = {
         poId: this.poId,
         invoiceNo: this.invoiceNo,
-        amount: this.fg.get('amount').value
+        amount: this.fg.get('amount').value.replace(/,/g, '')
       };
       this.invoiceService.createNewInvoice(body).subscribe(data => {
         this.closeModal();
         this.onReset();
-      }, err => console.log(err));
+      }, err => alert(err.error.message));
     } else {
       alert('กรุณากรอกข้อมมูลให้ครบถ้วน');
     }
@@ -85,7 +86,9 @@ export class InvoiceComponent implements OnInit {
 
   onUpdate() {
     if (this.fg.valid) {
-      this.invoiceService.updateInvoice(this.invoiceId, this.fg.value).subscribe(response => {
+      const invoice = this.fg.value;
+      invoice.amount = NumberUtil.formatInteger(invoice.amount);
+      this.invoiceService.updateInvoice(this.invoiceId, invoice).subscribe(response => {
         this.closeModal();
         this.getInvoiceData();
         this.showMessage = true;
@@ -95,7 +98,7 @@ export class InvoiceComponent implements OnInit {
           invoiceNo: this.invoiceNo,
           amount: ''
         });
-      }, err => console.log(err));
+      }, err => alert(err.error.message));
     } else {
       alert('กรุณากรอกข้อมมูลให้ครบถ้วน');
     }
@@ -139,7 +142,7 @@ export class InvoiceComponent implements OnInit {
       this.fg.setValue({
         poId: response['poId'],
         invoiceNo: response['invoiceNo'],
-        amount: response['amount']
+        amount: this.formatCurrency(response['amount'])
       });
     });
     this.openModal(this.templateModal);
@@ -149,7 +152,11 @@ export class InvoiceComponent implements OnInit {
     this.invoiceService.deleteInvoice(invoiceId).subscribe(response => {
       this.getInvoiceData();
       this.showMessage = true;
-    }, err => console.log(err));
+    }, err => alert(err.error.message));
+  }
+
+  formatCurrency(amount: string): string {
+    return NumberUtil.formatCurrency(amount);
   }
 
 }

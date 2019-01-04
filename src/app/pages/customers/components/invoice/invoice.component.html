@@ -22,7 +22,7 @@
           <td>
             {{data?.invoiceNo}}
           </td>
-          <td>{{data?.amount}}</td>
+          <td>{{formatCurrency(data?.amount)}}</td>
           <td>
             <a class="edit-link" href="javascript:void(0)" (click)="onEditInvoice(data?.id)">Edit</a>
             <span class="d-mark">|</span>

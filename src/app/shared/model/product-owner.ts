@@ -4,5 +4,5 @@ export class ProductOwner {
   name: string;
   create: string;
   lastUpdate: string;
-  amount: number;
+  amount: string;
 }

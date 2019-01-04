@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
 import { ProductOwner } from 'src/app/shared/model/product-owner';
+import { NumberUtil } from 'src/app/shared/utils/number.util';
 
 @Component({
   selector: 'app-product-owner',
@@ -43,6 +44,7 @@ export class ProductOwnerComponent implements OnInit {
   getProductOwnerData() {
     this.worklogApiService.getProductOwnerResponse(this.customerId).subscribe(res => {
       this.productOwner = res;
+      console.log(res);
     });
   }
 
@@ -79,14 +81,15 @@ export class ProductOwnerComponent implements OnInit {
     if (this.formGroupProductOw.valid) {
       const body = {
         customerId: this.customerId,
-        name: this.formGroupProductOw.get('name').value
+        name: this.formGroupProductOw.get('name').value,
+        amount: this.formGroupProductOw.get('amount').value.replace(/,/g, '')
       };
       this.worklogApiService.saveProductOwner(body).subscribe(data => {
         this.closeModal();
         this.getProductOwnerData();
         this.formGroupProductOw.reset();
         this.showMessage = true;
-      });
+      }, err => alert(err.error.message));
     } else {
       alert('กรุณากรอกข้อมมูลให้ครบถ้วน');
     }
@@ -94,12 +97,14 @@ export class ProductOwnerComponent implements OnInit {
 
   onUpdate() {
     if (this.formGroupProductOw.valid) {
-      this.worklogApiService.updateProductOwner(this.poId, this.formGroupProductOw.value).subscribe(response => {
+      const po: ProductOwner = this.formGroupProductOw.value;
+      po.amount = this.formatInteger(po.amount);
+      this.worklogApiService.updateProductOwner(this.poId, po).subscribe(response => {
         this.closeModal();
         this.getProductOwnerData();
         this.formGroupProductOw.reset();
         this.showMessage = true;
-      }, err => console.log(err));
+      }, err => alert(err.error.message));
     } else {
       alert('กรุณากรอกข้อมมูลให้ครบถ้วน');
     }
@@ -117,7 +122,7 @@ export class ProductOwnerComponent implements OnInit {
       this.formGroupProductOw.setValue({
         customerId: response['customerId'],
         name: response['name'],
-        amount: '100000'
+        amount: this.formatCurrency(response['amount'])
       });
     });
     this.openModal(this.templateModal);
@@ -127,7 +132,7 @@ export class ProductOwnerComponent implements OnInit {
     this.worklogApiService.deleteProductOwner(id).subscribe(data => {
       this.getProductOwnerData();
       this.showMessage = true;
-    });
+    }, err => alert(err.error.message));
   }
 
   onKeyAmount() {
@@ -137,18 +142,12 @@ export class ProductOwnerComponent implements OnInit {
     this.amountValue.setValue(realFormat);
   }
 
-  formatInteger(data: string): string {
-    data = data.replace(/[^0-9.]/g, '');
-    data = data.indexOf(',') !== -1 ? data.replace(/,/g, '') : data;
-    return data;
+  formatInteger(amount: string): string {
+    return NumberUtil.formatInteger(amount);
   }
 
-  formatCurrency(Result: string): string {
-    Result = Result.substring(0, 9);
-    Result = Result.replace(/^(\d+)(\d{3})/, '$1,$2');
-    Result = Result.replace(/^(\d+)(\d{3})/, '$1,$2');
-    Result = Result.replace(/^(\d+)(\d{3})/, '$1,$2');
-    return Result;
+  formatCurrency(amount: string): string {
+    return NumberUtil.formatCurrency(amount);
   }
 
   get amountValue(): AbstractControl {
