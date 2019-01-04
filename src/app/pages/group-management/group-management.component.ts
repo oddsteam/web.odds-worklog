@@ -10,18 +10,20 @@ import { User } from '../../shared/model/user';
   styleUrls: ['./group-management.component.scss']
 })
 export class GroupManagementComponent implements OnInit {
-  sites: Site[] = [];
+  sites: ListSite[] = [];
   path = 'all';
   constructor(private worklogAPIService: WorklogApiService,
     private router: Router,
     private activatedRoute: ActivatedRoute
   ) { }
+
   ngOnInit() {
     this.activatedRoute.params.subscribe(param => {
       this.path = param.id;
     });
     this.getSitesData();
   }
+
   getSitesData() {
     this.worklogAPIService.getSitesData().subscribe((res) => {
       res.forEach(value => {
@@ -29,6 +31,7 @@ export class GroupManagementComponent implements OnInit {
           const site = new ListSite();
           site.id = value.id;
           site.name = value.name;
+          site.color = value.color;
           site.length = data.length;
           site.users = data;
           this.sites.push(site);
@@ -43,11 +46,7 @@ export class GroupManagementComponent implements OnInit {
   }
 
   checkPath() {
-    if (this.path === 'all') {
-      return true;
-    } else {
-      return false;
-    }
+    return this.path === 'all';
   }
 
 }

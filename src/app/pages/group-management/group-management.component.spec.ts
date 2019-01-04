@@ -5,7 +5,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { of } from 'rxjs';
 import { WorklogApiService } from '../../core/worklog-api.service';
 import { GroupManagementComponent } from './group-management.component';
-import { TableListUserBySiteComponent } from './component/table-list-user-by-site/table-list-user-by-site.component';
+import { TableListUserBySiteComponent } from './components/table-list-user-by-site/table-list-user-by-site.component';
 
 
 describe('GroupManagementComponent', () => {
