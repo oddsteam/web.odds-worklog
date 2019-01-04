@@ -16,27 +16,31 @@ export class FirstLoginComponent implements OnInit {
   siteList: Site[];
   vatList = [
     {
-      value: true,
-      name: 'vat'
+      value: 'Y',
+      name: 'vat',
+      isCheck: false
     },
     {
-      value: false,
-      name: 'non-vat'
+      value: 'N',
+      name: 'non-vat',
+      isCheck: true
     },
   ];
   roles = [
     {
-      value: true,
-      name: 'บุคคลธรรมดา'
+      value: 'individual',
+      name: 'Individual',
+      isCheck: true
     },
     {
-      value: false,
-      name: 'นิติบุคคล'
+      value: 'corporate',
+      name: 'Corporate',
+      isCheck: false
     }
   ];
   role = 'individual';
   vat = 'N';
-  isCheckRole = true;
+  isCorporate = false;
 
   constructor(private fb: FormBuilder,
     private worklogService: WorklogApiService,
@@ -57,7 +61,7 @@ export class FirstLoginComponent implements OnInit {
       slackAccount: ['', Validators.email],
       role: [true, Validators.required],
       vat: [true, Validators.required],
-      siteId: ['กรุณาเลือก site ที่อยู่', Validators.required],
+      siteId: ['select site', Validators.required],
       project: ['']
     });
   }
@@ -74,7 +78,7 @@ export class FirstLoginComponent implements OnInit {
       && slackAccount
       && role
       && vat
-      && (siteId !== 'กรุณาเลือก site ที่อยู่')
+      && (siteId !== 'select site')
     ) {
       this.user = new User();
       this.user.firstName = firstName;
@@ -88,7 +92,7 @@ export class FirstLoginComponent implements OnInit {
       this.user.project = project;
       this.updateUser();
     } else {
-      alert('กรุณากรอกข้อมูลให้ครบ');
+      alert('Please complete the information.');
     }
   }
 
@@ -106,35 +110,28 @@ export class FirstLoginComponent implements OnInit {
         });
   }
 
-  onCheckBoxVat(vatName) {
-    this.vat = (vatName === 'non-vat') ? 'N' : 'Y';
-
-    this.vatList.map(data => {
-      if (data.name !== vatName) {
-        data.value = false;
-      } else {
-        data.value = true;
-
-      }
+  onCheckBoxVat(vat: string) {
+    this.vat = vat;
+    this.vatList.map(val => {
+      val.isCheck = (vat === val.value);
     });
   }
 
-  onCheckBoxRole(role) {
-    this.role = (role === 'บุคคลธรรมดา') ? 'individual' : 'corporate';
-    this.isCheckRole = (role === 'บุคคลธรรมดา') ? true : false;
-    this.vat = (this.isCheckRole === true) ? 'N' : 'Y';
-    this.roles.map(data => {
-      if (data.name !== role) {
-        data.value = false;
-      } else {
-        data.value = true;
-      }
+  onCheckBoxRole(role: string) {
+    this.role = role;
+    this.roles.map(val => {
+      val.isCheck = (role === val.value);
     });
+    this.isCorporate = (role === 'corporate');
+    this.onCheckBoxVat(!this.isCorporate ? 'N' : 'Y');
   }
 
   getListSite() {
     this.worklogService.getSitesData().subscribe((res) => {
       this.siteList = res;
-    });
+    },
+      error => {
+        this.router.navigate(['login']);
+      });
   }
 }
