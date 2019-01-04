@@ -1,18 +1,19 @@
-<table class="table table-hover" *ngIf="ListData; else ContentLoader">
-  <thead>
-    <tr>
-      <th class="text-left pl-4">ชื่อ-สกุล(อังกฤษ)</th>
-      <th class="text-left">E-mail</th>
-      <th class="text-left">ชื่อบัญชี</th>
-      <th class="text-center">เลขที่บัญชี</th>
-      <th class="text-left">วันที่กรอก</th>
-      <th class="text-center status-sort" (click)="setOrder()">
-        สถานะ <i [ngClass]="swapArrowIconSort ? 'fa fa-caret-up' : 'fa fa-caret-down'"></i>
-      </th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
+<div class="table-responsive">
+  <table class="table table-hover" *ngIf="ListData; else ContentLoader">
+    <thead>
+      <tr>
+        <th class="text-left pl-4">ชื่อ-สกุล(อังกฤษ)</th>
+        <th class="text-left">E-mail</th>
+        <th class="text-left">ชื่อบัญชี</th>
+        <th class="text-center">เลขที่บัญชี</th>
+        <th class="text-left">วันที่กรอก</th>
+        <th class="text-center status-sort" (click)="setOrder()">
+          สถานะ <i [ngClass]="swapArrowIconSort ? 'fa fa-caret-up' : 'fa fa-caret-down'"></i>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
         <td class="text-left pl-4">{{ ListData[0].user?.firstName + ' ' + ListData[0].user?.lastName }}</td>
         <td class="text-left">{{ ListData[0].user?.email }}</td>
         <td class="text-left">{{ ListData[0].user?.bankAccountName }}</td>
@@ -27,25 +28,26 @@
         <td class="text-center" appStatusHighlight [Status]="ListData[0]?.status">
           {{ ListData[0]?.status === "Y" ? "กรอกแล้ว" : "ยังไม่ได้กรอก" }}
         </td>
-    </tr>
-    <tr *ngFor="let listData of ListData | slice : 1 : ListData.length | orderBy: order:swapArrowIconSort:'case-insensitive'">
-      <td class="text-left pl-4">{{ listData.user?.firstName + ' ' + listData.user?.lastName }}</td>
-      <td class="text-left">{{ listData.user?.email }}</td>
-      <td class="text-left">{{ listData.user?.bankAccountName }}</td>
-      <td class="text-center">{{ listData.user?.bankAccountNumber }}</td>
-      <td class="text-left">
-        {{
-        listData?.submitDate == ""
-        ? "-"
-        : (listData?.submitDate | date: "dd/MM/yyyy HH:mm:ss")
-        }}
-      </td>
-      <td class="text-center" appStatusHighlight [Status]="listData?.status">
-        {{ listData?.status === "Y" ? "กรอกแล้ว" : "ยังไม่ได้กรอก" }}
-      </td>
-    </tr>
-  </tbody>
-</table>
+      </tr>
+      <tr *ngFor="let listData of ListData | slice : 1 : ListData.length | orderBy: order:swapArrowIconSort:'case-insensitive'">
+        <td class="text-left pl-4">{{ listData.user?.firstName + ' ' + listData.user?.lastName }}</td>
+        <td class="text-left">{{ listData.user?.email }}</td>
+        <td class="text-left">{{ listData.user?.bankAccountName }}</td>
+        <td class="text-center">{{ listData.user?.bankAccountNumber }}</td>
+        <td class="text-left">
+          {{
+          listData?.submitDate == ""
+          ? "-"
+          : (listData?.submitDate | date: "dd/MM/yyyy HH:mm:ss")
+          }}
+        </td>
+        <td class="text-center" appStatusHighlight [Status]="listData?.status">
+          {{ listData?.status === "Y" ? "กรอกแล้ว" : "ยังไม่ได้กรอก" }}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 <ng-template #ContentLoader>
   <div *ngIf="isNoData" class="text-center">ไม่มีข้อมูล</div>
   <list-content-loader *ngIf="isShowLoading" [width]="300" [speed]="1" [secondaryColor]="'#F0F0F0'" [primaryColor]="'#A1A1A1'"></list-content-loader>
