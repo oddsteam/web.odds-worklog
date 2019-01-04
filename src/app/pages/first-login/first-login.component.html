@@ -8,35 +8,35 @@
 
         <div class="d-flex flex-column align-items-center px-3">
           <div class="col-10 pb-3">
-            <label for="FirstName">First Name (English):</label>
+            <label for="FirstName">First Name (English)</label>
             <div class="d-flex justify-content-start form-group">
               <input id="FirstName" class="form-control" maxlength="20" placeholder="Fill first name" type="text" formControlName="firstName" />
             </div>
-            <label for="LastName">Last Name (English):</label>
+            <label for="LastName">Last Name (English)</label>
             <div class="d-flex justify-content-start form-group">
               <input id="LastName" class="form-control" maxlength="20" placeholder="Fill last name" type="text" formControlName="lastName" />
             </div>
           </div>
           <div class="form-group col-10">
-            <label for="bankAccountName">Account Name (Thai):</label>
+            <label for="bankAccountName">Account Name (Thai)</label>
             <input id="bankAccountName" class="form-control" maxlength="40" placeholder="Fill account name" type="text"
               formControlName="bankAccountName" />
           </div>
 
           <div class="form-group col-10">
-            <label for="bankAccountNumber">Account Number (9-16 digits):</label>
+            <label for="bankAccountNumber">Account Number (9-16 digits)</label>
             <input id="bankAccountNumber" class="form-control" maxlength="16" placeholder="Fill account number" type="text"
               formControlName="bankAccountNumber" />
           </div>
 
           <div class="form-group col-10">
-            <label for="slackAccount">Slack account (Email):</label>
+            <label for="slackAccount">Slack account (Email)</label>
             <input id="slackAccount" class="form-control" maxlength="30" placeholder="Fill slack account (Email)" type="text"
               formControlName="slackAccount" />
           </div>
 
           <div class="col-10 pb-3">
-            <div>User Type:</div>
+            <div>User Type</div>
             <div class="d-flex justify-content-start">
               <div class="checkbox col-auto" *ngFor="let role of roles">
                 <label><input type="checkbox" [checked]="role.isCheck" (change)="onCheckBoxRole(role.value)"
@@ -45,7 +45,7 @@
             </div>
           </div>
           <div class="col-10 pb-3" *ngIf="isCorporate">
-            <div>Select Vat:</div>
+            <div>Select Vat</div>
             <div class="d-flex justify-content-start">
               <div class="checkbox col-auto" *ngFor="let vat of vatList">
                 <label><input type="checkbox" [checked]="vat.isCheck" (change)="onCheckBoxVat(vat.value)"
@@ -54,14 +54,14 @@
             </div>
           </div>
           <div class="col-10 pb-3">
-            <div>Site:</div>
+            <div>Site</div>
             <select id="siteId" name="siteId" class="browser-default custom-select form-control" formControlName="siteId">
               <option selected>select site</option>
               <option *ngFor="let s of siteList" [value]="s.id">{{s.name}}</option>
             </select>
           </div>
           <div class="form-group col-10">
-            <label for="project">Project or team:</label>
+            <label for="project">Project or team</label>
             <input id="project" class="form-control" maxlength="30" placeholder="Fill project or team" type="text"
               formControlName="project" />
           </div>

@@ -53,13 +53,13 @@ export class LoginGoogleComponent implements OnInit {
 
   private isOddsTeam(email: string): boolean {
     if (!email || email.length < 10) {
-      alert('อีเมลไม่ถูกต้องครับ');
+      alert('Email is invalid.');
       return false;
     }
 
     const host = email.slice(-10);
     if (host !== '@odds.team') {
-      alert('ไม่ใช่บัญชีของ odds.team ไม่สามารถเข้าใช้งานได้นะครับ ^_^');
+      alert(`Sorry, account isn't Odds Team.`);
       return false;
     }
 
