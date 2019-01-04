@@ -7,14 +7,14 @@
       <h5 class="mt-2 ml-2">Customers Profile</h5>
     </div>
     <div>
-      <button class="btn btn-blue" type="button" (click)="onAddCustomer()">เพิ่มข้อมูล</button>
+      <button class="btn btn-blue" type="button" (click)="onAddCustomer()">Add</button>
     </div>
   </div>
   <div>
     <table class="table">
       <thead>
-        <th class="text-left">ชื่อ</th>
-        <th>ที่อยู่</th>
+        <th class="text-left">Name</th>
+        <th>Address</th>
         <th></th>
       </thead>
       <tbody *ngIf="customers?.length !== 0">
@@ -33,7 +33,7 @@
       <tbody *ngIf="customers?.length === 0">
         <tr>
           <td colspan="100%" class="text-center">
-            ยังไม่มีข้อมูล
+            No data.
           </td>
         </tr>
       </tbody>
@@ -43,8 +43,8 @@
 
 <ng-template #templateModal>
   <div class="modal-header">
-    <h4 *ngIf="!updateFlag" class="modal-title" id="modal-basic-title">เพิ่มข้อมูล Customer</h4>
-    <h4 *ngIf="updateFlag" class="modal-title" id="modal-basic-title">แก้ไขข้อมูล Customer</h4>
+    <h4 *ngIf="!updateFlag" class="modal-title" id="modal-basic-title">Add Customer</h4>
+    <h4 *ngIf="updateFlag" class="modal-title" id="modal-basic-title">Edit Customer</h4>
     <button type="button" class="close btn-close" aria-label="Close" (click)="closeModal()">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -52,11 +52,11 @@
   <div class="modal-body mx-sm-5">
     <form [formGroup]="formGroupCustomer">
       <div class="form-group my-2">
-        <label>ชื่อบริษัท : </label>
+        <label>Name</label>
         <input id="name" type="text" class="form-control" formControlName="name">
       </div>
       <div class="form-group">
-        <label>ที่อยู่(สำนักงานใหญ่) :</label>
+        <label>Address</label>
         <textarea id="address" type="text" class="form-control" formControlName="address"></textarea>
       </div>
     </form>
