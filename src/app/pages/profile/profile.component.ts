@@ -1,3 +1,4 @@
+import { StateService } from 'src/app/core/state.service';
 import { Site } from 'src/app/shared/model/site';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
@@ -43,7 +44,8 @@ export class ProfileComponent implements OnInit {
     private formBuilder: FormBuilder,
     private worklogApiService: WorklogApiService,
     private router: Router,
-    private fileService: FileService
+    private fileService: FileService,
+    private stateService: StateService
   ) { }
 
   ngOnInit() {
@@ -69,23 +71,27 @@ export class ProfileComponent implements OnInit {
   }
 
   getData() {
-    this.worklogApiService.getUserByID(this.id).subscribe(data => {
-      this.userInfo = data;
-      this.personType = data.role;
-      this.firstNameForm.setValue(data.firstName);
-      this.lastNameForm.setValue(data.lastName);
-      this.emailForm.setValue(data.email);
-      this.bankAccountForm.setValue(data.bankAccountName);
-      this.bankAccountNumberForm.setValue(data.bankAccountNumber);
-      this.slackAccount.setValue(data.slackAccount);
-      this.project.setValue(data.project);
-      this.isVat = data.vat;
-      if (data.vat === 'N') {
-        this.vatList[0].value = false;
-        this.vatList[1].value = true;
-      }
-      this.getNameSite();
+    this.worklogApiService.getUserByID(this.id).subscribe(user => {
+      this.setDataUser(user);
     });
+  }
+
+  private setDataUser(user: User) {
+    this.userInfo = user;
+    this.personType = user.role;
+    this.firstNameForm.setValue(user.firstName);
+    this.lastNameForm.setValue(user.lastName);
+    this.emailForm.setValue(user.email);
+    this.bankAccountForm.setValue(user.bankAccountName);
+    this.bankAccountNumberForm.setValue(user.bankAccountNumber);
+    this.slackAccount.setValue(user.slackAccount);
+    this.project.setValue(user.project);
+    this.isVat = user.vat;
+    if (user.vat === 'N') {
+      this.vatList[0].value = false;
+      this.vatList[1].value = true;
+    }
+    this.getNameSite();
   }
 
   getNameSite() {
@@ -97,7 +103,14 @@ export class ProfileComponent implements OnInit {
 
   updateData() {
     this.setDataToModel();
-    this.worklogApiService.updateUser(this.id, this.userInfo).subscribe();
+    this.worklogApiService.updateUser(this.id, this.userInfo).subscribe(user => {
+      this.setDataUser(user);
+      this.triggerHeader();
+      this.alertSuccess();
+    });
+  }
+
+  private alertSuccess() {
     this.showSuccessMessage = true;
     this.successMessage = 'Saved';
     setTimeout(() => {
@@ -145,17 +158,16 @@ export class ProfileComponent implements OnInit {
         if (message) {
           this.onReset();
         }
-      }, err =>
-          console.log(err));
+      }, err => alert('Upload Transcript failed.'));
     } else {
       this.fileService.uploadImageProfile(file).subscribe(response => {
+        this.triggerHeader();
         const message = response['message'];
         alert(message);
         if (message) {
           this.onReset();
         }
-      }, err =>
-          console.log(err));
+      }, err => alert('Upload image profile failed.'));
     }
   }
 
@@ -164,14 +176,12 @@ export class ProfileComponent implements OnInit {
       const fileName = this.getTranscriptFile.fileName;
       this.fileService.downloadTranscriptFile().subscribe(response => {
         this.downloadFile(response, fileName);
-      }, err =>
-          console.log(err));
+      }, err => alert('Download Transcript failed.'));
     } else {
       const fileName = this.getImageFile.fileName;
       this.fileService.downloadImageProFile().subscribe(response => {
         this.downloadFile(response, fileName);
-      }, err =>
-          console.log(err));
+      }, err => alert('Download image profile failed.'));
     }
   }
 
@@ -181,15 +191,14 @@ export class ProfileComponent implements OnInit {
         alert(response['message']);
         this.onReset();
         this.transcriptFile = null;
-      }, err =>
-          console.log(err));
+      }, err => alert('Remove Transcript failed.'));
     } else {
       this.fileService.removeImage().subscribe(response => {
         alert(response['message']);
         this.onReset();
         this.imageFile = null;
-      }, err =>
-          console.log(err));
+        this.triggerHeader();
+      }, err => alert('Remove image profile failed.'));
     }
   }
 
@@ -290,5 +299,9 @@ export class ProfileComponent implements OnInit {
 
   get project(): FormControl {
     return this.profileForm.get('project') as FormControl;
+  }
+
+  private triggerHeader() {
+    this.stateService.triggerHeader();
   }
 }

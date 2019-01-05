@@ -10,6 +10,7 @@ export class StateService {
   isVatType = new BehaviorSubject<string>(null);
   listIncomeCorporateTrigger = new BehaviorSubject<boolean>(null);
   listIncomeIndividualTrigger = new BehaviorSubject<boolean>(null);
+  headerTrigger = new BehaviorSubject<boolean>(null);
 
   constructor() { }
 
@@ -31,5 +32,9 @@ export class StateService {
 
   triggerListIncomeIndividual() {
     this.listIncomeIndividualTrigger.next(true);
+  }
+
+  triggerHeader() {
+    this.headerTrigger.next(true);
   }
 }

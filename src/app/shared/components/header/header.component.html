@@ -1,13 +1,14 @@
 <div class="d-flex">
   <div class="d-flex profile">
-    <i class="fa fa-user-circle fa-2x mr-2" aria-hidden="true"></i>
+    <img [src]="imageProfile" *ngIf="imageProfile">
+    <i class="fa fa-user-circle fa-3x mr-2" aria-hidden="true" *ngIf="!imageProfile"></i>
     <span>{{ name }}</span>
   </div>
   <div class="text-right">
     <a class="link" href="javascript:void(0)" (click)="exportTavi50()"><i class="fa fa-file mr-1" aria-hidden="true"></i>
-    ใบทวิ 50</a>
+      ใบทวิ 50</a>
     | <a class="link" href="javascript:void(0)" (click)="logout()">LOGOUT
-    <i class="fa fa-sign-out-alt ml-1" aria-hidden="true"></i></a>
+      <i class="fa fa-sign-out-alt ml-1" aria-hidden="true"></i></a>
   </div>
 </div>
 <hr />
