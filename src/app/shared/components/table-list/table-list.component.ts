@@ -47,4 +47,8 @@ export class TableListComponent implements OnInit, OnDestroy, OnChanges {
         this.swapArrowIconSort = !this.swapArrowIconSort;
     }
 
+    checkValue(data: string): string {
+        return data.trim() === '' ? '-' : data.trim();
+    }
+
 }

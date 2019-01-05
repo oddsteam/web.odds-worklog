@@ -2,23 +2,23 @@
   <table class="table table-hover" *ngIf="ListData; else ContentLoader">
     <thead>
       <tr>
-        <th class="text-left pl-4">Name</th>
-        <th class="text-left">E-mail</th>
-        <th class="text-left">Account Name</th>
-        <th class="text-center">Account Number</th>
-        <th class="text-left">Submit Date</th>
-        <th class="text-center status-sort" (click)="setOrder()">
+        <th class="text-left align-middle">Name</th>
+        <th class="text-left align-middle">E-mail</th>
+        <th class="text-left align-middle">Account Name</th>
+        <th class="text-left align-middle">Account Number</th>
+        <th class="text-center align-middle">Submit Date</th>
+        <th class="text-center align-middle status-sort" (click)="setOrder()">
           Status <i [ngClass]="swapArrowIconSort ? 'fa fa-caret-up' : 'fa fa-caret-down'"></i>
         </th>
       </tr>
     </thead>
     <tbody>
       <tr>
-        <td class="text-left pl-4">{{ ListData[0].user?.firstName + ' ' + ListData[0].user?.lastName }}</td>
-        <td class="text-left">{{ ListData[0].user?.email }}</td>
-        <td class="text-left">{{ ListData[0].user?.bankAccountName }}</td>
-        <td class="text-center">{{ ListData[0].user?.bankAccountNumber }}</td>
-        <td class="text-left">
+        <td class="text-left">{{ checkValue(ListData[0].user?.firstName + ' ' + ListData[0].user?.lastName) }}</td>
+        <td class="text-left">{{ checkValue(ListData[0].user?.email) }}</td>
+        <td class="text-left">{{ checkValue(ListData[0].user?.bankAccountName) }}</td>
+        <td class="text-left">{{ checkValue(ListData[0].user?.bankAccountNumber) }}</td>
+        <td class="text-center">
           {{
           ListData[0]?.submitDate == ""
           ? "-"
@@ -30,11 +30,11 @@
         </td>
       </tr>
       <tr *ngFor="let listData of ListData | slice : 1 : ListData.length | orderBy: order:swapArrowIconSort:'case-insensitive'">
-        <td class="text-left pl-4">{{ listData.user?.firstName + ' ' + listData.user?.lastName }}</td>
-        <td class="text-left">{{ listData.user?.email }}</td>
-        <td class="text-left">{{ listData.user?.bankAccountName }}</td>
-        <td class="text-center">{{ listData.user?.bankAccountNumber }}</td>
-        <td class="text-left">
+        <td class="text-left">{{ checkValue(listData.user?.firstName + ' ' + listData.user?.lastName) }}</td>
+        <td class="text-left">{{ checkValue(listData.user?.email) }}</td>
+        <td class="text-left">{{ checkValue(listData.user?.bankAccountName) }}</td>
+        <td class="text-left">{{ checkValue(listData.user?.bankAccountNumber) }}</td>
+        <td class="text-center">
           {{
           listData?.submitDate == ""
           ? "-"
