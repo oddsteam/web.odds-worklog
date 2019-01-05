@@ -1,10 +1,12 @@
   .link-text {
       color: #00a499;
-      cursor: pointer;
       font-size: 30px;
   }
 
-  .link-text:hover {
-      color: #00a499;
-      text-decoration: underline;
+  .site-item {
+      cursor: pointer;
+  }
+
+  .site-item:hover {
+      background-color: #eee;
   }
