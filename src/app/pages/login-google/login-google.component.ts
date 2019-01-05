@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService, GoogleLoginProvider } from 'angular-6-social-login';
+import { forkJoin } from 'rxjs';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
 
 @Component({
@@ -40,6 +41,7 @@ export class LoginGoogleComponent implements OnInit {
         } else {
           this.router.navigate([res.user.role]);
         }
+        this.cacheData();
       } else {
         sessionStorage.setItem('token', 'Bearer ' + res.token);
         sessionStorage.setItem('idUser', res.user.id);
@@ -51,16 +53,28 @@ export class LoginGoogleComponent implements OnInit {
 
   private isOddsTeam(email: string): boolean {
     if (!email || email.length < 10) {
-      alert('อีเมลไม่ถูกต้องครับ');
+      alert('Email is invalid.');
       return false;
     }
 
     const host = email.slice(-10);
     if (host !== '@odds.team') {
-      alert('ไม่ใช่บัญชีของ odds.team ไม่สามารถเข้าใช้งานได้นะครับ ^_^');
+      alert(`Sorry, account isn't Odds Team.`);
       return false;
     }
 
     return true;
+  }
+
+  cacheData() {
+    const individualListed = this.worklogService.getListIncomeIndividual();
+    const corporateListed = this.worklogService.getListIncomeCorporate();
+
+    forkJoin([corporateListed, individualListed]).subscribe(
+      result => {
+        this.worklogService.corporateListed = result[0];
+        this.worklogService.individualListed = result[1];
+      }
+    );
   }
 }

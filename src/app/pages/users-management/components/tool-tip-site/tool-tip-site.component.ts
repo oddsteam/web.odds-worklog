@@ -6,20 +6,11 @@ import { Component, OnInit, Input, HostListener } from '@angular/core';
   styleUrls: ['./tool-tip-site.component.scss']
 })
 export class ToolTipSiteComponent implements OnInit {
-  @Input()
-  userId;
+  @Input() listSources;
+  @Input() userId;
   site: string;
   isShowTooltip = false;
   clickedElement = null;
-  dataListSite = [
-    { key: 'Default', value: 'No Site' },
-    { key: 'KTB', value: 'KTB' },
-    { key: 'SET', value: 'SET' },
-    { key: 'DTAC', value: 'DTAC' },
-    { key: 'SEC', value: 'SEC' },
-    { key: 'AIS', value: 'AIS' },
-    { key: 'KBTG', value: 'KBTG' },
-  ];
   constructor() { }
 
   ngOnInit() {

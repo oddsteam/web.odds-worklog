@@ -10,7 +10,7 @@ import { StateService } from '../core/state.service';
 import { WorklogApiService } from '../core/worklog-api.service';
 import { AddIncomeComponent } from '../shared/components/add-income/add-income.component';
 import { ModalIncomeComponent } from '../shared/components/modal-income/modal-income.component';
-import { ProfileComponent } from '../shared/components/profile/profile.component';
+import { HeaderComponent } from '../shared/components/header/header.component';
 import { TabMenuComponent } from '../shared/components/tab-menu/tab-menu.component';
 import { LayoutsComponent } from './layouts.component';
 
@@ -21,7 +21,7 @@ describe('LayoutsComponent', () => {
   // let mockUsers: Users;
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [LayoutsComponent, TabMenuComponent, ProfileComponent, AddIncomeComponent, ModalIncomeComponent],
+      declarations: [LayoutsComponent, TabMenuComponent, HeaderComponent, AddIncomeComponent, ModalIncomeComponent],
       imports: [CommonModule, ReactiveFormsModule, FormsModule, RouterTestingModule, HttpClientTestingModule
         , TranslateModule.forRoot({
           loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }

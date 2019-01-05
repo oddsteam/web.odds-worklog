@@ -14,12 +14,15 @@ import { ContentLoaderModule } from '@netbasal/content-loader';
 import { OrderModule } from 'ngx-order-pipe';
 import { BsDropdownModule } from 'ngx-bootstrap';
 import { DropDownComponent } from './components/drop-down/drop-down.component';
+import { RouterModule } from '@angular/router';
+import { MessageTooltipComponent } from './components/message-tooltip/message-tooltip.component';
 @NgModule({
   imports: [
     CommonModule,
     TranslateModule,
     NgbModule,
     FormsModule,
+    RouterModule,
     BsDropdownModule.forRoot(),
     ContentLoaderModule,
     OrderModule,
@@ -34,6 +37,7 @@ import { DropDownComponent } from './components/drop-down/drop-down.component';
     ModalIncomeComponent,
     AddIncomeComponent,
     DropDownComponent,
+    MessageTooltipComponent,
   ],
   exports: [
     StatusHighlightDirective,
@@ -49,6 +53,7 @@ import { DropDownComponent } from './components/drop-down/drop-down.component';
     AddIncomeComponent,
     BsDropdownModule,
     DropDownComponent,
+    MessageTooltipComponent,
   ]
 })
 export class SharedModule {

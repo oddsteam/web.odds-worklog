@@ -14,4 +14,6 @@ export class User {
     transcript: string;
     siteId: string;
     site: Site;
+    project: string;
+    imageProfile: string;
 }

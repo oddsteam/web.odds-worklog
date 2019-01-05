@@ -1,11 +1,12 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
+import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { FirstLoginComponent } from './first-login.component';
-import { WorklogApiService } from '../../core/worklog-api.service';
 import { of } from 'rxjs';
+import { WorklogApiService } from '../../core/worklog-api.service';
 import { Site } from '../../shared/model/site';
+import { FirstLoginComponent } from './first-login.component';
 
 describe('FirstLoginComponent', () => {
   let component: FirstLoginComponent;
@@ -24,7 +25,7 @@ describe('FirstLoginComponent', () => {
     fixture = TestBed.createComponent(FirstLoginComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    worklogapiService  = TestBed.get(WorklogApiService);
+    worklogapiService = TestBed.get(WorklogApiService);
   });
 
   it('should create', () => {
@@ -33,11 +34,17 @@ describe('FirstLoginComponent', () => {
 
   it('should call method submit', () => {
     component.ngOnInit();
-    component.loginForm.get('firstName').setValue('test');
-    component.loginForm.get('lastName').setValue('lastTest');
-    component.loginForm.get('bankAccountName').setValue('ทดสอบ');
-    component.loginForm.get('bankAccountNumber').setValue('1234567890');
-    component.loginForm.get('slackAccount').setValue('test@odds.team');
+    component.loginForm.setValue({
+      firstName: 'test',
+      lastName: 'lastTest',
+      bankAccountName: 'ทดสอบ',
+      bankAccountNumber: '1234567890',
+      slackAccount: 'test@odds.team',
+      role: 'individual',
+      vat: 'N',
+      siteId: 'DTAC',
+      project: ''
+    });
     spyOn(worklogapiService, 'updateUser').and.returnValue(of());
     component.submit();
     expect(component.user.firstName).toEqual('test');
@@ -45,6 +52,9 @@ describe('FirstLoginComponent', () => {
     expect(component.user.bankAccountName).toEqual('ทดสอบ');
     expect(component.user.bankAccountNumber).toEqual('1234567890');
     expect(component.user.slackAccount).toEqual('test@odds.team');
+    expect(component.user.role).toEqual('individual');
+    expect(component.user.vat).toEqual('N');
+    expect(component.user.siteId).toEqual('DTAC');
     expect(worklogapiService.updateUser).toHaveBeenCalled();
   });
 
@@ -78,4 +88,29 @@ describe('FirstLoginComponent', () => {
     expect(component.siteList[3].name).toEqual('KBTG');
     expect(component.siteList[4].name).toEqual('DTAC');
   });
+
+  it('when call updateUser() but role equal admin router navigate go to corporate  ', inject([Router], (router: Router) => {
+    const res = {
+      role: 'admin'
+    };
+    spyOn(worklogapiService, 'updateUser').and.returnValue(of(res));
+    spyOn(router, 'navigate');
+
+    component.updateUser();
+
+    expect(router.navigate).toHaveBeenCalledWith(['corporate']);
+  }));
+
+  it('when call updateUser() but role equal individual router navigate go to individual', inject([Router], (router: Router) => {
+    const res = {
+      role: 'individual'
+    };
+    spyOn(worklogapiService, 'updateUser').and.returnValue(of(res));
+    spyOn(router, 'navigate');
+
+    component.updateUser();
+
+    expect(router.navigate).toHaveBeenCalledWith(['individual']);
+  }));
+
 });

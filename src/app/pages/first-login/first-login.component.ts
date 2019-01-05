@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { WorklogApiService } from '../../core/worklog-api.service';
-import { User } from '../../shared/model/user';
 import { Site } from '../../shared/model/site';
+import { User } from '../../shared/model/user';
 
 @Component({
   selector: 'app-first-login',
@@ -16,27 +16,32 @@ export class FirstLoginComponent implements OnInit {
   siteList: Site[];
   vatList = [
     {
-      value: true,
-      name: 'vat'
+      value: 'Y',
+      name: 'vat',
+      isCheck: false
     },
     {
-      value: false,
-      name: 'non-vat'
+      value: 'N',
+      name: 'non-vat',
+      isCheck: true
     },
   ];
   roles = [
     {
-      value: true,
-      name: 'บุคคลธรรมดา'
+      value: 'individual',
+      name: 'Individual',
+      isCheck: true
     },
     {
-      value: false,
-      name: 'นิติบุคคล'
+      value: 'corporate',
+      name: 'Corporate',
+      isCheck: false
     }
   ];
   role = 'individual';
   vat = 'N';
-  isCheckRole = true;
+  isCorporate = false;
+
   constructor(private fb: FormBuilder,
     private worklogService: WorklogApiService,
     private router: Router,
@@ -56,29 +61,42 @@ export class FirstLoginComponent implements OnInit {
       slackAccount: ['', Validators.email],
       role: [true, Validators.required],
       vat: [true, Validators.required],
-      siteId: ['กรุณาเลือก site ที่อยู่', Validators.required]
+      siteId: ['select site', Validators.required],
+      project: ['']
     });
   }
 
   submit() {
-    if (this.loginForm.valid === true
-      && this.loginForm.controls.role.value === true
-      && this.loginForm.controls.vat.value === true
+    // tslint:disable-next-line:max-line-length
+    const { firstName, lastName, bankAccountName, bankAccountNumber, slackAccount, role, vat, siteId, project } = this.loginForm.getRawValue();
+
+    // tslint:disable-next-line:max-line-length
+    if (firstName
+      && lastName
+      && bankAccountName
+      && bankAccountNumber
+      && slackAccount
+      && role
+      && vat
+      && (siteId !== 'select site')
     ) {
       this.user = new User();
-      this.user.firstName = this.loginForm.get('firstName').value;
-      this.user.lastName = this.loginForm.get('lastName').value;
-      this.user.bankAccountName = this.loginForm.get('bankAccountName').value;
-      this.user.bankAccountNumber = this.loginForm.get('bankAccountNumber').value;
-      this.user.slackAccount = this.loginForm.get('slackAccount').value;
+      this.user.firstName = firstName;
+      this.user.lastName = lastName;
+      this.user.bankAccountName = bankAccountName;
+      this.user.bankAccountNumber = bankAccountNumber;
+      this.user.slackAccount = slackAccount;
       this.user.role = this.role;
       this.user.vat = this.vat;
-      this.user.siteId = this.loginForm.get('siteId').value;
+      this.user.siteId = siteId;
+      this.user.project = project;
       this.updateUser();
+    } else {
+      alert('Please complete the information.');
     }
   }
 
-  private updateUser() {
+  updateUser() {
     this.worklogService.updateUser(sessionStorage.getItem('idUser'), this.user)
       .subscribe(res => {
         if (res.role === 'admin') {
@@ -87,39 +105,33 @@ export class FirstLoginComponent implements OnInit {
           this.router.navigate([res.role]);
         }
       },
-        err => {
+        error => {
           this.router.navigate(['login']);
         });
   }
 
-  onCheckBoxVat(vatName) {
-    this.vat = (vatName === 'non-vat') ? 'N' : 'Y';
-    this.vatList.map(data => {
-      if (data.name !== vatName) {
-        data.value = false;
-      } else {
-        data.value = true;
-
-      }
+  onCheckBoxVat(vat: string) {
+    this.vat = vat;
+    this.vatList.map(val => {
+      val.isCheck = (vat === val.value);
     });
   }
 
-  onCheckBoxRole(role) {
-    this.role = (role === 'บุคคลธรรมดา') ? 'individual' : 'corporate';
-    this.isCheckRole = (role === 'บุคคลธรรมดา') ? true : false;
-    this.vat = (this.isCheckRole === true) ? 'N' : 'Y';
-    this.roles.map(data => {
-      if (data.name !== role) {
-        data.value = false;
-      } else {
-        data.value = true;
-      }
+  onCheckBoxRole(role: string) {
+    this.role = role;
+    this.roles.map(val => {
+      val.isCheck = (role === val.value);
     });
+    this.isCorporate = (role === 'corporate');
+    this.onCheckBoxVat(!this.isCorporate ? 'N' : 'Y');
   }
 
   getListSite() {
     this.worklogService.getSitesData().subscribe((res) => {
       this.siteList = res;
-   });
+    },
+      error => {
+        this.router.navigate(['login']);
+      });
   }
 }

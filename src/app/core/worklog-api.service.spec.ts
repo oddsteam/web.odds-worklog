@@ -2,10 +2,10 @@
 
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { inject, TestBed } from '@angular/core/testing';
-import { WorklogApiService } from './worklog-api.service';
-import { environment } from 'src/environments/environment';
-import { ListIncomeResponse } from '../shared/model/list-income-model-response';
+import { of } from 'rxjs';
 import { AddIncome } from '../shared/model/add-income-model';
+import { ListIncomeResponse } from '../shared/model/list-income-model-response';
+import { WorklogApiService } from './worklog-api.service';
 
 describe('Service: WorklogApi', () => {
   let mockService: WorklogApiService;
@@ -27,7 +27,11 @@ describe('Service: WorklogApi', () => {
   it('should get login api correctly', () => {
     mockService.getLogin().subscribe();
     const req = backEnd.expectOne(`${mockService.apiPath}login`);
+    const req1 = backEnd.expectOne(`${mockService.apiPath}incomes/status/individual`);
+    const req2 = backEnd.expectOne(`${mockService.apiPath}incomes/status/corporate`);
     expect(req.request.method).toEqual('POST');
+    expect(req1.request.method).toEqual('GET');
+    expect(req2.request.method).toEqual('GET');
     backEnd.verify();
   });
 
@@ -35,14 +39,20 @@ describe('Service: WorklogApi', () => {
     const userId = '5bde550643b39700012727f2';
     mockService.getUserByID(userId).subscribe();
     const req = backEnd.expectOne(`${mockService.apiPath}users/${userId}`);
+    const req1 = backEnd.expectOne(`${mockService.apiPath}incomes/status/individual`);
+    const req2 = backEnd.expectOne(`${mockService.apiPath}incomes/status/corporate`);
     expect(req.request.method).toEqual('GET');
+    expect(req1.request.method).toEqual('GET');
+    expect(req2.request.method).toEqual('GET');
     backEnd.verify();
   });
 
   it('should call get list corporate api correctly', () => {
     mockService.getListIncomeCorporate().subscribe();
-    const req = backEnd.expectOne(`${mockService.apiPath}incomes/status/corporate`);
-    expect(req.request.method).toEqual('GET');
+    const req = backEnd.match(`${mockService.apiPath}incomes/status/corporate`);
+    const req1 = backEnd.match(`${mockService.apiPath}incomes/status/individual`);
+    expect(req.length).toBe(2);
+    expect(req1.length).toBe(1);
     backEnd.verify();
   });
 
@@ -64,15 +74,18 @@ describe('Service: WorklogApi', () => {
           slackAccount: 'test@odds.team',
           transcript: '',
           siteId: '',
-          site:  null
+          site: null,
+          project: '',
+          imageProfile: null
         }
       ]
     };
     mockService.getListIncomeCorporate().subscribe(list => {
       expect(list).toEqual(listIncomeResponse);
     });
-    const req = backEnd.expectOne(`${mockService.apiPath}incomes/status/corporate`);
-    req.flush(listIncomeResponse);
+    backEnd.match(`${mockService.apiPath}incomes/status/corporate`)[0].flush(listIncomeResponse);
+    const req1 = backEnd.match(`${mockService.apiPath}incomes/status/individual`);
+    expect(req1.length).toBe(1);
     backEnd.verify();
   });
 
@@ -94,15 +107,19 @@ describe('Service: WorklogApi', () => {
           slackAccount: 'test@odds.team',
           transcript: '',
           siteId: '',
-          site:  null
+          site: null,
+          project: '',
+          imageProfile: null
         }
       ]
     };
     mockService.getListIncomeIndividual().subscribe(list => {
       expect(list).toEqual(listIncomeIndividual);
     });
-    const req = backEnd.expectOne(`${mockService.apiPath}incomes/status/individual`);
-    req.flush(listIncomeIndividual);
+    backEnd.match(`${mockService.apiPath}incomes/status/individual`)[0].flush(listIncomeIndividual);
+    const req = backEnd.match(`${mockService.apiPath}incomes/status/corporate`);
+
+    expect(req.length).toEqual(1);
     backEnd.verify();
   });
 
@@ -113,9 +130,13 @@ describe('Service: WorklogApi', () => {
     };
     mockService.addIncomeConfirm(income).subscribe();
     const req = backEnd.expectOne(`${mockService.apiPath}incomes`);
+    const req1 = backEnd.expectOne(`${mockService.apiPath}incomes/status/individual`);
+    const req2 = backEnd.expectOne(`${mockService.apiPath}incomes/status/corporate`);
     req.flush(income);
     expect(req.request.method).toEqual('POST');
     expect(req.request.body).toEqual(income);
+    expect(req1.request.method).toEqual('GET');
+    expect(req2.request.method).toEqual('GET');
     backEnd.verify();
   });
 
@@ -126,33 +147,49 @@ describe('Service: WorklogApi', () => {
     };
     mockService.updateIncomeService(income).subscribe();
     const req = backEnd.expectOne(`${mockService.apiPath}incomes/`);
+    const req1 = backEnd.expectOne(`${mockService.apiPath}incomes/status/individual`);
+    const req2 = backEnd.expectOne(`${mockService.apiPath}incomes/status/corporate`);
     req.flush(income);
     expect(req.request.method).toEqual('PUT');
     expect(req.request.body).toEqual(income);
+    expect(req1.request.method).toEqual('GET');
+    expect(req2.request.method).toEqual('GET');
     backEnd.verify();
   });
 
   it('should call export data corporate api correctly', () => {
     mockService.exportDataCorporate().subscribe();
     const req = backEnd.expectOne(`${mockService.apiPath}incomes/export/corporate`);
+    const req1 = backEnd.expectOne(`${mockService.apiPath}incomes/status/individual`);
+    const req2 = backEnd.expectOne(`${mockService.apiPath}incomes/status/corporate`);
     expect(req.request.method).toEqual('GET');
     expect(req.request.responseType).toEqual('blob');
+    expect(req1.request.method).toEqual('GET');
+    expect(req2.request.method).toEqual('GET');
     backEnd.verify();
   });
 
   it('should call export data individual api correctly', () => {
     mockService.exportDataIndividual().subscribe();
     const req = backEnd.expectOne(`${mockService.apiPath}incomes/export/individual`);
+    const req1 = backEnd.expectOne(`${mockService.apiPath}incomes/status/individual`);
+    const req2 = backEnd.expectOne(`${mockService.apiPath}incomes/status/corporate`);
     expect(req.request.method).toEqual('GET');
     expect(req.request.responseType).toEqual('blob');
+    expect(req1.request.method).toEqual('GET');
+    expect(req2.request.method).toEqual('GET');
     backEnd.verify();
   });
 
   it('should call export pdf api correctly', () => {
     mockService.exportDataPdf().subscribe();
     const req = backEnd.expectOne(`${mockService.apiPath}incomes/export/pdf`);
+    const req1 = backEnd.expectOne(`${mockService.apiPath}incomes/status/individual`);
+    const req2 = backEnd.expectOne(`${mockService.apiPath}incomes/status/corporate`);
     expect(req.request.method).toEqual('GET');
     expect(req.request.responseType).toEqual('blob');
+    expect(req1.request.method).toEqual('GET');
+    expect(req2.request.method).toEqual('GET');
     backEnd.verify();
   });
 
@@ -166,40 +203,55 @@ describe('Service: WorklogApi', () => {
     };
     mockService.sendMessage(body).subscribe();
     const req = backEnd.expectOne(`${mockService.apiPath}reminder/setting`);
+    const req1 = backEnd.expectOne(`${mockService.apiPath}incomes/status/individual`);
+    const req2 = backEnd.expectOne(`${mockService.apiPath}incomes/status/corporate`);
     expect(req.request.method).toEqual('POST');
     expect(req.request.responseType).toEqual('json');
+    expect(req1.request.method).toEqual('GET');
+    expect(req2.request.method).toEqual('GET');
     backEnd.verify();
   });
 
   it('should call get setting data api correctly', () => {
     mockService.getSettingData().subscribe();
     const req = backEnd.expectOne(`${mockService.apiPath}reminder/setting`);
+    const req1 = backEnd.expectOne(`${mockService.apiPath}incomes/status/individual`);
+    const req2 = backEnd.expectOne(`${mockService.apiPath}incomes/status/corporate`);
     expect(req.request.method).toEqual('GET');
+    expect(req1.request.method).toEqual('GET');
+    expect(req2.request.method).toEqual('GET');
     backEnd.verify();
   });
 
   it('should call get users api correctly', () => {
     mockService.getUsersData().subscribe();
     const req = backEnd.expectOne(`${mockService.apiPath}users`);
+    const req1 = backEnd.expectOne(`${mockService.apiPath}incomes/status/individual`);
+    const req2 = backEnd.expectOne(`${mockService.apiPath}incomes/status/corporate`);
     expect(req.request.method).toEqual('GET');
+    expect(req1.request.method).toEqual('GET');
+    expect(req2.request.method).toEqual('GET');
     backEnd.verify();
   });
 
-  it('should call upload file api correctly', () => {
-    const mockFile = new File([''], 'example.pdf', { type: 'application/pdf', lastModified: 1527052033702 });
-    const mockFormData: FormData = new FormData();
-    mockFormData.append('file', mockFile);
+  it('should set getListIncomeIndividual, getListIncomeCorporate when call initDataService()', () => {
+    spyOn(mockService, 'forCheckTokenPleaseRemoveMeIfFlowLoginFinnished').and.returnValue(false);
+    spyOn(mockService, 'getListIncomeIndividual').and.returnValue(of());
+    spyOn(mockService, 'getListIncomeCorporate').and.returnValue(of());
+    mockService.initDataService();
+    expect(mockService.getListIncomeIndividual).not.toHaveBeenCalled();
+    expect(mockService.getListIncomeCorporate).not.toHaveBeenCalled();
 
-    mockService.uploadFileTranscript(mockFile).subscribe();
-    const req = backEnd.expectOne(`${mockService.apiPath}/files/transcript`);
-    expect(req.request.method).toEqual('POST');
-    expect(req.request.body).toEqual(mockFormData);
-    req.flush({
-      tempFileName: '82d09f47-2fe3-4a33-b385-007a6dda8e13.pdf',
-      path: 'temp_uploads/82d09f47-2fe3-4a33-b385-007a6dda8e13.pdf',
-      fileName: mockFile.name
-    });
-    backEnd.verify();
+  });
+
+  it('should not set getListIncomeIndividual, getListIncomeCorporate when forcheck() fucntion return false', () => {
+    spyOn(mockService, 'forCheckTokenPleaseRemoveMeIfFlowLoginFinnished').and.returnValue(true);
+    spyOn(mockService, 'getListIncomeIndividual').and.returnValue(of());
+    spyOn(mockService, 'getListIncomeCorporate').and.returnValue(of());
+    mockService.initDataService();
+    expect(mockService.getListIncomeIndividual).toHaveBeenCalled();
+    expect(mockService.getListIncomeCorporate).toHaveBeenCalled();
+
   });
 
 });

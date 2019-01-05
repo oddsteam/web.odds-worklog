@@ -1,0 +1,38 @@
+.panel {
+    width: 250px;
+    height: 65px;
+    border: 2px solid #00A651;
+    border-radius: 5px;	
+    background-color: #FBFBFB;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 5%;
+    right: 1%;
+    animation:panel 1s 1;
+    -webkit-animation:panel 1s 1;
+    animation-fill-mode: forwards;
+    
+    animation-delay:3s;
+    -webkit-animation-delay:3s;
+    -webkit-animation-fill-mode: forwards;
+    i{
+        font-size: 28px;
+        color: #00A651;
+        padding-right: 15px;
+    }
+    span{
+        font-size: 18px;
+    }
+}
+
+@keyframes panel{
+    from {opacity :1;}
+    to {opacity :0;}
+}
+
+@-webkit-keyframes panel{
+    from {opacity :1;}
+    to {opacity :0;}
+}

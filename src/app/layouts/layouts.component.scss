@@ -1,0 +1,13 @@
+.main-panel {
+    padding: 16px;
+    margin-left: 300px;
+    width: auto;
+}
+
+@media (max-width: 767px) {
+    .main-panel {
+        margin: 0;
+        float: unset;
+        width: auto;
+    }
+}

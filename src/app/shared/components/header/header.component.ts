@@ -3,20 +3,26 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { StateService } from 'src/app/core/state.service';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
+import { FileService } from 'src/app/core/file.service';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 @Component({
-    selector: 'app-profile',
-    templateUrl: './profile.component.html',
-    styleUrls: ['./profile.component.scss']
+    selector: 'app-header',
+    templateUrl: './header.component.html',
+    styleUrls: ['./header.component.scss']
 })
-export class ProfileComponent implements OnInit {
+export class HeaderComponent implements OnInit {
     name: string;
+    imageProfile: SafeUrl;
     id = sessionStorage.getItem('idUser');
+
     constructor(
         public translate: TranslateService,
         private worklogApiService: WorklogApiService,
         private stateService: StateService,
-        private router: Router
+        private router: Router,
+        private fileService: FileService,
+        private sanitizer: DomSanitizer
     ) {
         translate.setDefaultLang('en');
         translate.use('th');
@@ -26,6 +32,9 @@ export class ProfileComponent implements OnInit {
         this.worklogApiService.forCheckTokenPleaseRemoveMeIfFlowLoginFinnished()
             .subscribe(() => { this.getUserID(), this.getUserIncome(); });
 
+        this.stateService.headerTrigger.subscribe(data => {
+            this.getUserID();
+        });
     }
 
     getUserID() {
@@ -33,6 +42,11 @@ export class ProfileComponent implements OnInit {
             this.name = res.firstName + ' ' + res.lastName;
             this.stateService.setTypeUser(res.role);
             this.stateService.setFlagVat(res.vat);
+            if (res.imageProfile) {
+                this.getImgaeProfileURL();
+            } else {
+                this.imageProfile = null;
+            }
         });
     }
 
@@ -43,6 +57,14 @@ export class ProfileComponent implements OnInit {
             } else {
                 this.stateService.setFlagUser('Y');
             }
+        });
+    }
+
+    getImgaeProfileURL() {
+        this.fileService.downloadImageProFile().subscribe(res => {
+            const urlCreator = window.URL;
+            this.imageProfile = this.sanitizer.bypassSecurityTrustUrl(
+                urlCreator.createObjectURL(res));
         });
     }
 

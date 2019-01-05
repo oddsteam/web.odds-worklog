@@ -14,7 +14,7 @@ RUN npm install --no-optional && npm rebuild
 RUN ng test --watch false
 
 # Run e2e Test
-RUN ng e2e
+# RUN ng e2e
 
 # Build
 RUN ng build --prod

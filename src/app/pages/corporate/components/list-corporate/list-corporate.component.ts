@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { StateService } from 'src/app/core/state.service';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
 import { ListIncomeResponse } from 'src/app/shared/model/list-income-model-response';
@@ -21,8 +21,11 @@ export class ListCorporateComponent implements OnInit, OnChanges {
   ) { }
 
   ngOnInit() {
-    this.worklogApiService.forCheckTokenPleaseRemoveMeIfFlowLoginFinnished().subscribe(() => this.getListIncomeCorporate());
-    this.stateService.listIncomeCorporateTrigger.subscribe(trigger => {
+    this.listIncome = this.worklogApiService.getCorporateListed();
+    if (!this.listIncome) {
+      this.getListIncomeCorporate();
+    }
+    this.stateService.listIncomeCorporateTrigger.subscribe(_ => {
       this.getListIncomeCorporate();
     });
   }
@@ -36,6 +39,7 @@ export class ListCorporateComponent implements OnInit, OnChanges {
   getListIncomeCorporate() {
     this.worklogApiService.getListIncomeCorporate().subscribe(response => {
       this.listIncome = response;
+      this.worklogApiService.corporateListed = this.listIncome;
     });
   }
 

@@ -1,0 +1,13 @@
+<div class="breadcrumb py-2">
+  <div *ngFor="let list of listBreadcrumb; let i = index"> 
+      <span class="px-1" *ngIf="listBreadcrumb?.length !== i+1">
+          <a
+          class="pr-1 breadcrumb-link"
+          href="javascript:void(0)" (click)="goToPage(list?.key)">{{list?.text}}</a>
+      </span>
+      <span *ngIf="listBreadcrumb?.length !== i+1" >/</span>
+      <span *ngIf="listBreadcrumb?.length === i+1" class="px-1 active">
+          {{list?.text}}
+      </span>
+  </div>
+</div>

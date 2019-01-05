@@ -44,8 +44,8 @@ describe('TabMenuComponent', () => {
     expect(mockRouter.navigate).toHaveBeenCalledWith(['/individual']);
   });
 
-  it('should set isShowLess to false if path = management', () => {
-    component.routerTo('management');
+  it('should set isShowLess to false if path = servant', () => {
+    component.routerTo('servant');
     expect(component.isShowLess).toBeFalsy();
   });
 
