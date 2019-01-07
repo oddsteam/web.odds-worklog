@@ -18,7 +18,6 @@ describe('LayoutsComponent', () => {
   let component: LayoutsComponent;
   let fixture: ComponentFixture<LayoutsComponent>;
   let worklogApiService: WorklogApiService;
-  // let mockUsers: Users;
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [LayoutsComponent, TabMenuComponent, HeaderComponent, AddIncomeComponent, ModalIncomeComponent],
@@ -35,26 +34,26 @@ describe('LayoutsComponent', () => {
     fixture = TestBed.createComponent(LayoutsComponent);
     worklogApiService = TestBed.get(WorklogApiService);
     component = fixture.componentInstance;
-    // mockUsers = <Users>{
-    //   id: '1234567890',
-    //   role: 'corporate',
-    //   fullnameEn: 'ทดสอบ ชอบลงทุน',
-    //   email: 'abc@abc.com',
-    //   bankAccountName: 'ทดสอบ ชอบลงทุน',
-    //   bankAccountNumber: '0987654321',
-    //   thaiCitizenId: '1234567890',
-    // };
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  // it('should call method getLogin to Have Been Called worklogApiService getUserById ', () => {
-  //   spyOn(worklogApiService, 'getLogin').and.returnValues(of(mockUsers));
-  //   component.ngOnInit();
-  //   expect(worklogApiService.getLogin).toHaveBeenCalled();
-  // });
+  it('should call method ngOnInit to Have Been Called worklogApiService getUserById ', () => {
+    const mockUsers = {
+      id: '1234567890',
+      role: 'corporate',
+      fullnameEn: 'ทดสอบ ชอบลงทุน',
+      email: 'abc@abc.com',
+      bankAccountName: 'ทดสอบ ชอบลงทุน',
+      bankAccountNumber: '0987654321',
+      thaiCitizenId: '1234567890',
+    };
+    spyOn(worklogApiService, 'getUserByID').and.returnValues(of(mockUsers));
+    component.ngOnInit();
+    expect(worklogApiService.getUserByID).toHaveBeenCalled();
+  });
 
   // it('should sessionStorage token equal by response from worklogApiService', () => {
   //   const mockToken = {
@@ -64,6 +63,25 @@ describe('LayoutsComponent', () => {
   //   component.ngOnInit();
   //   expect(sessionStorage.getItem('token')).toEqual('Bearer ' + mockToken.token);
   // });
+
+  it('should navigate to login if response from service is null', inject([Router], (router: Router) => {
+    spyOn(worklogApiService, 'getUserByID').and.returnValues(of(null));
+    spyOn(router, 'navigate');
+    component.ngOnInit();
+    expect(router.navigate).toHaveBeenCalledWith(['/login']);
+  }));
+
+  it('should navigate to firstlogin if first name from service is empty', inject([Router], (router: Router) => {
+    const mockUser = {
+      id: '1234567890',
+      firstName: '',
+      lastName: '',
+    };
+    spyOn(worklogApiService, 'getUserByID').and.returnValues(of(mockUser));
+    spyOn(router, 'navigate');
+    component.ngOnInit();
+    expect(router.navigate).toHaveBeenCalledWith(['/firstlogin']);
+  }));
 
   it('should not call goToPage when worklogApiService return response null', () => {
     const mockToken = {
