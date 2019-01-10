@@ -45,8 +45,8 @@ describe('LoginGoogleComponent', () => {
       idToken: '1234567890'
     };
     socialAuthService.signIn.and.returnValue(Promise.resolve(dataPromiss));
-    spyOn(workLogService, 'getLoginGoogle').and.returnValue(of(res));
     component.socialSignIn();
+    expect(socialAuthService.signIn).toHaveBeenCalled();
   });
 
   it('should set individualListed, corporateListed when call cacheData()', () => {
