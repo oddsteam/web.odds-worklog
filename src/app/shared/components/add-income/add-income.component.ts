@@ -17,7 +17,7 @@ export class AddIncomeComponent implements OnInit {
   @Output() addIncomeAlready = new EventEmitter();
   @Input() role: string;
   modalRef: BsModalRef;
-  note = 'อยากได้เงินก็กรอกมาสิ';
+  note: string;
   typeUser: string;
   typeVat: string;
   userFlag: string;
@@ -64,7 +64,7 @@ export class AddIncomeComponent implements OnInit {
     IncomeFlag.id = '';
     this.addIncomeResponse = null;
     this.salary = 0;
-    this.note = '';
+    this.note = 'อยากได้เงินก็กรอกมาสิ';
   }
 
   openTemplateModal() {
