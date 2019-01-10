@@ -56,6 +56,7 @@ export class FirstLoginComponent implements OnInit {
     this.loginForm = this.fb.group({
       firstName: ['', Validators.pattern('[a-zA-Z]{2,20}')],
       lastName: ['', Validators.pattern('[a-zA-Z]{2,20}')],
+      corporateName: [''],
       bankAccountName: ['', Validators.required],
       bankAccountNumber: ['', Validators.pattern('\\d{9,16}')],
       slackAccount: ['', Validators.email],
@@ -68,7 +69,7 @@ export class FirstLoginComponent implements OnInit {
 
   submit() {
     // tslint:disable-next-line:max-line-length
-    const { firstName, lastName, bankAccountName, bankAccountNumber, slackAccount, role, vat, siteId, project } = this.loginForm.getRawValue();
+    const { firstName, lastName, corporateName, bankAccountName, bankAccountNumber, slackAccount, role, vat, siteId, project } = this.loginForm.getRawValue();
 
     // tslint:disable-next-line:max-line-length
     if (firstName
@@ -81,6 +82,13 @@ export class FirstLoginComponent implements OnInit {
       && (siteId !== 'select site')
     ) {
       this.user = new User();
+      if (this.role === 'corporate') {
+        if (corporateName === '') {
+          alert('Please complete the information.');
+          return;
+        }
+        this.user.corporateName = corporateName;
+      }
       this.user.firstName = firstName;
       this.user.lastName = lastName;
       this.user.bankAccountName = bankAccountName;

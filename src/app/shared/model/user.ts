@@ -5,6 +5,7 @@ export class User {
     role: string;
     firstName: string;
     lastName: string;
+    corporateName?: string;
     email: string;
     bankAccountName: string;
     bankAccountNumber: string;

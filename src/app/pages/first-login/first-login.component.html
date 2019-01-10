@@ -45,12 +45,21 @@
             </div>
           </div>
         </div>
-        <div class="form-group col-12" *ngIf="isCorporate">
-          <label>Select Vat</label>
-          <div class="d-flex justify-content-start">
-            <div class="checkbox col-auto" *ngFor="let vat of vatList">
-              <label><input type="checkbox" [checked]="vat.isCheck" (change)="onCheckBoxVat(vat.value)" formControlName="vat">
-                {{vat.name}}</label>
+        <div class="col-12" *ngIf="isCorporate">
+          <div class="form-group col-12">
+            <label for="corporateName">Corporate Name</label>
+            <input id="corporateName" class="form-control" maxlength="30" placeholder="Fill corporate name" type="text"
+              formControlName="corporateName" />
+          </div>
+
+          <div class="form-group col-12">
+            <label>Select Vat</label>
+            <div class="d-flex justify-content-start">
+              <div class="checkbox col-auto" *ngFor="let vat of vatList">
+                <label><input type="checkbox" [checked]="vat.isCheck" (change)="onCheckBoxVat(vat.value)"
+                    formControlName="vat">
+                  {{vat.name}}</label>
+              </div>
             </div>
           </div>
         </div>

@@ -37,6 +37,7 @@ describe('FirstLoginComponent', () => {
     component.loginForm.setValue({
       firstName: 'test',
       lastName: 'lastTest',
+      corporateName: '',
       bankAccountName: 'ทดสอบ',
       bankAccountNumber: '1234567890',
       slackAccount: 'test@odds.team',
