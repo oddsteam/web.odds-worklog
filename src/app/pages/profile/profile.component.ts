@@ -2,7 +2,6 @@ import { StateService } from 'src/app/core/state.service';
 import { Site } from 'src/app/shared/model/site';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
 import { User } from 'src/app/shared/model/user';
 import { MyFile } from './file';
@@ -25,8 +24,8 @@ export class ProfileComponent implements OnInit {
   userInfo: User;
   personType: string;
   showSuccessMessage = false;
-  successMessage: string;
   fileNamePdf: string;
+  isCorporate = false;
   vatList = [
     {
       value: true,
@@ -39,11 +38,9 @@ export class ProfileComponent implements OnInit {
   ];
   isVat = 'N';
   site = '';
-
   constructor(
     private formBuilder: FormBuilder,
     private worklogApiService: WorklogApiService,
-    private router: Router,
     private fileService: FileService,
     private stateService: StateService
   ) { }
@@ -55,6 +52,7 @@ export class ProfileComponent implements OnInit {
 
   createForm() {
     this.profileForm = this.formBuilder.group({
+      corporateName: ['', Validators.required],
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       email: [{ value: '', disabled: true }, Validators.required],
@@ -73,12 +71,16 @@ export class ProfileComponent implements OnInit {
   getData() {
     this.worklogApiService.getUserByID(this.id).subscribe(user => {
       this.setDataUser(user);
+      if (user.role === 'corporate') {
+        this.isCorporate  = true;
+      }
     });
   }
 
   private setDataUser(user: User) {
     this.userInfo = user;
     this.personType = user.role;
+    this.corporateNameForm.setValue(user.corporateName);
     this.firstNameForm.setValue(user.firstName);
     this.lastNameForm.setValue(user.lastName);
     this.emailForm.setValue(user.email);
@@ -112,14 +114,11 @@ export class ProfileComponent implements OnInit {
 
   private alertSuccess() {
     this.showSuccessMessage = true;
-    this.successMessage = 'Saved';
-    setTimeout(() => {
-      this.showSuccessMessage = false;
-    }, 5000);
     window.scrollTo(0, 0);
   }
 
   setDataToModel() {
+    this.userInfo.corporateName = this.corporateNameForm.value;
     this.userInfo.firstName = this.firstNameForm.value;
     this.userInfo.lastName = this.lastNameForm.value;
     this.userInfo.email = this.emailForm.value;
@@ -271,6 +270,10 @@ export class ProfileComponent implements OnInit {
 
   get hasOldTranscriptFileAtStart(): Boolean {
     return !this.oldTranscriptFile !== null && this.transcriptFile === null ? true : false;
+  }
+
+  get corporateNameForm(): FormControl {
+    return this.profileForm.get('corporateName') as FormControl;
   }
 
   get firstNameForm(): FormControl {

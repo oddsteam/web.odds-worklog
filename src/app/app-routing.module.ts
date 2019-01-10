@@ -15,6 +15,11 @@ const routes: Routes = [
     {
         path: 'firstlogin',
         loadChildren: 'src/app/pages/first-login/first-login.module#FirstLoginModule',
+    },
+    {
+        path: '**',
+        redirectTo: '',
+        canActivate: [AuthGuard]
     }
 ];
 

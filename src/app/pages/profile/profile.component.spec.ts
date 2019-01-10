@@ -10,6 +10,7 @@ import { Site } from 'src/app/shared/model/site';
 import { User } from 'src/app/shared/model/user';
 import { ProfileComponent } from './profile.component';
 import { FileService } from 'src/app/core/file.service';
+import { MessageTooltipComponent } from 'src/app/shared/components/message-tooltip/message-tooltip.component';
 
 
 describe('ProfileComponent', () => {
@@ -19,7 +20,7 @@ describe('ProfileComponent', () => {
   let fileService: FileService;
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ProfileComponent, DropDownComponent],
+      declarations: [ProfileComponent, DropDownComponent, MessageTooltipComponent],
       imports: [ReactiveFormsModule, HttpClientTestingModule, FormsModule
         , RouterTestingModule, NgbModule.forRoot()],
       providers: []
@@ -189,6 +190,7 @@ describe('ProfileComponent', () => {
     component.profileForm.setValue({
       firstName: 'ODDS',
       lastName: 'ODDS',
+      corporateName: 'บอบอ',
       email: 'odds@odds.team',
       bankAccount: 'odds odds',
       bankAccountNumber: '1122334455',
@@ -274,6 +276,7 @@ describe('ProfileComponent', () => {
     const data = {
       bankAccountName: 'กอไก่ ขอไข่',
       bankAccountNumber: '0123456789',
+      corporateName: 'บอบอ',
       email: 'who@odds.team',
       firstName: 'aaa',
       id: '5c0fa703780bf500019a5aea',

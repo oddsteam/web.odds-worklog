@@ -39,7 +39,11 @@ export class HeaderComponent implements OnInit {
 
     getUserID() {
         this.worklogApiService.getUserByID(this.id).subscribe(res => {
-            this.name = res.firstName + ' ' + res.lastName;
+            if (res.role === 'corporate') {
+                this.name = res.corporateName;
+            } else {
+                this.name = res.firstName + ' ' + res.lastName;
+            }
             this.stateService.setTypeUser(res.role);
             this.stateService.setFlagVat(res.vat);
             if (res.imageProfile) {

@@ -1,3 +1,4 @@
+import { User } from 'src/app/shared/model/user';
 import { Component, Input, OnChanges, OnDestroy, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 
@@ -42,7 +43,6 @@ export class TableListComponent implements OnInit, OnDestroy, OnChanges {
         this.dtTrigger.unsubscribe();
     }
 
-
     setOrder() {
         this.swapArrowIconSort = !this.swapArrowIconSort;
     }
@@ -51,4 +51,10 @@ export class TableListComponent implements OnInit, OnDestroy, OnChanges {
         return data.trim() === '' ? '-' : data.trim();
     }
 
+    getName(user: User): string {
+        if (user.role === 'corporate') {
+            return this.checkValue(user.corporateName ? user.corporateName : '');
+        }
+        return this.checkValue(user.firstName + ' ' + user.lastName);
+    }
 }

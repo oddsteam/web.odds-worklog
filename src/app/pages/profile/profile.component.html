@@ -1,7 +1,7 @@
 <div>
-  <p>
-    <ngb-alert type="success" *ngIf="showSuccessMessage" [dismissible]="false">{{ successMessage }}</ngb-alert>
-  </p>
+  <div *ngIf="showSuccessMessage">
+      <app-message-tooltip></app-message-tooltip>
+    </div>
   <div class="container">
     <form [formGroup]="fileForm">
       <div class="row">
@@ -65,6 +65,12 @@
     <form class="edit-user prepend-top-default" [formGroup]="profileForm">
       <div class="row justify-content-center">
         <div class="col-lg-12">
+            <div class="row" *ngIf="isCorporate">
+                <div class="form-group col-md-12">
+                  <label>Corporate Name</label>
+                  <input class="form-control" type="text" formControlName="corporateName">
+                </div>
+            </div>
           <div class="row">
             <div class="form-group col-md-6">
               <label>First Name</label>
@@ -121,7 +127,7 @@
 
           <hr>
           <div class="prepend-top-default append-bottom-default inner">
-            <button class="btn button-green" (click)="updateData()">Update profile settings</button>
+            <button class="btn button-green" (click)="updateData()">Update</button>
             <button class="btn" (click)="onReset()" style="float: right;">Reset</button>
           </div>
         </div>

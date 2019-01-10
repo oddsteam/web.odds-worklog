@@ -14,7 +14,7 @@
     </thead>
     <tbody>
       <tr>
-        <td class="text-left">{{ checkValue(ListData[0].user?.firstName + ' ' + ListData[0].user?.lastName) }}</td>
+        <td class="text-left">{{ getName(ListData[0].user) }}</td>
         <td class="text-left">{{ checkValue(ListData[0].user?.email) }}</td>
         <td class="text-left">{{ checkValue(ListData[0].user?.bankAccountName) }}</td>
         <td class="text-left">{{ checkValue(ListData[0].user?.bankAccountNumber) }}</td>
@@ -30,7 +30,7 @@
         </td>
       </tr>
       <tr *ngFor="let listData of ListData | slice : 1 : ListData.length | orderBy: order:swapArrowIconSort:'case-insensitive'">
-        <td class="text-left">{{ checkValue(listData.user?.firstName + ' ' + listData.user?.lastName) }}</td>
+        <td class="text-left">{{ getName(listData.user) }}</td>
         <td class="text-left">{{ checkValue(listData.user?.email) }}</td>
         <td class="text-left">{{ checkValue(listData.user?.bankAccountName) }}</td>
         <td class="text-left">{{ checkValue(listData.user?.bankAccountNumber) }}</td>
