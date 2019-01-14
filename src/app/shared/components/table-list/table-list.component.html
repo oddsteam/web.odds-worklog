@@ -26,7 +26,7 @@
           }}
         </td>
         <td class="text-center" appStatusHighlight [Status]="ListData[0]?.status">
-          {{ ListData[0]?.status === "Y" ? "Submited" : "Non-Submited" }}
+          {{ ListData[0]?.status === "Y" ? "Submitted" : "Not submitted" }}
         </td>
       </tr>
       <tr *ngFor="let listData of ListData | slice : 1 : ListData.length | orderBy: order:swapArrowIconSort:'case-insensitive'">
@@ -42,7 +42,7 @@
           }}
         </td>
         <td class="text-center" appStatusHighlight [Status]="listData?.status">
-          {{ listData?.status === "Y" ? "Submited" : "Non-Submited" }}
+          {{ listData?.status === "Y" ? "Submitted" : "Not submitted" }}
         </td>
       </tr>
     </tbody>
