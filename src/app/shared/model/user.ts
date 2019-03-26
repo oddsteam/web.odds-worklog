@@ -17,4 +17,5 @@ export class User {
     site: Site;
     project: string;
     imageProfile: string;
+    dailyIncome: string;
 }

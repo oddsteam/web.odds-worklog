@@ -1,11 +1,11 @@
-import { StateService } from 'src/app/core/state.service';
-import { Site } from 'src/app/shared/model/site';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FileService } from 'src/app/core/file.service';
+import { StateService } from 'src/app/core/state.service';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
+import { Site } from 'src/app/shared/model/site';
 import { User } from 'src/app/shared/model/user';
 import { MyFile } from './file';
-import { FileService } from 'src/app/core/file.service';
 
 @Component({
   selector: 'app-profile',
@@ -59,7 +59,8 @@ export class ProfileComponent implements OnInit {
       bankAccount: ['', Validators.required],
       bankAccountNumber: ['', Validators.required],
       slackAccount: ['', Validators.required],
-      project: ['']
+      project: [''],
+      dailyIncome: ['', [Validators.required, Validators.pattern('^[0-9]*$')]]
     });
 
     this.fileForm = this.formBuilder.group({
@@ -72,7 +73,7 @@ export class ProfileComponent implements OnInit {
     this.worklogApiService.getUserByID(this.id).subscribe(user => {
       this.setDataUser(user);
       if (user.role === 'corporate') {
-        this.isCorporate  = true;
+        this.isCorporate = true;
       }
     });
   }
@@ -88,6 +89,7 @@ export class ProfileComponent implements OnInit {
     this.bankAccountNumberForm.setValue(user.bankAccountNumber);
     this.slackAccount.setValue(user.slackAccount);
     this.project.setValue(user.project);
+    this.dailyIncome.setValue(user.dailyIncome);
     this.isVat = user.vat;
     if (user.vat === 'N') {
       this.vatList[0].value = false;
@@ -104,12 +106,14 @@ export class ProfileComponent implements OnInit {
   }
 
   updateData() {
-    this.setDataToModel();
-    this.worklogApiService.updateUser(this.id, this.userInfo).subscribe(user => {
-      this.setDataUser(user);
-      this.triggerHeader();
-      this.alertSuccess();
-    });
+    if (this.dailyIncome.valid) {
+      this.setDataToModel();
+      this.worklogApiService.updateUser(this.id, this.userInfo).subscribe(user => {
+        this.setDataUser(user);
+        this.triggerHeader();
+        this.alertSuccess();
+      });
+    }
   }
 
   private alertSuccess() {
@@ -127,6 +131,7 @@ export class ProfileComponent implements OnInit {
     this.userInfo.slackAccount = this.slackAccount.value;
     this.userInfo.vat = this.isVat;
     this.userInfo.project = this.project.value;
+    this.userInfo.dailyIncome = this.dailyIncome.value;
   }
 
   onReset() {
@@ -302,6 +307,10 @@ export class ProfileComponent implements OnInit {
 
   get project(): FormControl {
     return this.profileForm.get('project') as FormControl;
+  }
+
+  get dailyIncome(): FormControl {
+    return this.profileForm.get('dailyIncome') as FormControl;
   }
 
   private triggerHeader() {
