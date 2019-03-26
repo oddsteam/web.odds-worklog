@@ -116,7 +116,8 @@ describe('ProfileComponent', () => {
       thaiCitizenId: '112233445566',
       transcript: null,
       imageProfile: null,
-      project: ''
+      project: '',
+      dailyIncome: '14'
     };
     const mockListSites: Site[] = [
       {
@@ -183,7 +184,9 @@ describe('ProfileComponent', () => {
       thaiCitizenId: '112233445566',
       transcript: null,
       imageProfile: null,
-      project: ''
+      project: '',
+      dailyIncome: '14'
+
     };
     component.userInfo = new User();
     component.id = mockResponse.id;
@@ -195,7 +198,8 @@ describe('ProfileComponent', () => {
       bankAccount: 'odds odds',
       bankAccountNumber: '1122334455',
       slackAccount: 'odds@odds.team',
-      project: ''
+      project: '',
+      dailyIncome: '14'
     });
     fixture.detectChanges();
     spyOn(worklogApiService, 'updateUser').and.returnValue(of(mockResponse));
