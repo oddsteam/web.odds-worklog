@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
 import { IncomeFlag } from '../../model/income-flag';
+import { StateService } from 'src/app/core/state.service';
 
 @Component({
   selector: 'app-tab-menu',
@@ -28,17 +29,18 @@ export class TabMenuComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private worklogApiService: WorklogApiService
+    private worklogApiService: WorklogApiService,
+    private stateService: StateService,
   ) { }
 
   ngOnInit() {
     this.worklogApiService.getUserByID(this.id).subscribe(res => {
       this.personType = res.role;
-      if (this.personType !== 'admin') {
-        this.listTabMenuShow = this.listTabMenu.filter(x => x.id === this.personType || x.id === 'profile');
-      } else {
-        this.listTabMenuShow = this.listTabMenu;
-      }
+      this.checkTabMenu();
+    });
+    this.stateService.isUserType.subscribe(flag => {
+      this.personType = flag;
+      this.checkTabMenu();
     });
   }
 
@@ -49,6 +51,14 @@ export class TabMenuComponent implements OnInit {
       this.personType = path;
       IncomeFlag.typeGetListService = path;
       this.router.navigate([`/${path}`]);
+    }
+  }
+
+  checkTabMenu() {
+    if (this.personType !== 'admin') {
+      this.listTabMenuShow = this.listTabMenu.filter(x => x.id === this.personType || x.id === 'profile');
+    } else {
+      this.listTabMenuShow = this.listTabMenu;
     }
   }
 }
