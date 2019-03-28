@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewChildren } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { FileService } from 'src/app/core/file.service';
 import { StateService } from 'src/app/core/state.service';
@@ -6,11 +6,13 @@ import { WorklogApiService } from 'src/app/core/worklog-api.service';
 import { Site } from 'src/app/shared/model/site';
 import { User } from 'src/app/shared/model/user';
 import { MyFile } from './file';
+import { TabMenuComponent } from 'src/app/shared/components/tab-menu/tab-menu.component';
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss']
+
 })
 export class ProfileComponent implements OnInit {
   profileForm: FormGroup;
@@ -26,6 +28,16 @@ export class ProfileComponent implements OnInit {
   showSuccessMessage = false;
   fileNamePdf: string;
   isCorporate = false;
+  listPersonType = [
+    {
+      id: 'corporate',
+      name: 'Corporate'
+    },
+    {
+      id: 'individual',
+      name: 'Individual'
+    }
+  ];
   vatList = [
     {
       value: true,
@@ -113,6 +125,7 @@ export class ProfileComponent implements OnInit {
         this.triggerHeader();
         this.alertSuccess();
       });
+      this.stateService.setTypeUser(this.personType);
     }
   }
 
@@ -132,6 +145,7 @@ export class ProfileComponent implements OnInit {
     this.userInfo.vat = this.isVat;
     this.userInfo.project = this.project.value;
     this.userInfo.dailyIncome = this.dailyIncome.value;
+    this.userInfo.role = this.personType;
   }
 
   onReset() {
@@ -207,6 +221,11 @@ export class ProfileComponent implements OnInit {
   }
 
   getEmitSource(event) {
+
+    if (event === 'individual' || event === 'corporate') {
+      this.personType = event;
+      this.isCorporate = (event === 'individual') ? false : true;
+    }
     this.userInfo.siteId = event.id;
   }
 
