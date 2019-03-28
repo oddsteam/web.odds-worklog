@@ -1,16 +1,16 @@
-import { Site } from './../shared/model/site';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { AddIncomeResponse } from '../shared/model/add-income-model-response';
+import { Customers } from '../shared/model/customers';
 import { IncomeFlag } from '../shared/model/income-flag';
 import { ListIncomeResponse } from '../shared/model/list-income-model-response';
+import { ProductOwner } from '../shared/model/product-owner';
 import { SettingReminder } from '../shared/model/setting-reminder-model';
 import { User } from '../shared/model/user';
 import { Login } from './../shared/model/login';
-import { Customers } from '../shared/model/customers';
-import { ProductOwner } from '../shared/model/product-owner';
+import { Site } from './../shared/model/site';
 
 @Injectable({
     providedIn: 'root'
@@ -20,7 +20,7 @@ export class WorklogApiService {
     siteName: string;
     getCustomerId = new BehaviorSubject<string>(null);
     getProductOwnerId = new BehaviorSubject<string>(null);
-
+    dailyIncome = '';
     id = sessionStorage.getItem('idUser');
     private userId = this.id;
     readonly apiPath = environment.api;
@@ -288,5 +288,13 @@ export class WorklogApiService {
                 Authorization: sessionStorage.getItem('token')
             })
         });
+    }
+
+    getDailyIncome() {
+        return this.dailyIncome;
+    }
+
+    setDailyIncoem(dailyIncome: string): string {
+        return this.dailyIncome = dailyIncome;
     }
 }

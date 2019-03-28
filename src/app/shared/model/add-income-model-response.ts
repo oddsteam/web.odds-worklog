@@ -7,4 +7,6 @@ export class AddIncomeResponse {
     note: string;
     vat: string;
     wht: string;
+    workDate: string;
+    specialIncome: string;
 }

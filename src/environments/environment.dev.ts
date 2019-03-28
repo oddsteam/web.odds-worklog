@@ -1,4 +1,4 @@
 export const environment = {
   production: false,
-  api: `https://worklog-dev.odds.team/api/v1/`
+  api: `http://localhost:8080/v1/`
 };

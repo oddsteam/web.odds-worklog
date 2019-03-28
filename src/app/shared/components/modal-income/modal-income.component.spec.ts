@@ -80,7 +80,8 @@ describe('ModalIncomeComponent', () => {
   it('attribute in form should be empty if addIncome = null', () => {
     component.addIncomeData = null;
     component.onSetupForm();
-    expect(component.fg.get('totalIncome').value).toEqual('');
+    expect(component.fg.get('specialIncome').value).toEqual('');
+    expect(component.fg.get('workDate').value).toEqual('');
     expect(component.fg.get('note').value).toEqual('');
   });
 
@@ -94,9 +95,12 @@ describe('ModalIncomeComponent', () => {
       note: '',
       vat: '0.00',
       wht: '0.00',
+      workDate: '20',
+      specialIncome: '2000'
     };
     component.onSetupForm();
-    expect(component.fg.get('totalIncome').value).toEqual('10,000');
+    expect(component.fg.get('specialIncome').value).toEqual('2,000');
+    expect(component.fg.get('workDate').value).toEqual('20');
     expect(component.fg.get('note').value).toEqual(component.addIncomeData.note);
   });
 
@@ -110,9 +114,13 @@ describe('ModalIncomeComponent', () => {
       note: 'Hello',
       vat: '',
       wht: '',
+      workDate: '20',
+      specialIncome: '0'
     };
     // 7.000000000000001
     // 3
+    component.onSetupForm();
+    component.addIncomeData.totalIncome = '100';
     component.updateData();
     expect(component.addIncomeData.vat).toEqual('7.000000000000001');
     expect(component.addIncomeData.wht).toEqual('3');
@@ -131,22 +139,26 @@ describe('ModalIncomeComponent', () => {
     expect(component.cutComma('100,000,000')).toEqual('100000000');
   });
 
-  it('should return true if totalIncome < 1', () => {
+  it('should return true if specialIncome < 1', () => {
     component.addIncomeData = null;
+    component.totalIncome = '1000';
     component.onSetupForm();
     component.fg.setValue({
-      totalIncome: 1000,
-      note: ''
+      specialIncome: 1000,
+      note: '',
+      workDate: '10'
     });
     expect(component.disableButton()).toBeFalsy();
   });
 
-  it('should return false if totalIncome < 1', () => {
+  it('should return false if specialIncome < 1', () => {
     component.addIncomeData = null;
+    component.totalIncome = '0';
     component.onSetupForm();
     component.fg.setValue({
-      totalIncome: 0,
-      note: ''
+      specialIncome: 0,
+      note: '',
+      workDate: '10'
     });
     expect(component.disableButton()).toBeTruthy();
   });
@@ -155,16 +167,16 @@ describe('ModalIncomeComponent', () => {
     component.addIncomeData = null;
     component.onSetupForm();
     component.fg.patchValue({
-      totalIncome: 10000
+      specialIncome: 10000
     });
     fixture.detectChanges();
     component.inputIncomeAmount();
-    expect(component.totalIncome.value).not.toEqual('10,000');
+    expect(component.fg.get('specialIncome').value).not.toEqual('10,000');
   });
 
   it('should calculate net income correctly', () => {
-    const result = component.calNetIncome('100,000', '0.07', '0.03');
-    expect(result).toEqual('100000.04000000001');
+    const result = component.calNetIncome('100,000', '0.07', '0.03', '10,000');
+    expect(result).toEqual('110000.04000000001');
   });
 
   it('should calculate WHT correctly', () => {
@@ -186,12 +198,14 @@ describe('ModalIncomeComponent', () => {
       submitDate: '2018-10-22:00:00:00',
       note: '',
       vat: '0.23',
-      wht: '100'
+      wht: '100',
+      workDate: '20',
+      specialIncome: '2000'
     };
     component.addIncomeData = null;
     component.onSetupForm();
     component.fg.patchValue({
-      totalIncome: '100000',
+      specialIncome: '100000',
       note: 'เงินเดือนนี้'
     });
     fixture.detectChanges();
@@ -209,12 +223,14 @@ describe('ModalIncomeComponent', () => {
       submitDate: '2018-10-22:00:00:00',
       note: '',
       vat: '0.23',
-      wht: '100'
+      wht: '100',
+      workDate: '20',
+      specialIncome: '2000'
     };
     component.addIncomeData = null;
     component.onSetupForm();
     component.fg.patchValue({
-      totalIncome: '100000',
+      specialIncome: '100000',
       note: 'เงินเดือนนี้'
     });
     fixture.detectChanges();
@@ -233,12 +249,14 @@ describe('ModalIncomeComponent', () => {
       submitDate: '2018-10-22:00:00:00',
       note: '',
       vat: '0.23',
-      wht: '100'
+      wht: '100',
+      workDate: '20',
+      specialIncome: '2000'
     };
     component.addIncomeData = null;
     component.onSetupForm();
     component.fg.patchValue({
-      totalIncome: '100000',
+      specialIncome: '100000',
       note: 'เงินเดือนนี้'
     });
     fixture.detectChanges();
@@ -256,12 +274,14 @@ describe('ModalIncomeComponent', () => {
       submitDate: '2018-10-22:00:00:00',
       note: '',
       vat: '0.23',
-      wht: '100'
+      wht: '100',
+      workDate: '20',
+      specialIncome: '2000'
     };
     component.addIncomeData = null;
     component.onSetupForm();
     component.fg.patchValue({
-      totalIncome: '100000',
+      specialIncome: '100000',
       note: 'เงินเดือนนี้'
     });
     fixture.detectChanges();
@@ -296,18 +316,20 @@ describe('ModalIncomeComponent', () => {
     spyOn(component, 'calNetIncome');
     component.updateData();
     expect(component.calNetIncome).toHaveBeenCalledWith(component.addIncomeData.totalIncome, component.addIncomeData.vat,
-      component.addIncomeData.wht);
+      component.addIncomeData.wht, component.addIncomeData.specialIncome);
   });
 
   it('if user is N when call updateData addIncomeData.net should have call calNetIncome with vat = 0', () => {
     component.addIncomeData = null;
     component.onSetupForm();
+    component.totalIncome = '10000';
     component.addIncomeData.totalIncome = '10000';
+    component.specialIncome.setValue('10000');
     component.typeUser = 'N';
     spyOn(component, 'calNetIncome');
     component.updateData();
     expect(component.calNetIncome).toHaveBeenCalledWith(component.addIncomeData.totalIncome, '0',
-      component.addIncomeData.wht);
+      component.addIncomeData.wht, component.addIncomeData.specialIncome);
   });
 
   it('when IncomeFlag.isUpdate = true it should call updateIncomeService', () => {
@@ -331,6 +353,8 @@ describe('ModalIncomeComponent', () => {
   it('title should equal Confirm Income when call onSubmit', () => {
     component.addIncomeData = null;
     component.onSetupForm();
+    spyOn(component, 'calDailyIncomeWithWorkDate');
+    spyOn(component, 'updateData');
     component.onSubmit();
     expect(component.title).toEqual('Confirm Income');
   });
@@ -339,12 +363,12 @@ describe('ModalIncomeComponent', () => {
     component.addIncomeData = null;
     component.onSetupForm();
     component.fg.patchValue({
-      totalIncome: '100000',
+      specialIncome: '100000',
       note: 'เงินเดือนนี้'
     });
     fixture.detectChanges();
     component.onSubmit();
-    expect(component.addIncomeData.totalIncome).toEqual(component.totalIncome.value);
+    expect(component.addIncomeData.totalIncome).toEqual(component.totalIncome);
   });
 
   it('should emit addIncomeEmit with true when call onConfirm()', () => {
@@ -352,7 +376,7 @@ describe('ModalIncomeComponent', () => {
     component.addIncomeData = null;
     component.onSetupForm();
     component.fg.patchValue({
-      totalIncome: '100000',
+      specialIncome: '100000',
       note: ''
     });
     fixture.detectChanges();

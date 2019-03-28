@@ -1,9 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { StateService } from 'src/app/core/state.service';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
 import { AddIncomeResponse } from '../../model/add-income-model-response';
 import { IncomeFlag } from '../../model/income-flag';
-import { StateService } from 'src/app/core/state.service';
 
 @Component({
   selector: 'app-modal-income',
@@ -22,7 +22,8 @@ export class ModalIncomeComponent implements OnInit {
   flagChange: Boolean = false;
   fg: FormGroup;
   addIncomeAlready: Boolean = false;
-
+  dailyIncome: string;
+  totalIncome: string;
   constructor(
     private fb: FormBuilder,
     private worklogApiService: WorklogApiService,
@@ -32,12 +33,16 @@ export class ModalIncomeComponent implements OnInit {
   ngOnInit() {
     this.onSetupForm();
     this.title = 'Add Income';
+    this.getDailyIncome();
   }
 
   isVat(): boolean {
     return this.typeVat === 'Y' ? true : false;
   }
 
+  getDailyIncome() {
+    this.dailyIncome = this.worklogApiService.getDailyIncome();
+  }
 
   onSetupForm() {
     if (this.addIncomeData === null) {
@@ -50,27 +55,33 @@ export class ModalIncomeComponent implements OnInit {
         note: '',
         vat: '',
         wht: '',
+        workDate: '',
+        specialIncome: '',
       };
       this.fg = this.fb.group({
-        totalIncome: ['', Validators.required],
-        note: ['', Validators.required]
+        note: ['', Validators.required],
+        workDate: ['', Validators.required],
+        specialIncome: ['', Validators.required]
       });
     } else {
       this.fg = this.fb.group({
-        totalIncome: [this.addIncomeData.totalIncome, Validators.required],
-        note: [this.addIncomeData.note, Validators.required]
+        note: [this.addIncomeData.note, Validators.required],
+        workDate: [this.addIncomeData.workDate, Validators.required],
+        specialIncome: [this.addIncomeData.specialIncome, Validators.required]
       });
       this.inputIncomeAmount();
     }
   }
 
+  calDailyIncomeWithWorkDate() {
+    const dailyIncome = this.stringToNumber(this.dailyIncome);
+    const workDate = this.stringToNumber(this.workDate.value);
+    this.totalIncome = String(dailyIncome * workDate);
+  }
   onSubmit() {
+    this.calDailyIncomeWithWorkDate();
     let totalIncome;
-    if (!this.flagChange) {
-      totalIncome = this.fg.controls['totalIncome'].value;
-    } else {
-      totalIncome = this.numberFormat;
-    }
+    totalIncome = this.totalIncome;
     this.title = 'Confirm Income';
     this.addIncomeData.totalIncome = totalIncome;
     this.addIncomeAlready = true;
@@ -79,15 +90,11 @@ export class ModalIncomeComponent implements OnInit {
 
   onConfirm() {
     let totalIncome;
-    if (!this.flagChange) {
-      totalIncome = this.totalIncome.value;
-    } else {
-      totalIncome = this.numberFormat;
-    }
+    totalIncome = this.totalIncome;
     if (IncomeFlag.isUpdate) {
-      this.updateIncomeService(totalIncome);
+      this.updateIncomeService(this.cutComma(this.specialIncome.value));
     } else {
-      this.addIncomeConfirm(totalIncome);
+      this.addIncomeConfirm(this.cutComma(this.specialIncome.value));
     }
     this.closeModalEmit.emit(true);
     this.addIncomeEmit.emit(true);
@@ -99,26 +106,30 @@ export class ModalIncomeComponent implements OnInit {
     this.addIncomeData.netIncome = this.calNetIncome(
       this.addIncomeData.totalIncome,
       this.typeVat === 'Y' ? this.addIncomeData.vat : '0',
-      this.addIncomeData.wht
+      this.addIncomeData.wht,
+      this.specialIncome.value
     );
+    this.addIncomeData.specialIncome = this.cutComma(this.specialIncome.value);
   }
 
-  addIncomeConfirm(totalIncome) {
+  addIncomeConfirm(specialIncome) {
     this.fg.patchValue({
-      totalIncome: totalIncome
+      specialIncome: specialIncome
     });
     const addIncome = this.fg.value;
     this.worklogApiService.addIncomeConfirm(addIncome).subscribe(res => {
-      IncomeFlag.isUpdate = true;
+      // IncomeFlag.isUpdate = true;
+      this.stateService.triggerListIncomeCorporate();
+      this.stateService.triggerListIncomeIndividual();
       this.closeModalEmit.emit(true);
     }, err => {
       console.log(err);
     });
   }
 
-  updateIncomeService(totalIncome) {
+  updateIncomeService(specialIncome) {
     this.fg.patchValue({
-      totalIncome: totalIncome
+      specialIncome: specialIncome
     });
     const addIncome = this.fg.value;
     this.worklogApiService.updateIncomeService(addIncome).subscribe(res => {
@@ -138,11 +149,12 @@ export class ModalIncomeComponent implements OnInit {
     return (this.stringToNumber(netIncome) * 0.03).toString();
   }
 
-  calNetIncome(totalIncome: string, vat: string, wht: string): string {
+  calNetIncome(totalIncome: string, vat: string, wht: string, dailyIncome: string): string {
     return (
       this.stringToNumber(totalIncome) +
       this.stringToNumber(vat) -
-      this.stringToNumber(wht)
+      this.stringToNumber(wht) +
+      this.stringToNumber(dailyIncome)
     ).toString();
   }
 
@@ -151,7 +163,7 @@ export class ModalIncomeComponent implements OnInit {
   }
 
   disableButton(): boolean {
-    const totalIncome = Number(this.totalIncome.value);
+    const totalIncome = Number(this.totalIncome);
     if (totalIncome < 1) {
       return true;
     }
@@ -159,12 +171,12 @@ export class ModalIncomeComponent implements OnInit {
   }
 
   inputIncomeAmount() {
-    const totalIncome = this.totalIncome.value;
+    const specialIncome = this.specialIncome.value;
     this.flagChange = true;
-    this.numberFormat = this.formatInteger(totalIncome);
-    const stringFormat = this.formatInteger(totalIncome);
+    // this.numberFormat = this.formatInteger(this.totalIncome);
+    const stringFormat = this.formatInteger(specialIncome);
     const realFormat = this.formatCurrency(stringFormat);
-    this.totalIncome.setValue(realFormat);
+    this.fg.get('specialIncome').setValue(realFormat);
   }
 
   cutComma(text: string): string {
@@ -193,8 +205,11 @@ export class ModalIncomeComponent implements OnInit {
   closeModal() {
     this.closeModalEmit.emit(true);
   }
+  get workDate(): AbstractControl {
+    return this.fg.get('workDate');
+  }
 
-  get totalIncome(): AbstractControl {
-    return this.fg.get('totalIncome');
+  get specialIncome(): AbstractControl {
+    return this.fg.get('specialIncome');
   }
 }

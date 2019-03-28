@@ -18,6 +18,7 @@ export class LayoutsComponent implements OnInit {
 
     ngOnInit() {
         this.worklogApiService.getUserByID(this.id).subscribe(res => {
+
             if (!res) {
                 sessionStorage.clear();
                 this.router.navigate([`/login`]);
@@ -27,6 +28,9 @@ export class LayoutsComponent implements OnInit {
             if (res.firstName === '' || res.lastName === '') {
                 this.router.navigate([`/firstlogin`]);
                 return;
+            }
+            if (res.dailyIncome !== '') {
+                this.worklogApiService.setDailyIncoem(res.dailyIncome);
             }
             this.personType = res.role;
             this.goToPage();

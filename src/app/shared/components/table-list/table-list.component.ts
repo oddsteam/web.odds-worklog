@@ -1,6 +1,6 @@
-import { User } from 'src/app/shared/model/user';
 import { Component, Input, OnChanges, OnDestroy, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
+import { User } from 'src/app/shared/model/user';
 
 @Component({
     selector: 'app-table-list',

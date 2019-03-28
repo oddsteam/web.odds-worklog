@@ -82,7 +82,6 @@ export class SettingComponent implements OnInit {
             setting: setting
           };
           this.worklogApiService.sendMessage(body).subscribe(response => {
-            // console.log(response, 'res');
           });
           alert('บันทึกสำเร็จแล้ว');
         } else {

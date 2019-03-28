@@ -44,7 +44,6 @@ export class ProductOwnerComponent implements OnInit {
   getProductOwnerData() {
     this.worklogApiService.getProductOwnerResponse(this.customerId).subscribe(res => {
       this.productOwner = res;
-      console.log(res);
     });
   }
 

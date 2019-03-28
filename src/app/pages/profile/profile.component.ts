@@ -120,6 +120,7 @@ export class ProfileComponent implements OnInit {
   updateData() {
     if (this.dailyIncome.valid) {
       this.setDataToModel();
+      this.worklogApiService.setDailyIncoem(this.userInfo.dailyIncome);
       this.worklogApiService.updateUser(this.id, this.userInfo).subscribe(user => {
         this.setDataUser(user);
         this.triggerHeader();
