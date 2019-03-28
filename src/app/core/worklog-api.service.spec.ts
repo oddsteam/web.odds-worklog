@@ -76,7 +76,8 @@ describe('Service: WorklogApi', () => {
           siteId: '',
           site: null,
           project: '',
-          imageProfile: null
+          imageProfile: null,
+          dailyIncome: '',
         }
       ]
     };
@@ -109,7 +110,8 @@ describe('Service: WorklogApi', () => {
           siteId: '',
           site: null,
           project: '',
-          imageProfile: null
+          imageProfile: null,
+          dailyIncome: '',
         }
       ]
     };

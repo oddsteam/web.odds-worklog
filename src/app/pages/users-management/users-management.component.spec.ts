@@ -52,7 +52,8 @@ describe('UsersManagementComponent', () => {
       siteId: '',
       transcript: '',
       imageProfile: null,
-      project: ''
+      project: '',
+      dailyIncome: ''
     };
     spyOn(worklogApiService, 'getUsersData').and.returnValue(of(mockResponse));
     component.getUsersData();
@@ -78,7 +79,8 @@ describe('UsersManagementComponent', () => {
       siteId: '',
       transcript: '',
       imageProfile: null,
-      project: ''
+      project: '',
+      dailyIncome: ''
     };
     spyOn(worklogApiService, 'getUsersData').and.returnValue(of(mockResponse));
     component.getUsersData();

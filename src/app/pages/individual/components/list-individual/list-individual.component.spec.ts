@@ -65,7 +65,8 @@ describe('ListIndividualComponent', () => {
           siteId: '',
           transcript: '',
           site: null,
-          project: ''
+          project: '',
+          dailyIncome: ''
         },
         {
           id: '1233',
@@ -79,7 +80,8 @@ describe('ListIndividualComponent', () => {
           siteId: '',
           transcript: '',
           site: null,
-          project: ''
+          project: '',
+          dailyIncome: ''
         },
       ]
     };
@@ -108,7 +110,8 @@ describe('ListIndividualComponent', () => {
           transcript: '',
           site: null,
           imageProfile: null,
-          project: ''
+          project: '',
+          dailyIncome: ''
         },
         {
           id: '1233',
@@ -125,7 +128,8 @@ describe('ListIndividualComponent', () => {
           transcript: '',
           site: null,
           imageProfile: null,
-          project: ''
+          project: '',
+          dailyIncome: ''
         },
       ]
     };
@@ -176,7 +180,8 @@ describe('ListIndividualComponent', () => {
           slackAccount: 'odds@odds.team',
           siteId: '',
           transcript: '',
-          site: null
+          site: null,
+          dailyIncome: ''
         },
         {
           id: '1233',
@@ -191,7 +196,8 @@ describe('ListIndividualComponent', () => {
           slackAccount: 'odds@odds.team',
           siteId: '',
           transcript: '',
-          site: null
+          site: null,
+          dailyIncome: ''
         },
       ]
     };

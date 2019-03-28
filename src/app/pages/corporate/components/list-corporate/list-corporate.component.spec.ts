@@ -113,7 +113,8 @@ describe('ListCorporateComponent', () => {
           transcript: '',
           site: null,
           imageProfile: null,
-          project: ''
+          project: '',
+          dailyIncome: ''
         },
         {
           id: '1233',
@@ -130,7 +131,8 @@ describe('ListCorporateComponent', () => {
           transcript: '',
           site: null,
           imageProfile: null,
-          project: ''
+          project: '',
+          dailyIncome: ''
         },
       ]
     };
