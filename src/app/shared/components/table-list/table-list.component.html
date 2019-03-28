@@ -7,6 +7,7 @@
         <th class="text-left align-middle">Account Name</th>
         <th class="text-left align-middle">Account Number</th>
         <th class="text-center align-middle">Submit Date</th>
+        <th class="text-center align-middle">Work Date</th>
         <th class="text-center align-middle status-sort" (click)="setOrder()">
           Status <i [ngClass]="swapArrowIconSort ? 'fa fa-caret-up' : 'fa fa-caret-down'"></i>
         </th>
@@ -25,6 +26,7 @@
           : (ListData[0]?.submitDate | date: "dd/MM/yyyy HH:mm:ss")
           }}
         </td>
+        <td class="text-left">{{ ListData[0].user?.workDate }}</td>
         <td class="text-center" appStatusHighlight [Status]="ListData[0]?.status">
           {{ ListData[0]?.status === "Y" ? "Submitted" : "Not submitted" }}
         </td>
@@ -41,6 +43,7 @@
           : (listData?.submitDate | date: "dd/MM/yyyy HH:mm:ss")
           }}
         </td>
+        <td class="text-left">{{ ListData[0].user?.workDate }}</td>
         <td class="text-center" appStatusHighlight [Status]="listData?.status">
           {{ listData?.status === "Y" ? "Submitted" : "Not submitted" }}
         </td>
