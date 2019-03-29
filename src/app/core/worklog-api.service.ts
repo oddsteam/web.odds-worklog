@@ -126,8 +126,8 @@ export class WorklogApiService {
         );
     }
 
-    exportDataCorporate(): Observable<Blob> {
-        return this.http.get(`${this.apiPath}incomes/export/corporate`, {
+    exportDataCorporate(beforeMonth: string): Observable<Blob> {
+        return this.http.get(`${this.apiPath}incomes/export/corporate/${beforeMonth}`, {
             headers: new HttpHeaders({
                 Authorization: sessionStorage.getItem('token')
             }),
@@ -135,8 +135,8 @@ export class WorklogApiService {
         });
     }
 
-    exportDataIndividual(): Observable<Blob> {
-        return this.http.get(`${this.apiPath}incomes/export/individual`, {
+    exportDataIndividual(beforeMonth: string): Observable<Blob> {
+        return this.http.get(`${this.apiPath}incomes/export/individual/${beforeMonth}`, {
             headers: new HttpHeaders({
                 Authorization: sessionStorage.getItem('token')
             }),

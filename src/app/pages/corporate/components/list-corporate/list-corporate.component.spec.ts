@@ -144,7 +144,7 @@ describe('ListCorporateComponent', () => {
   it('should call exportDataCorporate', () => {
     const mockBlob = new Blob([], { type: 'text/csv;charset=utf-8;' });
     spyOn(worklogService, 'exportDataCorporate').and.returnValue(of(mockBlob));
-    component.exportCorporate();
+    component.exportCorporate('0');
     expect(worklogService.exportDataCorporate).toHaveBeenCalled();
   });
 
@@ -152,7 +152,7 @@ describe('ListCorporateComponent', () => {
     const mockBlob = new Blob([], { type: 'text/csv;charset=utf-8;' });
     spyOn(worklogService, 'exportDataCorporate').and.returnValue(of(mockBlob));
     spyOn(component, 'downloadFile');
-    component.exportCorporate();
+    component.exportCorporate('0');
     expect(component.downloadFile).toHaveBeenCalledWith(mockBlob, 'income_corporate.csv');
   });
 
@@ -161,7 +161,7 @@ describe('ListCorporateComponent', () => {
       return throwError('Fake Error');
     });
     spyOn(window, 'alert');
-    component.exportCorporate();
+    component.exportCorporate('0');
     expect(window.alert).toHaveBeenCalledWith(`Can't export corporate income to CSV file.`);
   });
 

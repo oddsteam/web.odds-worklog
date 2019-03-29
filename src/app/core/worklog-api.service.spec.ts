@@ -160,8 +160,8 @@ describe('Service: WorklogApi', () => {
   });
 
   it('should call export data corporate api correctly', () => {
-    mockService.exportDataCorporate().subscribe();
-    const req = backEnd.expectOne(`${mockService.apiPath}incomes/export/corporate`);
+    mockService.exportDataCorporate('0').subscribe();
+    const req = backEnd.expectOne(`${mockService.apiPath}incomes/export/corporate/0`);
     const req1 = backEnd.expectOne(`${mockService.apiPath}incomes/status/individual`);
     const req2 = backEnd.expectOne(`${mockService.apiPath}incomes/status/corporate`);
     expect(req.request.method).toEqual('GET');
@@ -172,8 +172,8 @@ describe('Service: WorklogApi', () => {
   });
 
   it('should call export data individual api correctly', () => {
-    mockService.exportDataIndividual().subscribe();
-    const req = backEnd.expectOne(`${mockService.apiPath}incomes/export/individual`);
+    mockService.exportDataIndividual('0').subscribe();
+    const req = backEnd.expectOne(`${mockService.apiPath}incomes/export/individual/0`);
     const req1 = backEnd.expectOne(`${mockService.apiPath}incomes/status/individual`);
     const req2 = backEnd.expectOne(`${mockService.apiPath}incomes/status/corporate`);
     expect(req.request.method).toEqual('GET');

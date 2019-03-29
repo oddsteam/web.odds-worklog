@@ -1,7 +1,7 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { StateService } from 'src/app/core/state.service';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
 import { ListIncomeResponse } from 'src/app/shared/model/list-income-model-response';
-import { StateService } from 'src/app/core/state.service';
 
 @Component({
   selector: 'app-list-individual',
@@ -43,8 +43,8 @@ export class ListIndividualComponent implements OnInit, OnChanges {
     });
   }
 
-  exportIndividual() {
-    this.worklogApiService.exportDataIndividual().subscribe(
+  exportIndividual(beforeMonth: string) {
+    this.worklogApiService.exportDataIndividual(beforeMonth).subscribe(
       res => {
         this.downloadFile(res, 'income_individual.csv');
       },

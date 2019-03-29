@@ -43,8 +43,8 @@ export class ListCorporateComponent implements OnInit, OnChanges {
     });
   }
 
-  exportCorporate() {
-    this.worklogApiService.exportDataCorporate().subscribe(
+  exportCorporate(beforeMonth: string) {
+    this.worklogApiService.exportDataCorporate(beforeMonth).subscribe(
       res => {
         this.downloadFile(res, 'income_corporate.csv');
       },

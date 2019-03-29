@@ -141,7 +141,7 @@ describe('ListIndividualComponent', () => {
   it('should call exportDataIndividual', () => {
     const mockBlob = new Blob([], { type: 'text/csv;charset=utf-8;' });
     spyOn(worklogService, 'exportDataIndividual').and.returnValue(of(mockBlob));
-    component.exportIndividual();
+    component.exportIndividual('0');
     expect(worklogService.exportDataIndividual).toHaveBeenCalled();
   });
 
@@ -149,7 +149,7 @@ describe('ListIndividualComponent', () => {
     const mockBlob = new Blob([], { type: 'text/csv;charset=utf-8;' });
     spyOn(worklogService, 'exportDataIndividual').and.returnValue(of(mockBlob));
     spyOn(component, 'downloadFile');
-    component.exportIndividual();
+    component.exportIndividual('0');
     expect(component.downloadFile).toHaveBeenCalledWith(mockBlob, 'income_individual.csv');
   });
 
@@ -158,7 +158,7 @@ describe('ListIndividualComponent', () => {
       return throwError('Fake Error');
     });
     spyOn(window, 'alert');
-    component.exportIndividual();
+    component.exportIndividual('0');
     expect(window.alert).toHaveBeenCalledWith(`Can't export individual income to CSV file.`);
   });
 
