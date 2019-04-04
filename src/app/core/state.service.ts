@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +17,10 @@ export class StateService {
 
   setTypeUser(type: string) {
     this.isUserType.next(type);
+  }
+
+  getTypeUser(): Observable<string> {
+    return this.isUserType.asObservable();
   }
 
   setFlagUser(flag: string) {

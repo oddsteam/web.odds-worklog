@@ -25,7 +25,7 @@ export class TabMenuComponent implements OnInit {
     { id: 'settings', text: 'SETTINGS', icon: 'fa-cog', level: 0 },
   ];
   listTabMenuShow = [];
-  private id = sessionStorage.getItem('idUser');
+  id = sessionStorage.getItem('idUser');
 
   constructor(
     private router: Router,
@@ -34,14 +34,8 @@ export class TabMenuComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.worklogApiService.getUserByID(this.id).subscribe(res => {
-      this.personType = res.role;
-      this.checkTabMenu();
-    });
-    this.stateService.isUserType.subscribe(flag => {
-      this.personType = flag;
-      this.checkTabMenu();
-    });
+    this.getUserById();
+    this.checkUserType();
   }
 
   routerTo(path) {
@@ -54,11 +48,27 @@ export class TabMenuComponent implements OnInit {
     }
   }
 
+  getUserById() {
+    this.worklogApiService.getUserByID(this.id).subscribe(res => {
+      this.personType = res.role;
+      this.checkTabMenu();
+    });
+  }
+
+  checkUserType() {
+    this.stateService.getTypeUser().subscribe(flag => {
+      this.personType = flag;
+      this.checkTabMenu();
+    });
+  }
+
   checkTabMenu() {
-    if (this.personType !== 'admin') {
-      this.listTabMenuShow = this.listTabMenu.filter(x => x.id === this.personType || x.id === 'profile');
-    } else {
-      this.listTabMenuShow = this.listTabMenu;
+    if (this.personType) {
+      if (this.personType !== 'admin') {
+        this.listTabMenuShow = this.listTabMenu.filter(x => x.id === this.personType || x.id === 'profile');
+      } else {
+        this.listTabMenuShow = this.listTabMenu;
+      }
     }
   }
 }
