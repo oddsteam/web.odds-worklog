@@ -215,6 +215,7 @@ export class ProfileComponent implements OnInit {
 
   getEmitSourcePersonType(event) {
     if (event === 'individual' || event === 'corporate') {
+      this.personType = event;
       this.isCorporate = (event === 'individual') ? false : true;
     }
   }

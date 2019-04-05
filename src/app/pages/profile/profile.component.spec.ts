@@ -330,5 +330,13 @@ describe('ProfileComponent', () => {
 
       expect(component.isCorporate).toBe(false);
     });
+
+    it('should set person type to corporate when event is corporate', () => {
+      const event = 'corporate';
+
+      component.getEmitSourcePersonType(event);
+
+      expect(component.personType).toEqual('corporate');
+    });
   });
 });
