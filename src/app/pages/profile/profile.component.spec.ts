@@ -313,4 +313,14 @@ describe('ProfileComponent', () => {
       expect(component.userInfo.siteId).toEqual('5c0fb860f37e2f8698989cf0');
     });
   });
+
+  describe('getEmitSoucrePersonType', () => {
+    it('should set is coporate to true when event is corporate', () => {
+      const event = 'corporate';
+
+      component.getEmitSourcePersonType(event);
+
+      expect(component.isCorporate).toBe(true);
+    });
+  });
 });

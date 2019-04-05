@@ -225,6 +225,12 @@ export class ProfileComponent implements OnInit {
     this.userInfo.siteId = event.id;
   }
 
+  getEmitSourcePersonType(event) {
+    if (event === 'corporate') {
+      this.isCorporate = true;
+    }
+  }
+
   onCheckBoxVat(vatName) {
     this.isVat = (vatName === 'non-vat') ? 'N' : 'Y';
     this.vatList.map(data => {
