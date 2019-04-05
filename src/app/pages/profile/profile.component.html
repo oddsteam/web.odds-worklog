@@ -65,12 +65,6 @@
     <form class="edit-user prepend-top-default" [formGroup]="profileForm">
       <div class="row justify-content-center">
         <div class="col-lg-12">
-          <div class="row" *ngIf="isCorporate">
-            <div class="form-group col-md-12">
-              <label>Corporate Name</label>
-              <input class="form-control" type="text" formControlName="corporateName">
-            </div>
-          </div>
           <div class="row">
             <div class="form-group col-md-6">
               <label>First Name</label>
@@ -109,7 +103,7 @@
           <div class="row">
             <div class="form-group col-md-6">
               <label>Site</label>
-              <app-drop-down [defaultSelect]="site" [listSources]="dataListSite" (emitSource)="getEmitSource($event)"></app-drop-down>
+              <app-drop-down [defaultSelect]="site" [listSources]="dataListSite" (emitSource)="getEmitSourceSite($event)"></app-drop-down>
             </div>
             <div class="form-group col-md-6">
               <label>Project or team</label>
@@ -122,23 +116,6 @@
             <div class="form-group col-md-6">
               <label>เงินรายวันที่ได้</label>
               <input class="form-control" type="text" formControlName="dailyIncome">
-            </div>
-            <div class="row" *ngIf="userInfo && isCorporate">
-              <div class="form-group col-md-12 pl-5 ">
-                <label>VAT</label><br>
-                <div class="checkbox custom-control-inline" *ngFor="let item of vatList">
-                  <label><input type="checkbox" [checked]="item.value" (change)="onCheckBoxVat(item.name ,$event)">
-                    {{item.name}}</label>
-                </div>
-              </div>
-
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="form-group col-md-6">
-              <label>Person Type</label>
-              <app-drop-down [defaultSelect]="personType" [listSources]="listPersonType" (emitSource)="getEmitSource($event)" ></app-drop-down>
             </div>
           </div>
 

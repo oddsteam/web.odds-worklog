@@ -276,29 +276,6 @@ describe('ProfileComponent', () => {
     expect(component.downloadFile).toHaveBeenCalledWith(mockResponse, 'ww_ww_Zt0mUDwp7LBx.pdf');
   });
 
-  it('should set user site id when call getEmitSource', () => {
-    const data = {
-      bankAccountName: 'กอไก่ ขอไข่',
-      bankAccountNumber: '0123456789',
-      corporateName: 'บอบอ',
-      email: 'who@odds.team',
-      firstName: 'aaa',
-      id: '5c0fa703780bf500019a5aea',
-      lastName: 'bbb',
-      role: 'admin',
-      slackAccount: 'who@odds.team',
-      vat: 'N',
-      transcript: null,
-      imageProfile: null,
-      siteId: '5c0fb860f37e2f8698989cff'
-    };
-    // get user data
-    spyOn(worklogApiService, 'getUserByID').and.returnValue(of(data));
-    component.getData();
-    component.getEmitSource({ id: '5c0fb860f37e2f8698989cf0' });
-    expect(component.userInfo.siteId).toEqual('5c0fb860f37e2f8698989cf0');
-  });
-
   it('isVat should be Y if param in onCheckBoxVat is "vat"', () => {
     component.onCheckBoxVat('vat');
     expect(component.isVat).toEqual('Y');
@@ -310,5 +287,30 @@ describe('ProfileComponent', () => {
     component.onCheckBoxVat('non-vat');
     expect(component.vatList[0].value).toBeFalsy();
     expect(component.vatList[1].value).toBeTruthy();
+  });
+
+  describe('getEmitSourceSite', () => {
+    it('should set user site id when call getEmitSource', () => {
+      const data = {
+        bankAccountName: 'กอไก่ ขอไข่',
+        bankAccountNumber: '0123456789',
+        corporateName: 'บอบอ',
+        email: 'who@odds.team',
+        firstName: 'aaa',
+        id: '5c0fa703780bf500019a5aea',
+        lastName: 'bbb',
+        role: 'admin',
+        slackAccount: 'who@odds.team',
+        vat: 'N',
+        transcript: null,
+        imageProfile: null,
+        siteId: '5c0fb860f37e2f8698989cff'
+      };
+      // get user data
+      spyOn(worklogApiService, 'getUserByID').and.returnValue(of(data));
+      component.getData();
+      component.getEmitSourceSite({ id: '5c0fb860f37e2f8698989cf0' });
+      expect(component.userInfo.siteId).toEqual('5c0fb860f37e2f8698989cf0');
+    });
   });
 });
