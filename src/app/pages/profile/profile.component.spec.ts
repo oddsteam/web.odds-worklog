@@ -338,5 +338,13 @@ describe('ProfileComponent', () => {
 
       expect(component.personType).toEqual('corporate');
     });
+
+    it('should set person type to individual when event is individual', () => {
+      const event = 'individual';
+
+      component.getEmitSourcePersonType(event);
+
+      expect(component.personType).toEqual('individual');
+    });
   });
 });

@@ -27,6 +27,17 @@ export class ProfileComponent implements OnInit {
   showSuccessMessage = false;
   fileNamePdf: string;
   isCorporate: boolean;
+  listPersonType = [
+    {
+      id: 'corporate',
+      name: 'Corporate'
+    },
+    {
+      id: 'individual',
+      name: 'Individual'
+    }
+  ];
+
   vatList = [
     {
       value: true,
