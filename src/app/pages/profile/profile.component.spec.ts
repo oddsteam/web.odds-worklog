@@ -322,5 +322,13 @@ describe('ProfileComponent', () => {
 
       expect(component.isCorporate).toBe(true);
     });
+
+    it('should set is coporate to false when event is individual', () => {
+      const event = 'individual';
+
+      component.getEmitSourcePersonType(event);
+
+      expect(component.isCorporate).toBe(false);
+    });
   });
 });

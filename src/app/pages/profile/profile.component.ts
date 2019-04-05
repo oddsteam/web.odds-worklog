@@ -6,7 +6,6 @@ import { WorklogApiService } from 'src/app/core/worklog-api.service';
 import { Site } from 'src/app/shared/model/site';
 import { User } from 'src/app/shared/model/user';
 import { MyFile } from './file';
-// import { TabMenuComponent } from 'src/app/shared/components/tab-menu/tab-menu.component';
 
 @Component({
   selector: 'app-profile',
@@ -27,17 +26,7 @@ export class ProfileComponent implements OnInit {
   personType: string;
   showSuccessMessage = false;
   fileNamePdf: string;
-  isCorporate = false;
-  // listPersonType = [
-  //   {
-  //     id: 'corporate',
-  //     name: 'Corporate'
-  //   },
-  //   {
-  //     id: 'individual',
-  //     name: 'Individual'
-  //   }
-  // ];
+  isCorporate: boolean;
   vatList = [
     {
       value: true,
@@ -126,7 +115,6 @@ export class ProfileComponent implements OnInit {
         this.triggerHeader();
         this.alertSuccess();
       });
-      // this.stateService.setTypeUser(this.personType);
     }
   }
 
@@ -146,7 +134,7 @@ export class ProfileComponent implements OnInit {
     this.userInfo.vat = this.isVat;
     this.userInfo.project = this.project.value;
     this.userInfo.dailyIncome = this.dailyIncome.value;
-    // this.userInfo.role = this.personType;
+    this.userInfo.role = this.personType;
   }
 
   onReset() {
@@ -226,8 +214,8 @@ export class ProfileComponent implements OnInit {
   }
 
   getEmitSourcePersonType(event) {
-    if (event === 'corporate') {
-      this.isCorporate = true;
+    if (event === 'individual' || event === 'corporate') {
+      this.isCorporate = (event === 'individual') ? false : true;
     }
   }
 
