@@ -55,6 +55,14 @@ export class ListIndividualComponent implements OnInit, OnChanges {
     );
   }
 
+  exportDifferentIndividuals() {
+    this.worklogApiService.exportDataDifferentIndividuals().subscribe(res => {
+      this.downloadFile(res, 'income_individual_different.csv');
+    }, error => {
+      alert('Cant export different individuals income to CSV file.');
+    });
+  }
+
   downloadFile(data: any, filename: string) {
     const blob = new Blob([data], { type: 'text/csv;charset=utf-8;' });
     const url = window.URL.createObjectURL(blob);
