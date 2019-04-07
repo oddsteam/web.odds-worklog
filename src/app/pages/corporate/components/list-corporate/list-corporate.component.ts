@@ -55,6 +55,17 @@ export class ListCorporateComponent implements OnInit, OnChanges {
     );
   }
 
+  exportDifferentCorporate() {
+    this.worklogApiService.exportDataDifferentCorporate().subscribe(res => {
+      this.downloadFile(res, 'income_different_corporate.csv');
+    },
+      err => {
+        console.log(err);
+        alert(`Can't export different corporate income to CSV file.`);
+      });
+
+  }
+
   downloadFile(data: any, filename: string) {
     const blob = new Blob([data], { type: 'text/csv;charset=utf-8;' });
     const url = window.URL.createObjectURL(blob);
