@@ -135,8 +135,26 @@ export class WorklogApiService {
         });
     }
 
+    exportDataDifferentCorporate(): Observable<Blob> {
+        return this.http.get(`${this.apiPath}incomes/export/corporate/different`, {
+            headers: new HttpHeaders({
+                Authorization: sessionStorage.getItem('token')
+            }),
+            responseType: 'blob'
+        });
+    }
+
     exportDataIndividual(beforeMonth: string): Observable<Blob> {
         return this.http.get(`${this.apiPath}incomes/export/individual/${beforeMonth}`, {
+            headers: new HttpHeaders({
+                Authorization: sessionStorage.getItem('token')
+            }),
+            responseType: 'blob'
+        });
+    }
+
+    exportDataDifferentIndividuals(): Observable<Blob> {
+        return this.http.get(`${this.apiPath}incomes/export/individual/different`, {
             headers: new HttpHeaders({
                 Authorization: sessionStorage.getItem('token')
             }),
