@@ -275,15 +275,16 @@ describe('ProfileComponent', () => {
   });
 
   describe('updateData', () => {
-    it('should call updateUser in worklog service correctly', () => {
-      const mockResponse: User = {
+    let mockResponse = new User();
+    beforeEach(() => {
+      mockResponse = {
         bankAccountName: 'กอไก่ ขอไข่',
         bankAccountNumber: '0123456789',
         email: 'who@odds.team',
         firstName: 'aaa',
         id: '5c0fa703780bf500019a5aea',
         lastName: 'bbb',
-        role: 'admin',
+        role: 'corporate',
         slackAccount: 'who@odds.team',
         siteId: '5c0fb860f37e2f8698989cdd',
         vat: 'N',
@@ -310,19 +311,25 @@ describe('ProfileComponent', () => {
         project: '',
         dailyIncome: '14'
       });
+    });
+
+    it('should call updateUser in worklog service correctly', () => {
       fixture.detectChanges();
       spyOn(worklogApiService, 'updateUser').and.returnValue(of(mockResponse));
+
       component.updateData();
+
       expect(worklogApiService.updateUser).toHaveBeenCalled();
     });
 
     it('should set type user = person type', () => {
-      component.personType = 'individual';
+      component.personType = 'corporate';
+      spyOn(worklogApiService, 'updateUser').and.returnValue(of(mockResponse));
       spyOn(stateService, 'setTypeUser');
 
       component.updateData();
 
-      expect(stateService.setTypeUser).toHaveBeenCalledWith('individual');
+      expect(stateService.setTypeUser).toHaveBeenCalledWith('corporate');
     });
   });
 
