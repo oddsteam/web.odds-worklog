@@ -11,6 +11,7 @@ import { User } from 'src/app/shared/model/user';
 import { ProfileComponent } from './profile.component';
 import { FileService } from 'src/app/core/file.service';
 import { MessageTooltipComponent } from 'src/app/shared/components/message-tooltip/message-tooltip.component';
+import { StateService } from 'src/app/core/state.service';
 
 
 describe('ProfileComponent', () => {
@@ -18,6 +19,8 @@ describe('ProfileComponent', () => {
   let fixture: ComponentFixture<ProfileComponent>;
   let worklogApiService: WorklogApiService;
   let fileService: FileService;
+  let stateService: StateService;
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ProfileComponent, DropDownComponent, MessageTooltipComponent],
@@ -32,6 +35,7 @@ describe('ProfileComponent', () => {
     fixture = TestBed.createComponent(ProfileComponent);
     worklogApiService = TestBed.get(WorklogApiService);
     fileService = TestBed.get(FileService);
+    stateService = TestBed.get(StateService);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -163,50 +167,6 @@ describe('ProfileComponent', () => {
     expect(fileService.uploadFileTranscript).toHaveBeenCalledWith(file);
   });
 
-  // onReset Test
-
-  it('should call updateUser in worklog service correctly', () => {
-    const mockResponse: User = {
-      bankAccountName: 'กอไก่ ขอไข่',
-      bankAccountNumber: '0123456789',
-      email: 'who@odds.team',
-      firstName: 'aaa',
-      id: '5c0fa703780bf500019a5aea',
-      lastName: 'bbb',
-      role: 'admin',
-      slackAccount: 'who@odds.team',
-      siteId: '5c0fb860f37e2f8698989cdd',
-      vat: 'N',
-      site: {
-        id: '5c0fb860f37e2f8698989cdd',
-        name: 'SEC'
-      },
-      thaiCitizenId: '112233445566',
-      transcript: null,
-      imageProfile: null,
-      project: '',
-      dailyIncome: '14'
-
-    };
-    component.userInfo = new User();
-    component.id = mockResponse.id;
-    component.profileForm.setValue({
-      firstName: 'ODDS',
-      lastName: 'ODDS',
-      corporateName: 'บอบอ',
-      email: 'odds@odds.team',
-      bankAccount: 'odds odds',
-      bankAccountNumber: '1122334455',
-      slackAccount: 'odds@odds.team',
-      project: '',
-      dailyIncome: '14'
-    });
-    fixture.detectChanges();
-    spyOn(worklogApiService, 'updateUser').and.returnValue(of(mockResponse));
-    component.updateData();
-    expect(worklogApiService.updateUser).toHaveBeenCalled();
-  });
-
   it('when call onReset() must call getData()', () => {
     spyOn(component, 'getData');
     component.onReset();
@@ -311,6 +271,58 @@ describe('ProfileComponent', () => {
       component.getData();
       component.getEmitSourceSite({ id: '5c0fb860f37e2f8698989cf0' });
       expect(component.userInfo.siteId).toEqual('5c0fb860f37e2f8698989cf0');
+    });
+  });
+
+  describe('updateData', () => {
+    it('should call updateUser in worklog service correctly', () => {
+      const mockResponse: User = {
+        bankAccountName: 'กอไก่ ขอไข่',
+        bankAccountNumber: '0123456789',
+        email: 'who@odds.team',
+        firstName: 'aaa',
+        id: '5c0fa703780bf500019a5aea',
+        lastName: 'bbb',
+        role: 'admin',
+        slackAccount: 'who@odds.team',
+        siteId: '5c0fb860f37e2f8698989cdd',
+        vat: 'N',
+        site: {
+          id: '5c0fb860f37e2f8698989cdd',
+          name: 'SEC'
+        },
+        thaiCitizenId: '112233445566',
+        transcript: null,
+        imageProfile: null,
+        project: '',
+        dailyIncome: '14'
+      };
+      component.userInfo = new User();
+      component.id = mockResponse.id;
+      component.profileForm.setValue({
+        firstName: 'ODDS',
+        lastName: 'ODDS',
+        corporateName: 'บอบอ',
+        email: 'odds@odds.team',
+        bankAccount: 'odds odds',
+        bankAccountNumber: '1122334455',
+        slackAccount: 'odds@odds.team',
+        project: '',
+        dailyIncome: '14'
+      });
+      fixture.detectChanges();
+      spyOn(worklogApiService, 'updateUser').and.returnValue(of(mockResponse));
+      component.updateData();
+      expect(worklogApiService.updateUser).toHaveBeenCalled();
+    });
+
+    it('should set type user = person type', () => {
+      component.personType = 'individual';
+      spyOn(stateService, 'setTypeUser');
+
+      component.updateData();
+
+      expect(stateService.setTypeUser).toHaveBeenCalledWith('individual');
     });
   });
 

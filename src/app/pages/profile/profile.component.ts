@@ -126,6 +126,7 @@ export class ProfileComponent implements OnInit {
         this.triggerHeader();
         this.alertSuccess();
       });
+      this.stateService.setTypeUser(this.personType);
     }
   }
 
