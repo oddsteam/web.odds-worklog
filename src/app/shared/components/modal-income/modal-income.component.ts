@@ -101,6 +101,7 @@ export class ModalIncomeComponent implements OnInit {
   }
 
   updateData() {
+    this.specialIncome.setValue(this.specialIncome.value === '' ? '0' : this.specialIncome.value);
     this.addIncomeData.vat = this.calVAT(this.addIncomeData.totalIncome);
     this.addIncomeData.wht = this.calWHT(this.addIncomeData.totalIncome);
     this.addIncomeData.netIncome = this.calNetIncome(
@@ -118,7 +119,7 @@ export class ModalIncomeComponent implements OnInit {
     });
     const addIncome = this.fg.value;
     this.worklogApiService.addIncomeConfirm(addIncome).subscribe(res => {
-      // IncomeFlag.isUpdate = true;
+      IncomeFlag.isUpdate = true;
       this.stateService.triggerListIncomeCorporate();
       this.stateService.triggerListIncomeIndividual();
       this.closeModalEmit.emit(true);
