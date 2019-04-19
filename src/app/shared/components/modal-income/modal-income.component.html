@@ -11,7 +11,8 @@
       <div class="text-blue">
         <strong>ตัวอย่าง</strong>
       </div>
-      <div class="text-blue font-middle">น้อง A ทำงานได้เงินวันละ 100 บาท ทำงาน 20 วัน กรอก "2,000" นะ</div>
+      <div class="text-blue font-middle"> - น้อง A จะกรอกจำนวนวันที่ทำงานต้องไปใส่ รายได้รายวันที่ หน้า Profile ก่อนนะ </div>
+      <div class="text-blue font-middle"> - น้อง A ทำงานพิเศษ ทำไป 20 ชม ชม ละ 100 กรอก "2000" นะ</div>
     </div>
     <form [formGroup]="fg">
       <!-- <div class="form-group my-2">
@@ -49,7 +50,7 @@
         <div class="row mb-2">
           <div class="col col-2"></div>
           <div class="col col-3">รายได้สุทธิ์ :</div>
-          <div class="col col-5 text-right" id="addIncomeTotalIncome">{{ addIncomeData.totalIncome | number: '1.2-2'}}
+          <div class="col col-5 text-right" id="addIncomeTotalIncome">{{ totalIncomeNonspecialIncome | number: '1.2-2'}}
             <span>บาท</span>
           </div>
           <div class="col col-2"></div>
