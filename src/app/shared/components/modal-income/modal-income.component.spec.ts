@@ -175,7 +175,7 @@ describe('ModalIncomeComponent', () => {
   });
 
   it('should calculate net income correctly', () => {
-    const result = component.calNetIncome('100,000', '0.07', '0.03', '10,000');
+    const result = component.calNetIncome('110,000', '0.07', '0.03');
     expect(result).toEqual('110000.04000000001');
   });
 
@@ -316,7 +316,7 @@ describe('ModalIncomeComponent', () => {
     spyOn(component, 'calNetIncome');
     component.updateData();
     expect(component.calNetIncome).toHaveBeenCalledWith(component.addIncomeData.totalIncome, component.addIncomeData.vat,
-      component.addIncomeData.wht, component.addIncomeData.specialIncome);
+      component.addIncomeData.wht);
   });
 
   it('if user is N when call updateData addIncomeData.net should have call calNetIncome with vat = 0', () => {
@@ -329,7 +329,7 @@ describe('ModalIncomeComponent', () => {
     spyOn(component, 'calNetIncome');
     component.updateData();
     expect(component.calNetIncome).toHaveBeenCalledWith(component.addIncomeData.totalIncome, '0',
-      component.addIncomeData.wht, component.addIncomeData.specialIncome);
+      component.addIncomeData.wht);
   });
 
   it('when IncomeFlag.isUpdate = true it should call updateIncomeService', () => {

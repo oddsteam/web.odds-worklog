@@ -24,6 +24,7 @@ export class ModalIncomeComponent implements OnInit {
   addIncomeAlready: Boolean = false;
   dailyIncome: string;
   totalIncome: string;
+  totalIncomeNonspecialIncome: string;
   constructor(
     private fb: FormBuilder,
     private worklogApiService: WorklogApiService,
@@ -31,9 +32,9 @@ export class ModalIncomeComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.getDailyIncome();
     this.onSetupForm();
     this.title = 'Add Income';
-    this.getDailyIncome();
   }
 
   isVat(): boolean {
@@ -76,14 +77,16 @@ export class ModalIncomeComponent implements OnInit {
   calDailyIncomeWithWorkDate() {
     const dailyIncome = this.stringToNumber(this.dailyIncome);
     const workDate = this.stringToNumber(this.workDate.value);
-    this.totalIncome = String(dailyIncome * workDate);
+    const specialIncome = this.stringToNumber(this.specialIncome.value);
+    this.totalIncomeNonspecialIncome = String(dailyIncome * workDate);
+    this.totalIncome = String((dailyIncome * workDate) + specialIncome);
   }
   onSubmit() {
     this.calDailyIncomeWithWorkDate();
     let totalIncome;
     totalIncome = this.totalIncome;
     this.title = 'Confirm Income';
-    this.addIncomeData.totalIncome = totalIncome;
+    this.addIncomeData.totalIncome =  this.totalIncome;
     this.addIncomeAlready = true;
     this.updateData();
   }
@@ -107,8 +110,7 @@ export class ModalIncomeComponent implements OnInit {
     this.addIncomeData.netIncome = this.calNetIncome(
       this.addIncomeData.totalIncome,
       this.typeVat === 'Y' ? this.addIncomeData.vat : '0',
-      this.addIncomeData.wht,
-      this.specialIncome.value
+      this.addIncomeData.wht
     );
     this.addIncomeData.specialIncome = this.cutComma(this.specialIncome.value);
   }
@@ -150,12 +152,11 @@ export class ModalIncomeComponent implements OnInit {
     return (this.stringToNumber(netIncome) * 0.03).toString();
   }
 
-  calNetIncome(totalIncome: string, vat: string, wht: string, dailyIncome: string): string {
+  calNetIncome(totalIncome: string, vat: string, wht: string): string {
     return (
       this.stringToNumber(totalIncome) +
       this.stringToNumber(vat) -
-      this.stringToNumber(wht) +
-      this.stringToNumber(dailyIncome)
+      this.stringToNumber(wht)
     ).toString();
   }
 
