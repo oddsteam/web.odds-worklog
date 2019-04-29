@@ -14,7 +14,8 @@
                 <button class="btn" type="button">
                   Choose file...
                 </button>
-                <input formControlName="transcriptFile" type="file" accept="application/pdf" (change)="onChangeTranscriptFile($event)" />
+                <input formControlName="transcriptFile" type="file" accept="application/pdf"
+                  (change)="onChangeTranscriptFile($event)" />
               </span>
               <span [hidden]="!(userInfo && userInfo.transcript)">
                 <button class="btn button-download" type="button" (click)="onDownload('transcript')">
@@ -40,7 +41,8 @@
                 <button class="btn" type="button">
                   Choose file...
                 </button>
-                <input formControlName="imageFile" type="file" accept="image/x-png,image/gif,image/jpeg" (change)="onChangeImageFile($event)" />
+                <input formControlName="imageFile" type="file" accept="image/x-png,image/gif,image/jpeg"
+                  (change)="onChangeImageFile($event)" />
               </span>
               <span [hidden]="!(userInfo && userInfo.imageProfile)">
                 <button class="btn button-download" type="button" (click)="onDownload('image')">
@@ -109,7 +111,8 @@
           <div class="row">
             <div class="form-group col-md-6">
               <label>Site</label>
-              <app-drop-down [defaultSelect]="site" [listSources]="dataListSite" (emitSource)="getEmitSourceSite($event)"></app-drop-down>
+              <app-drop-down [defaultSelect]="site" [listSources]="dataListSite"
+                (emitSource)="getEmitSourceSite($event)"></app-drop-down>
             </div>
             <div class="form-group col-md-6">
               <label>Project or team</label>
@@ -124,6 +127,18 @@
               <input class="form-control" type="text" formControlName="dailyIncome">
             </div>
 
+            <div class="form-group col-md-6">
+              <label>Person Type</label>
+              <app-drop-down [defaultSelect]="personType" [listSources]="listPersonType"
+                (emitSource)="getEmitSourcePersonType($event)"></app-drop-down>
+            </div>
+
+          </div>
+          <div class="row">
+            <div class="form-group col-md-6">
+              <label>Address</label>
+              <textarea placeholder="ที่อยู่ปัจจุบัน" class="form-control"></textarea>
+            </div>
             <div class="row" *ngIf="userInfo && isCorporate">
               <div class="form-group col-md-12 pl-5 ">
                 <label>VAT</label><br>
@@ -134,12 +149,6 @@
               </div>
             </div>
           </div>
-          <div class="row">
-              <div class="form-group col-md-6">
-                <label>Person Type</label>
-                <app-drop-down [defaultSelect]="personType" [listSources]="listPersonType" (emitSource)="getEmitSourcePersonType($event)" ></app-drop-down>
-              </div>
-            </div>  
           <hr>
           <div class="prepend-top-default append-bottom-default inner">
             <button class="btn button-green" (click)="updateData()">Update</button>
