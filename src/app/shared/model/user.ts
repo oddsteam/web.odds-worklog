@@ -18,4 +18,5 @@ export class User {
     project: string;
     imageProfile: string;
     dailyIncome: string;
+    address: string;
 }
