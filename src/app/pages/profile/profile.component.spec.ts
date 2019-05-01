@@ -4,14 +4,14 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { of } from 'rxjs';
+import { FileService } from 'src/app/core/file.service';
+import { StateService } from 'src/app/core/state.service';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
 import { DropDownComponent } from 'src/app/shared/components/drop-down/drop-down.component';
+import { MessageTooltipComponent } from 'src/app/shared/components/message-tooltip/message-tooltip.component';
 import { Site } from 'src/app/shared/model/site';
 import { User } from 'src/app/shared/model/user';
 import { ProfileComponent } from './profile.component';
-import { FileService } from 'src/app/core/file.service';
-import { MessageTooltipComponent } from 'src/app/shared/components/message-tooltip/message-tooltip.component';
-import { StateService } from 'src/app/core/state.service';
 
 
 describe('ProfileComponent', () => {
@@ -121,7 +121,8 @@ describe('ProfileComponent', () => {
       transcript: null,
       imageProfile: null,
       project: '',
-      dailyIncome: '14'
+      dailyIncome: '14',
+      address: 'every Where'
     };
     const mockListSites: Site[] = [
       {
@@ -296,7 +297,8 @@ describe('ProfileComponent', () => {
         transcript: null,
         imageProfile: null,
         project: '',
-        dailyIncome: '14'
+        dailyIncome: '14',
+        address: 'every Where'
       };
       component.userInfo = new User();
       component.id = mockResponse.id;
@@ -309,7 +311,8 @@ describe('ProfileComponent', () => {
         bankAccountNumber: '1122334455',
         slackAccount: 'odds@odds.team',
         project: '',
-        dailyIncome: '14'
+        dailyIncome: '14',
+        address: 'every Where'
       });
     });
 

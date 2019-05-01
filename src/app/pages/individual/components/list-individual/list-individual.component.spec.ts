@@ -111,7 +111,8 @@ describe('ListIndividualComponent', () => {
           site: null,
           imageProfile: null,
           project: '',
-          dailyIncome: ''
+          dailyIncome: '',
+          address: 'every Where'
         },
         {
           id: '1233',
@@ -129,7 +130,8 @@ describe('ListIndividualComponent', () => {
           site: null,
           imageProfile: null,
           project: '',
-          dailyIncome: ''
+          dailyIncome: '',
+          address: 'every Where'
         },
       ]
     };
