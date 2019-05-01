@@ -135,10 +135,13 @@
 
           </div>
           <div class="row">
+
             <div class="form-group col-md-6">
               <label>Address</label>
-              <textarea placeholder="ที่อยู่ปัจจุบัน" class="form-control"></textarea>
+              <textarea class="form-control" id="address" name="address" placeholder="ที่อยู่ปัจจุบัน"
+                formControlName="address"></textarea>
             </div>
+
             <div class="row" *ngIf="userInfo && isCorporate">
               <div class="form-group col-md-12 pl-5 ">
                 <label>VAT</label><br>
