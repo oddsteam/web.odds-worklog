@@ -49,7 +49,7 @@ export class AddIncomeComponent implements OnInit {
       } else {
         IncomeFlag.id = res.id;
         this.addIncomeResponse = res;
-        this.salary = Number(res.netIncome);
+        this.salary = Number(res.totalIncome);
         this.note = res.note;
         this.stateService.setFlagUser('N');
       }
