@@ -24,6 +24,10 @@ export class ModalIncomeComponent implements OnInit {
   addIncomeAlready: Boolean = false;
   dailyIncome: string;
   totalIncome: string;
+  vatPrimary: string;
+  vatSpecial: string;
+  whtPrimary: string;
+  whtSpecial: string;
   constructor(
     private fb: FormBuilder,
     private worklogApiService: WorklogApiService,
@@ -91,8 +95,16 @@ export class ModalIncomeComponent implements OnInit {
     this.addIncomeData.netSpecialIncome = String(netSpecialIncome);
   }
 
+  calTax() {
+    this.vatPrimary = this.calVAT(this.addIncomeData.netIncome);
+    this.whtPrimary = this.calWHT(this.addIncomeData.netIncome);
+    this.vatSpecial = this.calVAT(this.addIncomeData.netSpecialIncome);
+    this.whtSpecial = this.calWHT(this.addIncomeData.netSpecialIncome);
+  }
+
   onSubmit() {
     this.calTotalIncome();
+    this.calTax();
     this.title = 'Confirm Income';
     this.addIncomeData.totalIncome = this.totalIncome;
     this.addIncomeAlready = true;
