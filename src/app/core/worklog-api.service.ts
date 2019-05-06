@@ -8,6 +8,7 @@ import { IncomeFlag } from '../shared/model/income-flag';
 import { ListIncomeResponse } from '../shared/model/list-income-model-response';
 import { ProductOwner } from '../shared/model/product-owner';
 import { SettingReminder } from '../shared/model/setting-reminder-model';
+import { StatusTavi } from '../shared/model/status-tavi';
 import { User } from '../shared/model/user';
 import { Login } from './../shared/model/login';
 import { Site } from './../shared/model/site';
@@ -74,8 +75,8 @@ export class WorklogApiService {
         );
     }
 
-    updateStatusTaviUser(id: string, user: User): Observable<User> {
-        return this.http.put<User>(`${this.apiPath}users/tavi/${id}`, user,
+    updateStatusTaviUser(id: string, statususer: Array<StatusTavi>): Observable<User> {
+        return this.http.put<User>(`${this.apiPath}users/tavi/${id}`, statususer,
             this.getHttpHeaderOption()
         );
     }

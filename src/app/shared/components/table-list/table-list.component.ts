@@ -5,6 +5,7 @@ import { Subject } from 'rxjs';
 import { User } from 'src/app/shared/model/user';
 import { StateService } from '../../../core/state.service';
 import { WorklogApiService } from '../../../core/worklog-api.service';
+import { StatusTavi } from '../../model/status-tavi';
 
 @Component({
     selector: 'app-table-list',
@@ -121,19 +122,20 @@ export class TableListComponent implements OnInit, OnDestroy, OnChanges {
 
     updateAllUser() {
         const items = this.tableListForm.get('items') as FormArray;
+        const statusTavi = new Array<StatusTavi>();
         let user = new User();
         user = this.ListData.filter(a => a.user.id === this.tableListForm.get('id').value)[0].user;
         user.statusTavi = this.tableListForm.value.statusTavi;
-        this.worklogApiService.updateStatusTaviUser(this.tableListForm.get('id').value, user).subscribe((res) => {
-        });
+        statusTavi.push( { id : this.tableListForm.get('id').value, user: user});
         if (this.ListData.length - 2 >= 0) {
             for (let i = 0; i < items.controls.length; i++) {
                 user = this.ListData.filter(a => a.user.id === items.controls[i].get('id').value)[0].user;
                 user.statusTavi = items.controls[i].value.statusTavi;
-                this.worklogApiService.updateStatusTaviUser(items.controls[i].get('id').value, user).subscribe((res) => {
-                });
+                    statusTavi.push( { id : items.controls[i].get('id').value, user: user});
             }
         }
+        this.worklogApiService.updateStatusTaviUser(this.tableListForm.get('id').value, statusTavi).subscribe((res) => {
+        });
         this.modalRef.hide();
 
     }
