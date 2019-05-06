@@ -55,7 +55,8 @@ describe('ProfileComponent', () => {
       role: 'admin',
       slackAccount: 'who@odds.team',
       vat: 'N',
-      transcript: null
+      transcript: null,
+      thaiCitizenId: '123467890'
     };
 
     spyOn(worklogApiService, 'getUserByID').and.returnValue(of(data));
@@ -80,6 +81,8 @@ describe('ProfileComponent', () => {
       role: 'admin',
       slackAccount: 'who@odds.team',
       vat: 'N',
+      thaiCitizenId: '123467890'
+
     };
     const mockListSites: Site[] = [
       {
@@ -122,7 +125,9 @@ describe('ProfileComponent', () => {
       imageProfile: null,
       project: '',
       dailyIncome: '14',
-      address: 'every Where'
+      address: 'every Where',
+      statusTavi: true
+
     };
     const mockListSites: Site[] = [
       {
@@ -199,7 +204,9 @@ describe('ProfileComponent', () => {
       slackAccount: 'who@odds.team',
       vat: 'N',
       transcript: null,
-      imageProfile: null
+      imageProfile: null,
+      thaiCitizenId: '123467890'
+
     };
     // get user data
     spyOn(worklogApiService, 'getUserByID').and.returnValue(of(data));
@@ -223,7 +230,9 @@ describe('ProfileComponent', () => {
       slackAccount: 'who@odds.team',
       vat: 'N',
       transcript: null,
-      imageProfile: null
+      imageProfile: null,
+      thaiCitizenId: '123467890'
+
     };
     // get user data
     spyOn(worklogApiService, 'getUserByID').and.returnValue(of(data));
@@ -265,7 +274,8 @@ describe('ProfileComponent', () => {
         vat: 'N',
         transcript: null,
         imageProfile: null,
-        siteId: '5c0fb860f37e2f8698989cff'
+        siteId: '5c0fb860f37e2f8698989cff',
+        thaiCitizenId: '123467890'
       };
       // get user data
       spyOn(worklogApiService, 'getUserByID').and.returnValue(of(data));
@@ -298,7 +308,8 @@ describe('ProfileComponent', () => {
         imageProfile: null,
         project: '',
         dailyIncome: '14',
-        address: 'every Where'
+        address: 'every Where',
+        statusTavi: true,
       };
       component.userInfo = new User();
       component.id = mockResponse.id;
@@ -312,7 +323,8 @@ describe('ProfileComponent', () => {
         slackAccount: 'odds@odds.team',
         project: '',
         dailyIncome: '14',
-        address: 'every Where'
+        address: 'every Where',
+        thaiCitizenId: '123467890'
       });
     });
 

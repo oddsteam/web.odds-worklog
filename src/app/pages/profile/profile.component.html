@@ -135,7 +135,6 @@
 
           </div>
           <div class="row">
-
             <div class="form-group col-md-6">
               <label>Address</label>
               <textarea class="form-control" id="address" name="address" placeholder="ที่อยู่ปัจจุบัน"
@@ -152,6 +151,13 @@
               </div>
             </div>
           </div>
+          <div class="row">
+            <div class="form-group col-md-6">
+              <label>ThaiCitizenId</label>
+              <input class="form-control" id="thaiCitizenId" name="thaiCitizenId" placeholder="เลขบัตรประจำตัวบัตรประชาชน"
+                formControlName="thaiCitizenId">
+            </div>
+            </div>
           <hr>
           <div class="prepend-top-default append-bottom-default inner">
             <button class="btn button-green" (click)="updateData()">Update</button>

@@ -73,7 +73,8 @@ export class ProfileComponent implements OnInit {
       slackAccount: ['', Validators.required],
       project: [''],
       dailyIncome: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
-      address: ['', Validators.required]
+      address: ['', Validators.required],
+      thaiCitizenId: ['', Validators.required]
     });
 
     this.fileForm = this.formBuilder.group({
@@ -104,6 +105,7 @@ export class ProfileComponent implements OnInit {
     this.project.setValue(user.project);
     this.dailyIncome.setValue(user.dailyIncome);
     this.address.setValue(user.address);
+    this.thaiCitizenId.setValue(user.thaiCitizenId);
     this.isVat = user.vat;
     if (user.vat === 'N') {
       this.vatList[0].value = false;
@@ -150,6 +152,7 @@ export class ProfileComponent implements OnInit {
     this.userInfo.dailyIncome = this.dailyIncome.value;
     this.userInfo.role = this.personType;
     this.userInfo.address = this.address.value;
+    this.userInfo.thaiCitizenId = this.thaiCitizenId.value;
   }
 
   onReset() {
@@ -340,6 +343,9 @@ export class ProfileComponent implements OnInit {
 
   get address(): FormControl {
     return this.profileForm.get('address') as FormControl;
+  }
+  get thaiCitizenId(): FormControl {
+    return this.profileForm.get('thaiCitizenId') as FormControl;
   }
 
   private triggerHeader() {

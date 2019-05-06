@@ -1,13 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ContentLoaderModule } from '@netbasal/content-loader';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { BsModalService, ComponentLoaderFactory, PositioningService } from 'ngx-bootstrap';
 import { OrderModule } from 'ngx-order-pipe';
 import { Observable, of } from 'rxjs';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
+import { StateService } from '../../../core/state.service';
 import { StatusHighlightDirective } from '../../directives/status-highlight.directive';
 import { TableListComponent } from './table-list.component';
 
@@ -29,10 +31,11 @@ describe('TabelListComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [TableListComponent, StatusHighlightDirective],
-      imports: [FormsModule, CommonModule, RouterTestingModule, NgbModule.forRoot(),
+      imports: [FormsModule, ReactiveFormsModule, CommonModule, RouterTestingModule, NgbModule.forRoot(),
         HttpClientTestingModule, ContentLoaderModule, OrderModule],
       providers: [
         { provide: WorklogApiService, useClass: MockWorklogApiService }
+        , StateService, BsModalService, ComponentLoaderFactory, PositioningService
       ]
     })
       .compileComponents();
@@ -42,7 +45,6 @@ describe('TabelListComponent', () => {
     fixture = TestBed.createComponent(TableListComponent);
     service = TestBed.get(WorklogApiService);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   it('should create', () => {

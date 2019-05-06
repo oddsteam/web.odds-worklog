@@ -23,7 +23,7 @@ export class WorklogApiService {
     dailyIncome = '';
     id = sessionStorage.getItem('idUser');
     private userId = this.id;
-    readonly apiPath = environment.local;
+    readonly apiPath = environment.api;
     individualListed: ListIncomeResponse;
     corporateListed: ListIncomeResponse;
 
@@ -70,6 +70,12 @@ export class WorklogApiService {
 
     updateUser(id: string, user: User): Observable<User> {
         return this.http.put<User>(`${this.apiPath}users/${id}`, user,
+            this.getHttpHeaderOption()
+        );
+    }
+
+    updateStatusTaviUser(id: string, user: User): Observable<User> {
+        return this.http.put<User>(`${this.apiPath}users/tavi/${id}`, user,
             this.getHttpHeaderOption()
         );
     }
@@ -162,8 +168,8 @@ export class WorklogApiService {
         });
     }
 
-    exportDataPdf(): Observable<Blob> {
-        return this.http.get(`${this.apiPath}incomes/export/pdf`, {
+    exportDataPdf(id: string): Observable<Blob> {
+        return this.http.get(`${this.apiPath}incomes/export/pdf/${id}`, {
             headers: new HttpHeaders({
                 Authorization: sessionStorage.getItem('token')
             }),

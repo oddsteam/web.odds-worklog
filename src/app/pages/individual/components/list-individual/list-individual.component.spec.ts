@@ -9,6 +9,9 @@ import { WorklogApiService } from 'src/app/core/worklog-api.service';
 import { TableListComponent } from 'src/app/shared/components/table-list/table-list.component';
 import { StatusHighlightDirective } from 'src/app/shared/directives/status-highlight.directive';
 import { ListIndividualComponent } from './list-individual.component';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { BsModalService, ComponentLoaderFactory, PositioningService } from 'ngx-bootstrap';
+import { StateService } from '../../../../core/state.service';
 
 
 describe('ListIndividualComponent', () => {
@@ -19,7 +22,8 @@ describe('ListIndividualComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ListIndividualComponent, TableListComponent, StatusHighlightDirective],
-      imports: [HttpClientTestingModule, DataTablesModule.forRoot(), ContentLoaderModule, OrderModule],
+      imports: [FormsModule, ReactiveFormsModule, HttpClientTestingModule, DataTablesModule.forRoot(), ContentLoaderModule, OrderModule],
+      providers: [BsModalService, StateService, WorklogApiService, ComponentLoaderFactory, PositioningService]
     })
       .compileComponents();
   }));
@@ -28,7 +32,6 @@ describe('ListIndividualComponent', () => {
     fixture = TestBed.createComponent(ListIndividualComponent);
     worklogService = TestBed.get(WorklogApiService);
     component = fixture.componentInstance;
-    fixture.detectChanges();
     individualListed = [{
       user: {
         id: '5c0c7f34ee10e80001cb3c9b', role: 'individual'
@@ -66,7 +69,9 @@ describe('ListIndividualComponent', () => {
           transcript: '',
           site: null,
           project: '',
-          dailyIncome: ''
+          dailyIncome: '',
+          address: 'every Where',
+          statusTavi: true
         },
         {
           id: '1233',
@@ -81,7 +86,9 @@ describe('ListIndividualComponent', () => {
           transcript: '',
           site: null,
           project: '',
-          dailyIncome: ''
+          dailyIncome: '',
+          address: 'every Where',
+          statusTavi: true
         },
       ]
     };
@@ -112,7 +119,8 @@ describe('ListIndividualComponent', () => {
           imageProfile: null,
           project: '',
           dailyIncome: '',
-          address: 'every Where'
+          address: 'every Where',
+          statusTavi: true
         },
         {
           id: '1233',
@@ -131,7 +139,8 @@ describe('ListIndividualComponent', () => {
           imageProfile: null,
           project: '',
           dailyIncome: '',
-          address: 'every Where'
+          address: 'every Where',
+          statusTavi: true
         },
       ]
     };
@@ -183,7 +192,9 @@ describe('ListIndividualComponent', () => {
           siteId: '',
           transcript: '',
           site: null,
-          dailyIncome: ''
+          dailyIncome: '',
+          address: 'every Where',
+          statusTavi: true
         },
         {
           id: '1233',
@@ -199,7 +210,9 @@ describe('ListIndividualComponent', () => {
           siteId: '',
           transcript: '',
           site: null,
-          dailyIncome: ''
+          dailyIncome: '',
+          address: 'every Where',
+          statusTavi: true
         },
       ]
     };

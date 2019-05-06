@@ -19,4 +19,5 @@ export class User {
     imageProfile: string;
     dailyIncome: string;
     address: string;
+    statusTavi: boolean;
 }

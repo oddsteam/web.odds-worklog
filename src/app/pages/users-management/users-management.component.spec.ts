@@ -54,7 +54,9 @@ describe('UsersManagementComponent', () => {
       imageProfile: null,
       project: '',
       dailyIncome: '',
-      address: 'every Where'
+      address: 'every Where',
+      statusTavi: true
+
     };
     spyOn(worklogApiService, 'getUsersData').and.returnValue(of(mockResponse));
     component.getUsersData();
@@ -82,7 +84,8 @@ describe('UsersManagementComponent', () => {
       imageProfile: null,
       project: '',
       dailyIncome: '',
-      address: 'every Where'
+      address: 'every Where',
+      statusTavi: true
     };
     spyOn(worklogApiService, 'getUsersData').and.returnValue(of(mockResponse));
     component.getUsersData();

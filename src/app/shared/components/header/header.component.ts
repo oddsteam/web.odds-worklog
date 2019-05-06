@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { FileService } from 'src/app/core/file.service';
 import { StateService } from 'src/app/core/state.service';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
-import { FileService } from 'src/app/core/file.service';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 @Component({
     selector: 'app-header',
@@ -73,9 +73,9 @@ export class HeaderComponent implements OnInit {
     }
 
     exportTavi50() {
-        this.worklogApiService.exportDataPdf().subscribe(
+        this.worklogApiService.exportDataPdf(sessionStorage.getItem('idUser')).subscribe(
             res => {
-                this.downloadFile(res, 'tavi50.pdf');
+                this.downloadFile(res, 'tavi50.zip');
             },
             err => {
                 console.log(err);

@@ -78,7 +78,8 @@ describe('Service: WorklogApi', () => {
           project: '',
           imageProfile: null,
           dailyIncome: '200',
-          address: 'every Where'
+          address: 'every Where',
+          statusTavi: true
         }
       ]
     };
@@ -113,7 +114,8 @@ describe('Service: WorklogApi', () => {
           project: '',
           imageProfile: null,
           dailyIncome: '200',
-          address: 'every Where'
+          address: 'every Where',
+          statusTavi: true
         }
       ]
     };
@@ -186,8 +188,8 @@ describe('Service: WorklogApi', () => {
   });
 
   it('should call export pdf api correctly', () => {
-    mockService.exportDataPdf().subscribe();
-    const req = backEnd.expectOne(`${mockService.apiPath}incomes/export/pdf`);
+    mockService.exportDataPdf('11111').subscribe();
+    const req = backEnd.expectOne(`${mockService.apiPath}incomes/export/pdf/11111`);
     const req1 = backEnd.expectOne(`${mockService.apiPath}incomes/status/individual`);
     const req2 = backEnd.expectOne(`${mockService.apiPath}incomes/status/corporate`);
     expect(req.request.method).toEqual('GET');
