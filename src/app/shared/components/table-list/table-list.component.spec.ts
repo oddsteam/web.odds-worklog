@@ -52,8 +52,8 @@ describe('TabelListComponent', () => {
   });
 
   it('should switch swapArrowIconSort from false to true ', () => {
-    expect(component.swapArrowIconSort).toBeTruthy();
-    component.setOrder();
     expect(component.swapArrowIconSort).toBeFalsy();
+    component.setOrder();
+    expect(component.swapArrowIconSort).toBeTruthy();
   });
 });

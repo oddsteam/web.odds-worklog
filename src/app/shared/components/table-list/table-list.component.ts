@@ -16,7 +16,7 @@ export class TableListComponent implements OnInit, OnDestroy, OnChanges {
     @ViewChild('templateModal') templateModal: TemplateRef<any>;
     @Input() ListData;
     dtTrigger: Subject<any> = new Subject();
-    swapArrowIconSort = true;
+    swapArrowIconSort = false;
     order = 'status';
     isNoData = false;
     isShowLoading = true;
