@@ -26,7 +26,7 @@ export class ProfileComponent implements OnInit {
   personType: string;
   showSuccessMessage = false;
   fileNamePdf: string;
-  isCorporate: boolean;
+  isCorporate = false;
   listPersonType = [
     {
       id: 'corporate',
