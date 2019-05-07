@@ -77,17 +77,22 @@ export class TableListComponent implements OnInit, OnDestroy, OnChanges {
 
 
     updateForm() {
-        let j = 1;
         if (this.ListData != null) {
             if (this.ListData.length > 0) {
                 const lengthExcludeInital = this.ListData.length - 2;
                 const items = this.tableListForm.get('items') as FormArray;
                 if (lengthExcludeInital >= 0) {
                     this.pushArray(lengthExcludeInital);
-                    for (let i = 0; i < items.length; i++) {
-                        items.controls[i].get('id').setValue(this.ListData[j].user.id);
-                        items.controls[i].get('statusTavi').setValue(this.ListData[j].user.statusTavi);
-                        j += 1;
+                    const ListPersonSort = this.ListData;
+                    ListPersonSort.splice(0, 1);
+                    ListPersonSort.sort((n1, n2) => {
+                        const a = n1.status.toLowerCase();
+                        const b = n2.status.toLowerCase();
+                        return a > b ? 1 : (a < b ? -1 : 0);
+                    });
+                    for (let i = 0; i < ListPersonSort.length; i++) {
+                        items.controls[i].get('id').setValue(ListPersonSort[i].user.id);
+                        items.controls[i].get('statusTavi').setValue(ListPersonSort[i].user.statusTavi);
                     }
                 }
             }
@@ -126,12 +131,12 @@ export class TableListComponent implements OnInit, OnDestroy, OnChanges {
         let user = new User();
         user = this.ListData.filter(a => a.user.id === this.tableListForm.get('id').value)[0].user;
         user.statusTavi = this.tableListForm.value.statusTavi;
-        statusTavi.push( { id : this.tableListForm.get('id').value, user: user});
+        statusTavi.push({ id: this.tableListForm.get('id').value, user: user });
         if (this.ListData.length - 2 >= 0) {
             for (let i = 0; i < items.controls.length; i++) {
                 user = this.ListData.filter(a => a.user.id === items.controls[i].get('id').value)[0].user;
                 user.statusTavi = items.controls[i].value.statusTavi;
-                    statusTavi.push( { id : items.controls[i].get('id').value, user: user});
+                statusTavi.push({ id: items.controls[i].get('id').value, user: user });
             }
         }
         this.worklogApiService.updateStatusTaviUser(this.tableListForm.get('id').value, statusTavi).subscribe((res) => {
