@@ -118,5 +118,14 @@ export class FileService {
     }
   }
 
+  removeDegreeCertificate(): Observable<object> {
+    if (sessionStorage.getItem('idUser')) {
+      return this.http.delete(`${environment.api}files/degreecertificate/${sessionStorage.getItem('idUser')}`, {
+        headers: new HttpHeaders({
+          Authorization: sessionStorage.getItem('token')
+        })
+      });
+    }
+  }
 
 }

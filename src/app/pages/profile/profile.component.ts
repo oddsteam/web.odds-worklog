@@ -254,7 +254,7 @@ export class ProfileComponent implements OnInit {
       const fileName = this.getIdCardFile.fileName;
       this.fileService.downloadIdCardFile().subscribe(response => {
         this.downloadFile(response, fileName);
-      }, err => alert('Download degree certificate failed.'));
+      }, err => alert('Download id card failed.'));
     }
   }
 
@@ -265,13 +265,21 @@ export class ProfileComponent implements OnInit {
         this.onReset();
         this.transcriptFile = null;
       }, err => alert('Remove Transcript failed.'));
-    } else {
+    } else if (type === 'image') {
       this.fileService.removeImage().subscribe(response => {
         alert(response['message']);
         this.onReset();
         this.imageFile = null;
         this.triggerHeader();
       }, err => alert('Remove image profile failed.'));
+    } else if (type === 'degreecertificate') {
+      this.fileService.removeDegreeCertificate().subscribe(response => {
+        alert(response['message']);
+        this.onReset();
+        this.degreeCertificateFile = null;
+        this.triggerHeader();
+      }, err => alert('Remove degree certificate failed.'));
+    } else {
     }
   }
 

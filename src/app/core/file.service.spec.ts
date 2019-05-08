@@ -142,4 +142,18 @@ describe('FileService', () => {
       message: 'Remove transcript success'
     });
   });
+
+  it('when remove degree certificate success response should be "Remove degree certificate success"', () => {
+    sessionStorage.setItem('idUser', '5c0fa703780bf500019a5aea');
+    mockService.removeDegreeCertificate().subscribe((res) => {
+      expect(res['message']).toEqual('Remove degree certificate success');
+    });
+    const req = backEnd.expectOne(`${environment.api}files/degreecertificate/${sessionStorage.getItem('idUser')}`);
+    expect(req.request.method).toEqual('DELETE');
+    backEnd.verify();
+    req.flush({
+      message: 'Remove degree certificate success'
+    });
+  });
+
 });
