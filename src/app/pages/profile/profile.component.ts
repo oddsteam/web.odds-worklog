@@ -240,11 +240,21 @@ export class ProfileComponent implements OnInit {
       this.fileService.downloadTranscriptFile().subscribe(response => {
         this.downloadFile(response, fileName);
       }, err => alert('Download Transcript failed.'));
-    } else {
+    } else if (type === 'image') {
       const fileName = this.getImageFile.fileName;
       this.fileService.downloadImageProFile().subscribe(response => {
         this.downloadFile(response, fileName);
       }, err => alert('Download image profile failed.'));
+    } else if (type === 'degreecertificate') {
+      const fileName = this.getDegreeCertificateFile.fileName;
+      this.fileService.downloadDegreeCertificateFile().subscribe(response => {
+        this.downloadFile(response, fileName);
+      }, err => alert('Download degree certificate failed.'));
+    } else {
+      const fileName = this.getIdCardFile.fileName;
+      this.fileService.downloadIdCardFile().subscribe(response => {
+        this.downloadFile(response, fileName);
+      }, err => alert('Download degree certificate failed.'));
     }
   }
 

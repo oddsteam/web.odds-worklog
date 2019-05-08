@@ -114,6 +114,14 @@ describe('FileService', () => {
     backEnd.verify();
   });
 
+  it('should call download id card file api correctly', () => {
+    sessionStorage.setItem('idUser', '5c0fa703780bf500019a5aea');
+    mockService.downloadIdCardFile().subscribe();
+    const req = backEnd.expectOne(`${environment.api}files/idcard/${sessionStorage.getItem('idUser')}`);
+    expect(req.request.method).toEqual('GET');
+    backEnd.verify();
+  });
+
   it('should call remove transcript api correctly', () => {
     sessionStorage.setItem('idUser', '5c0fa703780bf500019a5aea');
     mockService.removeTranscript().subscribe();
