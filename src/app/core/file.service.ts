@@ -128,4 +128,14 @@ export class FileService {
     }
   }
 
+  removeIdCard(): Observable<object> {
+    if (sessionStorage.getItem('idUser')) {
+      return this.http.delete(`${environment.api}files/idcard/${sessionStorage.getItem('idUser')}`, {
+        headers: new HttpHeaders({
+          Authorization: sessionStorage.getItem('token')
+        })
+      });
+    }
+  }
+
 }

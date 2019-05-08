@@ -156,4 +156,17 @@ describe('FileService', () => {
     });
   });
 
+  it('when remove id card success response should be "Remove id card success"', () => {
+    sessionStorage.setItem('idUser', '5c0fa703780bf500019a5aea');
+    mockService.removeIdCard().subscribe((res) => {
+      expect(res['message']).toEqual('Remove id card success');
+    });
+    const req = backEnd.expectOne(`${environment.api}files/idcard/${sessionStorage.getItem('idUser')}`);
+    expect(req.request.method).toEqual('DELETE');
+    backEnd.verify();
+    req.flush({
+      message: 'Remove id card success'
+    });
+  });
+
 });

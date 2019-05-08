@@ -280,6 +280,12 @@ export class ProfileComponent implements OnInit {
         this.triggerHeader();
       }, err => alert('Remove degree certificate failed.'));
     } else {
+      this.fileService.removeIdCard().subscribe(response => {
+        alert(response['message']);
+        this.onReset();
+        this.idCardFile = null;
+        this.triggerHeader();
+      }, err => alert('Remove id card failed.'));
     }
   }
 
