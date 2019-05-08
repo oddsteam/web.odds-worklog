@@ -201,7 +201,8 @@ export class ModalIncomeComponent implements OnInit {
   inputWorkingHours() {
     this.flagChange = true;
     const workingHours = this.workingHours.value;
-    this.fg.get('workingHours').setValue(workingHours);
+    const stringFormat = this.formatInteger(workingHours);
+    this.fg.get('workingHours').setValue(stringFormat);
   }
 
   cutComma(text: string): string {
