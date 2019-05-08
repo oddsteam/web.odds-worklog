@@ -19,6 +19,8 @@ export class ProfileComponent implements OnInit {
   id = sessionStorage.getItem('idUser');
   transcriptFile: File = null;
   imageFile: File = null;
+  degreeCertificateFile: File = null;
+  idCardFile: File = null;
   oldTranscriptFile = null;
   urlDownloadTranscriptFile = null;
   dataListSite: Site[] = [];
@@ -178,11 +180,15 @@ export class ProfileComponent implements OnInit {
   }
 
   onChangeDegreeCertificateFile(event) {
-
+    const file = event.target.files[0];
+    this.degreeCertificateFile = event.target.files[0];
+    if (file) {
+      this.onSubmit(file, 'degreecertificate');
+    }
   }
 
   onChangeIdCardFile(event) {
-    
+
   }
 
   onSubmit(file, type) {
@@ -194,7 +200,7 @@ export class ProfileComponent implements OnInit {
           this.onReset();
         }
       }, err => alert('Upload Transcript failed.'));
-    } else {
+    } else if (type === 'image') {
       this.fileService.uploadImageProfile(file).subscribe(response => {
         this.triggerHeader();
         const message = response['message'];
@@ -203,7 +209,17 @@ export class ProfileComponent implements OnInit {
           this.onReset();
         }
       }, err => alert('Upload image profile failed.'));
+    } else if (type === 'degreecertificate') {
+      this.fileService.uploadDegreeCertificate(file).subscribe(response => {
+        this.triggerHeader();
+        const message = response['message'];
+        alert(message);
+        if (message) {
+          this.onReset();
+        }
+      }, err => alert('Upload degree certificate failed.'));
     }
+
   }
 
   onDownload(type) {
@@ -311,6 +327,46 @@ export class ProfileComponent implements OnInit {
     }
   }
 
+  get getDegreeCertificateFile(): MyFile {
+    if (this.degreeCertificateFile) {
+      return {
+        fileName: this.degreeCertificateFile.name,
+        fileItem: this.idCardFile
+      };
+    } else if (this.userInfo && this.userInfo.degreeCertificate) {
+      const fileName = this.userInfo.degreeCertificate.split('/');
+      return {
+        fileName: fileName[2],
+        fileItem: null
+      };
+    } else {
+      return {
+        fileName: 'No file was chosen.',
+        fileItem: null
+      };
+    }
+  }
+
+  get getIdCardFile(): MyFile {
+    if (this.idCardFile) {
+      return {
+        fileName: this.idCardFile.name,
+        fileItem: this.idCardFile
+      };
+    } else if (this.userInfo && this.userInfo.idCard) {
+      const fileName = this.userInfo.idCard.split('/');
+      return {
+        fileName: fileName[2],
+        fileItem: null
+      };
+    } else {
+      return {
+        fileName: 'No file was chosen.',
+        fileItem: null
+      };
+    }
+  }
+
   get hasOldTranscriptFileAtStart(): Boolean {
     return !this.oldTranscriptFile !== null && this.transcriptFile === null ? true : false;
   }
@@ -354,6 +410,7 @@ export class ProfileComponent implements OnInit {
   get address(): FormControl {
     return this.profileForm.get('address') as FormControl;
   }
+
   get thaiCitizenId(): FormControl {
     return this.profileForm.get('thaiCitizenId') as FormControl;
   }

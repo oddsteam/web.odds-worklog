@@ -195,6 +195,19 @@ describe('ProfileComponent', () => {
     expect(fileService.uploadImageProfile).toHaveBeenCalledTimes(1);
   });
 
+  it('should call uploadDegreeCertificate in file service', () => {
+    const mockFile = {
+      target: {
+        files: [
+          { name: 'xxx.pdf' }
+        ]
+      }
+    };
+    spyOn(fileService, 'uploadDegreeCertificate').and.returnValue(of('message'));
+    component.onChangeDegreeCertificateFile(mockFile);
+    expect(fileService.uploadDegreeCertificate).toHaveBeenCalledTimes(1);
+  });
+
   it('should call downloadTranscriptFile in file service when call onDownload', () => {
     const data = {
       bankAccountName: 'กอไก่ ขอไข่',
