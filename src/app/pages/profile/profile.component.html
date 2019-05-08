@@ -60,6 +60,60 @@
           <div class="form-text text-muted">The maximum file size allowed is 200KB.</div>
         </div>
 
+        <div class="col-lg-6 margin-upload">
+          <h5 class="prepend-top-0">Upload Degree Certificate</h5>
+          <div class="prepend-top-5 append-bottom-10">
+            <div class="upload-file-wrapper">
+              <span [hidden]="(userInfo && userInfo.degreeCertificate)">
+                <button class="btn" type="button">
+                  Choose file...
+                </button>
+                <input formControlName="degreeCertificateFile" type="file" accept="application/pdf"
+                  (change)="onChangeDegreeCertificateFile($event)" />
+              </span>
+              <span [hidden]="!(userInfo && userInfo.degreeCertificate)">
+                <button class="btn button-download" type="button" (click)="onDownload('degreecertificate')">
+                  Download
+                </button>
+                <button class="btn button-remove" type="button" (click)="onRemove('degreecertificate')">
+                  Remove
+                </button>
+              </span>
+              <span class="avatar-file-name prepend-left-default" *ngIf="!(userInfo && userInfo.degreeCertificate)">
+                {{ getTranscriptFile.fileName }}
+              </span>
+            </div>
+          </div>
+          <div class="form-text text-muted">The maximum file size allowed is 200KB.</div>
+        </div>
+
+        <div class="col-lg-6 margin-upload">
+          <h5 class="prepend-top-0">Upload ID Card</h5>
+          <div class="prepend-top-5 append-bottom-10">
+            <div class="upload-file-wrapper">
+              <span [hidden]="(userInfo && userInfo.idCard)">
+                <button class="btn" type="button">
+                  Choose file...
+                </button>
+                <input formControlName="idCardFile" type="file" accept="application/pdf"
+                  (change)="onChangeIdCardFile($event)" />
+              </span>
+              <span [hidden]="!(userInfo && userInfo.idCard)">
+                <button class="btn button-download" type="button" (click)="onDownload('idcard')">
+                  Download
+                </button>
+                <button class="btn button-remove" type="button" (click)="onRemove('idcard')">
+                  Remove
+                </button>
+              </span>
+              <span class="avatar-file-name prepend-left-default" *ngIf="!(userInfo && userInfo.idCard)">
+                {{ getTranscriptFile.fileName }}
+              </span>
+            </div>
+          </div>
+          <div class="form-text text-muted">The maximum file size allowed is 200KB.</div>
+        </div>
+
       </div>
       <hr>
     </form>
@@ -154,10 +208,10 @@
           <div class="row">
             <div class="form-group col-md-6">
               <label>ThaiCitizenId</label>
-              <input class="form-control" id="thaiCitizenId" name="thaiCitizenId" placeholder="เลขบัตรประจำตัวบัตรประชาชน"
-                formControlName="thaiCitizenId">
+              <input class="form-control" id="thaiCitizenId" name="thaiCitizenId"
+                placeholder="เลขบัตรประจำตัวบัตรประชาชน" formControlName="thaiCitizenId">
             </div>
-            </div>
+          </div>
           <hr>
           <div class="prepend-top-default append-bottom-default inner">
             <button class="btn button-green" (click)="updateData()">Update</button>

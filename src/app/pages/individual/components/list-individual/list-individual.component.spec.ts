@@ -71,7 +71,9 @@ describe('ListIndividualComponent', () => {
           project: '',
           dailyIncome: '',
           address: 'every Where',
-          statusTavi: true
+          statusTavi: true,
+          degreeCertificate: '',
+          idCard: '',
         },
         {
           id: '1233',
@@ -88,7 +90,9 @@ describe('ListIndividualComponent', () => {
           project: '',
           dailyIncome: '',
           address: 'every Where',
-          statusTavi: true
+          statusTavi: true,
+          degreeCertificate: '',
+          idCard: '',
         },
       ]
     };
@@ -120,7 +124,9 @@ describe('ListIndividualComponent', () => {
           project: '',
           dailyIncome: '',
           address: 'every Where',
-          statusTavi: true
+          statusTavi: true,
+          degreeCertificate: '',
+          idCard: '',
         },
         {
           id: '1233',
@@ -140,7 +146,9 @@ describe('ListIndividualComponent', () => {
           project: '',
           dailyIncome: '',
           address: 'every Where',
-          statusTavi: true
+          statusTavi: true,
+          degreeCertificate: '',
+          idCard: '',
         },
       ]
     };
@@ -194,7 +202,9 @@ describe('ListIndividualComponent', () => {
           site: null,
           dailyIncome: '',
           address: 'every Where',
-          statusTavi: true
+          statusTavi: true,
+          degreeCertificate: '',
+          idCard: '',
         },
         {
           id: '1233',
@@ -212,7 +222,9 @@ describe('ListIndividualComponent', () => {
           site: null,
           dailyIncome: '',
           address: 'every Where',
-          statusTavi: true
+          statusTavi: true,
+          degreeCertificate: '',
+          idCard: '',
         },
       ]
     };

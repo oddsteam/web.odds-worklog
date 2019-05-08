@@ -20,4 +20,6 @@ export class User {
     dailyIncome: string;
     address: string;
     statusTavi: boolean;
+    idCard: string;
+    degreeCertificate: string;
 }

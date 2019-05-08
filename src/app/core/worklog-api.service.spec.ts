@@ -79,7 +79,9 @@ describe('Service: WorklogApi', () => {
           imageProfile: null,
           dailyIncome: '200',
           address: 'every Where',
-          statusTavi: true
+          statusTavi: true,
+          degreeCertificate: '',
+          idCard: '',
         }
       ]
     };
@@ -115,7 +117,9 @@ describe('Service: WorklogApi', () => {
           imageProfile: null,
           dailyIncome: '200',
           address: 'every Where',
-          statusTavi: true
+          statusTavi: true,
+          degreeCertificate: '',
+          idCard: '',
         }
       ]
     };

@@ -79,7 +79,9 @@ export class ProfileComponent implements OnInit {
 
     this.fileForm = this.formBuilder.group({
       transcriptFile: [null],
-      imageFile: [null]
+      imageFile: [null],
+      degreeCertificateFile: [null],
+      idCardFile: [null]
     });
   }
 
@@ -173,6 +175,14 @@ export class ProfileComponent implements OnInit {
     if (file) {
       this.onSubmit(file, 'transcript');
     }
+  }
+
+  onChangeDegreeCertificateFile(event) {
+
+  }
+
+  onChangeIdCardFile(event) {
+    
   }
 
   onSubmit(file, type) {

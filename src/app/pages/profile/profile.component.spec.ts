@@ -126,7 +126,9 @@ describe('ProfileComponent', () => {
       project: '',
       dailyIncome: '14',
       address: 'every Where',
-      statusTavi: true
+      statusTavi: true,
+      degreeCertificate: null,
+      idCard: null,
 
     };
     const mockListSites: Site[] = [
@@ -147,6 +149,7 @@ describe('ProfileComponent', () => {
     component.getNameSite();
     expect(component.site).toEqual(mockListSites[0].id);
   });
+
   it('should call onSubmit if file is not undifined', () => {
     const file = {
       target: {
@@ -310,6 +313,8 @@ describe('ProfileComponent', () => {
         dailyIncome: '14',
         address: 'every Where',
         statusTavi: true,
+        degreeCertificate: null,
+        idCard: null,
       };
       component.userInfo = new User();
       component.id = mockResponse.id;
