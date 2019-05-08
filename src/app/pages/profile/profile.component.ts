@@ -188,7 +188,11 @@ export class ProfileComponent implements OnInit {
   }
 
   onChangeIdCardFile(event) {
-
+    const file = event.target.files[0];
+    this.idCardFile = event.target.files[0];
+    if (file) {
+      this.onSubmit(file, 'idcard');
+    }
   }
 
   onSubmit(file, type) {
@@ -218,8 +222,16 @@ export class ProfileComponent implements OnInit {
           this.onReset();
         }
       }, err => alert('Upload degree certificate failed.'));
+    } else {
+      this.fileService.uploadIdCard(file).subscribe(response => {
+        this.triggerHeader();
+        const message = response['message'];
+        alert(message);
+        if (message) {
+          this.onReset();
+        }
+      }, err => alert('Upload id card failed.'));
     }
-
   }
 
   onDownload(type) {
