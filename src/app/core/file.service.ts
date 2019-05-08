@@ -32,6 +32,17 @@ export class FileService {
     );
   }
 
+  uploadIdCard(file): Observable<object> {
+    const payload = new FormData();
+    payload.append('file', file);
+    return this.http.post<object>(`${environment.api}files/idcard`, payload, {
+      headers: new HttpHeaders({
+        Authorization: sessionStorage.getItem('token')
+      })
+    }
+    );
+  }
+
   uploadImageProfile(file): Observable<object> {
     const payload = new FormData();
     payload.append('image-profile', file);

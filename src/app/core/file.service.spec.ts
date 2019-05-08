@@ -39,13 +39,30 @@ describe('FileService', () => {
     backEnd.verify();
   });
 
-  it('should call uplode degree certificate file api correctly', () => {
+  it('should call upload degree certificate file api correctly', () => {
     const mockFile = new File([''], 'example.pdf', { type: 'application/pdf', lastModified: 1527052033702});
     const mockFormData: FormData = new FormData();
     mockFormData.append('file', mockFile);
 
     mockService.uploadDegreeCertificate(mockFile).subscribe();
     const req = backEnd.expectOne(`${environment.api}files/degreecertificate`);
+    expect(req.request.method).toEqual('POST');
+    expect(req.request.body).toEqual(mockFormData);
+    req.flush({
+      tempFileName: '82d09f47-2fe3-4a33-b385-007a6dda8e13.pdf',
+      path: 'temp_uploads/82d09f47-2fe3-4a33-b385-007a6dda8e13.pdf',
+      fileName: mockFile.name
+    });
+    backEnd.verify();
+  });
+
+  it('should call upload id card file api correctly', () => {
+    const mockFile = new File([''], 'example.pdf', { type: 'application/pdf', lastModified: 1527052033702});
+    const mockFormData: FormData = new FormData();
+    mockFormData.append('file', mockFile);
+
+    mockService.uploadIdCard(mockFile).subscribe();
+    const req = backEnd.expectOne(`${environment.api}files/idcard`);
     expect(req.request.method).toEqual('POST');
     expect(req.request.body).toEqual(mockFormData);
     req.flush({
