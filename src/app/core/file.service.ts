@@ -76,6 +76,17 @@ export class FileService {
     }
   }
 
+  downloadDegreeCertificateFile(): Observable<Blob> {
+    if (sessionStorage.getItem('idUser')) {
+      return this.http.get(`${environment.api}files/degreecertificate/${sessionStorage.getItem('idUser')}`, {
+        headers: new HttpHeaders({
+          Authorization: sessionStorage.getItem('token')
+        }),
+        responseType: 'blob'
+      });
+    }
+  }
+
   removeTranscript(): Observable<object> {
     if (sessionStorage.getItem('idUser')) {
       return this.http.delete(`${environment.api}files/transcript/${sessionStorage.getItem('idUser')}`, {

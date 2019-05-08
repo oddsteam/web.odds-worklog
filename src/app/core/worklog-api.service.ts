@@ -24,7 +24,7 @@ export class WorklogApiService {
     dailyIncome = '';
     id = sessionStorage.getItem('idUser');
     private userId = this.id;
-    readonly apiPath = environment.api;
+    readonly apiPath = environment.local;
     individualListed: ListIncomeResponse;
     corporateListed: ListIncomeResponse;
 

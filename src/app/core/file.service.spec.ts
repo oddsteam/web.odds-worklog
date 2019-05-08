@@ -106,6 +106,14 @@ describe('FileService', () => {
     backEnd.verify();
   });
 
+  it('should call download degree certificate file api correctly', () => {
+    sessionStorage.setItem('idUser', '5c0fa703780bf500019a5aea');
+    mockService.downloadDegreeCertificateFile().subscribe();
+    const req = backEnd.expectOne(`${environment.api}files/degreecertificate/${sessionStorage.getItem('idUser')}`);
+    expect(req.request.method).toEqual('GET');
+    backEnd.verify();
+  });
+
   it('should call remove transcript api correctly', () => {
     sessionStorage.setItem('idUser', '5c0fa703780bf500019a5aea');
     mockService.removeTranscript().subscribe();
