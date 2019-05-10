@@ -35,6 +35,7 @@ export class LoginGoogleComponent implements OnInit {
       if (res.firstLogin === 'N') {
         sessionStorage.setItem('token', 'Bearer ' + res.token);
         sessionStorage.setItem('idUser', res.user.id);
+        sessionStorage.setItem('firstName', res.user.firstName);
 
         if (res.user.role === 'admin') {
           this.router.navigate(['corporate']);
@@ -45,6 +46,7 @@ export class LoginGoogleComponent implements OnInit {
       } else {
         sessionStorage.setItem('token', 'Bearer ' + res.token);
         sessionStorage.setItem('idUser', res.user.id);
+        sessionStorage.setItem('firstName', res.user.firstName);
         this.router.navigate(['firstlogin']);
       }
     });

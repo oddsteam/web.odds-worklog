@@ -75,8 +75,8 @@ export class WorklogApiService {
         );
     }
 
-    updateStatusTaviUser(id: string, statususer: Array<StatusTavi>): Observable<User> {
-        return this.http.put<User>(`${this.apiPath}users/tavi/${id}`, statususer,
+    updateStatusTaviUser(statususer: Array<StatusTavi>): Observable<User> {
+        return this.http.put<User>(`${this.apiPath}users/tavi`, statususer,
             this.getHttpHeaderOption()
         );
     }

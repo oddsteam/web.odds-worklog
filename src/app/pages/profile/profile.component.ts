@@ -131,6 +131,7 @@ export class ProfileComponent implements OnInit {
       this.worklogApiService.setDailyIncoem(this.userInfo.dailyIncome);
       this.worklogApiService.updateUser(this.id, this.userInfo).subscribe(user => {
         this.setDataUser(user);
+        sessionStorage.setItem('firstName', user.firstName);
         this.triggerHeader();
         this.alertSuccess();
       });

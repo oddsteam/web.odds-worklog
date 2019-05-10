@@ -34,7 +34,7 @@ export class TableListComponent implements OnInit, OnDestroy, OnChanges {
         if (this.ListData) {
             const array: any = this.ListData;
             array.forEach((element, index) => {
-                indexOfCurrentUser = element.user.id.indexOf(sessionStorage.getItem('idUser'));
+                indexOfCurrentUser = element.user.firstName.indexOf(sessionStorage.getItem('firstName'));
                 if (indexOfCurrentUser !== -1) {
                     array.splice(0, 0, array.splice(index, 1)[0]);
                     this.ListData = array;
@@ -49,14 +49,17 @@ export class TableListComponent implements OnInit, OnDestroy, OnChanges {
     }
 
     ngOnInit() {
-        this.tableListForm = this.fb.group({
-            id: [this.ListData !== null ? this.ListData[0].user.id : ''],
-            statusTavi: [this.ListData !== null ? this.ListData[0].user.statusTavi : ''],
-            items: this.fb.array([this.createItem()])
-
-        });
+        this.createForm();
+        this.getListFisrtUser();
         this.getRoleUser();
         this.updateForm();
+    }
+    createForm() {
+        this.tableListForm = this.fb.group({
+            id: [''],
+            statusTavi: [''],
+            items: this.fb.array([this.createItem()])
+        });
     }
     createItem(): FormGroup {
         return this.fb.group({
@@ -75,15 +78,21 @@ export class TableListComponent implements OnInit, OnDestroy, OnChanges {
         this.items.push(this.createItem());
     }
 
+    getListFisrtUser() {
+        if (this.ListData !== undefined) {
+            this.tableListForm.get('id').setValue(this.ListData[0].user.id);
+            this.tableListForm.get('statusTavi').setValue(this.ListData[0].user.statusTavi);
+        }
+    }
 
     updateForm() {
-        if (this.ListData != null) {
+        if (this.ListData !== undefined) {
             if (this.ListData.length > 0) {
                 const lengthExcludeInital = this.ListData.length - 2;
                 const items = this.tableListForm.get('items') as FormArray;
                 if (lengthExcludeInital >= 0) {
                     this.pushArray(lengthExcludeInital);
-                    const ListPersonSort = this.ListData;
+                    const ListPersonSort: any = this.ListData;
                     ListPersonSort.splice(0, 1);
                     ListPersonSort.sort((n1, n2) => {
                         const a = n1.status.toLowerCase();
@@ -139,7 +148,7 @@ export class TableListComponent implements OnInit, OnDestroy, OnChanges {
                 statusTavi.push({ id: items.controls[i].get('id').value, user: user });
             }
         }
-        this.worklogApiService.updateStatusTaviUser(this.tableListForm.get('id').value, statusTavi).subscribe((res) => {
+        this.worklogApiService.updateStatusTaviUser(statusTavi).subscribe((res) => {
         });
         this.modalRef.hide();
 
