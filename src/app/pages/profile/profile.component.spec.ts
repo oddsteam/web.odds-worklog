@@ -309,7 +309,7 @@ describe('ProfileComponent', () => {
       // get user data
       spyOn(worklogApiService, 'getUserByID').and.returnValue(of(data));
       component.getData();
-      component.getEmitSourceSite({ id: '5c0fb860f37e2f8698989cf0' });
+      component.getEmitSourceSite('5c0fb860f37e2f8698989cf0');
       expect(component.userInfo.siteId).toEqual('5c0fb860f37e2f8698989cf0');
     });
   });
