@@ -291,7 +291,7 @@ export class ProfileComponent implements OnInit {
   }
 
   getEmitSourceSite(event) {
-    this.userInfo.siteId = event.id;
+    this.userInfo.siteId = event;
   }
 
   getEmitSourcePersonType(event) {
