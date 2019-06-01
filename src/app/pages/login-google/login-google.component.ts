@@ -49,6 +49,7 @@ export class LoginGoogleComponent implements OnInit {
         sessionStorage.setItem('firstName', res.user.firstName);
         this.router.navigate(['firstlogin']);
       }
+      this.worklogService.initDataService();
     });
 
   }
