@@ -30,13 +30,13 @@ export class LoginGoogleComponent implements OnInit {
     );
   }
 
-  private loginGoogle(idToken: string) {
+  loginGoogle(idToken: string) {
     this.worklogService.getLoginGoogle(idToken).subscribe(res => {
+      sessionStorage.setItem('token', 'Bearer ' + res.token);
+      this.worklogService.initDataService();
+      sessionStorage.setItem('idUser', res.user.id);
+      sessionStorage.setItem('firstName', res.user.firstName);
       if (res.firstLogin === 'N') {
-        sessionStorage.setItem('token', 'Bearer ' + res.token);
-        sessionStorage.setItem('idUser', res.user.id);
-        sessionStorage.setItem('firstName', res.user.firstName);
-
         if (res.user.role === 'admin') {
           this.router.navigate(['corporate']);
         } else {
@@ -44,12 +44,8 @@ export class LoginGoogleComponent implements OnInit {
         }
         this.cacheData();
       } else {
-        sessionStorage.setItem('token', 'Bearer ' + res.token);
-        sessionStorage.setItem('idUser', res.user.id);
-        sessionStorage.setItem('firstName', res.user.firstName);
         this.router.navigate(['firstlogin']);
       }
-      this.worklogService.initDataService();
     });
 
   }
