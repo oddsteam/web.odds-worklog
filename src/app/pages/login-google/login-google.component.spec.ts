@@ -1,8 +1,10 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing';
+import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AuthService } from 'angular-6-social-login';
 import { of } from 'rxjs';
+import { Login } from 'src/app/shared/model/login';
 import { WorklogApiService } from '../../core/worklog-api.service';
 import { LoginGoogleComponent } from './login-google.component';
 
@@ -60,4 +62,52 @@ describe('LoginGoogleComponent', () => {
     expect(workLogService.individualListed).toBeDefined();
     expect(workLogService.corporateListed).toBeDefined();
   });
+
+  it('should be router navigate to corporate page when user login role admin', inject([Router], (router: Router) => {
+    const result = <Login>{
+      token: '123',
+      firstLogin: 'N',
+      user: { role: 'admin' }
+    };
+    spyOn(router, 'navigate');
+    spyOn(workLogService, 'getLoginGoogle').and.returnValue(of(result));
+    spyOn(workLogService, 'initDataService');
+    spyOn(component, 'cacheData');
+    component.loginGoogle('123');
+    expect(workLogService.initDataService).toHaveBeenCalled();
+    expect(router.navigate).toHaveBeenCalledWith(['corporate']);
+    expect(component.cacheData).toHaveBeenCalled();
+    expect(router.navigate).not.toHaveBeenCalledWith(['firstlogin']);
+  }));
+
+  it('should be router navigate to individual page when user login role individual', inject([Router], (router: Router) => {
+    const result = <Login>{
+      token: '123',
+      firstLogin: 'N',
+      user: { role: 'individual' }
+    };
+    spyOn(router, 'navigate');
+    spyOn(workLogService, 'getLoginGoogle').and.returnValue(of(result));
+    spyOn(workLogService, 'initDataService');
+    spyOn(component, 'cacheData');
+    component.loginGoogle('123');
+    expect(workLogService.initDataService).toHaveBeenCalled();
+    expect(router.navigate).toHaveBeenCalledWith(['individual']);
+    expect(component.cacheData).toHaveBeenCalled();
+    expect(router.navigate).not.toHaveBeenCalledWith(['firstlogin']);
+  }));
+
+  it('should be router navigate to first login page when first login status is Y ', inject([Router], (router: Router) => {
+    const result = <Login>{
+      token: '123',
+      firstLogin: 'Y',
+      user: { role: 'individual' }
+    };
+    spyOn(router, 'navigate');
+    spyOn(workLogService, 'getLoginGoogle').and.returnValue(of(result));
+    spyOn(workLogService, 'initDataService');
+    component.loginGoogle('123');
+    expect(workLogService.initDataService).toHaveBeenCalled();
+    expect(router.navigate).toHaveBeenCalledWith(['firstlogin']);
+  }));
 });
