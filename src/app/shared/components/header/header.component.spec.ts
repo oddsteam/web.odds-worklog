@@ -1,10 +1,11 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { TranslateFakeLoader, TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import { HeaderComponent } from './header.component';
-import { WorklogApiService } from 'src/app/core/worklog-api.service';
-import { of, throwError } from 'rxjs';
 import { RouterTestingModule } from '@angular/router/testing';
+import { TranslateFakeLoader, TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { of, throwError } from 'rxjs';
+import { WorklogApiService } from 'src/app/core/worklog-api.service';
+import { HeaderComponent } from './header.component';
 
 describe('HeaderComponent', () => {
   let component: HeaderComponent;
@@ -90,7 +91,7 @@ describe('HeaderComponent', () => {
   });
 
   it('when exportDataPdf have error it should alert Can`t export to PDF file ', () => {
-    spyOn(workLogService, 'exportDataPdf').and.returnValue(throwError(new Error('Test error')));
+    spyOn(workLogService, 'exportDataPdf').and.returnValue(throwError(new HttpErrorResponse({ status: 500, error: 'Test Error' })));
     spyOn(window, 'alert');
     component.exportTavi50();
     expect(window.alert).toHaveBeenCalledWith(`Can't export to PDF file.`);
