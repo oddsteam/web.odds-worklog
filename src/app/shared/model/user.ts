@@ -18,4 +18,8 @@ export class User {
     project: string;
     imageProfile: string;
     dailyIncome: string;
+    address: string;
+    statusTavi: boolean;
+    idCard: string;
+    degreeCertificate: string;
 }

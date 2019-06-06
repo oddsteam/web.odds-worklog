@@ -19,6 +19,8 @@ export class ProfileComponent implements OnInit {
   id = sessionStorage.getItem('idUser');
   transcriptFile: File = null;
   imageFile: File = null;
+  degreeCertificateFile: File = null;
+  idCardFile: File = null;
   oldTranscriptFile = null;
   urlDownloadTranscriptFile = null;
   dataListSite: Site[] = [];
@@ -26,7 +28,7 @@ export class ProfileComponent implements OnInit {
   personType: string;
   showSuccessMessage = false;
   fileNamePdf: string;
-  isCorporate: boolean;
+  isCorporate = false;
   listPersonType = [
     {
       id: 'corporate',
@@ -72,12 +74,16 @@ export class ProfileComponent implements OnInit {
       bankAccountNumber: ['', Validators.required],
       slackAccount: ['', Validators.required],
       project: [''],
-      dailyIncome: ['', [Validators.required, Validators.pattern('^[0-9]*$')]]
+      dailyIncome: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
+      address: ['', Validators.required],
+      thaiCitizenId: ['', Validators.required]
     });
 
     this.fileForm = this.formBuilder.group({
       transcriptFile: [null],
-      imageFile: [null]
+      imageFile: [null],
+      degreeCertificateFile: [null],
+      idCardFile: [null]
     });
   }
 
@@ -102,6 +108,8 @@ export class ProfileComponent implements OnInit {
     this.slackAccount.setValue(user.slackAccount);
     this.project.setValue(user.project);
     this.dailyIncome.setValue(user.dailyIncome);
+    this.address.setValue(user.address);
+    this.thaiCitizenId.setValue(user.thaiCitizenId);
     this.isVat = user.vat;
     if (user.vat === 'N') {
       this.vatList[0].value = false;
@@ -123,6 +131,7 @@ export class ProfileComponent implements OnInit {
       this.worklogApiService.setDailyIncoem(this.userInfo.dailyIncome);
       this.worklogApiService.updateUser(this.id, this.userInfo).subscribe(user => {
         this.setDataUser(user);
+        sessionStorage.setItem('firstName', user.firstName);
         this.triggerHeader();
         this.alertSuccess();
       });
@@ -147,6 +156,8 @@ export class ProfileComponent implements OnInit {
     this.userInfo.project = this.project.value;
     this.userInfo.dailyIncome = this.dailyIncome.value;
     this.userInfo.role = this.personType;
+    this.userInfo.address = this.address.value;
+    this.userInfo.thaiCitizenId = this.thaiCitizenId.value;
   }
 
   onReset() {
@@ -169,6 +180,22 @@ export class ProfileComponent implements OnInit {
     }
   }
 
+  onChangeDegreeCertificateFile(event) {
+    const file = event.target.files[0];
+    this.degreeCertificateFile = event.target.files[0];
+    if (file) {
+      this.onSubmit(file, 'degreecertificate');
+    }
+  }
+
+  onChangeIdCardFile(event) {
+    const file = event.target.files[0];
+    this.idCardFile = event.target.files[0];
+    if (file) {
+      this.onSubmit(file, 'idcard');
+    }
+  }
+
   onSubmit(file, type) {
     if (type === 'transcript') {
       this.fileService.uploadFileTranscript(file).subscribe(response => {
@@ -178,7 +205,7 @@ export class ProfileComponent implements OnInit {
           this.onReset();
         }
       }, err => alert('Upload Transcript failed.'));
-    } else {
+    } else if (type === 'image') {
       this.fileService.uploadImageProfile(file).subscribe(response => {
         this.triggerHeader();
         const message = response['message'];
@@ -187,6 +214,24 @@ export class ProfileComponent implements OnInit {
           this.onReset();
         }
       }, err => alert('Upload image profile failed.'));
+    } else if (type === 'degreecertificate') {
+      this.fileService.uploadDegreeCertificate(file).subscribe(response => {
+        this.triggerHeader();
+        const message = response['message'];
+        alert(message);
+        if (message) {
+          this.onReset();
+        }
+      }, err => alert('Upload degree certificate failed.'));
+    } else {
+      this.fileService.uploadIdCard(file).subscribe(response => {
+        this.triggerHeader();
+        const message = response['message'];
+        alert(message);
+        if (message) {
+          this.onReset();
+        }
+      }, err => alert('Upload id card failed.'));
     }
   }
 
@@ -196,11 +241,21 @@ export class ProfileComponent implements OnInit {
       this.fileService.downloadTranscriptFile().subscribe(response => {
         this.downloadFile(response, fileName);
       }, err => alert('Download Transcript failed.'));
-    } else {
+    } else if (type === 'image') {
       const fileName = this.getImageFile.fileName;
       this.fileService.downloadImageProFile().subscribe(response => {
         this.downloadFile(response, fileName);
       }, err => alert('Download image profile failed.'));
+    } else if (type === 'degreecertificate') {
+      const fileName = this.getDegreeCertificateFile.fileName;
+      this.fileService.downloadDegreeCertificateFile().subscribe(response => {
+        this.downloadFile(response, fileName);
+      }, err => alert('Download degree certificate failed.'));
+    } else {
+      const fileName = this.getIdCardFile.fileName;
+      this.fileService.downloadIdCardFile().subscribe(response => {
+        this.downloadFile(response, fileName);
+      }, err => alert('Download id card failed.'));
     }
   }
 
@@ -211,18 +266,32 @@ export class ProfileComponent implements OnInit {
         this.onReset();
         this.transcriptFile = null;
       }, err => alert('Remove Transcript failed.'));
-    } else {
+    } else if (type === 'image') {
       this.fileService.removeImage().subscribe(response => {
         alert(response['message']);
         this.onReset();
         this.imageFile = null;
         this.triggerHeader();
       }, err => alert('Remove image profile failed.'));
+    } else if (type === 'degreecertificate') {
+      this.fileService.removeDegreeCertificate().subscribe(response => {
+        alert(response['message']);
+        this.onReset();
+        this.degreeCertificateFile = null;
+        this.triggerHeader();
+      }, err => alert('Remove degree certificate failed.'));
+    } else {
+      this.fileService.removeIdCard().subscribe(response => {
+        alert(response['message']);
+        this.onReset();
+        this.idCardFile = null;
+        this.triggerHeader();
+      }, err => alert('Remove id card failed.'));
     }
   }
 
   getEmitSourceSite(event) {
-    this.userInfo.siteId = event.id;
+    this.userInfo.siteId = event;
   }
 
   getEmitSourcePersonType(event) {
@@ -295,6 +364,46 @@ export class ProfileComponent implements OnInit {
     }
   }
 
+  get getDegreeCertificateFile(): MyFile {
+    if (this.degreeCertificateFile) {
+      return {
+        fileName: this.degreeCertificateFile.name,
+        fileItem: this.idCardFile
+      };
+    } else if (this.userInfo && this.userInfo.degreeCertificate) {
+      const fileName = this.userInfo.degreeCertificate.split('/');
+      return {
+        fileName: fileName[2],
+        fileItem: null
+      };
+    } else {
+      return {
+        fileName: 'No file was chosen.',
+        fileItem: null
+      };
+    }
+  }
+
+  get getIdCardFile(): MyFile {
+    if (this.idCardFile) {
+      return {
+        fileName: this.idCardFile.name,
+        fileItem: this.idCardFile
+      };
+    } else if (this.userInfo && this.userInfo.idCard) {
+      const fileName = this.userInfo.idCard.split('/');
+      return {
+        fileName: fileName[2],
+        fileItem: null
+      };
+    } else {
+      return {
+        fileName: 'No file was chosen.',
+        fileItem: null
+      };
+    }
+  }
+
   get hasOldTranscriptFileAtStart(): Boolean {
     return !this.oldTranscriptFile !== null && this.transcriptFile === null ? true : false;
   }
@@ -333,6 +442,14 @@ export class ProfileComponent implements OnInit {
 
   get dailyIncome(): FormControl {
     return this.profileForm.get('dailyIncome') as FormControl;
+  }
+
+  get address(): FormControl {
+    return this.profileForm.get('address') as FormControl;
+  }
+
+  get thaiCitizenId(): FormControl {
+    return this.profileForm.get('thaiCitizenId') as FormControl;
   }
 
   private triggerHeader() {

@@ -8,6 +8,7 @@ import { IncomeFlag } from '../shared/model/income-flag';
 import { ListIncomeResponse } from '../shared/model/list-income-model-response';
 import { ProductOwner } from '../shared/model/product-owner';
 import { SettingReminder } from '../shared/model/setting-reminder-model';
+import { StatusTavi } from '../shared/model/status-tavi';
 import { User } from '../shared/model/user';
 import { Login } from './../shared/model/login';
 import { Site } from './../shared/model/site';
@@ -70,6 +71,12 @@ export class WorklogApiService {
 
     updateUser(id: string, user: User): Observable<User> {
         return this.http.put<User>(`${this.apiPath}users/${id}`, user,
+            this.getHttpHeaderOption()
+        );
+    }
+
+    updateStatusTaviUser(statususer: Array<StatusTavi>): Observable<User> {
+        return this.http.put<User>(`${this.apiPath}users/tavi`, statususer,
             this.getHttpHeaderOption()
         );
     }
@@ -162,8 +169,8 @@ export class WorklogApiService {
         });
     }
 
-    exportDataPdf(): Observable<Blob> {
-        return this.http.get(`${this.apiPath}incomes/export/pdf`, {
+    exportDataPdf(id: string): Observable<Blob> {
+        return this.http.get(`${this.apiPath}incomes/export/pdf/${id}`, {
             headers: new HttpHeaders({
                 Authorization: sessionStorage.getItem('token')
             }),

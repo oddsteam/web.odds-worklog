@@ -9,4 +9,6 @@ export class AddIncomeResponse {
     wht: string;
     workDate: string;
     specialIncome: string;
+    netSpecialIncome: string;
+    workingHours: string;
 }

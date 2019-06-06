@@ -14,7 +14,8 @@
                 <button class="btn" type="button">
                   Choose file...
                 </button>
-                <input formControlName="transcriptFile" type="file" accept="application/pdf" (change)="onChangeTranscriptFile($event)" />
+                <input formControlName="transcriptFile" type="file" accept="application/pdf"
+                  (change)="onChangeTranscriptFile($event)" />
               </span>
               <span [hidden]="!(userInfo && userInfo.transcript)">
                 <button class="btn button-download" type="button" (click)="onDownload('transcript')">
@@ -40,7 +41,8 @@
                 <button class="btn" type="button">
                   Choose file...
                 </button>
-                <input formControlName="imageFile" type="file" accept="image/x-png,image/gif,image/jpeg" (change)="onChangeImageFile($event)" />
+                <input formControlName="imageFile" type="file" accept="image/x-png,image/gif,image/jpeg"
+                  (change)="onChangeImageFile($event)" />
               </span>
               <span [hidden]="!(userInfo && userInfo.imageProfile)">
                 <button class="btn button-download" type="button" (click)="onDownload('image')">
@@ -52,6 +54,60 @@
               </span>
               <span class="avatar-file-name prepend-left-default" *ngIf="!(userInfo && userInfo.imageProfile)">
                 {{ getImageFile.fileName }}
+              </span>
+            </div>
+          </div>
+          <div class="form-text text-muted">The maximum file size allowed is 200KB.</div>
+        </div>
+
+        <div class="col-lg-6 margin-upload">
+          <h5 class="prepend-top-0">Upload Degree Certificate</h5>
+          <div class="prepend-top-5 append-bottom-10">
+            <div class="upload-file-wrapper">
+              <span [hidden]="(userInfo && userInfo.degreeCertificate)">
+                <button class="btn" type="button">
+                  Choose file...
+                </button>
+                <input formControlName="degreeCertificateFile" type="file" accept="application/pdf"
+                  (change)="onChangeDegreeCertificateFile($event)" />
+              </span>
+              <span [hidden]="!(userInfo && userInfo.degreeCertificate)">
+                <button class="btn button-download" type="button" (click)="onDownload('degreecertificate')">
+                  Download
+                </button>
+                <button class="btn button-remove" type="button" (click)="onRemove('degreecertificate')">
+                  Remove
+                </button>
+              </span>
+              <span class="avatar-file-name prepend-left-default" *ngIf="!(userInfo && userInfo.degreeCertificate)">
+                {{ getDegreeCertificateFile.fileName }}
+              </span>
+            </div>
+          </div>
+          <div class="form-text text-muted">The maximum file size allowed is 200KB.</div>
+        </div>
+
+        <div class="col-lg-6 margin-upload">
+          <h5 class="prepend-top-0">Upload ID Card</h5>
+          <div class="prepend-top-5 append-bottom-10">
+            <div class="upload-file-wrapper">
+              <span [hidden]="(userInfo && userInfo.idCard)">
+                <button class="btn" type="button">
+                  Choose file...
+                </button>
+                <input formControlName="idCardFile" type="file" accept="application/pdf"
+                  (change)="onChangeIdCardFile($event)" />
+              </span>
+              <span [hidden]="!(userInfo && userInfo.idCard)">
+                <button class="btn button-download" type="button" (click)="onDownload('idcard')">
+                  Download
+                </button>
+                <button class="btn button-remove" type="button" (click)="onRemove('idcard')">
+                  Remove
+                </button>
+              </span>
+              <span class="avatar-file-name prepend-left-default" *ngIf="!(userInfo && userInfo.idCard)">
+                {{ getIdCardFile.fileName }}
               </span>
             </div>
           </div>
@@ -109,7 +165,8 @@
           <div class="row">
             <div class="form-group col-md-6">
               <label>Site</label>
-              <app-drop-down [defaultSelect]="site" [listSources]="dataListSite" (emitSource)="getEmitSourceSite($event)"></app-drop-down>
+              <app-drop-down [defaultSelect]="site" [listSources]="dataListSite"
+                (emitSource)="getEmitSourceSite($event)"></app-drop-down>
             </div>
             <div class="form-group col-md-6">
               <label>Project or team</label>
@@ -124,6 +181,20 @@
               <input class="form-control" type="text" formControlName="dailyIncome">
             </div>
 
+            <div class="form-group col-md-6">
+              <label>Account Type</label>
+              <app-drop-down [defaultSelect]="personType" [listSources]="listPersonType"
+                (emitSource)="getEmitSourcePersonType($event)"></app-drop-down>
+            </div>
+
+          </div>
+          <div class="row">
+            <div class="form-group col-md-6">
+              <label>Address</label>
+              <textarea class="form-control" id="address" name="address" placeholder="ที่อยู่ปัจจุบัน"
+                formControlName="address"></textarea>
+            </div>
+
             <div class="row" *ngIf="userInfo && isCorporate">
               <div class="form-group col-md-12 pl-5 ">
                 <label>VAT</label><br>
@@ -135,11 +206,12 @@
             </div>
           </div>
           <div class="row">
-              <div class="form-group col-md-6">
-                <label>Person Type</label>
-                <app-drop-down [defaultSelect]="personType" [listSources]="listPersonType" (emitSource)="getEmitSourcePersonType($event)" ></app-drop-down>
-              </div>
-            </div>  
+            <div class="form-group col-md-6">
+              <label>ThaiCitizenId</label>
+              <input class="form-control" id="thaiCitizenId" name="thaiCitizenId"
+                placeholder="เลขบัตรประจำตัวบัตรประชาชน" formControlName="thaiCitizenId">
+            </div>
+          </div>
           <hr>
           <div class="prepend-top-default append-bottom-default inner">
             <button class="btn button-green" (click)="updateData()">Update</button>

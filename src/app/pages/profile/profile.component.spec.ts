@@ -4,14 +4,14 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { of } from 'rxjs';
+import { FileService } from 'src/app/core/file.service';
+import { StateService } from 'src/app/core/state.service';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
 import { DropDownComponent } from 'src/app/shared/components/drop-down/drop-down.component';
+import { MessageTooltipComponent } from 'src/app/shared/components/message-tooltip/message-tooltip.component';
 import { Site } from 'src/app/shared/model/site';
 import { User } from 'src/app/shared/model/user';
 import { ProfileComponent } from './profile.component';
-import { FileService } from 'src/app/core/file.service';
-import { MessageTooltipComponent } from 'src/app/shared/components/message-tooltip/message-tooltip.component';
-import { StateService } from 'src/app/core/state.service';
 
 
 describe('ProfileComponent', () => {
@@ -55,7 +55,8 @@ describe('ProfileComponent', () => {
       role: 'admin',
       slackAccount: 'who@odds.team',
       vat: 'N',
-      transcript: null
+      transcript: null,
+      thaiCitizenId: '123467890'
     };
 
     spyOn(worklogApiService, 'getUserByID').and.returnValue(of(data));
@@ -80,6 +81,8 @@ describe('ProfileComponent', () => {
       role: 'admin',
       slackAccount: 'who@odds.team',
       vat: 'N',
+      thaiCitizenId: '123467890'
+
     };
     const mockListSites: Site[] = [
       {
@@ -121,7 +124,12 @@ describe('ProfileComponent', () => {
       transcript: null,
       imageProfile: null,
       project: '',
-      dailyIncome: '14'
+      dailyIncome: '14',
+      address: 'every Where',
+      statusTavi: true,
+      degreeCertificate: null,
+      idCard: null,
+
     };
     const mockListSites: Site[] = [
       {
@@ -141,6 +149,7 @@ describe('ProfileComponent', () => {
     component.getNameSite();
     expect(component.site).toEqual(mockListSites[0].id);
   });
+
   it('should call onSubmit if file is not undifined', () => {
     const file = {
       target: {
@@ -186,6 +195,32 @@ describe('ProfileComponent', () => {
     expect(fileService.uploadImageProfile).toHaveBeenCalledTimes(1);
   });
 
+  it('should call uploadDegreeCertificate in file service', () => {
+    const mockFile = {
+      target: {
+        files: [
+          { name: 'xxx.pdf' }
+        ]
+      }
+    };
+    spyOn(fileService, 'uploadDegreeCertificate').and.returnValue(of('message'));
+    component.onChangeDegreeCertificateFile(mockFile);
+    expect(fileService.uploadDegreeCertificate).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call uploadIdCard in file service', () => {
+    const mockFile = {
+      target: {
+        files: [
+          { name: 'xxx.pdf' }
+        ]
+      }
+    };
+    spyOn(fileService, 'uploadIdCard').and.returnValue(of('message'));
+    component.onChangeIdCardFile(mockFile);
+    expect(fileService.uploadIdCard).toHaveBeenCalledTimes(1);
+  });
+
   it('should call downloadTranscriptFile in file service when call onDownload', () => {
     const data = {
       bankAccountName: 'กอไก่ ขอไข่',
@@ -198,7 +233,9 @@ describe('ProfileComponent', () => {
       slackAccount: 'who@odds.team',
       vat: 'N',
       transcript: null,
-      imageProfile: null
+      imageProfile: null,
+      thaiCitizenId: '123467890'
+
     };
     // get user data
     spyOn(worklogApiService, 'getUserByID').and.returnValue(of(data));
@@ -222,7 +259,9 @@ describe('ProfileComponent', () => {
       slackAccount: 'who@odds.team',
       vat: 'N',
       transcript: null,
-      imageProfile: null
+      imageProfile: null,
+      thaiCitizenId: '123467890'
+
     };
     // get user data
     spyOn(worklogApiService, 'getUserByID').and.returnValue(of(data));
@@ -264,12 +303,13 @@ describe('ProfileComponent', () => {
         vat: 'N',
         transcript: null,
         imageProfile: null,
-        siteId: '5c0fb860f37e2f8698989cff'
+        siteId: '5c0fb860f37e2f8698989cff',
+        thaiCitizenId: '123467890'
       };
       // get user data
       spyOn(worklogApiService, 'getUserByID').and.returnValue(of(data));
       component.getData();
-      component.getEmitSourceSite({ id: '5c0fb860f37e2f8698989cf0' });
+      component.getEmitSourceSite('5c0fb860f37e2f8698989cf0');
       expect(component.userInfo.siteId).toEqual('5c0fb860f37e2f8698989cf0');
     });
   });
@@ -296,7 +336,11 @@ describe('ProfileComponent', () => {
         transcript: null,
         imageProfile: null,
         project: '',
-        dailyIncome: '14'
+        dailyIncome: '14',
+        address: 'every Where',
+        statusTavi: true,
+        degreeCertificate: null,
+        idCard: null,
       };
       component.userInfo = new User();
       component.id = mockResponse.id;
@@ -309,7 +353,9 @@ describe('ProfileComponent', () => {
         bankAccountNumber: '1122334455',
         slackAccount: 'odds@odds.team',
         project: '',
-        dailyIncome: '14'
+        dailyIncome: '14',
+        address: 'every Where',
+        thaiCitizenId: '123467890'
       });
     });
 

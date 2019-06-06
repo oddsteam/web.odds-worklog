@@ -21,6 +21,28 @@ export class FileService {
     );
   }
 
+  uploadDegreeCertificate(file): Observable<object> {
+    const payload = new FormData();
+    payload.append('file', file);
+    return this.http.post<object>(`${environment.api}files/degreecertificate`, payload, {
+      headers: new HttpHeaders({
+        Authorization: sessionStorage.getItem('token')
+      })
+    }
+    );
+  }
+
+  uploadIdCard(file): Observable<object> {
+    const payload = new FormData();
+    payload.append('file', file);
+    return this.http.post<object>(`${environment.api}files/idcard`, payload, {
+      headers: new HttpHeaders({
+        Authorization: sessionStorage.getItem('token')
+      })
+    }
+    );
+  }
+
   uploadImageProfile(file): Observable<object> {
     const payload = new FormData();
     payload.append('image-profile', file);
@@ -54,6 +76,28 @@ export class FileService {
     }
   }
 
+  downloadDegreeCertificateFile(): Observable<Blob> {
+    if (sessionStorage.getItem('idUser')) {
+      return this.http.get(`${environment.api}files/degreecertificate/${sessionStorage.getItem('idUser')}`, {
+        headers: new HttpHeaders({
+          Authorization: sessionStorage.getItem('token')
+        }),
+        responseType: 'blob'
+      });
+    }
+  }
+
+  downloadIdCardFile(): Observable<Blob> {
+    if (sessionStorage.getItem('idUser')) {
+      return this.http.get(`${environment.api}files/idcard/${sessionStorage.getItem('idUser')}`, {
+        headers: new HttpHeaders({
+          Authorization: sessionStorage.getItem('token')
+        }),
+        responseType: 'blob'
+      });
+    }
+  }
+
   removeTranscript(): Observable<object> {
     if (sessionStorage.getItem('idUser')) {
       return this.http.delete(`${environment.api}files/transcript/${sessionStorage.getItem('idUser')}`, {
@@ -74,5 +118,24 @@ export class FileService {
     }
   }
 
+  removeDegreeCertificate(): Observable<object> {
+    if (sessionStorage.getItem('idUser')) {
+      return this.http.delete(`${environment.api}files/degreecertificate/${sessionStorage.getItem('idUser')}`, {
+        headers: new HttpHeaders({
+          Authorization: sessionStorage.getItem('token')
+        })
+      });
+    }
+  }
+
+  removeIdCard(): Observable<object> {
+    if (sessionStorage.getItem('idUser')) {
+      return this.http.delete(`${environment.api}files/idcard/${sessionStorage.getItem('idUser')}`, {
+        headers: new HttpHeaders({
+          Authorization: sessionStorage.getItem('token')
+        })
+      });
+    }
+  }
 
 }

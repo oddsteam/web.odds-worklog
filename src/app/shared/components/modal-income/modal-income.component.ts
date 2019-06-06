@@ -24,7 +24,10 @@ export class ModalIncomeComponent implements OnInit {
   addIncomeAlready: Boolean = false;
   dailyIncome: string;
   totalIncome: string;
-  totalIncomeNonspecialIncome: string;
+  vatPrimary: string;
+  vatSpecial: string;
+  whtPrimary: string;
+  whtSpecial: string;
   constructor(
     private fb: FormBuilder,
     private worklogApiService: WorklogApiService,
@@ -46,54 +49,69 @@ export class ModalIncomeComponent implements OnInit {
   }
 
   onSetupForm() {
+
     if (this.addIncomeData === null) {
       this.addIncomeData = {
         id: '',
         userId: '',
-        totalIncome: '',
-        netIncome: '',
         submitDate: '',
         note: '',
         vat: '',
         wht: '',
         workDate: '',
+        netIncome: '',
+        workingHours: '',
         specialIncome: '',
+        netSpecialIncome: '',
+        totalIncome: '',
       };
       this.fg = this.fb.group({
         note: ['', Validators.required],
         workDate: ['', Validators.required],
+        workingHours: ['', Validators.required],
         specialIncome: ['', Validators.required]
       });
     } else {
       this.fg = this.fb.group({
         note: [this.addIncomeData.note, Validators.required],
         workDate: [this.addIncomeData.workDate, Validators.required],
+        workingHours: [this.addIncomeData.workingHours, Validators.required],
         specialIncome: [this.addIncomeData.specialIncome, Validators.required]
       });
       this.inputIncomeAmount();
+      this.inputWorkingHours();
     }
   }
 
-  calDailyIncomeWithWorkDate() {
+  calTotalIncome() {
     const dailyIncome = this.stringToNumber(this.dailyIncome);
     const workDate = this.stringToNumber(this.workDate.value);
     const specialIncome = this.stringToNumber(this.specialIncome.value);
-    this.totalIncomeNonspecialIncome = String(dailyIncome * workDate);
-    this.totalIncome = String((dailyIncome * workDate) + specialIncome);
+    const workingHours = this.stringToNumber(this.workingHours.value);
+    const netIncome = dailyIncome * workDate;
+    const netSpecialIncome = specialIncome * workingHours;
+    this.totalIncome = String(netIncome + netSpecialIncome);
+    this.addIncomeData.netIncome = String(netIncome);
+    this.addIncomeData.netSpecialIncome = String(netSpecialIncome);
   }
+
+  calTax() {
+    this.vatPrimary = this.calVAT(this.addIncomeData.netIncome);
+    this.whtPrimary = this.calWHT(this.addIncomeData.netIncome);
+    this.vatSpecial = this.calVAT(this.addIncomeData.netSpecialIncome);
+    this.whtSpecial = this.calWHT(this.addIncomeData.netSpecialIncome);
+  }
+
   onSubmit() {
-    this.calDailyIncomeWithWorkDate();
-    let totalIncome;
-    totalIncome = this.totalIncome;
+    this.calTotalIncome();
+    this.calTax();
     this.title = 'Confirm Income';
-    this.addIncomeData.totalIncome =  this.totalIncome;
+    this.addIncomeData.totalIncome = this.totalIncome;
     this.addIncomeAlready = true;
     this.updateData();
   }
 
   onConfirm() {
-    let totalIncome;
-    totalIncome = this.totalIncome;
     if (IncomeFlag.isUpdate) {
       this.updateIncomeService(this.cutComma(this.specialIncome.value));
     } else {
@@ -107,12 +125,11 @@ export class ModalIncomeComponent implements OnInit {
     this.specialIncome.setValue(this.specialIncome.value === '' ? '0' : this.specialIncome.value);
     this.addIncomeData.vat = this.calVAT(this.addIncomeData.totalIncome);
     this.addIncomeData.wht = this.calWHT(this.addIncomeData.totalIncome);
-    this.addIncomeData.netIncome = this.calNetIncome(
+    this.addIncomeData.totalIncome = this.calNetIncome(
       this.addIncomeData.totalIncome,
       this.typeVat === 'Y' ? this.addIncomeData.vat : '0',
       this.addIncomeData.wht
     );
-    this.addIncomeData.specialIncome = this.cutComma(this.specialIncome.value);
   }
 
   addIncomeConfirm(specialIncome) {
@@ -181,6 +198,13 @@ export class ModalIncomeComponent implements OnInit {
     this.fg.get('specialIncome').setValue(realFormat);
   }
 
+  inputWorkingHours() {
+    this.flagChange = true;
+    const workingHours = this.workingHours.value;
+    const stringFormat = this.formatInteger(workingHours);
+    this.fg.get('workingHours').setValue(stringFormat);
+  }
+
   cutComma(text: string): string {
     return text.replace(/,/g, '');
   }
@@ -213,5 +237,9 @@ export class ModalIncomeComponent implements OnInit {
 
   get specialIncome(): AbstractControl {
     return this.fg.get('specialIncome');
+  }
+
+  get workingHours(): AbstractControl {
+    return this.fg.get('workingHours');
   }
 }
