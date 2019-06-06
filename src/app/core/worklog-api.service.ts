@@ -29,7 +29,7 @@ export class WorklogApiService {
     corporateListed: ListIncomeResponse;
 
     constructor(private http: HttpClient) {
-        this.initDataService();
+        // this.initDataService();
     }
 
     getIndividualListed = () => this.individualListed;
