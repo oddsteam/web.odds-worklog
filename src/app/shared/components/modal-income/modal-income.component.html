@@ -12,7 +12,8 @@
         <strong>ตัวอย่าง</strong>
       </div>
       <div class="text-blue font-middle"> - น้อง A ทำงานพิเศษ ชม. ละ 100 บาท ทำไป 20 ชม. </div>
-      <div class="text-blue font-middle"> - น้อง A จะกรอกจำนวนวันที่ทำงานต้องไปใส่ รายได้รายวันที่ หน้า Profile ก่อนนะ</div>
+      <div class="text-blue font-middle"> - น้อง A จะกรอกจำนวนวันที่ทำงานต้องไปใส่ รายได้รายวันที่ หน้า Profile ก่อนนะ
+      </div>
     </div>
     <form [formGroup]="fg">
       <!-- <div class="form-group my-2">
@@ -23,8 +24,8 @@
         <div class="form-group col-6">
           <label>รายได้พิเศษ : </label>
           <div class="input-group">
-            <input id="specialIncome" type="text" style="text-align:right" class="form-control" formControlName="specialIncome"
-              (keyup)="inputIncomeAmount()">
+            <input id="specialIncome" type="text" style="text-align:right" class="form-control"
+              formControlName="specialIncome" (keyup)="inputIncomeAmount()">
             <div class="input-group-append">
               <span class="input-group-text">บาท</span>
             </div>
@@ -33,8 +34,8 @@
         <div class="form-group col-6">
           <label>จำนวนชั่วโมง : </label>
           <div class="input-group">
-            <input id="workingHours" type="text" style="text-align:right" class="form-control" formControlName="workingHours"
-              (keyup)="inputWorkingHours()">
+            <input id="workingHours" type="text" style="text-align:right" class="form-control"
+              formControlName="workingHours" (keyup)="inputWorkingHours()">
             <div class="input-group-append">
               <span class="input-group-text">ชม.</span>
             </div>
@@ -43,13 +44,18 @@
       </div>
       <div class="form-group my-2">
         <label>จำนวนวันที่ทำงาน : </label>
-        <input id="workDate" type="text" style="text-align:right" class="form-control" formControlName="workDate">
+        <div class="input-group">
+          <input id="workDate" type="text" style="text-align:right" class="form-control" formControlName="workDate">
+          <div class="input-group-append">
+            <span class="input-group-text">วัน</span>
+          </div>
+        </div>
       </div>
-      <div class="form-group">
-        <label>บันทึก :</label>
-        <textarea id="note" type="text" class="form-control" formControlName="note"></textarea>
-      </div>
-    </form>
+  <div class="form-group">
+    <label>บันทึก :</label>
+    <textarea id="note" type="text" class="form-control" formControlName="note"></textarea>
+  </div>
+  </form>
   </div>
 </ng-container>
 
@@ -137,7 +143,8 @@
 
 <div class="modal-footer">
   <ng-container *ngIf="!addIncomeAlready">
-    <button id="btn-submit" type="button" class="btn btn-blue" (click)="onSubmit()" [disabled]="disableButton()">Submit</button>
+    <button id="btn-submit" type="button" class="btn btn-blue" (click)="onSubmit()"
+      [disabled]="disableButton()">Submit</button>
   </ng-container>
   <ng-container *ngIf="addIncomeAlready">
     <button id="btn-cancel" type="button" class="btn btn-gray" (click)="onCancel()">ไม่ OK</button>
