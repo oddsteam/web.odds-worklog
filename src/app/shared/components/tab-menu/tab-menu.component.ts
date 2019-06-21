@@ -36,15 +36,15 @@ export class TabMenuComponent implements OnInit {
   ngOnInit() {
     this.getUserById();
     this.checkUserType();
-    this.personType = sessionStorage.getItem("activeMenu")
+    this.tabActive = sessionStorage.getItem("tabActive") ? sessionStorage.getItem("tabActive") : this.personType;
   }
 
   routerTo(path) {
     if (path === 'servant') {
       this.isShowLess = !this.isShowLess;
     } else {
-      this.personType = path;
-      sessionStorage.setItem("activeMenu", this.personType)
+      this.tabActive = path;
+      sessionStorage.setItem("tabActive", this.tabActive)
       IncomeFlag.typeGetListService = path;
       this.router.navigate([`/${path}`]);
     }
@@ -52,13 +52,14 @@ export class TabMenuComponent implements OnInit {
 
   getUserById() {
     this.worklogApiService.getUserByID(this.id).subscribe(res => {
-      this.personType = sessionStorage.getItem("activeMenu") ? sessionStorage.getItem("activeMenu") : res.role;
+      this.personType = res.role;
       this.checkTabMenu(res.role);
     });
   }
 
   checkUserType() {
     this.stateService.getTypeUser().subscribe(userType => {
+      this.personType = userType;
       this.checkTabMenu(userType);
     });
   }

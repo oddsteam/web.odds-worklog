@@ -142,7 +142,7 @@ describe('TabMenuComponent', () => {
     it('should be tabActive to equal individual when role to equal individual', () => {
       component.personType = 'individual';
 
-      component.checkTabMenu();
+      component.checkTabMenu('individual');
 
       expect(component.listTabMenuShow).toEqual([expected[1], expected[6]]);
     });
@@ -150,7 +150,7 @@ describe('TabMenuComponent', () => {
     it('should be tabActive to equal corporate when role to equal corporate', () => {
       component.personType = 'corporate';
 
-      component.checkTabMenu();
+      component.checkTabMenu('corporate');
 
       expect(component.listTabMenuShow).toEqual([expected[0], expected[6]]);
     });
@@ -158,7 +158,7 @@ describe('TabMenuComponent', () => {
     it('should be tabActive to equal admin when role to equal admin', () => {
       component.personType = 'admin';
 
-      component.checkTabMenu();
+      component.checkTabMenu('admin');
 
       expect(component.listTabMenuShow).toEqual(expected);
     });

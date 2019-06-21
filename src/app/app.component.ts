@@ -20,7 +20,7 @@ export class AppComponent {
   private checkBrowserHasRefresh(router: Router) {
     this.subscription = router.events.subscribe((event) => {
       if (event instanceof NavigationStart) {
-        !router.navigated ? sessionStorage.removeItem("activeMenu") : "";
+        !router.navigated ? sessionStorage.removeItem("tabActive") : "";
       }
     });
   }
