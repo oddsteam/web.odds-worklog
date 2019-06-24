@@ -84,10 +84,10 @@ export class ModalIncomeComponent implements OnInit {
   }
 
   calTotalIncome() {
-    const dailyIncome = this.stringToNumber(this.dailyIncome);
-    const workDate = this.stringToNumber(this.workDate.value);
-    const specialIncome = this.stringToNumber(this.specialIncome.value);
-    const workingHours = this.stringToNumber(this.workingHours.value);
+    const dailyIncome = this.dailyIncome ? this.stringToNumber(this.dailyIncome) : 1;
+    const workDate = this.workDate.value ? this.stringToNumber(this.workDate.value) : 0;
+    const specialIncome = this.specialIncome.value ? this.stringToNumber(this.specialIncome.value) : 1;
+    const workingHours = this.workingHours.value ? this.stringToNumber(this.workingHours.value) : 0;
     const netIncome = dailyIncome * workDate;
     const netSpecialIncome = specialIncome * workingHours;
     this.totalIncome = String(netIncome + netSpecialIncome);
