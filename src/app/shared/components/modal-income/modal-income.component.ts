@@ -84,6 +84,7 @@ export class ModalIncomeComponent implements OnInit {
   }
 
   calTotalIncome() {
+    this.dailyIncome ? "" : alert("รบกวนใส่ รายได้ต่อวัน ที่หน้า Profile ก่อนนะ")
     const dailyIncome = this.dailyIncome ? this.stringToNumber(this.dailyIncome) : 1;
     const workDate = this.workDate.value ? this.stringToNumber(this.workDate.value) : 0;
     const specialIncome = this.specialIncome.value ? this.stringToNumber(this.specialIncome.value) : 1;
