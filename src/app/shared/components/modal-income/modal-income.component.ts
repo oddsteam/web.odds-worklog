@@ -195,7 +195,7 @@ export class ModalIncomeComponent implements OnInit {
     this.flagChange = true;
     // this.numberFormat = this.formatInteger(this.totalIncome);
     const stringFormat = this.formatInteger(specialIncome);
-    const realFormat = this.formatCurrency(stringFormat);
+    const realFormat = this.formatAmount(stringFormat);
     this.fg.get('specialIncome').setValue(realFormat);
   }
 
@@ -216,12 +216,40 @@ export class ModalIncomeComponent implements OnInit {
     return data;
   }
 
-  formatCurrency(Result: string): string {
+  formatAmount(input: string): string {
+    input = this.maskTextInput_BalanceNumber(this.checkFirstValueIsZero(input));
+    return input;
+  }
+
+  maskTextInput_BalanceNumber(input: string) {
+    const Result = (false) ? input.replace(/[^0-9.]/g, '') : input.replace(/[^0-9]/g, '');
+    if (this.checkTextHaveDigit(Result)) {
+      const array = Result.split('.');
+      array[1] = array[1].substring(0, 0);
+      return this.formatInt(array[0]) + '.' + array[1];
+    } else {
+      return this.formatInt(Result);
+    }
+  }
+
+  formatInt(Result: string): string {
     Result = Result.substring(0, 9);
     Result = Result.replace(/^(\d+)(\d{3})/, '$1,$2');
     Result = Result.replace(/^(\d+)(\d{3})/, '$1,$2');
     Result = Result.replace(/^(\d+)(\d{3})/, '$1,$2');
     return Result;
+  }
+
+  checkTextHaveDigit(testText: string) {
+    return /\./.test(testText);
+  }
+
+  checkFirstValueIsZero(Text: string) {
+    if (/(^(0+|,|\.)[0-9,])/.test(Text)) {
+      Text = Text.split(',').join('');
+      Text = String(Number(Text));
+    }
+    return Text;
   }
 
   onCancel() {
