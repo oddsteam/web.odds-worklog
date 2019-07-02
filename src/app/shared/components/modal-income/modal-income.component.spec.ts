@@ -132,7 +132,7 @@ describe('ModalIncomeComponent', () => {
   });
 
   it('should set string follow by format 000,000', () => {
-    expect(component.formatCurrency('100000')).toEqual('100,000');
+    expect(component.formatAmount('100000')).toEqual('100,000');
   });
 
   it('should replace "," to ""', () => {
@@ -141,6 +141,18 @@ describe('ModalIncomeComponent', () => {
 
   it('should remove comma in number', () => {
     expect(component.cutComma('100,000,000')).toEqual('100000000');
+  });
+
+  it('should No zero Infrontof Amount', () => {
+    expect(component.checkFirstValueIsZero('010000')).toEqual('10000');
+  });
+
+  it('should add Comma by Input Amount', () => {
+    expect(component.formatInt('12324')).toEqual('12,324');
+  });
+
+  it('should check text have digit', () => {
+    expect(component.checkTextHaveDigit('1000.0')).toEqual(true);
   });
 
   it('should return true if specialIncome < 1', () => {

@@ -4,7 +4,7 @@
   <div class="menu-list">
     <ul id="menu-content" class="menu-content collapse out tab-without-padding" [ngClass]="{ 'display-gray-row-none': isShowLess }">
       <ng-container *ngFor="let tabMenu of listTabMenuShow">
-        <li [ngClass]="{'active' : personType === tabMenu?.id,'background-dark-gray' : tabMenu?.level === 1}" (click)="routerTo(tabMenu?.id)">
+        <li [ngClass]="{'active' : tabActive ? tabActive == tabMenu?.id : personType === tabMenu?.id,'background-dark-gray' : tabMenu?.level === 1}" (click)="routerTo(tabMenu?.id)">
           <div class="d-flex align-items-center justify-content-between">
             <a class="d-flex align-items-center" [style.padding-left]="tabMenu?.level * 1 + 'rem'">
               <i class="fa pl-4" [ngClass]="tabMenu?.icon"></i>
