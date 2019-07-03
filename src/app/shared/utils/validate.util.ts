@@ -1,19 +1,29 @@
-import { Injectable } from '@angular/core';
-
-@Injectable()
 export class ValidateUtil {
-    constructor(
-        ) { }
-        public validateCitizenId(citiZen: string): boolean {
-            if (citiZen.length !== 13) {
-                return false;
-            }
-            for (let i = 0, sum = 0; i < 12; i++) {
-                sum += parseFloat(citiZen.charAt(i)) * (13 - i);
-                if ((11 - sum % 11) % 10 !== parseFloat(citiZen.charAt(12))) {
-                    return false;
-                }
-                return true;
+    static validateCitizenId(citiZen: string): boolean {
+        if (citiZen.length !== 13) {
+            return false;
+        }
+        let sum = 0;
+        for (let i = 0; i < 12; i++) {
+            sum += parseFloat(citiZen.charAt(i)) * (13 - i);
+        }
+        if (sum !== 0) {
+            const sumCitizen = (11 - (sum % 11));
+            switch (sumCitizen.toString().length) {
+                case 1:
+                    if (sumCitizen === parseFloat(citiZen.charAt(12))) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                case 2:
+                    if (parseFloat((sumCitizen.toString()).charAt(1)) === parseFloat(citiZen.charAt(12))) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                default: return false;
             }
         }
+    }
 }
