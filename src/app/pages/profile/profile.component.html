@@ -11,7 +11,7 @@
           <div class="prepend-top-5 append-bottom-10">
             <div class="upload-file-wrapper">
               <span [hidden]="(userInfo && userInfo.transcript)">
-                <button class="btn" type="button">
+                <button class="btn button-upload" type="button">
                   Choose file...
                 </button>
                 <input formControlName="transcriptFile" type="file" accept="application/pdf"
@@ -38,7 +38,7 @@
           <div class="prepend-top-5 append-bottom-10">
             <div class="upload-file-wrapper">
               <span [hidden]="(userInfo && userInfo.imageProfile)">
-                <button class="btn" type="button">
+                <button class="btn button-upload" type="button">
                   Choose file...
                 </button>
                 <input formControlName="imageFile" type="file" accept="image/x-png,image/gif,image/jpeg"
@@ -65,7 +65,7 @@
           <div class="prepend-top-5 append-bottom-10">
             <div class="upload-file-wrapper">
               <span [hidden]="(userInfo && userInfo.degreeCertificate)">
-                <button class="btn" type="button">
+                <button class="btn button-upload" type="button">
                   Choose file...
                 </button>
                 <input formControlName="degreeCertificateFile" type="file" accept="application/pdf"
@@ -92,7 +92,7 @@
           <div class="prepend-top-5 append-bottom-10">
             <div class="upload-file-wrapper">
               <span [hidden]="(userInfo && userInfo.idCard)">
-                <button class="btn" type="button">
+                <button class="btn button-upload" type="button">
                   Choose file...
                 </button>
                 <input formControlName="idCardFile" type="file" accept="application/pdf"
