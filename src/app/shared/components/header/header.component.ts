@@ -15,6 +15,8 @@ export class HeaderComponent implements OnInit {
     name: string;
     imageProfile: SafeUrl;
     id = sessionStorage.getItem('idUser');
+    taviStatus = false;
+    role: string;
 
     constructor(
         public translate: TranslateService,
@@ -30,7 +32,10 @@ export class HeaderComponent implements OnInit {
 
     ngOnInit() {
         this.worklogApiService.forCheckTokenPleaseRemoveMeIfFlowLoginFinnished()
-            .subscribe(() => { this.getUserID(), this.getUserIncome(); });
+            .subscribe(() => {
+                this.getUserID(),
+                    this.getUserIncome();
+            });
 
         this.stateService.headerTrigger.subscribe(data => {
             this.getUserID();
@@ -44,6 +49,8 @@ export class HeaderComponent implements OnInit {
             } else {
                 this.name = res.firstName + ' ' + res.lastName;
             }
+            this.role = res.role;
+            this.taviStatus = res.statusTavi;
             this.stateService.setTypeUser(res.role);
             this.stateService.setFlagVat(res.vat);
             if (res.imageProfile) {
