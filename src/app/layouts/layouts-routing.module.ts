@@ -41,6 +41,11 @@ const routes: Routes = [
                 path: 'customers',
                 loadChildren:
                 '../pages/customers/customers.module#CustomersModule',
+            },
+            {
+                path: 'history',
+                loadChildren:
+                '../pages/history/history.module#HistoryModule',
             }
 
         ]

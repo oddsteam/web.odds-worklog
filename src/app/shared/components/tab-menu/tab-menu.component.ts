@@ -21,6 +21,7 @@ export class TabMenuComponent implements OnInit {
     { id: 'users', text: 'USERS', icon: '', level: 1 },
     { id: 'groups/all', text: 'GROUPS', icon: '', level: 1 },
     { id: 'customers/all', text: 'CUSTOMERS', icon: '', level: 1 },
+    { id: 'history', text: 'HISTORY', icon: 'fa-history', level: 0 },
     { id: 'profile', text: 'PROFILE', icon: 'fa-user-circle', level: 0 },
     { id: 'settings', text: 'SETTINGS', icon: 'fa-cog', level: 0 },
   ];
@@ -36,7 +37,7 @@ export class TabMenuComponent implements OnInit {
   ngOnInit() {
     this.getUserById();
     this.checkUserType();
-    this.tabActive = sessionStorage.getItem("tabActive") ? sessionStorage.getItem("tabActive") : this.personType;
+    this.tabActive = sessionStorage.getItem('tabActive') ? sessionStorage.getItem('tabActive') : this.personType;
   }
 
   routerTo(path) {
@@ -44,7 +45,7 @@ export class TabMenuComponent implements OnInit {
       this.isShowLess = !this.isShowLess;
     } else {
       this.tabActive = path;
-      sessionStorage.setItem("tabActive", this.tabActive)
+      sessionStorage.setItem('tabActive', this.tabActive);
       IncomeFlag.typeGetListService = path;
       this.router.navigate([`/${path}`]);
     }
@@ -67,7 +68,7 @@ export class TabMenuComponent implements OnInit {
   checkTabMenu(userType: string) {
     if (userType) {
       if (userType !== 'admin') {
-        this.listTabMenuShow = this.listTabMenu.filter(x => x.id === userType || x.id === 'profile');
+        this.listTabMenuShow = this.listTabMenu.filter(x => x.id === userType || x.id === 'profile' || x.id === 'history');
       } else {
         this.listTabMenuShow = this.listTabMenu;
       }
