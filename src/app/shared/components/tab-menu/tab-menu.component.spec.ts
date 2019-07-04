@@ -161,7 +161,8 @@ describe('TabMenuComponent', () => {
 
       component.checkTabMenu('admin');
 
-      expect(component.listTabMenuShow).toEqual(expected);
+      expect(component.listTabMenuShow)
+        .toEqual([expected[0], expected[1], expected[2], expected[3], expected[4], expected[5], expected[7], expected[8]]);
     });
   });
 

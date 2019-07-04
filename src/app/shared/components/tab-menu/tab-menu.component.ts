@@ -70,7 +70,7 @@ export class TabMenuComponent implements OnInit {
       if (userType !== 'admin') {
         this.listTabMenuShow = this.listTabMenu.filter(x => x.id === userType || x.id === 'profile' || x.id === 'history');
       } else {
-        this.listTabMenuShow = this.listTabMenu;
+        this.listTabMenuShow = this.listTabMenu.filter(x => x.id !== 'history');
       }
     }
   }
