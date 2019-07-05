@@ -117,6 +117,13 @@ export class WorklogApiService {
         );
     }
 
+    getIncomeAllMonthByUserID(id: string): Observable<AddIncomeResponse> {
+        return this.http.get<AddIncomeResponse>(
+            `${this.apiPath}incomes/all-month/${id}`,
+            this.getHttpHeaderOption()
+        );
+    }
+
     addIncomeConfirm(data): Observable<AddIncomeResponse> {
         return this.http.post<AddIncomeResponse>(
             `${this.apiPath}incomes`,
