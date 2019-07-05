@@ -6,6 +6,7 @@ import { WorklogApiService } from 'src/app/core/worklog-api.service';
 import { Site } from 'src/app/shared/model/site';
 import { User } from 'src/app/shared/model/user';
 import { MyFile } from './file';
+import { ValidateUtil } from 'src/app/shared/utils/validate.util';
 
 @Component({
   selector: 'app-profile',
@@ -29,6 +30,7 @@ export class ProfileComponent implements OnInit {
   showSuccessMessage = false;
   fileNamePdf: string;
   isCorporate = false;
+  checkCiti: Boolean;
   listPersonType = [
     {
       id: 'corporate',
@@ -109,7 +111,7 @@ export class ProfileComponent implements OnInit {
     this.project.setValue(user.project);
     this.dailyIncome.setValue(user.dailyIncome);
     this.address.setValue(user.address);
-    this.thaiCitizenId.setValue(user.thaiCitizenId);
+    this.validateThaiCitizenIdByUser(user.thaiCitizenId);
     this.isVat = user.vat;
     if (user.vat === 'N') {
       this.vatList[0].value = false;
@@ -157,7 +159,7 @@ export class ProfileComponent implements OnInit {
     this.userInfo.dailyIncome = this.dailyIncome.value;
     this.userInfo.role = this.personType;
     this.userInfo.address = this.address.value;
-    this.userInfo.thaiCitizenId = this.thaiCitizenId.value;
+    this.userInfo.thaiCitizenId = this.validateThaiCitizenIdByInput();
   }
 
   onReset() {
@@ -454,5 +456,25 @@ export class ProfileComponent implements OnInit {
 
   private triggerHeader() {
     this.stateService.triggerHeader();
+  }
+
+  public validateThaiCitizenIdByInput(): string {
+    if (ValidateUtil.validateCitizenId(this.thaiCitizenId.value)) {
+      this.checkCiti = true;
+      return this.thaiCitizenId.value;
+    } else {
+      this.checkCiti = false;
+      return this.thaiCitizenId.value;
+    }
+  }
+
+  public validateThaiCitizenIdByUser(User_CitiZen) {
+    if (ValidateUtil.validateCitizenId(User_CitiZen)) {
+      this.checkCiti = true;
+      this.thaiCitizenId.setValue(User_CitiZen);
+    } else {
+      this.checkCiti = false;
+      this.thaiCitizenId.setValue(User_CitiZen);
+    }
   }
 }
