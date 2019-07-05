@@ -418,7 +418,7 @@ describe('ProfileComponent', () => {
       expect(component.checkCiti).toEqual(true);
     });
 
-    fit('should return false when Not format CitizenId', () => {
+    it('should return false when Not format CitizenId', () => {
       const citizenId = '9595959595959';
       component.validateThaiCitizenIdByUser(citizenId);
       expect(component.checkCiti).toEqual(false);
