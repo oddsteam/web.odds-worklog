@@ -411,5 +411,18 @@ describe('ProfileComponent', () => {
 
       expect(component.personType).toEqual('individual');
     });
+
+    it('should return true when format CitizenId', () => {
+      const citizenId = '1201541462234';
+      component.validateThaiCitizenIdByUser(citizenId);
+      expect(component.checkCiti).toEqual(true);
+    });
+
+    fit('should return false when Not format CitizenId', () => {
+      const citizenId = '9595959595959';
+      component.validateThaiCitizenIdByUser(citizenId);
+      expect(component.checkCiti).toEqual(false);
+    });
+
   });
 });
