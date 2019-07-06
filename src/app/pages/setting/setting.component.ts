@@ -13,7 +13,7 @@ export class SettingComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private worklogApiService: WorklogApiService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.setupForm();
@@ -27,7 +27,6 @@ export class SettingComponent implements OnInit {
       time: ['23:59', Validators.required],
       channel: ['']
     });
-    this.fg.get('time').disable();
   }
 
   getSettingData() {
