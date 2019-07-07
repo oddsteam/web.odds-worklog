@@ -1,5 +1,8 @@
 export class ValidateUtil {
     static validateCitizenId(citiZen: string): boolean {
+        if (citiZen === undefined || citiZen === null) {
+            return false;
+        }
         if (citiZen.length !== 13) {
             return false;
         }
