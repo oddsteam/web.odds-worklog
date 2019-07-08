@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { CustomValidators } from 'src/app/core/custom-validators';
+import { CustomValidators } from 'src/app/validators/custom-validators';
 import { WorklogApiService } from '../../core/worklog-api.service';
 import { Site } from '../../shared/model/site';
 import { User } from '../../shared/model/user';
