@@ -14,7 +14,7 @@
         </tr>
       </thead>
       <tbody *ngIf="isNoData">
-        <tr *ngFor="let item of this.incomeResponse ">
+        <tr *ngFor="let item of incomeResponse ">
           <td class="text-left">{{ checkValue(item.lastUpdate | date:'MMMM')}}</td>
           <td class="text-center">{{ checkValue(item.netIncome) }}</td>
           <td class="text-center">{{ checkValue(item.netSpecialIncome) }}</td>

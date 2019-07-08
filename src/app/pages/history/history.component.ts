@@ -9,7 +9,7 @@ import { AddIncomeResponse } from 'src/app/shared/model/add-income-model-respons
 })
 export class HistoryComponent implements OnInit {
   id = sessionStorage.getItem('idUser');
-  incomeResponse: AddIncomeResponse;
+  incomeResponse: AddIncomeResponse[] = [];
   isNoData = false;
   isNoIndividual = false;
 
@@ -30,7 +30,7 @@ export class HistoryComponent implements OnInit {
 
   getIncome() {
     this.worklogApiService.getIncomeAllMonthByUserID(this.id).subscribe(res => {
-      if (res !== null) {
+      if (res) {
         this.incomeResponse = res;
         this.isNoData = true;
 
