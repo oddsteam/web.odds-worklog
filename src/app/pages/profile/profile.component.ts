@@ -5,8 +5,9 @@ import { StateService } from 'src/app/core/state.service';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
 import { Site } from 'src/app/shared/model/site';
 import { User } from 'src/app/shared/model/user';
+import { ValidateCitizenIdUtil } from 'src/app/shared/utils/validate-citizenId.util';
+import { CustomValidators } from 'src/app/validators/custom-validators';
 import { MyFile } from './file';
-import { ValidateUtil } from 'src/app/shared/utils/validate.util';
 
 @Component({
   selector: 'app-profile',
@@ -58,7 +59,8 @@ export class ProfileComponent implements OnInit {
     private formBuilder: FormBuilder,
     private worklogApiService: WorklogApiService,
     private fileService: FileService,
-    private stateService: StateService
+    private stateService: StateService,
+    private validateCitized: ValidateCitizenIdUtil
   ) { }
 
   ngOnInit() {
@@ -78,7 +80,8 @@ export class ProfileComponent implements OnInit {
       project: [''],
       dailyIncome: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
       address: ['', Validators.required],
-      thaiCitizenId: ['', Validators.required]
+      thaiCitizenId: ['', Validators.compose([Validators.required, Validators.pattern(/^[0-9]{13}?$/),
+      this.validateCitized.validateCitizenId.bind(this.validateCitized), Validators.maxLength(100)])]
     });
 
     this.fileForm = this.formBuilder.group({
@@ -98,7 +101,7 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-  private setDataUser(user: User) {
+  setDataUser(user: User) {
     this.userInfo = user;
     this.personType = user.role;
     this.corporateNameForm.setValue(user.corporateName);
@@ -111,7 +114,7 @@ export class ProfileComponent implements OnInit {
     this.project.setValue(user.project);
     this.dailyIncome.setValue(user.dailyIncome);
     this.address.setValue(user.address);
-    this.validateThaiCitizenIdByUser(user.thaiCitizenId);
+    this.thaiCitizenId.setValue(user.thaiCitizenId);
     this.isVat = user.vat;
     if (user.vat === 'N') {
       this.vatList[0].value = false;
@@ -128,20 +131,25 @@ export class ProfileComponent implements OnInit {
   }
 
   updateData() {
-    if (this.dailyIncome.valid) {
-      this.setDataToModel();
-      this.worklogApiService.setDailyIncoem(this.userInfo.dailyIncome);
-      this.worklogApiService.updateUser(this.id, this.userInfo).subscribe(user => {
-        this.setDataUser(user);
-        sessionStorage.setItem('firstName', user.firstName);
-        this.triggerHeader();
-        this.alertSuccess();
-      });
-      this.stateService.setTypeUser(this.personType);
+
+    if (!this.profileForm.valid) {
+      CustomValidators.validateAllFormFields(this.profileForm);
+      return false;
     }
+
+    this.setDataToModel();
+    this.worklogApiService.setDailyIncoem(this.userInfo.dailyIncome);
+    this.worklogApiService.updateUser(this.id, this.userInfo).subscribe(user => {
+      this.setDataUser(user);
+      sessionStorage.setItem('firstName', user.firstName);
+      this.triggerHeader();
+      this.alertSuccess();
+    });
+    this.stateService.setTypeUser(this.personType);
+
   }
 
-  private alertSuccess() {
+  alertSuccess() {
     this.showSuccessMessage = true;
     window.scrollTo(0, 0);
   }
@@ -159,7 +167,7 @@ export class ProfileComponent implements OnInit {
     this.userInfo.dailyIncome = this.dailyIncome.value;
     this.userInfo.role = this.personType;
     this.userInfo.address = this.address.value;
-    this.userInfo.thaiCitizenId = this.validateThaiCitizenIdByInput();
+    this.userInfo.thaiCitizenId = this.thaiCitizenId.value;
   }
 
   onReset() {
@@ -300,6 +308,12 @@ export class ProfileComponent implements OnInit {
     if (event === 'individual' || event === 'corporate') {
       this.personType = event;
       this.isCorporate = (event === 'individual') ? false : true;
+    }
+
+    if (!this.isCorporate) {
+      this.corporateNameForm.disable();
+    } else {
+      this.corporateNameForm.enable();
     }
   }
 
@@ -454,27 +468,8 @@ export class ProfileComponent implements OnInit {
     return this.profileForm.get('thaiCitizenId') as FormControl;
   }
 
-  private triggerHeader() {
+  triggerHeader() {
     this.stateService.triggerHeader();
   }
 
-  public validateThaiCitizenIdByInput(): string {
-    if (ValidateUtil.validateCitizenId(this.thaiCitizenId.value)) {
-      this.checkCiti = true;
-      return this.thaiCitizenId.value;
-    } else {
-      this.checkCiti = false;
-      return this.thaiCitizenId.value;
-    }
-  }
-
-  public validateThaiCitizenIdByUser(User_CitiZen) {
-    if (ValidateUtil.validateCitizenId(User_CitiZen)) {
-      this.checkCiti = true;
-      this.thaiCitizenId.setValue(User_CitiZen);
-    } else {
-      this.checkCiti = false;
-      this.thaiCitizenId.setValue(User_CitiZen);
-    }
-  }
 }
