@@ -11,7 +11,7 @@ import { SettingReminder } from 'src/app/shared/model/setting-reminder-model';
 const mockSettingResponse: SettingReminder = {
   name: 'ODDS',
   setting: {
-    date: '2018-11-24:00:00:00',
+    date: Object({ year: 2019, month: 7, day: 9 }),
     message: 'test',
     facebook: true,
     line: true,
@@ -178,12 +178,12 @@ describe('SettingComponent', () => {
       }
     ];
     component.fg.setValue({
-      date: '30',
+      date: Object({ year: 2019, month: 7, day: 9 }),
       message: 'test',
       time: '00:00',
       channel: component.channelList
     });
-    fixture.detectChanges();
+    // fixture.detectChanges();
     spyOn(window, 'alert');
     component.onSubmit();
     expect(window.alert).toHaveBeenCalledWith(`เกินวันแล้วจ้า`);
@@ -205,12 +205,12 @@ describe('SettingComponent', () => {
       }
     ];
     component.fg.setValue({
-      date: '26',
+      date: Object({ year: 2019, month: 7, day: 26 }),
       message: 'test',
       time: '00:00',
       channel: component.channelList
     });
-    fixture.detectChanges();
+    // fixture.detectChanges();
     spyOn(window, 'alert');
     component.onSubmit();
     expect(window.alert).toHaveBeenCalledWith(`บันทึกสำเร็จแล้ว`);
@@ -232,13 +232,13 @@ describe('SettingComponent', () => {
       }
     ];
     component.fg.setValue({
-      date: '26',
+      date: Object({ year: 2019, month: 7, day: 26 }),
       message: '1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567' +
         '89012345678901234567890123456789012345678901234567890',
       time: '00:00',
       channel: component.channelList
     });
-    fixture.detectChanges();
+    // fixture.detectChanges();
     spyOn(window, 'alert');
     component.onSubmit();
     expect(window.alert).toHaveBeenCalledWith(`ใส่ได้แค่ 144 ตัวโว้ย กลับไปใส่ใหม่ !`);
