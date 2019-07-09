@@ -1,6 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { of } from 'rxjs';
@@ -11,10 +11,11 @@ import { DropDownComponent } from 'src/app/shared/components/drop-down/drop-down
 import { MessageTooltipComponent } from 'src/app/shared/components/message-tooltip/message-tooltip.component';
 import { Site } from 'src/app/shared/model/site';
 import { User } from 'src/app/shared/model/user';
+import { ValidateCitizenIdUtil } from 'src/app/shared/utils/validate-citizenId.util';
 import { ProfileComponent } from './profile.component';
 
 
-describe('ProfileComponent', () => {
+fdescribe('ProfileComponent', () => {
   let component: ProfileComponent;
   let fixture: ComponentFixture<ProfileComponent>;
   let worklogApiService: WorklogApiService;
@@ -26,7 +27,7 @@ describe('ProfileComponent', () => {
       declarations: [ProfileComponent, DropDownComponent, MessageTooltipComponent],
       imports: [ReactiveFormsModule, HttpClientTestingModule, FormsModule
         , RouterTestingModule, NgbModule.forRoot()],
-      providers: []
+      providers: [ValidateCitizenIdUtil]
     })
       .compileComponents();
   }));
@@ -361,20 +362,48 @@ describe('ProfileComponent', () => {
 
     it('should call updateUser in worklog service correctly', () => {
       fixture.detectChanges();
+      component.profileForm = <FormGroup>{
+        valid: true
+      };
+
+      spyOn(component, 'setDataToModel');
+      spyOn(worklogApiService, 'setDailyIncoem');
       spyOn(worklogApiService, 'updateUser').and.returnValue(of(mockResponse));
+      spyOn(component, 'setDataUser');
+      spyOn(component, 'triggerHeader');
+      spyOn(component, 'alertSuccess');
 
       component.updateData();
 
+      expect(component.setDataToModel).toHaveBeenCalled();
+      expect(worklogApiService.setDailyIncoem).toHaveBeenCalled();
       expect(worklogApiService.updateUser).toHaveBeenCalled();
+      expect(component.setDataUser).toHaveBeenCalled();
+      expect(component.triggerHeader).toHaveBeenCalled();
+      expect(component.alertSuccess).toHaveBeenCalled();
     });
 
     it('should set type user = person type', () => {
+      component.profileForm = <FormGroup>{
+        valid: true
+      };
       component.personType = 'corporate';
+      spyOn(component, 'setDataToModel');
+      spyOn(worklogApiService, 'setDailyIncoem');
       spyOn(worklogApiService, 'updateUser').and.returnValue(of(mockResponse));
+      spyOn(component, 'setDataUser');
+      spyOn(component, 'triggerHeader');
+      spyOn(component, 'alertSuccess');
       spyOn(stateService, 'setTypeUser');
 
       component.updateData();
 
+      expect(component.setDataToModel).toHaveBeenCalled();
+      expect(worklogApiService.setDailyIncoem).toHaveBeenCalled();
+      expect(worklogApiService.updateUser).toHaveBeenCalled();
+      expect(component.setDataUser).toHaveBeenCalled();
+      expect(component.triggerHeader).toHaveBeenCalled();
+      expect(component.alertSuccess).toHaveBeenCalled();
       expect(stateService.setTypeUser).toHaveBeenCalledWith('corporate');
     });
   });
@@ -410,18 +439,6 @@ describe('ProfileComponent', () => {
       component.getEmitSourcePersonType(event);
 
       expect(component.personType).toEqual('individual');
-    });
-
-    it('should return true when format CitizenId', () => {
-      const citizenId = '1201541462234';
-      component.validateThaiCitizenIdByUser(citizenId);
-      expect(component.checkCiti).toEqual(true);
-    });
-
-    it('should return false when Not format CitizenId', () => {
-      const citizenId = '9595959595959';
-      component.validateThaiCitizenIdByUser(citizenId);
-      expect(component.checkCiti).toEqual(false);
     });
 
   });
