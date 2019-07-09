@@ -124,18 +124,30 @@
           <div class="row" *ngIf="isCorporate">
             <div class="form-group col-md-12">
               <label>Corporate Name</label>
-              <input class="form-control" type="text" formControlName="corporateName">
+              <input class="form-control" type="text" formControlName="corporateName"
+                [ngClass]="{'is-invalid': profileForm.controls.corporateName.invalid && profileForm.controls.corporateName.touched}">
+              <div *ngIf="profileForm.controls.corporateName.invalid && profileForm.controls.corporateName.touched">
+                <label class="col-form-label" style="color: red;">กรุณากรอกชื่อ</label>
+              </div>
             </div>
           </div>
           <div class="row">
             <div class="form-group col-md-6">
               <label>First Name</label>
-              <input class="form-control" type="text" formControlName="firstName">
+              <input class="form-control" type="text" formControlName="firstName"
+                [ngClass]="{'is-invalid': profileForm.controls.firstName.invalid && profileForm.controls.firstName.touched}">
+              <div *ngIf="profileForm.controls.firstName.invalid && profileForm.controls.firstName.touched">
+                <label class="col-form-label" style="color: red;">กรุณากรอกชื่อ</label>
+              </div>
             </div>
 
             <div class="form-group col-md-6">
               <label>Last Name</label>
-              <input class="form-control" type="text" formControlName="lastName">
+              <input class="form-control" type="text" formControlName="lastName"
+                [ngClass]="{'is-invalid': profileForm.controls.lastName.invalid && profileForm.controls.lastName.touched}">
+              <div *ngIf="profileForm.controls.lastName.invalid && profileForm.controls.lastName.touched">
+                <label class="col-form-label" style="color: red;">กรุณากรอกนามสกุล</label>
+              </div>
             </div>
           </div>
 
@@ -146,18 +158,31 @@
             </div>
             <div class="form-group col-md-6">
               <label>Slack Account</label>
-              <input class="form-control" type="text" formControlName="slackAccount">
+              <input class="form-control" type="text" formControlName="slackAccount"
+                [ngClass]="{'is-invalid': profileForm.controls.slackAccount.invalid && profileForm.controls.slackAccount.touched}">
+              <div *ngIf="profileForm.controls.slackAccount.invalid && profileForm.controls.slackAccount.touched">
+                <label class="col-form-label" style="color: red;">กรุณากรอก Slack Account</label>
+              </div>
             </div>
           </div>
 
           <div class="row">
             <div class="form-group col-md-6">
               <label>Bank Account Name</label>
-              <input class="form-control" type="text" formControlName="bankAccount">
+              <input class="form-control" type="text" formControlName="bankAccount"
+                [ngClass]="{'is-invalid': profileForm.controls.bankAccount.invalid && profileForm.controls.bankAccount.touched}">
+              <div *ngIf="profileForm.controls.bankAccount.invalid && profileForm.controls.bankAccount.touched">
+                <label class="col-form-label" style="color: red;">กรุณากรอกชื่อบัญชี</label>
+              </div>
             </div>
             <div class="form-group col-md-6">
               <label>Bank Account Number</label>
-              <input class="form-control" type="text" formControlName="bankAccountNumber">
+              <input class="form-control" type="text" formControlName="bankAccountNumber"
+                [ngClass]="{'is-invalid': profileForm.controls.bankAccountNumber.invalid && profileForm.controls.bankAccountNumber.touched}">
+              <div
+                *ngIf="profileForm.controls.bankAccountNumber.invalid && profileForm.controls.bankAccountNumber.touched">
+                <label class="col-form-label" style="color: red;">กรุณากรอกเลขบัญชี</label>
+              </div>
             </div>
           </div>
 
@@ -178,7 +203,11 @@
           <div class="row">
             <div class="form-group col-md-6">
               <label>เงินรายวันที่ได้</label>
-              <input class="form-control" type="text" formControlName="dailyIncome">
+              <input class="form-control" type="text" formControlName="dailyIncome"
+                [ngClass]="{'is-invalid': profileForm.controls.dailyIncome.invalid && profileForm.controls.dailyIncome.touched}">
+              <div *ngIf="profileForm.controls.dailyIncome.invalid && profileForm.controls.dailyIncome.touched">
+                <label class="col-form-label" style="color: red;">กรุณากรอกเงินรายวันที่ได้</label>
+              </div>
             </div>
 
             <div class="form-group col-md-6">
@@ -192,7 +221,11 @@
             <div class="form-group col-md-6">
               <label>Address</label>
               <textarea class="form-control" id="address" name="address" placeholder="ที่อยู่ปัจจุบัน"
-                formControlName="address"></textarea>
+                formControlName="address"
+                [ngClass]="{'is-invalid': profileForm.controls.address.invalid && profileForm.controls.address.touched}"></textarea>
+              <div *ngIf="profileForm.controls.address.invalid && profileForm.controls.address.touched">
+                <label class="col-form-label" style="color: red;">กรุณากรอกที่อยู่</label>
+              </div>
             </div>
 
             <div class="row" *ngIf="userInfo && isCorporate">
@@ -208,12 +241,20 @@
           <div class="row">
             <div class="form-group col-md-6">
               <label>ThaiCitizenId</label>
-                <input class="form-control" id="thaiCitizenId" name="thaiCitizenId"
-                placeholder="เลขบัตรประจำตัวบัตรประชาชน" formControlName="thaiCitizenId">
+              <input class="form-control" id="thaiCitizenId" name="thaiCitizenId"
+                placeholder="เลขบัตรประจำตัวบัตรประชาชน" formControlName="thaiCitizenId"
+                [ngClass]="{'is-invalid':profileForm.controls.thaiCitizenId.invalid && profileForm.controls.thaiCitizenId.touched}">
+              <div
+                *ngIf="profileForm.controls.thaiCitizenId.errors?.required && profileForm.controls.thaiCitizenId.touched">
+                <label class="col-form-label" style="color: red;">กรุณากรอกเลขบัตรประชาชน</label>
               </div>
-          </div>
-          <div *ngIf="!checkCiti" class="colorErrorNotformatCitizen">
-            หมายเลขบัตรประชาชนไม่ถูกต้อง
+              <div *ngIf="profileForm.controls.thaiCitizenId.errors?.pattern">
+                <label class="col-form-label" style="color: red;">กรุณากรอกเลขบัตรประชาชนให้ครบ 13 หลัก</label>
+              </div>
+              <div *ngIf="profileForm.controls.thaiCitizenId.errors?.checkSum">
+                <label class="col-form-label" style="color: red;">{{thaiCitizenId.errors?.checkSum.message}}</label>
+              </div>
+            </div>
           </div>
           <hr>
           <div class="prepend-top-default append-bottom-default inner">
