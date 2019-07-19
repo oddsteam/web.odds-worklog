@@ -13,6 +13,7 @@
           Status <i [ngClass]="swapArrowIconSort ? 'fa fa-caret-up' : 'fa fa-caret-down'"></i>
         </th>
         <th  *ngIf="role === 'admin'" class="text-center align-middle ">
+          StatusTavi
         </th>
       </tr>
     </thead>
@@ -68,7 +69,7 @@
         <td class="text-center"></td>
         <td class="text-center"></td>
         <td class="text-center"></td>
-        <td class="text-center"><button type="button" class="btn btn-blue"  (click)="openModal(templateModal)">ยืนยันการบันทึก</button></td>
+        <td class="text-center"><button type="button" class="btn btn-blue"  (click)="openModal(templateModal)">Save</button></td>
       </tr>
     </tbody>
   </table>

@@ -11,7 +11,7 @@ import { SettingReminder } from 'src/app/shared/model/setting-reminder-model';
 const mockSettingResponse: SettingReminder = {
   name: 'ODDS',
   setting: {
-    date: Object({ year: 2019, month: 7, day: 9 }),
+    date: Object({ year: new Date().getFullYear(), month: new Date().getMonth() + 1 , day: new Date().getDate() }),
     message: 'test',
     facebook: true,
     line: true,

@@ -15,7 +15,7 @@ import { ValidateCitizenIdUtil } from 'src/app/shared/utils/validate-citizenId.u
 import { ProfileComponent } from './profile.component';
 
 
-fdescribe('ProfileComponent', () => {
+describe('ProfileComponent', () => {
   let component: ProfileComponent;
   let fixture: ComponentFixture<ProfileComponent>;
   let worklogApiService: WorklogApiService;
