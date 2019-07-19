@@ -5,6 +5,8 @@ import { StateService } from 'src/app/core/state.service';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
 import { Site } from 'src/app/shared/model/site';
 import { User } from 'src/app/shared/model/user';
+import { ValidateCitizenIdUtil } from 'src/app/shared/utils/validate-citizenId.util';
+import { CustomValidators } from 'src/app/validators/custom-validators';
 import { MyFile } from './file';
 
 @Component({
@@ -29,6 +31,7 @@ export class ProfileComponent implements OnInit {
   showSuccessMessage = false;
   fileNamePdf: string;
   isCorporate = false;
+  checkCiti: Boolean;
   listPersonType = [
     {
       id: 'corporate',
@@ -56,7 +59,8 @@ export class ProfileComponent implements OnInit {
     private formBuilder: FormBuilder,
     private worklogApiService: WorklogApiService,
     private fileService: FileService,
-    private stateService: StateService
+    private stateService: StateService,
+    private validateCitized: ValidateCitizenIdUtil
   ) { }
 
   ngOnInit() {
@@ -76,7 +80,8 @@ export class ProfileComponent implements OnInit {
       project: [''],
       dailyIncome: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
       address: ['', Validators.required],
-      thaiCitizenId: ['', Validators.required]
+      thaiCitizenId: ['', Validators.compose([Validators.required, Validators.pattern(/^[0-9]{13}?$/),
+      this.validateCitized.validateCitizenId.bind(this.validateCitized), Validators.maxLength(100)])]
     });
 
     this.fileForm = this.formBuilder.group({
@@ -96,7 +101,7 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-  private setDataUser(user: User) {
+  setDataUser(user: User) {
     this.userInfo = user;
     this.personType = user.role;
     this.corporateNameForm.setValue(user.corporateName);
@@ -126,20 +131,25 @@ export class ProfileComponent implements OnInit {
   }
 
   updateData() {
-    if (this.dailyIncome.valid) {
-      this.setDataToModel();
-      this.worklogApiService.setDailyIncoem(this.userInfo.dailyIncome);
-      this.worklogApiService.updateUser(this.id, this.userInfo).subscribe(user => {
-        this.setDataUser(user);
-        sessionStorage.setItem('firstName', user.firstName);
-        this.triggerHeader();
-        this.alertSuccess();
-      });
-      this.stateService.setTypeUser(this.personType);
+
+    if (!this.profileForm.valid) {
+      CustomValidators.validateAllFormFields(this.profileForm);
+      return false;
     }
+
+    this.setDataToModel();
+    this.worklogApiService.setDailyIncoem(this.userInfo.dailyIncome);
+    this.worklogApiService.updateUser(this.id, this.userInfo).subscribe(user => {
+      this.setDataUser(user);
+      sessionStorage.setItem('firstName', user.firstName);
+      this.triggerHeader();
+      this.alertSuccess();
+    });
+    this.stateService.setTypeUser(this.personType);
+
   }
 
-  private alertSuccess() {
+  alertSuccess() {
     this.showSuccessMessage = true;
     window.scrollTo(0, 0);
   }
@@ -299,6 +309,12 @@ export class ProfileComponent implements OnInit {
       this.personType = event;
       this.isCorporate = (event === 'individual') ? false : true;
     }
+
+    if (!this.isCorporate) {
+      this.corporateNameForm.disable();
+    } else {
+      this.corporateNameForm.enable();
+    }
   }
 
   onCheckBoxVat(vatName) {
@@ -452,7 +468,8 @@ export class ProfileComponent implements OnInit {
     return this.profileForm.get('thaiCitizenId') as FormControl;
   }
 
-  private triggerHeader() {
+  triggerHeader() {
     this.stateService.triggerHeader();
   }
+
 }

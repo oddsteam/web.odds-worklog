@@ -134,6 +134,7 @@ describe('TabMenuComponent', () => {
         { id: 'users', text: 'USERS', icon: '', level: 1 },
         { id: 'groups/all', text: 'GROUPS', icon: '', level: 1 },
         { id: 'customers/all', text: 'CUSTOMERS', icon: '', level: 1 },
+        { id: 'history', text: 'HISTORY', icon: 'fa-history', level: 0 },
         { id: 'profile', text: 'PROFILE', icon: 'fa-user-circle', level: 0 },
         { id: 'settings', text: 'SETTINGS', icon: 'fa-cog', level: 0 },
       ];
@@ -144,7 +145,7 @@ describe('TabMenuComponent', () => {
 
       component.checkTabMenu('individual');
 
-      expect(component.listTabMenuShow).toEqual([expected[1], expected[6]]);
+      expect(component.listTabMenuShow).toEqual([expected[1], expected[6], expected[7]]);
     });
 
     it('should be tabActive to equal corporate when role to equal corporate', () => {
@@ -152,7 +153,7 @@ describe('TabMenuComponent', () => {
 
       component.checkTabMenu('corporate');
 
-      expect(component.listTabMenuShow).toEqual([expected[0], expected[6]]);
+      expect(component.listTabMenuShow).toEqual([expected[0], expected[6], expected[7]]);
     });
 
     it('should be tabActive to equal admin when role to equal admin', () => {
@@ -160,7 +161,8 @@ describe('TabMenuComponent', () => {
 
       component.checkTabMenu('admin');
 
-      expect(component.listTabMenuShow).toEqual(expected);
+      expect(component.listTabMenuShow)
+        .toEqual([expected[0], expected[1], expected[2], expected[3], expected[4], expected[5], expected[7], expected[8]]);
     });
   });
 

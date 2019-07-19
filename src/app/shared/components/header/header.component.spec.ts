@@ -4,13 +4,16 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateFakeLoader, TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { of, throwError } from 'rxjs';
+import { StateService } from 'src/app/core/state.service';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
+import { AddIncomeResponse } from '../../model/add-income-model-response';
 import { HeaderComponent } from './header.component';
 
 describe('HeaderComponent', () => {
   let component: HeaderComponent;
   let fixture: ComponentFixture<HeaderComponent>;
   let workLogService: WorklogApiService;
+  let stateService: StateService;
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [HeaderComponent],
@@ -28,6 +31,7 @@ describe('HeaderComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(HeaderComponent);
     workLogService = TestBed.get(WorklogApiService);
+    stateService = TestBed.get(StateService);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -54,11 +58,16 @@ describe('HeaderComponent', () => {
       thaiCitizenId: '1234567890123',
       slackAccount: '',
       transcript: '',
-      siteId: ''
+      siteId: '',
+      vat: '123'
     };
     spyOn(workLogService, 'getUserByID').and.returnValue(of(mockResponse));
+    spyOn(stateService, 'setTypeUser');
+    spyOn(stateService, 'setFlagVat');
     component.getUserID();
     expect(workLogService.getUserByID).toHaveBeenCalled();
+    expect(stateService.setTypeUser).toHaveBeenCalledWith('individual');
+    expect(stateService.setFlagVat).toHaveBeenCalledWith('123');
   });
 
   it('name in component should be equal response from getUserByID in workLog service', () => {
@@ -73,11 +82,16 @@ describe('HeaderComponent', () => {
       thaiCitizenId: '1234567890123',
       slackAccount: '',
       transcript: '',
-      siteId: ''
+      siteId: '',
+      vat: '123'
     };
     spyOn(workLogService, 'getUserByID').and.returnValue(of(mockResponse));
+    spyOn(stateService, 'setTypeUser');
+    spyOn(stateService, 'setFlagVat');
     component.getUserID();
     expect(component.name).toEqual(mockResponse.firstName + ' ' + mockResponse.lastName);
+    expect(stateService.setTypeUser).toHaveBeenCalledWith('individual');
+    expect(stateService.setFlagVat).toHaveBeenCalledWith('123');
   });
 
   it('should call exportDataPdf from worklogApiService when call exportTavi50', () => {
@@ -95,5 +109,22 @@ describe('HeaderComponent', () => {
     spyOn(window, 'alert');
     component.exportTavi50();
     expect(window.alert).toHaveBeenCalledWith(`Can't export to PDF file.`);
+  });
+
+  it('should be call function setFlagUser with N in stateService when the response data of getIncomeByUserID not equal null', () => {
+    const mockData = <AddIncomeResponse>{
+      id: 'test',
+    };
+    spyOn(stateService, 'setFlagUser');
+    spyOn(workLogService, 'getIncomeByUserID').and.returnValue(of(mockData));
+    component.getUserIncome();
+    expect(stateService.setFlagUser).toHaveBeenCalledWith('N');
+  });
+
+  it('should be call function setFlagUser with Y in stateService when the response data of getIncomeByUserID equal null', () => {
+    spyOn(stateService, 'setFlagUser');
+    spyOn(workLogService, 'getIncomeByUserID').and.returnValue(of(null));
+    component.getUserIncome();
+    expect(stateService.setFlagUser).toHaveBeenCalledWith('Y');
   });
 });
