@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  // api: `https://next.odds.team/api/worklog/`
+  api: `https://next.odds.team/api/worklog/`
   // api: `http://localhost:8082/v1/`
 
 };
