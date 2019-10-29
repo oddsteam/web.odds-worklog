@@ -56,8 +56,8 @@ export class HistoryComponent implements OnInit {
     ).toString();
   }
 
-  calIncome(dailyIncome: string, workDay: string, totalIncome: string): string {
-    const result = (this.stringToNumber(totalIncome) - (Number(dailyIncome) * Number(workDay))).toString();
+  calIncome(SpecialIncome: string, workingHours: string, totalIncome: string): string {
+    const result = (this.stringToNumber(totalIncome) - (Number(SpecialIncome) * Number(workingHours))).toString();
 
     return result;
   }
