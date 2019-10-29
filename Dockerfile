@@ -17,7 +17,7 @@ RUN npm install --no-optional && npm rebuild
 # RUN ng e2e
 
 # Build
-RUN ng build --base-href=/worklog/
+RUN ng build
 
 
 # STEP 2 build a small nginx image with static website
@@ -26,4 +26,4 @@ FROM nginx:1.14.0-alpine
 ## Replace default nginx config
 COPY ./nginx-custom.conf /etc/nginx/conf.d/default.conf
 ## From 'builder' copy website to default nginx public folder
-COPY --from=builder /app/dist/odds-worklog /usr/share/nginx/html
+COPY --from=builder /app/dist/odds-worklog /app/dist/odds-worklog
