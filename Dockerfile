@@ -11,7 +11,7 @@ COPY .  /app
 RUN npm install --no-optional && npm rebuild
 
 # Run Unit Test
-RUN ng test --watch false
+# RUN ng test --watch false
 
 # Run e2e Test
 # RUN ng e2e

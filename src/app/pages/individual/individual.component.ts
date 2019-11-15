@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-individual',
@@ -11,11 +12,16 @@ export class IndividualComponent implements OnInit {
   personType: string;
   isUpdateIncome: boolean;
   constructor(
-    private worklogApiService: WorklogApiService
+    private worklogApiService: WorklogApiService,
+    private router: Router,
   ) { }
 
   ngOnInit() {
     this.worklogApiService.getUserByID(this.id).subscribe(data => {
+      console.log(data.role);
+      if (data.role === 'admin') {
+        this.router.navigate(['corporate']);
+      }
       this.personType = data.role;
     });
   }
