@@ -18,10 +18,6 @@ export class IndividualComponent implements OnInit {
 
   ngOnInit() {
     this.worklogApiService.getUserByID(this.id).subscribe(data => {
-      console.log(data.role);
-      if (data.role === 'admin') {
-        this.router.navigate(['corporate']);
-      }
       this.personType = data.role;
     });
   }
