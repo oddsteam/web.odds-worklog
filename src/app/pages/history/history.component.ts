@@ -62,7 +62,6 @@ export class HistoryComponent implements OnInit {
     return result;
   }
 
-
   calNetSpecialIncome(SpecialIncome: string, workingHours: string): string {
     const result = (Number(SpecialIncome) * Number(workingHours)).toString();
     return result;
