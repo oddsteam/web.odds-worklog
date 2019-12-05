@@ -80,6 +80,7 @@ describe('HistoryComponent', () => {
     ];
     spyOn(worklogservice, 'getIncomeAllMonthByUserID').and.returnValue(of(mockIncomeResponse));
     component.ngOnInit();
+    component.getIncome();
     expect(worklogservice.getIncomeAllMonthByUserID).toHaveBeenCalled();
     expect(component.incomeResponse).toEqual(mockIncomeResponse);
   });
