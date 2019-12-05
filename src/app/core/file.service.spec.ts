@@ -39,6 +39,40 @@ describe('FileService', () => {
     backEnd.verify();
   });
 
+  it('should call upload degree certificate file api correctly', () => {
+    const mockFile = new File([''], 'example.pdf', { type: 'application/pdf', lastModified: 1527052033702});
+    const mockFormData: FormData = new FormData();
+    mockFormData.append('file', mockFile);
+
+    mockService.uploadDegreeCertificate(mockFile).subscribe();
+    const req = backEnd.expectOne(`${environment.api}files/degreecertificate`);
+    expect(req.request.method).toEqual('POST');
+    expect(req.request.body).toEqual(mockFormData);
+    req.flush({
+      tempFileName: '82d09f47-2fe3-4a33-b385-007a6dda8e13.pdf',
+      path: 'temp_uploads/82d09f47-2fe3-4a33-b385-007a6dda8e13.pdf',
+      fileName: mockFile.name
+    });
+    backEnd.verify();
+  });
+
+  it('should call upload id card file api correctly', () => {
+    const mockFile = new File([''], 'example.pdf', { type: 'application/pdf', lastModified: 1527052033702});
+    const mockFormData: FormData = new FormData();
+    mockFormData.append('file', mockFile);
+
+    mockService.uploadIdCard(mockFile).subscribe();
+    const req = backEnd.expectOne(`${environment.api}files/idcard`);
+    expect(req.request.method).toEqual('POST');
+    expect(req.request.body).toEqual(mockFormData);
+    req.flush({
+      tempFileName: '82d09f47-2fe3-4a33-b385-007a6dda8e13.pdf',
+      path: 'temp_uploads/82d09f47-2fe3-4a33-b385-007a6dda8e13.pdf',
+      fileName: mockFile.name
+    });
+    backEnd.verify();
+  });
+
   it('should call upload profile picture api correctly', () => {
     const mockFile = new File([''], 'example.png', { type: 'image/png', lastModified: 1527052033702 });
     const mockFormData: FormData = new FormData();
@@ -72,6 +106,22 @@ describe('FileService', () => {
     backEnd.verify();
   });
 
+  it('should call download degree certificate file api correctly', () => {
+    sessionStorage.setItem('idUser', '5c0fa703780bf500019a5aea');
+    mockService.downloadDegreeCertificateFile().subscribe();
+    const req = backEnd.expectOne(`${environment.api}files/degreecertificate/${sessionStorage.getItem('idUser')}`);
+    expect(req.request.method).toEqual('GET');
+    backEnd.verify();
+  });
+
+  it('should call download id card file api correctly', () => {
+    sessionStorage.setItem('idUser', '5c0fa703780bf500019a5aea');
+    mockService.downloadIdCardFile().subscribe();
+    const req = backEnd.expectOne(`${environment.api}files/idcard/${sessionStorage.getItem('idUser')}`);
+    expect(req.request.method).toEqual('GET');
+    backEnd.verify();
+  });
+
   it('should call remove transcript api correctly', () => {
     sessionStorage.setItem('idUser', '5c0fa703780bf500019a5aea');
     mockService.removeTranscript().subscribe();
@@ -92,4 +142,31 @@ describe('FileService', () => {
       message: 'Remove transcript success'
     });
   });
+
+  it('when remove degree certificate success response should be "Remove degree certificate success"', () => {
+    sessionStorage.setItem('idUser', '5c0fa703780bf500019a5aea');
+    mockService.removeDegreeCertificate().subscribe((res) => {
+      expect(res['message']).toEqual('Remove degree certificate success');
+    });
+    const req = backEnd.expectOne(`${environment.api}files/degreecertificate/${sessionStorage.getItem('idUser')}`);
+    expect(req.request.method).toEqual('DELETE');
+    backEnd.verify();
+    req.flush({
+      message: 'Remove degree certificate success'
+    });
+  });
+
+  it('when remove id card success response should be "Remove id card success"', () => {
+    sessionStorage.setItem('idUser', '5c0fa703780bf500019a5aea');
+    mockService.removeIdCard().subscribe((res) => {
+      expect(res['message']).toEqual('Remove id card success');
+    });
+    const req = backEnd.expectOne(`${environment.api}files/idcard/${sessionStorage.getItem('idUser')}`);
+    expect(req.request.method).toEqual('DELETE');
+    backEnd.verify();
+    req.flush({
+      message: 'Remove id card success'
+    });
+  });
+
 });

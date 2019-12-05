@@ -3,7 +3,7 @@ import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing'
 import { ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { WorklogApiService } from '../../core/worklog-api.service';
 import { Site } from '../../shared/model/site';
 import { FirstLoginComponent } from './first-login.component';
@@ -112,6 +112,16 @@ describe('FirstLoginComponent', () => {
     component.updateUser();
 
     expect(router.navigate).toHaveBeenCalledWith(['individual']);
+  }));
+
+  it('when call updateUser() but error response router navigate go to login', inject([Router], (router: Router) => {
+
+    spyOn(worklogapiService, 'updateUser').and.returnValue(throwError(''));
+    spyOn(router, 'navigate');
+
+    component.updateUser();
+
+    expect(router.navigate).toHaveBeenCalledWith(['login']);
   }));
 
 });

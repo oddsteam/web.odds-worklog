@@ -11,21 +11,46 @@
       <div class="text-blue">
         <strong>ตัวอย่าง</strong>
       </div>
-      <div class="text-blue font-middle"> - น้อง A จะกรอกจำนวนวันที่ทำงานต้องไปใส่ รายได้รายวันที่ หน้า Profile ก่อนนะ </div>
-      <div class="text-blue font-middle"> - น้อง A ทำงานพิเศษ ทำไป 20 ชม ชม ละ 100 กรอก "2000" นะ</div>
+      <div class="text-blue font-middle"> - น้อง A ทำงานพิเศษ ชม. ละ 100 บาท ทำไป 20 ชม. </div>
     </div>
     <form [formGroup]="fg">
-      <!-- <div class="form-group my-2">
-        <label>รายได้ : </label>
-        <input id="totalIncome" type="text" style="text-align:right" class="form-control" formControlName="totalIncome" (keyup)="inputIncomeAmount()">
-      </div> -->
-      <div class="form-group my-2">
-        <label>รายได้พิเศษ : </label>
-        <input id="specialIncome" type="text" style="text-align:right" class="form-control" formControlName="specialIncome" (keyup)="inputIncomeAmount()" >
+      <div class="row my-2">
+        <div class="form-group col-6">
+          <label>รายได้พิเศษ : </label>
+          <div class="input-group">
+            <input id="specialIncome" type="text" style="text-align:right" class="form-control"
+              formControlName="specialIncome" (keyup)="inputIncomeAmount()">
+            <div class="input-group-append">
+              <span class="input-group-text">บาท/ชม.</span>
+            </div>
+          </div>
+        </div>
+        <div class="form-group col-6">
+          <label>จำนวนชั่วโมง : </label>
+          <div class="input-group">
+            <input id="workingHours" type="text" style="text-align:right" class="form-control"
+              formControlName="workingHours" (keyup)="inputWorkingHours()">
+            <div class="input-group-append">
+              <span class="input-group-text">ชม.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="py-2 bg-color">
+        <div class="text-blue">
+          <strong>ตัวอย่าง</strong>
+        </div>
+        <div class="text-blue font-middle"> - น้อง A จะกรอกจำนวนวันที่ทำงานต้องไปใส่ รายได้รายวันที่ หน้า Profile ก่อนนะ
+        </div>
       </div>
       <div class="form-group my-2">
         <label>จำนวนวันที่ทำงาน : </label>
-        <input id="workDate" type="text" style="text-align:right" class="form-control" formControlName="workDate">
+        <div class="input-group">
+          <input id="workDate" type="text" style="text-align:right" class="form-control" formControlName="workDate">
+          <div class="input-group-append">
+            <span class="input-group-text">วัน</span>
+          </div>
+        </div>
       </div>
       <div class="form-group">
         <label>บันทึก :</label>
@@ -49,17 +74,9 @@
         </div>
         <div class="row mb-2">
           <div class="col col-2"></div>
-          <div class="col col-3">รายได้สุทธิ์ :</div>
-          <div class="col col-5 text-right" id="addIncomeTotalIncome">{{ totalIncomeNonspecialIncome | number: '1.2-2'}}
-            <span>บาท</span>
-          </div>
-          <div class="col col-2"></div>
-        </div>
-
-        <div class="row mb-2">
-          <div class="col col-2"></div>
-          <div class="col col-3">รายได้พิเศษ :</div>
-          <div class="col col-5 text-right" id="addIncomeSpecialIncome">{{ addIncomeData.specialIncome | number: '1.2-2'}}
+          <div class="col col-3">รายได้สุทธิ :</div>
+          <div class="col col-5 text-right" id="addIncomeTotalIncome">{{ addIncomeData.netIncome | number:
+            '1.2-2'}}
             <span>บาท</span>
           </div>
           <div class="col col-2"></div>
@@ -68,7 +85,7 @@
         <div class="row mb-2" *ngIf="isVat()">
           <div class="col col-2"></div>
           <div class="col col-3">Vat 7% :</div>
-          <div class="col col-5 text-right" id="addIncomeVat">{{ addIncomeData.vat | number: '1.2-2' }}
+          <div class="col col-5 text-right" id="addIncomeVat">{{ vatPrimary | number: '1.2-2' }}
             <span>บาท</span>
           </div>
           <div class="col col-2"></div>
@@ -76,7 +93,36 @@
         <div class="row mb-2">
           <div class="col col-2"></div>
           <div class="col col-3">Wht 3% :</div>
-          <div class="col col-5 text-right" id="addIncomeWht">{{ addIncomeData.wht | number: '1.2-2' }}
+          <div class="col col-5 text-right" id="addIncomeWht">{{ whtPrimary | number: '1.2-2' }}
+            <span>บาท</span>
+          </div>
+          <div class="col col-2"></div>
+        </div>
+
+        <hr>
+
+        <div class="row mb-2">
+          <div class="col col-2"></div>
+          <div class="col col-3">รายได้พิเศษ :</div>
+          <div class="col col-5 text-right" id="addIncomeSpecialIncome">{{ addIncomeData.netSpecialIncome | number:
+            '1.2-2'}}
+            <span>บาท</span>
+          </div>
+          <div class="col col-2"></div>
+        </div>
+
+        <div class="row mb-2" *ngIf="isVat()">
+          <div class="col col-2"></div>
+          <div class="col col-3">Vat 7% :</div>
+          <div class="col col-5 text-right" id="addIncomeVat">{{ vatSpecial | number: '1.2-2' }}
+            <span>บาท</span>
+          </div>
+          <div class="col col-2"></div>
+        </div>
+        <div class="row mb-2">
+          <div class="col col-2"></div>
+          <div class="col col-3">Wht 3% :</div>
+          <div class="col col-5 text-right" id="addIncomeWht">{{ whtSpecial | number: '1.2-2' }}
             <span>บาท</span>
           </div>
           <div class="col col-2"></div>
@@ -84,7 +130,8 @@
         <div class="row mb-2">
           <div class="col col-2"></div>
           <div class="col col-3 border-total">เงินที่ได้รับ :</div>
-          <div class="col col-5 border-total text-right font-weight-bold" id="addIncomeNetIncome">{{ addIncomeData.netIncome | number: '1.2-2'
+          <div class="col col-5 border-total text-right font-weight-bold" id="addIncomeNetIncome">{{
+            addIncomeData.totalIncome | number: '1.2-2'
             }}
             <span>บาท</span>
           </div>
@@ -97,7 +144,8 @@
 
 <div class="modal-footer">
   <ng-container *ngIf="!addIncomeAlready">
-    <button id="btn-submit" type="button" class="btn btn-blue" (click)="onSubmit()" [disabled]="disableButton()">Submit</button>
+    <button id="btn-submit" type="button" class="btn btn-blue" (click)="onSubmit()"
+      [disabled]="disableButton()">Submit</button>
   </ng-container>
   <ng-container *ngIf="addIncomeAlready">
     <button id="btn-cancel" type="button" class="btn btn-gray" (click)="onCancel()">ไม่ OK</button>

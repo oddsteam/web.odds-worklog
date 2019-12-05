@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { FileService } from 'src/app/core/file.service';
 import { StateService } from 'src/app/core/state.service';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
-import { FileService } from 'src/app/core/file.service';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 @Component({
     selector: 'app-header',
@@ -15,6 +15,8 @@ export class HeaderComponent implements OnInit {
     name: string;
     imageProfile: SafeUrl;
     id = sessionStorage.getItem('idUser');
+    taviStatus = false;
+    role: string;
 
     constructor(
         public translate: TranslateService,
@@ -30,7 +32,10 @@ export class HeaderComponent implements OnInit {
 
     ngOnInit() {
         this.worklogApiService.forCheckTokenPleaseRemoveMeIfFlowLoginFinnished()
-            .subscribe(() => { this.getUserID(), this.getUserIncome(); });
+            .subscribe(() => {
+                this.getUserID(),
+                    this.getUserIncome();
+            });
 
         this.stateService.headerTrigger.subscribe(data => {
             this.getUserID();
@@ -44,6 +49,8 @@ export class HeaderComponent implements OnInit {
             } else {
                 this.name = res.firstName + ' ' + res.lastName;
             }
+            this.role = res.role;
+            this.taviStatus = res.statusTavi;
             this.stateService.setTypeUser(res.role);
             this.stateService.setFlagVat(res.vat);
             if (res.imageProfile) {
@@ -73,9 +80,9 @@ export class HeaderComponent implements OnInit {
     }
 
     exportTavi50() {
-        this.worklogApiService.exportDataPdf().subscribe(
+        this.worklogApiService.exportDataPdf(sessionStorage.getItem('idUser')).subscribe(
             res => {
-                this.downloadFile(res, 'tavi50.pdf');
+                this.downloadFile(res, 'tavi50.zip');
             },
             err => {
                 console.log(err);

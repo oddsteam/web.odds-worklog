@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { CustomValidators } from 'src/app/validators/custom-validators';
 import { WorklogApiService } from '../../core/worklog-api.service';
 import { Site } from '../../shared/model/site';
 import { User } from '../../shared/model/user';
@@ -54,54 +55,27 @@ export class FirstLoginComponent implements OnInit {
 
   setupForm() {
     this.loginForm = this.fb.group({
-      firstName: ['', Validators.pattern('[a-zA-Z]{2,20}')],
-      lastName: ['', Validators.pattern('[a-zA-Z]{2,20}')],
+      firstName: ['', [Validators.required, Validators.pattern('[a-zA-Z]{2,20}')]],
+      lastName: ['', [Validators.required, Validators.pattern('[a-zA-Z]{2,20}')]],
       corporateName: [''],
       bankAccountName: ['', Validators.required],
-      bankAccountNumber: ['', Validators.pattern('\\d{9,16}')],
-      slackAccount: ['', Validators.email],
+      bankAccountNumber: ['', [Validators.required, Validators.pattern('\\d{9,16}')]],
+      slackAccount: ['', [Validators.required, Validators.email]],
       role: [true, Validators.required],
       vat: [true, Validators.required],
-      siteId: ['select site', Validators.required],
+      siteId: ['', Validators.required],
       project: ['']
     });
   }
 
   submit() {
-    // tslint:disable-next-line:max-line-length
-    const { firstName, lastName, corporateName, bankAccountName, bankAccountNumber, slackAccount, role, vat, siteId, project } = this.loginForm.getRawValue();
-
-    // tslint:disable-next-line:max-line-length
-    if (firstName
-      && lastName
-      && bankAccountName
-      && bankAccountNumber
-      && slackAccount
-      && role
-      && vat
-      && (siteId !== 'select site')
-    ) {
-      this.user = new User();
-      if (this.role === 'corporate') {
-        if (corporateName === '') {
-          alert('Please complete the information.');
-          return;
-        }
-        this.user.corporateName = corporateName;
-      }
-      this.user.firstName = firstName;
-      this.user.lastName = lastName;
-      this.user.bankAccountName = bankAccountName;
-      this.user.bankAccountNumber = bankAccountNumber;
-      this.user.slackAccount = slackAccount;
-      this.user.role = this.role;
-      this.user.vat = this.vat;
-      this.user.siteId = siteId;
-      this.user.project = project;
-      this.updateUser();
-    } else {
-      alert('Please complete the information.');
+    if (!this.loginForm.valid) {
+      CustomValidators.validateAllFormFields(this.loginForm);
+      return false;
     }
+    this.formToModel();
+    this.updateUser();
+
   }
 
   updateUser() {
@@ -132,6 +106,13 @@ export class FirstLoginComponent implements OnInit {
     });
     this.isCorporate = (role === 'corporate');
     this.onCheckBoxVat(!this.isCorporate ? 'N' : 'Y');
+    if (this.role === 'individual') {
+      this.loginForm.get('corporateName').setValue('');
+      this.loginForm.get('corporateName').disable();
+    } else {
+      this.loginForm.get('corporateName').setValidators(Validators.required);
+      this.loginForm.get('corporateName').enable();
+    }
   }
 
   getListSite() {
@@ -142,4 +123,51 @@ export class FirstLoginComponent implements OnInit {
         this.router.navigate(['login']);
       });
   }
+
+  formToModel() {
+    this.user = new User();
+    this.user.firstName = this.firstNameForm.value;
+    this.user.lastName = this.lastNameForm.value;
+    this.user.bankAccountName = this.bankAccountNameForm.value;
+    this.user.bankAccountNumber = this.bankAccountNumberForm.value;
+    this.user.slackAccount = this.slackAccountForm.value;
+    this.user.corporateName = this.corporateNameForm.value;
+    this.user.role = this.role;
+    this.user.vat = this.vat;
+    this.user.siteId = this.siteIdForm.value;
+    this.user.project = this.projectForm.value;
+  }
+
+  get firstNameForm(): FormControl {
+    return this.loginForm.get('firstName') as FormControl;
+  }
+
+  get lastNameForm(): FormControl {
+    return this.loginForm.get('lastName') as FormControl;
+  }
+
+  get bankAccountNameForm(): FormControl {
+    return this.loginForm.get('bankAccountName') as FormControl;
+  }
+
+  get bankAccountNumberForm(): FormControl {
+    return this.loginForm.get('bankAccountNumber') as FormControl;
+  }
+
+  get slackAccountForm(): FormControl {
+    return this.loginForm.get('slackAccount') as FormControl;
+  }
+
+  get corporateNameForm(): FormControl {
+    return this.loginForm.get('corporateName') as FormControl;
+  }
+
+  get siteIdForm(): FormControl {
+    return this.loginForm.get('siteId') as FormControl;
+  }
+
+  get projectForm(): FormControl {
+    return this.loginForm.get('project') as FormControl;
+  }
+
 }

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NgbCalendar, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
 
 @Component({
@@ -9,11 +10,14 @@ import { WorklogApiService } from 'src/app/core/worklog-api.service';
 })
 export class SettingComponent implements OnInit {
   fg: FormGroup;
+  model: NgbDateStruct;
+  today = this.calendar.getToday();
   channelList;
   constructor(
     private fb: FormBuilder,
-    private worklogApiService: WorklogApiService
-  ) {}
+    private worklogApiService: WorklogApiService,
+    private calendar: NgbCalendar
+  ) { }
 
   ngOnInit() {
     this.setupForm();
@@ -27,12 +31,17 @@ export class SettingComponent implements OnInit {
       time: ['23:59', Validators.required],
       channel: ['']
     });
-    this.fg.get('time').disable();
   }
+
 
   getSettingData() {
     this.worklogApiService.getSettingData().subscribe(response => {
-      this.fg.controls['date'].setValue(response.setting.date);
+      const dateFormCtrl = new Date();
+      const currentThaiYear = dateFormCtrl.getFullYear() ;
+      const currentMonth = dateFormCtrl.getMonth() + 1;
+      const currentDate = dateFormCtrl.getDate();
+      const result =  { year: currentThaiYear, month: currentMonth, day: currentDate };
+      this.fg.patchValue({ date: result });
       this.fg.controls['message'].setValue(response.setting.message);
       if (response) {
         this.channelList = [
@@ -63,11 +72,12 @@ export class SettingComponent implements OnInit {
   }
 
   onSubmit() {
-    const date = this.fg.controls['date'].value;
+    // tslint:disable-next-line:max-line-length
+    const date = this.fg.controls['date'].value['day'];
     const message = this.fg.controls['message'].value;
     const setting = {
-      date: date,
-      message: message
+      date: String(date),
+      message: message,
     };
     this.channelList.map(data => {
       setting[data.name] = data.value;

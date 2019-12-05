@@ -8,6 +8,7 @@ import { IncomeFlag } from '../shared/model/income-flag';
 import { ListIncomeResponse } from '../shared/model/list-income-model-response';
 import { ProductOwner } from '../shared/model/product-owner';
 import { SettingReminder } from '../shared/model/setting-reminder-model';
+import { StatusTavi } from '../shared/model/status-tavi';
 import { User } from '../shared/model/user';
 import { Login } from './../shared/model/login';
 import { Site } from './../shared/model/site';
@@ -28,7 +29,7 @@ export class WorklogApiService {
     corporateListed: ListIncomeResponse;
 
     constructor(private http: HttpClient) {
-        this.initDataService();
+        // this.initDataService();
     }
 
     getIndividualListed = () => this.individualListed;
@@ -74,6 +75,12 @@ export class WorklogApiService {
         );
     }
 
+    updateStatusTaviUser(statususer: Array<StatusTavi>): Observable<User> {
+        return this.http.put<User>(`${this.apiPath}users/tavi`, statususer,
+            this.getHttpHeaderOption()
+        );
+    }
+
     getLogin(): Observable<any> {
         return this.http.post<any>(`${this.apiPath}login`, { token: this.userId });
     }
@@ -106,6 +113,13 @@ export class WorklogApiService {
     getIncomeByUserID(id: string): Observable<AddIncomeResponse> {
         return this.http.get<AddIncomeResponse>(
             `${this.apiPath}incomes/current-month/${id}`,
+            this.getHttpHeaderOption()
+        );
+    }
+
+    getIncomeAllMonthByUserID(id: string): Observable<AddIncomeResponse[]> {
+        return this.http.get<AddIncomeResponse[]>(
+            `${this.apiPath}incomes/all-month/${id}`,
             this.getHttpHeaderOption()
         );
     }
@@ -162,8 +176,8 @@ export class WorklogApiService {
         });
     }
 
-    exportDataPdf(): Observable<Blob> {
-        return this.http.get(`${this.apiPath}incomes/export/pdf`, {
+    exportDataPdf(id: string): Observable<Blob> {
+        return this.http.get(`${this.apiPath}incomes/export/pdf/${id}`, {
             headers: new HttpHeaders({
                 Authorization: sessionStorage.getItem('token')
             }),

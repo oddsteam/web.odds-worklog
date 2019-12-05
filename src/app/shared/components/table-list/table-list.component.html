@@ -1,4 +1,4 @@
-<div class="table-responsive">
+<div class="table-responsive" [formGroup]="tableListForm">
   <table class="table table-hover" *ngIf="ListData; else ContentLoader">
     <thead>
       <tr>
@@ -7,9 +7,13 @@
         <th class="text-left align-middle">Account Name</th>
         <th class="text-left align-middle">Account Number</th>
         <th class="text-center align-middle">Submit Date</th>
-        <th class="text-center align-middle">WorkDate</th>
+        <th class="text-center align-middle">Work Day</th>
+        <th class="text-center align-middle">Working Hours</th>
         <th class="text-center align-middle status-sort" (click)="setOrder()">
           Status <i [ngClass]="swapArrowIconSort ? 'fa fa-caret-up' : 'fa fa-caret-down'"></i>
+        </th>
+        <th  *ngIf="role === 'admin'" class="text-center align-middle ">
+          StatusTavi
         </th>
       </tr>
     </thead>
@@ -27,11 +31,15 @@
           }}
         </td>
         <td class="text-center">{{ checkValue(ListData[0].workDate) }}</td>
+        <td class="text-center">{{ checkValue(ListData[0].workingHours ? ListData[0].workingHours : '') }}</td>
         <td class="text-center" appStatusHighlight [Status]="ListData[0]?.status">
           {{ ListData[0]?.status === "Y" ? "Submitted" : "Not submitted" }}
         </td>
+        <td class="text-center" *ngIf="role === 'admin'" >
+            <input type="checkbox" name="checkbox" value="value" id="isDuplicateBusiness" formControlName="statusTavi"> 
+        </td>
       </tr>
-      <tr *ngFor="let listData of ListData | slice : 1 : ListData.length | orderBy: order:swapArrowIconSort:'case-insensitive'">
+      <tr formArrayName="items" *ngFor="let listData of ListData | slice : 1 : ListData.length | orderBy: order:swapArrowIconSort:'case-insensitive'; let i = index">
         <td class="text-left">{{ getName(listData.user) }}</td>
         <td class="text-left">{{ checkValue(listData.user?.email) }}</td>
         <td class="text-left">{{ checkValue(listData.user?.bankAccountName) }}</td>
@@ -44,9 +52,24 @@
           }}
         </td>
         <td class="text-center">{{ checkValue(listData.workDate) }}</td>
+        <td class="text-center">{{ checkValue(listData.workingHours ? listData.workingHours : '') }}</td>
         <td class="text-center" appStatusHighlight [Status]="listData?.status">
           {{ listData?.status === "Y" ? "Submitted" : "Not submitted" }}
         </td>
+        <td  *ngIf="role === 'admin'" class="text-center"  [formGroupName]="i" >
+          <input type="checkbox" id="statusTavi_{{i}}" formControlName="statusTavi">
+        </td>
+      </tr>
+      <tr *ngIf="role === 'admin'">
+        <td class="text-left"></td>
+        <td class="text-left"></td>
+        <td class="text-left"></td>
+        <td class="text-left"></td>
+        <td class="text-center"></td>
+        <td class="text-center"></td>
+        <td class="text-center"></td>
+        <td class="text-center"></td>
+        <td class="text-center"><button type="button" class="btn btn-blue"  (click)="openModal(templateModal)">Save</button></td>
       </tr>
     </tbody>
   </table>
@@ -54,4 +77,19 @@
 <ng-template #ContentLoader>
   <div *ngIf="isNoData" class="text-center">No data.</div>
   <list-content-loader *ngIf="isShowLoading" [width]="300" [speed]="1" [secondaryColor]="'#F0F0F0'" [primaryColor]="'#A1A1A1'"></list-content-loader>
+</ng-template>
+
+
+
+<ng-template #templateModal>
+  <div class="modal-header">
+    <span>บันทึกสถานะ ใบทวิ 50</span>
+  </div>
+  <div class="modal-body mx-sm-5">
+    <span>ท่านต้องการบันทึกหรือไม่</span>
+  </div>
+  <div class="modal-footer">
+    <button id="btn-submit" type="button" class="btn btn-blue" (click)="updateAllUser()">ยืนยัน</button>
+    <button type="button" class="btn btn-green" (click)="modalRef.hide()">ยกเลิก</button>
+  </div>
 </ng-template>

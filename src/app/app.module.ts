@@ -7,6 +7,7 @@ import { AuthServiceConfig, GoogleLoginProvider, SocialLoginModule } from 'angul
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SharedModule } from './shared/shared.module';
+import { ValidateCitizenIdUtil } from './shared/utils/validate-citizenId.util';
 // import { AuthorizationInterceptor } from './shared/interceptors/authorization.interceptor';
 
 export function createTranslateLoader(http: HttpClient) {
@@ -48,6 +49,7 @@ export function getAuthServiceConfigs() {
       provide: AuthServiceConfig,
       useFactory: getAuthServiceConfigs
     },
+    ValidateCitizenIdUtil
     // {
     //   provide: HTTP_INTERCEPTORS,
     //   useClass: AuthorizationInterceptor,

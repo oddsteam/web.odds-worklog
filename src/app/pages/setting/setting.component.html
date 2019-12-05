@@ -6,24 +6,33 @@
         <div class="col-3 d-flex justify-content-end">
           Date:
         </div>
-        <div class="col-9">
-          <input type="text" class="form-control" id="date" formControlName="date">
+        <div class="col-3">
+            <div class="form-group">
+
+          <div class="input-group">
+            <input class="form-control" type="text" formControlName="date" placeholder="เลือกวันที่"
+            ngbDatepicker #d="ngbDatepicker" readonly="true"/>
+             <div class="input-group-append">
+                <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button"> <i class="fa fa-calendar"></i></button>
+              </div>     
+          </div>
+        </div>
         </div>
       </div>
+          <div class="row mt-2">
+            <div class="col-3 d-flex justify-content-end">
+              Time:
+            </div>
+            <div class="col-9">
+              <input type="text" id="time" formControlName="time" class="form-control">
+            </div>
+          </div>
       <div class="row mt-2">
         <div class="col-3 d-flex justify-content-end">
           Message:
         </div>
         <div class="col-9">
           <textarea name="message" class="form-control" id="message" formControlName="message"></textarea>
-        </div>
-      </div>
-      <div class="row mt-2">
-        <div class="col-3 d-flex justify-content-end">
-          Time:
-        </div>
-        <div class="col-9">
-          <input type="text" id="time" formControlName="time" class="form-control disable-color">
         </div>
       </div>
       <div class="row mt-2">
@@ -47,3 +56,5 @@
     </form>
   </div>
 </div>
+
+

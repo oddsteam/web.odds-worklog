@@ -46,7 +46,9 @@ describe('AddIncomeComponent', () => {
       vat: '0.23',
       wht: '100',
       workDate: '20',
-      specialIncome: '100'
+      specialIncome: '100',
+      netSpecialIncome: '2000',
+      workingHours: '10'
     };
     spyOn(worklogservice, 'getIncomeByUserID').and.returnValue(of(mockResponse));
     component.checkStatusUser();
@@ -64,7 +66,10 @@ describe('AddIncomeComponent', () => {
       vat: '0.23',
       wht: '100',
       workDate: '20',
-      specialIncome: '100'
+      specialIncome: '100',
+      netSpecialIncome: '2000',
+      workingHours: '10'
+
     };
     spyOn(worklogservice, 'getIncomeByUserID').and.returnValue(of(mockResponse));
     component.checkStatusUser();

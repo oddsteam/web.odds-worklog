@@ -1,13 +1,13 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { UsersManagementComponent } from './users-management.component';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { WorklogApiService } from 'src/app/core/worklog-api.service';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { of } from 'rxjs';
+import { WorklogApiService } from 'src/app/core/worklog-api.service';
 import { User } from 'src/app/shared/model/user';
-import { ToolTipSiteComponent } from './components/tool-tip-site/tool-tip-site.component';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { ToolTipSiteComponent } from './components/tool-tip-site/tool-tip-site.component';
+import { UsersManagementComponent } from './users-management.component';
+
 
 describe('UsersManagementComponent', () => {
   let component: UsersManagementComponent;
@@ -34,7 +34,7 @@ describe('UsersManagementComponent', () => {
   });
 
   it('should call getUsersData in worklogApiService when call getUsersData', () => {
-    const mockResponse: User =  {
+    const mockResponse: User = {
       id: '1233',
       role: 'individual',
       firstName: 'Odds',
@@ -53,7 +53,12 @@ describe('UsersManagementComponent', () => {
       transcript: '',
       imageProfile: null,
       project: '',
-      dailyIncome: ''
+      dailyIncome: '',
+      address: 'every Where',
+      statusTavi: true,
+      degreeCertificate: '',
+      idCard: '',
+
     };
     spyOn(worklogApiService, 'getUsersData').and.returnValue(of(mockResponse));
     component.getUsersData();
@@ -61,7 +66,7 @@ describe('UsersManagementComponent', () => {
   });
 
   it('component.user should equal to response from service when call getUsersData', () => {
-    const mockResponse: User =  {
+    const mockResponse: User = {
       id: '1233',
       role: 'individual',
       firstName: 'Odds',
@@ -80,7 +85,11 @@ describe('UsersManagementComponent', () => {
       transcript: '',
       imageProfile: null,
       project: '',
-      dailyIncome: ''
+      dailyIncome: '',
+      address: 'every Where',
+      statusTavi: true,
+      degreeCertificate: '',
+      idCard: '',
     };
     spyOn(worklogApiService, 'getUsersData').and.returnValue(of(mockResponse));
     component.getUsersData();

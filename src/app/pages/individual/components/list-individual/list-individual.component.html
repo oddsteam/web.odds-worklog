@@ -4,24 +4,15 @@
       <h2 class="mb-0">{{ date | date: 'MMMM yyyy'}}</h2>
     </div>
     <div class="row col-7 d-flex justify-content-end">
-      <button class="col rounded export-container" style="margin-right: 10px" (click)="exportDifferentIndividuals()">
-        <a href="javascript:void(0)">
-          <i class="fas fa-download"></i>
-          Export Different Individuals
-        </a>
-      </button>
-      <button class="col-4 rounded export-container" style="margin-right: 10px" (click)="exportIndividual('1')">
-        <a href="javascript:void(0)">
-          <i class="fas fa-download"></i>
-          Export ย้อนหลัง 1 เดือน
-        </a>
-      </button>
-      <button class="rounded export-container">
-        <a href="javascript:void(0)" (click)="exportIndividual('0')">
-          <i class="fas fa-download"></i>
-          Export
-        </a>
-      </button>
+      <div class="dropdown" style="float:right;">
+        <button class="rounded export-container"><a href="javascript:void(0)">Export</a> <i
+            class="fa fa-caret-down"></i> </button>
+        <div class="dropdown-content">
+          <a href="javascript:void(0)" (click)="exportIndividual('0')">Export เดือนปัจจุบัน</a>
+          <a href="javascript:void(0)" (click)="exportIndividual('1')">Export ย้อนหลัง 1 เดือน</a>
+          <a href="javascript:void(0)" (click)="exportDifferentIndividuals()">Export Different Individuals</a>
+        </div>
+      </div>
     </div>
   </div>
   <app-table-list [ListData]="listIncomeIndividual"></app-table-list>

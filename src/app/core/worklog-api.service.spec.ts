@@ -27,11 +27,7 @@ describe('Service: WorklogApi', () => {
   it('should get login api correctly', () => {
     mockService.getLogin().subscribe();
     const req = backEnd.expectOne(`${mockService.apiPath}login`);
-    const req1 = backEnd.expectOne(`${mockService.apiPath}incomes/status/individual`);
-    const req2 = backEnd.expectOne(`${mockService.apiPath}incomes/status/corporate`);
     expect(req.request.method).toEqual('POST');
-    expect(req1.request.method).toEqual('GET');
-    expect(req2.request.method).toEqual('GET');
     backEnd.verify();
   });
 
@@ -39,20 +35,14 @@ describe('Service: WorklogApi', () => {
     const userId = '5bde550643b39700012727f2';
     mockService.getUserByID(userId).subscribe();
     const req = backEnd.expectOne(`${mockService.apiPath}users/${userId}`);
-    const req1 = backEnd.expectOne(`${mockService.apiPath}incomes/status/individual`);
-    const req2 = backEnd.expectOne(`${mockService.apiPath}incomes/status/corporate`);
     expect(req.request.method).toEqual('GET');
-    expect(req1.request.method).toEqual('GET');
-    expect(req2.request.method).toEqual('GET');
     backEnd.verify();
   });
 
   it('should call get list corporate api correctly', () => {
     mockService.getListIncomeCorporate().subscribe();
-    const req = backEnd.match(`${mockService.apiPath}incomes/status/corporate`);
-    const req1 = backEnd.match(`${mockService.apiPath}incomes/status/individual`);
-    expect(req.length).toBe(2);
-    expect(req1.length).toBe(1);
+    const req = backEnd.expectOne(`${mockService.apiPath}incomes/status/corporate`);
+    expect(req.request.method).toEqual('GET');
     backEnd.verify();
   });
 
@@ -77,7 +67,11 @@ describe('Service: WorklogApi', () => {
           site: null,
           project: '',
           imageProfile: null,
-          dailyIncome: '200'
+          dailyIncome: '200',
+          address: 'every Where',
+          statusTavi: true,
+          degreeCertificate: '',
+          idCard: '',
         }
       ]
     };
@@ -85,8 +79,6 @@ describe('Service: WorklogApi', () => {
       expect(list).toEqual(listIncomeResponse);
     });
     backEnd.match(`${mockService.apiPath}incomes/status/corporate`)[0].flush(listIncomeResponse);
-    const req1 = backEnd.match(`${mockService.apiPath}incomes/status/individual`);
-    expect(req1.length).toBe(1);
     backEnd.verify();
   });
 
@@ -111,7 +103,11 @@ describe('Service: WorklogApi', () => {
           site: null,
           project: '',
           imageProfile: null,
-          dailyIncome: '200'
+          dailyIncome: '200',
+          address: 'every Where',
+          statusTavi: true,
+          degreeCertificate: '',
+          idCard: '',
         }
       ]
     };
@@ -119,9 +115,6 @@ describe('Service: WorklogApi', () => {
       expect(list).toEqual(listIncomeIndividual);
     });
     backEnd.match(`${mockService.apiPath}incomes/status/individual`)[0].flush(listIncomeIndividual);
-    const req = backEnd.match(`${mockService.apiPath}incomes/status/corporate`);
-
-    expect(req.length).toEqual(1);
     backEnd.verify();
   });
 
@@ -132,13 +125,9 @@ describe('Service: WorklogApi', () => {
     };
     mockService.addIncomeConfirm(income).subscribe();
     const req = backEnd.expectOne(`${mockService.apiPath}incomes`);
-    const req1 = backEnd.expectOne(`${mockService.apiPath}incomes/status/individual`);
-    const req2 = backEnd.expectOne(`${mockService.apiPath}incomes/status/corporate`);
     req.flush(income);
     expect(req.request.method).toEqual('POST');
     expect(req.request.body).toEqual(income);
-    expect(req1.request.method).toEqual('GET');
-    expect(req2.request.method).toEqual('GET');
     backEnd.verify();
   });
 
@@ -149,49 +138,33 @@ describe('Service: WorklogApi', () => {
     };
     mockService.updateIncomeService(income).subscribe();
     const req = backEnd.expectOne(`${mockService.apiPath}incomes/`);
-    const req1 = backEnd.expectOne(`${mockService.apiPath}incomes/status/individual`);
-    const req2 = backEnd.expectOne(`${mockService.apiPath}incomes/status/corporate`);
     req.flush(income);
     expect(req.request.method).toEqual('PUT');
     expect(req.request.body).toEqual(income);
-    expect(req1.request.method).toEqual('GET');
-    expect(req2.request.method).toEqual('GET');
     backEnd.verify();
   });
 
   it('should call export data corporate api correctly', () => {
     mockService.exportDataCorporate('0').subscribe();
     const req = backEnd.expectOne(`${mockService.apiPath}incomes/export/corporate/0`);
-    const req1 = backEnd.expectOne(`${mockService.apiPath}incomes/status/individual`);
-    const req2 = backEnd.expectOne(`${mockService.apiPath}incomes/status/corporate`);
     expect(req.request.method).toEqual('GET');
     expect(req.request.responseType).toEqual('blob');
-    expect(req1.request.method).toEqual('GET');
-    expect(req2.request.method).toEqual('GET');
     backEnd.verify();
   });
 
   it('should call export data individual api correctly', () => {
     mockService.exportDataIndividual('0').subscribe();
     const req = backEnd.expectOne(`${mockService.apiPath}incomes/export/individual/0`);
-    const req1 = backEnd.expectOne(`${mockService.apiPath}incomes/status/individual`);
-    const req2 = backEnd.expectOne(`${mockService.apiPath}incomes/status/corporate`);
     expect(req.request.method).toEqual('GET');
     expect(req.request.responseType).toEqual('blob');
-    expect(req1.request.method).toEqual('GET');
-    expect(req2.request.method).toEqual('GET');
     backEnd.verify();
   });
 
   it('should call export pdf api correctly', () => {
-    mockService.exportDataPdf().subscribe();
-    const req = backEnd.expectOne(`${mockService.apiPath}incomes/export/pdf`);
-    const req1 = backEnd.expectOne(`${mockService.apiPath}incomes/status/individual`);
-    const req2 = backEnd.expectOne(`${mockService.apiPath}incomes/status/corporate`);
+    mockService.exportDataPdf('11111').subscribe();
+    const req = backEnd.expectOne(`${mockService.apiPath}incomes/export/pdf/11111`);
     expect(req.request.method).toEqual('GET');
     expect(req.request.responseType).toEqual('blob');
-    expect(req1.request.method).toEqual('GET');
-    expect(req2.request.method).toEqual('GET');
     backEnd.verify();
   });
 
@@ -205,34 +178,22 @@ describe('Service: WorklogApi', () => {
     };
     mockService.sendMessage(body).subscribe();
     const req = backEnd.expectOne(`${mockService.apiPath}reminder/setting`);
-    const req1 = backEnd.expectOne(`${mockService.apiPath}incomes/status/individual`);
-    const req2 = backEnd.expectOne(`${mockService.apiPath}incomes/status/corporate`);
     expect(req.request.method).toEqual('POST');
     expect(req.request.responseType).toEqual('json');
-    expect(req1.request.method).toEqual('GET');
-    expect(req2.request.method).toEqual('GET');
     backEnd.verify();
   });
 
   it('should call get setting data api correctly', () => {
     mockService.getSettingData().subscribe();
     const req = backEnd.expectOne(`${mockService.apiPath}reminder/setting`);
-    const req1 = backEnd.expectOne(`${mockService.apiPath}incomes/status/individual`);
-    const req2 = backEnd.expectOne(`${mockService.apiPath}incomes/status/corporate`);
     expect(req.request.method).toEqual('GET');
-    expect(req1.request.method).toEqual('GET');
-    expect(req2.request.method).toEqual('GET');
     backEnd.verify();
   });
 
   it('should call get users api correctly', () => {
     mockService.getUsersData().subscribe();
     const req = backEnd.expectOne(`${mockService.apiPath}users`);
-    const req1 = backEnd.expectOne(`${mockService.apiPath}incomes/status/individual`);
-    const req2 = backEnd.expectOne(`${mockService.apiPath}incomes/status/corporate`);
     expect(req.request.method).toEqual('GET');
-    expect(req1.request.method).toEqual('GET');
-    expect(req2.request.method).toEqual('GET');
     backEnd.verify();
   });
 
