@@ -12,19 +12,20 @@ export class HistoryComponent implements OnInit {
   incomeResponse: AddIncomeResponse[] = [];
   isNoData = false;
   isNoIndividual = false;
-
+  dailyIncome = '';
   constructor(
     private worklogApiService: WorklogApiService,
   ) { }
 
   ngOnInit() {
     this.getUserById();
-    this.getIncome();
   }
 
   getUserById() {
     this.worklogApiService.getUserByID(this.id).subscribe(res => {
       res.role === 'individual' ? this.isNoIndividual = true : this.isNoIndividual = false;
+      this.dailyIncome = res.dailyIncome;
+      this.getIncome();
     });
   }
 
@@ -33,10 +34,11 @@ export class HistoryComponent implements OnInit {
       if (res) {
         this.incomeResponse = res;
         this.isNoData = true;
-
         const array: any = res;
         array.forEach(value => {
+          value.netIncome = this.calIncome(value.specialIncome, value.workingHours, value.totalIncome);
           value.totalIncome = this.calNetIncome(value.totalIncome, value.vat, value.wht);
+          value.netSpecialIncome = this.calNetSpecialIncome(value.specialIncome, value.workingHours);
         });
       } else { this.isNoData = false; }
     });
