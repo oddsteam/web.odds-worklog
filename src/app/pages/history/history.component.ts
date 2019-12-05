@@ -54,6 +54,18 @@ export class HistoryComponent implements OnInit {
     ).toString();
   }
 
+  calIncome(SpecialIncome: string, workingHours: string, totalIncome: string): string {
+    const result = (this.stringToNumber(totalIncome) - (Number(SpecialIncome) * Number(workingHours))).toString();
+
+    return result;
+  }
+
+  calNetSpecialIncome(SpecialIncome: string, workingHours: string): string {
+    const result = (Number(SpecialIncome) * Number(workingHours)).toString();
+    return result;
+  }
+
+
   stringToNumber(text: string): number {
     return Number(this.cutComma(text));
   }
