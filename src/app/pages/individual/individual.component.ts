@@ -12,8 +12,7 @@ export class IndividualComponent implements OnInit {
   personType: string;
   isUpdateIncome: boolean;
   constructor(
-    private worklogApiService: WorklogApiService,
-    private router: Router,
+    private worklogApiService: WorklogApiService
   ) { }
 
   ngOnInit() {
