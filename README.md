@@ -28,6 +28,8 @@ Run `docker run --name web-odds-worklog -p 80:80 --rm registry.odds.team/worklog
 
 Run `ng serve` for a dev server. Navigate to [http://localhost:4200/](http://localhost:4200/). The app will automatically reload if you change any of the source files.
 
+Use `ng serve --configuration local` for running web.odds-worklog connecting to API localhost:8080
+
 ## Code scaffolding
 
 Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
