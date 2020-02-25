@@ -1,6 +1,6 @@
 *** Settings ***
-Library     SeleniumLibrary
-Resource            setting/setting-keyword.robot
+Library                 SeleniumLibrary
+Resource                setting/setting-keyword.robot
 Suite Teardown           Close All Browsers
 
 *** Test Cases ***
