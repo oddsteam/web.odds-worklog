@@ -1,1 +1,9 @@
-{}
+{
+    "fileServerFolder": "e2e/",
+    "integrationFolder": "e2e/cypress/integration/",
+    "fixturesFolder": "e2e/cypress/fixtures",
+    "screenshotsFolder": "e2e/cypress/screenshots",
+    "pluginsFile": "e2e/cypress/plugins",
+    "supportFile": "e2e/cypress/support",
+    "videosFolder": "e2e/cypress/video"
+}
