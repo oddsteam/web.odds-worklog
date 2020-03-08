@@ -1,5 +1,5 @@
 Feature: Odds Worklog
     Odds Worklog1
 
-    Scenario: Open worklog 
+   Scenario: Worklog
       Given Login worklog

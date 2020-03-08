@@ -55,6 +55,7 @@
     "codelyzer": "~4.3.0",
     "cypress": "^4.0.1",
     "cypress-cucumber-preprocessor": "^2.0.1",
+    "nonGlobalStepDefinitions": true,
     "jasmine-core": "~2.99.1",
     "jasmine-spec-reporter": "~4.2.1",
     "karma": "~3.0.0",
