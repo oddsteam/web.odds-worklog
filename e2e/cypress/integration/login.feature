@@ -3,3 +3,4 @@ Feature: Odds Worklog
 
    Scenario: Worklog
       Given Login worklog
+      Then url should be "https://worklog-dev.odds.team/login"

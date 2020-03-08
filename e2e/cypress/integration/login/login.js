@@ -6,3 +6,7 @@ Given('Login worklog', () => {
   cy.visit(url);
 })
 
+Then('url should be {string}', (url) => {
+  cy.url().should('eq', url)
+})
+
