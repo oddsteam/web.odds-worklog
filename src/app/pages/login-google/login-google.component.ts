@@ -36,6 +36,7 @@ export class LoginGoogleComponent implements OnInit {
       this.worklogService.initDataService();
       sessionStorage.setItem('idUser', res.user.id);
       sessionStorage.setItem('firstName', res.user.firstName);
+      sessionStorage.setItem('role', res.user.role);
       if (res.firstLogin === 'N') {
         if (res.user.role === 'admin') {
           this.router.navigate(['corporate']);
