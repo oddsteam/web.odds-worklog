@@ -21,6 +21,7 @@ export class ModalIncomeComponent implements OnInit {
   numberFormat: string;
   flagChange: Boolean = false;
   fg: FormGroup;
+  role: string;
   addIncomeAlready: Boolean = false;
   dailyIncome: string;
   totalIncome: string;
@@ -38,6 +39,7 @@ export class ModalIncomeComponent implements OnInit {
     this.getDailyIncome();
     this.onSetupForm();
     this.title = 'Add Income';
+    this.role = sessionStorage.getItem('role');
   }
 
   isVat(): boolean {
