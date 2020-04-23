@@ -21,6 +21,7 @@ export class ModalIncomeComponent implements OnInit {
   numberFormat: string;
   flagChange: Boolean = false;
   fg: FormGroup;
+  role: string;
   addIncomeAlready: Boolean = false;
   dailyIncome: string;
   totalIncome: string;
@@ -38,6 +39,7 @@ export class ModalIncomeComponent implements OnInit {
     this.getDailyIncome();
     this.onSetupForm();
     this.title = 'Add Income';
+    this.role = sessionStorage.getItem('role');
   }
 
   isVat(): boolean {
@@ -84,7 +86,8 @@ export class ModalIncomeComponent implements OnInit {
   }
 
   calTotalIncome() {
-    this.dailyIncome ? "" : alert("รบกวนใส่ รายได้ต่อวัน ที่หน้า Profile ก่อนนะ")
+    // tslint:disable-next-line:no-unused-expression
+    this.dailyIncome ? '' : alert('รบกวนใส่ รายได้ต่อวัน ที่หน้า Profile ก่อนนะ');
     const dailyIncome = this.dailyIncome ? this.stringToNumber(this.dailyIncome) : 1;
     const workDate = this.workDate.value ? this.stringToNumber(this.workDate.value) : 0;
     const specialIncome = this.specialIncome.value ? this.stringToNumber(this.specialIncome.value) : 1;
@@ -98,9 +101,14 @@ export class ModalIncomeComponent implements OnInit {
 
   calTax() {
     this.vatPrimary = this.calVAT(this.addIncomeData.netIncome);
-    this.whtPrimary = this.calWHT(this.addIncomeData.netIncome);
     this.vatSpecial = this.calVAT(this.addIncomeData.netSpecialIncome);
+    if (sessionStorage.getItem('role') === 'corporate') {
+    this.whtPrimary = this.calWHTCorporate(this.addIncomeData.netIncome);
+    this.whtSpecial = this.calWHTCorporate(this.addIncomeData.netSpecialIncome);
+    } else {
+    this.whtPrimary = this.calWHT(this.addIncomeData.netIncome);
     this.whtSpecial = this.calWHT(this.addIncomeData.netSpecialIncome);
+    }
   }
 
   onSubmit() {
@@ -125,7 +133,11 @@ export class ModalIncomeComponent implements OnInit {
   updateData() {
     this.specialIncome.setValue(this.specialIncome.value === '' ? '0' : this.specialIncome.value);
     this.addIncomeData.vat = this.calVAT(this.addIncomeData.totalIncome);
-    this.addIncomeData.wht = this.calWHT(this.addIncomeData.totalIncome);
+    if (sessionStorage.getItem('role') === 'corporate') {
+      this.addIncomeData.wht = this.calWHTCorporate(this.addIncomeData.totalIncome);
+    } else {
+      this.addIncomeData.wht = this.calWHT(this.addIncomeData.totalIncome);
+    }
     this.addIncomeData.totalIncome = this.calNetIncome(
       this.addIncomeData.totalIncome,
       this.typeVat === 'Y' ? this.addIncomeData.vat : '0',
@@ -168,6 +180,10 @@ export class ModalIncomeComponent implements OnInit {
 
   calWHT(netIncome: string): string {
     return (this.stringToNumber(netIncome) * 0.03).toString();
+  }
+
+  calWHTCorporate(netIncome: string): string {
+    return (this.stringToNumber(netIncome) * 0.015).toString();
   }
 
   calNetIncome(totalIncome: string, vat: string, wht: string): string {

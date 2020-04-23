@@ -107,6 +107,7 @@ describe('ModalIncomeComponent', () => {
   });
 
   it('call function updateData and check number of addIncome correct', () => {
+    sessionStorage.setItem('role', 'corporate');
     component.addIncomeData = {
       id: '112233rrf63545',
       userId: '3545fdggdlk65706ijv',
@@ -121,15 +122,14 @@ describe('ModalIncomeComponent', () => {
       netSpecialIncome: '2000',
       workingHours: '10'
     };
-    // 7.000000000000001
-    // 3
     component.onSetupForm();
     component.addIncomeData.totalIncome = '100';
     component.updateData();
     expect(component.addIncomeData.vat).toEqual('7.000000000000001');
-    expect(component.addIncomeData.wht).toEqual('3');
-    expect(component.addIncomeData.totalIncome).toEqual('97');
+    expect(component.addIncomeData.wht).toEqual('1.5');
+    expect(component.addIncomeData.totalIncome).toEqual('98.5');
   });
+
 
   it('should set string follow by format 000,000', () => {
     expect(component.formatAmount('100000')).toEqual('100,000');
@@ -330,7 +330,7 @@ describe('ModalIncomeComponent', () => {
     component.onSetupForm();
     component.addIncomeData.totalIncome = '10000';
     component.updateData();
-    expect(component.addIncomeData.wht).toEqual('300');
+    expect(component.addIncomeData.wht).toEqual('150');
   });
 
   it('if user is Y when call updateData addIncomeData.net should have not call calNetIncome with vat = 0', () => {
@@ -406,6 +406,40 @@ describe('ModalIncomeComponent', () => {
     fixture.detectChanges();
     component.onConfirm();
     expect(component.addIncomeEmit.emit).toHaveBeenCalledWith(true);
+  });
+
+  it('call function updateData and check number of addIncome correct for individual', () => {
+    sessionStorage.setItem('role', 'individual');
+    component.addIncomeData = {
+      id: '112233rrf63545',
+      userId: '3545fdggdlk65706ijv',
+      totalIncome: '100',
+      netIncome: '',
+      submitDate: '2018-11-09:00:00:00',
+      note: 'Hello',
+      vat: '',
+      wht: '',
+      workDate: '20',
+      specialIncome: '0',
+      netSpecialIncome: '2000',
+      workingHours: '10'
+    };
+    // 7.000000000000001
+    // 3
+    component.onSetupForm();
+    component.addIncomeData.totalIncome = '100';
+    component.updateData();
+    expect(component.addIncomeData.vat).toEqual('7.000000000000001');
+    expect(component.addIncomeData.wht).toEqual('3');
+    expect(component.addIncomeData.totalIncome).toEqual('97');
+  });
+
+  it('when call updateData addIncomeData.wht should not equal "" for individual', () => {
+    component.addIncomeData = null;
+    component.onSetupForm();
+    component.addIncomeData.totalIncome = '10000';
+    component.updateData();
+    expect(component.addIncomeData.wht).toEqual('300');
   });
 });
 

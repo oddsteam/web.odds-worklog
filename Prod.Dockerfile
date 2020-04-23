@@ -1,5 +1,5 @@
 # STEP 1 build static website
-FROM suphakrit/ng-cli-e2e:6.2.3 as builder
+FROM metal3d/ng:6.2.9 as builder
 
 # Create app directory
 WORKDIR /app

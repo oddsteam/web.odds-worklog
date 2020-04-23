@@ -142,6 +142,7 @@ export class ProfileComponent implements OnInit {
     this.worklogApiService.updateUser(this.id, this.userInfo).subscribe(user => {
       this.setDataUser(user);
       sessionStorage.setItem('firstName', user.firstName);
+      sessionStorage.setItem('role', user.role);
       this.triggerHeader();
       this.alertSuccess();
     });
