@@ -4,6 +4,7 @@
     <table class="table table-hover">
       <thead>
         <tr class="tr-hidden">
+          <th class="text-left align-middle">Year</th>
           <th class="text-left align-middle">Month</th>
           <th class="text-center align-middle">รายได้ปกติ</th>
           <th class="text-center align-middle">รายได้พิเศษ</th>
@@ -14,6 +15,7 @@
       </thead>
       <tbody *ngIf="isNoData">
         <tr *ngFor="let item of incomeResponse ">
+          <td class="text-left">{{ checkValue(item.lastUpdate | date:'yyyy')}}</td>
           <td class="text-left">{{ checkValue(item.lastUpdate | date:'MMMM')}}</td>
           <td class="text-center">{{ checkValue(item.netIncome) }}</td>
           <td class="text-center">{{ checkValue(item.netSpecialIncome) }}</td>
