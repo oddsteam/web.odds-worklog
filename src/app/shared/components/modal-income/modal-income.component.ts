@@ -103,11 +103,11 @@ export class ModalIncomeComponent implements OnInit {
     this.vatPrimary = this.calVAT(this.addIncomeData.netIncome);
     this.vatSpecial = this.calVAT(this.addIncomeData.netSpecialIncome);
     if (sessionStorage.getItem('role') === 'corporate') {
-    this.whtPrimary = this.calWHTCorporate(this.addIncomeData.netIncome);
-    this.whtSpecial = this.calWHTCorporate(this.addIncomeData.netSpecialIncome);
+      this.whtPrimary = this.calWHTCorporate(this.addIncomeData.netIncome);
+      this.whtSpecial = this.calWHTCorporate(this.addIncomeData.netSpecialIncome);
     } else {
-    this.whtPrimary = this.calWHT(this.addIncomeData.netIncome);
-    this.whtSpecial = this.calWHT(this.addIncomeData.netSpecialIncome);
+      this.whtPrimary = this.calWHT(this.addIncomeData.netIncome);
+      this.whtSpecial = this.calWHT(this.addIncomeData.netSpecialIncome);
     }
   }
 
@@ -183,7 +183,7 @@ export class ModalIncomeComponent implements OnInit {
   }
 
   calWHTCorporate(netIncome: string): string {
-    return (this.stringToNumber(netIncome) * 0.015).toString();
+    return (this.stringToNumber(netIncome) * 0.03).toString();
   }
 
   calNetIncome(totalIncome: string, vat: string, wht: string): string {

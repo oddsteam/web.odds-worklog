@@ -126,8 +126,8 @@ describe('ModalIncomeComponent', () => {
     component.addIncomeData.totalIncome = '100';
     component.updateData();
     expect(component.addIncomeData.vat).toEqual('7.000000000000001');
-    expect(component.addIncomeData.wht).toEqual('1.5');
-    expect(component.addIncomeData.totalIncome).toEqual('98.5');
+    expect(component.addIncomeData.wht).toEqual('3');
+    expect(component.addIncomeData.totalIncome).toEqual('97');
   });
 
 
@@ -330,7 +330,7 @@ describe('ModalIncomeComponent', () => {
     component.onSetupForm();
     component.addIncomeData.totalIncome = '10000';
     component.updateData();
-    expect(component.addIncomeData.wht).toEqual('150');
+    expect(component.addIncomeData.wht).toEqual('300');
   });
 
   it('if user is Y when call updateData addIncomeData.net should have not call calNetIncome with vat = 0', () => {
