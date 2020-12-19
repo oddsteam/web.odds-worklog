@@ -1,7 +1,7 @@
 /* tslint:disable:no-unused-variable */
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -91,6 +91,7 @@ describe('ModalIncomeComponent', () => {
       userId: '3545fdggdlk65706ijv',
       totalIncome: '10000',
       netIncome: '0.00',
+      netDailyIncome: '',
       submitDate: '2018-11-09:00:00:00',
       note: '',
       vat: '0.00',
@@ -113,6 +114,7 @@ describe('ModalIncomeComponent', () => {
       userId: '3545fdggdlk65706ijv',
       totalIncome: '100',
       netIncome: '',
+      netDailyIncome: '',
       submitDate: '2018-11-09:00:00:00',
       note: 'Hello',
       vat: '',
@@ -213,6 +215,7 @@ describe('ModalIncomeComponent', () => {
       userId: '0000022233',
       totalIncome: '100000',
       netIncome: '40',
+      netDailyIncome: '',
       submitDate: '2018-10-22:00:00:00',
       note: '',
       vat: '0.23',
@@ -240,6 +243,7 @@ describe('ModalIncomeComponent', () => {
       userId: '0000022233',
       totalIncome: '100000',
       netIncome: '40',
+      netDailyIncome: '',
       submitDate: '2018-10-22:00:00:00',
       note: '',
       vat: '0.23',
@@ -268,6 +272,7 @@ describe('ModalIncomeComponent', () => {
       userId: '0000022233',
       totalIncome: '100000',
       netIncome: '40',
+      netDailyIncome: '',
       submitDate: '2018-10-22:00:00:00',
       note: '',
       vat: '0.23',
@@ -295,6 +300,7 @@ describe('ModalIncomeComponent', () => {
       userId: '0000022233',
       totalIncome: '100000',
       netIncome: '40',
+      netDailyIncome: '',
       submitDate: '2018-10-22:00:00:00',
       note: '',
       vat: '0.23',
@@ -415,6 +421,7 @@ describe('ModalIncomeComponent', () => {
       userId: '3545fdggdlk65706ijv',
       totalIncome: '100',
       netIncome: '',
+      netDailyIncome: '',
       submitDate: '2018-11-09:00:00:00',
       note: 'Hello',
       vat: '',
@@ -433,6 +440,34 @@ describe('ModalIncomeComponent', () => {
     expect(component.addIncomeData.wht).toEqual('3');
     expect(component.addIncomeData.totalIncome).toEqual('97');
   });
+  
+    it('เมื่อเรียก calTotalIncome จะทำการคำนวณค่าต่างๆใส่ Modal Income', () => {
+      component.addIncomeData = {
+        id: '',
+        userId: '',
+        submitDate: '',
+        note: '',
+        vat: '',
+        wht: '',
+        workDate: '',
+        netIncome: '',
+        netDailyIncome: '',
+        workingHours: '',
+        specialIncome: '',
+        netSpecialIncome: '',
+        totalIncome: '',
+      };
+      component.fg = new FormBuilder().group({
+        workDate: ['20'],
+        specialIncome: ['2000'],
+        workingHours: ['10']
+      });
+      component.dailyIncome = '5000';
+      component.calTotalIncome();
+      expect(component.addIncomeData.netDailyIncome).toEqual('100000');
+      expect(component.addIncomeData.netSpecialIncome).toEqual('20000');
+      expect(component.addIncomeData.netIncome).toEqual('120000');
+    });
 
   it('when call updateData addIncomeData.wht should not equal "" for individual', () => {
     component.addIncomeData = null;
@@ -441,5 +476,6 @@ describe('ModalIncomeComponent', () => {
     component.updateData();
     expect(component.addIncomeData.wht).toEqual('300');
   });
+
 });
 
