@@ -98,9 +98,9 @@ describe('AddIncomeComponent', () => {
     expect(component.addIncomeAlready.emit).toHaveBeenCalledWith(true);
   });
 
-  // it('should emit addIncomeAlready with false if event is undefined', () => {
-  //   spyOn(component.addIncomeAlready, 'emit');
-  //   component.addIncomeEmit(undefined);
-  //   expect(component.addIncomeAlready.emit).toHaveBeenCalledWith(false);
-  // });
+  it('should emit addIncomeAlready with false if event is undefined', () => {
+    spyOn(component.addIncomeAlready, 'emit');
+    component.addIncomeEmit(undefined);
+    expect(component.addIncomeAlready.emit).toHaveBeenCalledWith(false);
+  });
 });

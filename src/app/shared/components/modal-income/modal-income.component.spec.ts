@@ -1,7 +1,7 @@
 /* tslint:disable:no-unused-variable */
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -440,6 +440,34 @@ describe('ModalIncomeComponent', () => {
     expect(component.addIncomeData.wht).toEqual('3');
     expect(component.addIncomeData.totalIncome).toEqual('97');
   });
+  
+    it('เมื่อเรียก calTotalIncome จะทำการคำนวณค่าต่างๆใส่ Modal Income', () => {
+      component.addIncomeData = {
+        id: '',
+        userId: '',
+        submitDate: '',
+        note: '',
+        vat: '',
+        wht: '',
+        workDate: '',
+        netIncome: '',
+        netDailyIncome: '',
+        workingHours: '',
+        specialIncome: '',
+        netSpecialIncome: '',
+        totalIncome: '',
+      };
+      component.fg = new FormBuilder().group({
+        workDate: ['20'],
+        specialIncome: ['2000'],
+        workingHours: ['10']
+      });
+      component.dailyIncome = '5000';
+      component.calTotalIncome();
+      expect(component.addIncomeData.netDailyIncome).toEqual('100000');
+      expect(component.addIncomeData.netSpecialIncome).toEqual('20000');
+      expect(component.addIncomeData.netIncome).toEqual('120000');
+    });
 
   it('when call updateData addIncomeData.wht should not equal "" for individual', () => {
     component.addIncomeData = null;
@@ -449,24 +477,5 @@ describe('ModalIncomeComponent', () => {
     expect(component.addIncomeData.wht).toEqual('300');
   });
 
-
-  it('เมื่อเรียก calTotalIncome จะทำการคำนวณค่าต่างๆใส่ Modal Income', () => {
-    spyOn(worklogApiService, 'getDailyIncome').and.returnValue('5000');
-    sessionStorage.setItem('role', 'individual');
-    component.fg = new FormBuilder().group({
-      note: ['', Validators.required],
-      workDate: ['', Validators.required],
-      workingHours: ['', Validators.required],
-      specialIncome: ['', Validators.required]
-    });
-    component.ngOnInit();
-    component.workDate.setValue('20');
-    component.specialIncome.setValue('2000');
-    component.workingHours.setValue('10');
-    component.calTotalIncome();
-    expect(component.addIncomeData.netDailyIncome).toEqual('100000');
-    expect(component.addIncomeData.netSpecialIncome).toEqual('20000');
-    expect(component.addIncomeData.netIncome).toEqual('120000');
-  });
 });
 
