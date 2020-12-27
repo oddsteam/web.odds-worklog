@@ -1,6 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { of } from 'rxjs';
@@ -276,19 +276,7 @@ describe('ProfileComponent', () => {
     expect(component.downloadFile).toHaveBeenCalledWith(mockResponse, 'ww_ww_Zt0mUDwp7LBx.pdf');
   });
 
-  it('isVat should be Y if param in onCheckBoxVat is "vat"', () => {
-    component.onCheckBoxVat('vat');
-    expect(component.isVat).toEqual('Y');
-  });
-
-  it('vatList should have be swapping value of element in vatlist when call onCheckBoxVat', () => {
-    expect(component.vatList[0].value).toBeTruthy();
-    expect(component.vatList[1].value).toBeFalsy();
-    component.onCheckBoxVat('non-vat');
-    expect(component.vatList[0].value).toBeFalsy();
-    expect(component.vatList[1].value).toBeTruthy();
-  });
-
+ 
   describe('getEmitSourceSite', () => {
     it('should set user site id when call getEmitSource', () => {
       const data = {
@@ -356,7 +344,8 @@ describe('ProfileComponent', () => {
         project: '',
         dailyIncome: '14',
         address: 'every Where',
-        thaiCitizenId: '123467890'
+        thaiCitizenId: '123467890',
+        vat: 'N'
       });
     });
 
@@ -384,8 +373,10 @@ describe('ProfileComponent', () => {
     });
 
     it('should set type user = person type', () => {
+      component.userInfo = new User();
+      component.vat.setValue('N');
       component.profileForm = <FormGroup>{
-        valid: true
+        valid: true,
       };
       component.personType = 'corporate';
       spyOn(component, 'setDataToModel');
@@ -439,6 +430,25 @@ describe('ProfileComponent', () => {
       component.getEmitSourcePersonType(event);
 
       expect(component.personType).toEqual('individual');
+    });
+
+    it('ทดสอบเรียกฟังชั่น setDataToModel หากทำการเรียกแล้วจะทำการ set ค่าต่างๆ ลง userInfo' , () => {
+      component.userInfo = new User();
+      component.createForm();
+      component.corporateNameForm.setValue('');
+      component.firstNameForm.setValue('ทดสอบ');
+      component.lastNameForm.setValue('ชอบลงทุน');
+      component.emailForm.setValue('test@abc.com');
+      component.bankAccountForm.setValue('ทดสอบ ชอบลงทุน');
+      component.bankAccountNumberForm.setValue('1235678900');
+      component.slackAccount.setValue('test@abc.com');
+      component.vat.setValue('N');
+      component.project.setValue('TEST');
+      component.dailyIncome.setValue('4000');
+      component.personType = 'individual'
+      component.address.setValue('-');
+      component.thaiCitizenId.setValue('-');
+      component.setDataToModel();
     });
 
   });
