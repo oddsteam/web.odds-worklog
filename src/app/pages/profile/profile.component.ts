@@ -81,7 +81,8 @@ export class ProfileComponent implements OnInit {
       dailyIncome: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
       address: ['', Validators.required],
       thaiCitizenId: ['', Validators.compose([Validators.required, Validators.pattern(/^[0-9]{13}?$/),
-      this.validateCitized.validateCitizenId.bind(this.validateCitized), Validators.maxLength(100)])]
+      this.validateCitized.validateCitizenId.bind(this.validateCitized), Validators.maxLength(100)])],
+      vat: ['', Validators.required]
     });
 
     this.fileForm = this.formBuilder.group({
@@ -115,11 +116,9 @@ export class ProfileComponent implements OnInit {
     this.dailyIncome.setValue(user.dailyIncome);
     this.address.setValue(user.address);
     this.thaiCitizenId.setValue(user.thaiCitizenId);
-    this.isVat = user.vat;
-    if (user.vat === 'N') {
-      this.vatList[0].value = false;
-      this.vatList[1].value = true;
-    }
+    this.vat.setValue(user.vat)
+    console.log(this.vat.value);
+    
     this.getNameSite();
   }
 
@@ -131,7 +130,8 @@ export class ProfileComponent implements OnInit {
   }
 
   updateData() {
-
+    console.log(this.userInfo);
+    console.log(this.userInfo);
     if (!this.profileForm.valid) {
       CustomValidators.validateAllFormFields(this.profileForm);
       return false;
@@ -163,7 +163,7 @@ export class ProfileComponent implements OnInit {
     this.userInfo.bankAccountName = this.bankAccountForm.value;
     this.userInfo.bankAccountNumber = this.bankAccountNumberForm.value;
     this.userInfo.slackAccount = this.slackAccount.value;
-    this.userInfo.vat = this.isVat;
+    this.userInfo.vat = this.vat.value;
     this.userInfo.project = this.project.value;
     this.userInfo.dailyIncome = this.dailyIncome.value;
     this.userInfo.role = this.personType;
@@ -318,16 +318,7 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-  onCheckBoxVat(vatName) {
-    this.isVat = (vatName === 'non-vat') ? 'N' : 'Y';
-    this.vatList.map(data => {
-      if (data.name !== vatName) {
-        data.value = false;
-      } else {
-        data.value = true;
-      }
-    });
-  }
+ 
 
   downloadFile(data: any, filename: string) {
     const url = window.URL.createObjectURL(data);
@@ -467,6 +458,10 @@ export class ProfileComponent implements OnInit {
 
   get thaiCitizenId(): FormControl {
     return this.profileForm.get('thaiCitizenId') as FormControl;
+  }
+
+  get vat(): FormControl {
+    return this.profileForm.get('vat') as FormControl;
   }
 
   triggerHeader() {

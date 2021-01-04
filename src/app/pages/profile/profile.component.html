@@ -228,15 +228,20 @@
               </div>
             </div>
 
-            <div class="row" *ngIf="userInfo && isCorporate">
+
+            <div class="row mt-4">
               <div class="form-group col-md-12 pl-5 ">
                 <label>VAT</label><br>
-                <div class="checkbox custom-control-inline" *ngFor="let item of vatList">
-                  <label><input type="checkbox" [checked]="item.value" (change)="onCheckBoxVat(item.name ,$event)">
-                    {{item.name}}</label>
+                <div class="checkbox custom-control-inline">
+                  <label><input type="radio" value="Y" formControlName="vat" >
+                    vat</label>
+                </div>
+                <div class="checkbox custom-control-inline">
+                  <label><input type="radio" value="N" formControlName="vat">
+                    non-vat</label>
                 </div>
               </div>
-            </div>
+          </div>
           </div>
           <div class="row">
             <div class="form-group col-md-6">
