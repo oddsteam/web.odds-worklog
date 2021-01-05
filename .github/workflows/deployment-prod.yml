@@ -21,7 +21,7 @@ on:
 
 
 
-name: CI/CD Project worklogAPI
+name: CI/CD Project Worklog Web Prod
 
 jobs:
   build-and-deploy:
