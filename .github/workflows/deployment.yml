@@ -22,7 +22,7 @@ on:
   #   branches: [ new-develop ]
 
 
-name: CI/CD Project worklogAPI
+name: CI/CD Project Worklog Web Dev
 
 jobs:
   build-and-deploy:
