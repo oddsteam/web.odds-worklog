@@ -62,6 +62,7 @@ export class ModalIncomeComponent implements OnInit {
         wht: '',
         workDate: '',
         netIncome: '',
+        netDailyIncome: '',
         workingHours: '',
         specialIncome: '',
         netSpecialIncome: '',
@@ -92,21 +93,22 @@ export class ModalIncomeComponent implements OnInit {
     const workDate = this.workDate.value ? this.stringToNumber(this.workDate.value) : 0;
     const specialIncome = this.specialIncome.value ? this.stringToNumber(this.specialIncome.value) : 1;
     const workingHours = this.workingHours.value ? this.stringToNumber(this.workingHours.value) : 0;
-    const netIncome = dailyIncome * workDate;
+    const netDailyIncome = dailyIncome * workDate;
     const netSpecialIncome = specialIncome * workingHours;
-    this.totalIncome = String(netIncome + netSpecialIncome);
-    this.addIncomeData.netIncome = String(netIncome);
+    this.totalIncome = String(netDailyIncome + netSpecialIncome);
+    this.addIncomeData.netDailyIncome = String(netDailyIncome);
     this.addIncomeData.netSpecialIncome = String(netSpecialIncome);
+    this.addIncomeData.netIncome = String(netDailyIncome + netSpecialIncome);
   }
 
   calTax() {
-    this.vatPrimary = this.calVAT(this.addIncomeData.netIncome);
+    this.vatPrimary = this.calVAT(this.addIncomeData.netDailyIncome);
     this.vatSpecial = this.calVAT(this.addIncomeData.netSpecialIncome);
     if (sessionStorage.getItem('role') === 'corporate') {
-      this.whtPrimary = this.calWHTCorporate(this.addIncomeData.netIncome);
+      this.whtPrimary = this.calWHTCorporate(this.addIncomeData.netDailyIncome);
       this.whtSpecial = this.calWHTCorporate(this.addIncomeData.netSpecialIncome);
     } else {
-      this.whtPrimary = this.calWHT(this.addIncomeData.netIncome);
+      this.whtPrimary = this.calWHT(this.addIncomeData.netDailyIncome);
       this.whtSpecial = this.calWHT(this.addIncomeData.netSpecialIncome);
     }
   }
@@ -193,6 +195,7 @@ export class ModalIncomeComponent implements OnInit {
       this.stringToNumber(wht)
     ).toString();
   }
+
 
   stringToNumber(text: string): number {
     return Number(this.cutComma(text));
