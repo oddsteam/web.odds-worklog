@@ -18,7 +18,7 @@ describe('FirstLoginComponent', () => {
       imports: [ReactiveFormsModule, RouterTestingModule, HttpClientTestingModule
       ]
     })
-      .compileComponents();
+    .compileComponents();
   }));
 
   beforeEach(() => {
@@ -90,7 +90,7 @@ describe('FirstLoginComponent', () => {
     expect(component.siteList[4].name).toEqual('DTAC');
   });
 
-  it('when call updateUser() but role equal admin router navigate go to corporate  ', inject([Router], (router: Router) => {
+  it('when call updateUser() but role equal admin router navigate go to corporate', inject([Router], (router: Router) => {
     const res = {
       role: 'admin'
     };
@@ -124,4 +124,9 @@ describe('FirstLoginComponent', () => {
     expect(router.navigate).toHaveBeenCalledWith(['login']);
   }));
 
+  it('should warn user to use ktb account or the payroll script would fail as it does not support any other bank transfer yet. (see also https://github.com/juacompe/banking-automation/tree/master/ktbnetbank)', () => {
+    let actual = component.bankAccountPlaceholder
+
+    expect(actual).toBe('ต้องเป็นบัญชีกรุงไทยเท่านั้นนะ');
+  })
 });

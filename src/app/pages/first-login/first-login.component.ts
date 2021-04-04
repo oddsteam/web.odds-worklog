@@ -170,4 +170,7 @@ export class FirstLoginComponent implements OnInit {
     return this.loginForm.get('project') as FormControl;
   }
 
+  get bankAccountPlaceholder(): string {
+    return 'ต้องเป็นบัญชีกรุงไทยเท่านั้นนะ';
+  }
 }
