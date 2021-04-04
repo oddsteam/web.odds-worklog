@@ -18,7 +18,7 @@ describe('FirstLoginComponent', () => {
       imports: [ReactiveFormsModule, RouterTestingModule, HttpClientTestingModule
       ]
     })
-      .compileComponents();
+    .compileComponents();
   }));
 
   beforeEach(() => {
@@ -90,7 +90,7 @@ describe('FirstLoginComponent', () => {
     expect(component.siteList[4].name).toEqual('DTAC');
   });
 
-  it('when call updateUser() but role equal admin router navigate go to corporate  ', inject([Router], (router: Router) => {
+  it('when call updateUser() but role equal admin router navigate go to corporate', inject([Router], (router: Router) => {
     const res = {
       role: 'admin'
     };
