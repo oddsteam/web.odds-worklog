@@ -171,6 +171,6 @@ export class FirstLoginComponent implements OnInit {
   }
 
   get bankAccountPlaceholder(): string {
-    return 'ต้องเป็นบัญชีกรุงไทย สาขาในกรุงเทพเท่านั้นนะ';
+    return 'ต้องเป็นบัญชีกรุงไทยเท่านั้นนะ';
   }
 }
