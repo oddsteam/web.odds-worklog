@@ -36,7 +36,7 @@
 
         <div class="form-group col-12">
           <label for="bankAccountNumber">Bank Account Number (9-16 digits)</label>
-          <input id="bankAccountNumber" class="form-control" maxlength="16" placeholder="Fill account number" [ngClass]="{'is-invalid':loginForm.controls.bankAccountNumber.invalid && loginForm.controls.bankAccountNumber.touched}" type="text" formControlName="bankAccountNumber" />
+          <input id="bankAccountNumber" class="form-control" maxlength="16" [placeholder]="bankAccountPlaceholder" [ngClass]="{'is-invalid':loginForm.controls.bankAccountNumber.invalid && loginForm.controls.bankAccountNumber.touched}" type="text" formControlName="bankAccountNumber" />
           <div *ngIf="loginForm.controls.bankAccountNumber.invalid && loginForm.controls.bankAccountNumber.touched">
             <label class="col-form-label" style="color: red;">กรุณากรอกเลขบัญชีด้วยตัวเลข 9-16 ตัว</label>
           </div>

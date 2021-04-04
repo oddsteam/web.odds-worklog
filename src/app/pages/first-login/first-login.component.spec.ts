@@ -124,4 +124,9 @@ describe('FirstLoginComponent', () => {
     expect(router.navigate).toHaveBeenCalledWith(['login']);
   }));
 
+  it('should warn user to use ktb account or the payroll script would fail as it does not support any other bank transfer yet. (see also https://github.com/juacompe/banking-automation/tree/master/ktbnetbank)', () => {
+    let actual = component.bankAccountPlaceholder
+
+    expect(actual).toBe('ต้องเป็นบัญชีกรุงไทย สาขาในกรุงเทพเท่านั้นนะ');
+  })
 });
