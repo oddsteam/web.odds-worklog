@@ -51,7 +51,7 @@ jobs:
          docker build -t 844772501268.dkr.ecr.ap-southeast-1.amazonaws.com/web-worklog:dev .
          docker tag 844772501268.dkr.ecr.ap-southeast-1.amazonaws.com/web-worklog:dev 844772501268.dkr.ecr.ap-southeast-1.amazonaws.com/web-worklog:dev
          docker push 844772501268.dkr.ecr.ap-southeast-1.amazonaws.com/web-worklog:dev
-    - name: SSH Shell Command
+    - name: Deploy on Dev Environment
       uses: fifsky/ssh-action@master
       with:
         command: |
