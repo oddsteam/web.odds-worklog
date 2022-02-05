@@ -322,6 +322,15 @@ export class WorklogApiService {
         });
     }
 
+    sendMailNotificationNewUser() {
+        return this.http.post(`${this.apiPath}reminder/mail/${sessionStorage.getItem('idUser')}`, null, {
+            headers: new HttpHeaders({
+                Authorization: sessionStorage.getItem('token')
+            })
+        });
+    }
+    
+
     getDailyIncome() {
         return this.dailyIncome;
     }

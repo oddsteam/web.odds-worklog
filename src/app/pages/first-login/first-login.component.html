@@ -1,101 +1,133 @@
 <form [formGroup]="loginForm">
-  <div class="my-3">
-    <div class="col-lg-4 col-md-6 mx-auto">
-      <div class="d-flex justify-content-center pt-4 pb-2">
-        <h3>User Profile</h3>
-      </div>
-
-      <div class="d-flex flex-column align-items-center">
-        <div class="form-group col-12">
-          <label for="FirstName">First Name (English)</label>
-          <div class="d-flex justify-content-start form-group row">
-            <div class="col-12">
-              <input id="FirstName" class="form-control" maxlength="20" placeholder="Fill first name" type="text" [ngClass]="{'is-invalid':loginForm.controls.firstName.invalid && loginForm.controls.firstName.touched}" formControlName="firstName" />
-              <div *ngIf="loginForm.controls.firstName.invalid && loginForm.controls.firstName.touched">
-                <label class="col-form-label" style="color: red;">กรุณากรอกชื่อภาษาอังกฤษ</label>
-              </div>
+    <div class="my-3">
+        <div class="col-lg-4 col-md-6 mx-auto">
+            <div class="d-flex justify-content-center pt-4 pb-2">
+                <h3>User Profile</h3>
             </div>
-          </div>
-          <label for="LastName">Last Name (English)</label>
-          <div class="d-flex justify-content-start form-group row">
-            <div class="col-12">
-              <input id="LastName" class="form-control" maxlength="20" placeholder="Fill last name" type="text" [ngClass]="{'is-invalid':loginForm.controls.lastName.invalid && loginForm.controls.lastName.touched}" formControlName="lastName" />
-              <div *ngIf="loginForm.controls.lastName.invalid && loginForm.controls.lastName.touched">
-                <label class="col-form-label" style="color: red;">กรุณากรอกนามสกุลภาษาอังกฤษ</label>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="form-group col-12">
-          <label for="bankAccountName">Bank Account Name (Thai)</label>
-          <input id="bankAccountName" class="form-control" maxlength="40" placeholder="Fill account name" type="text" [ngClass]="{'is-invalid':loginForm.controls.bankAccountName.invalid && loginForm.controls.bankAccountName.touched}" formControlName="bankAccountName" />
-          <div *ngIf="loginForm.controls.bankAccountName.invalid && loginForm.controls.bankAccountName.touched">
-            <label class="col-form-label" style="color: red;">กรุณากรอกชื่อบัญชีภาษาไทย</label>
-          </div>
-        </div>
 
-        <div class="form-group col-12">
-          <label for="bankAccountNumber">Bank Account Number (9-16 digits)</label>
-          <input id="bankAccountNumber" class="form-control" maxlength="16" [placeholder]="bankAccountPlaceholder" [ngClass]="{'is-invalid':loginForm.controls.bankAccountNumber.invalid && loginForm.controls.bankAccountNumber.touched}" type="text" formControlName="bankAccountNumber" />
-          <div *ngIf="loginForm.controls.bankAccountNumber.invalid && loginForm.controls.bankAccountNumber.touched">
-            <label class="col-form-label" style="color: red;">กรุณากรอกเลขบัญชีด้วยตัวเลข 9-16 ตัว</label>
-          </div>
-        </div>
+            <div class="d-flex flex-column align-items-center">
+                <div class="form-group col-12">
+                    <label for="FirstName">First Name (English)</label>
+                    <div class="d-flex justify-content-start form-group row">
+                        <div class="col-12">
+                            <input id="FirstName" class="form-control" maxlength="20" placeholder="Fill first name" type="text" [ngClass]="{'is-invalid':loginForm.controls.firstName.invalid && loginForm.controls.firstName.touched}" formControlName="firstName" />
+                            <div *ngIf="loginForm.controls.firstName.invalid && loginForm.controls.firstName.touched">
+                                <label class="col-form-label" style="color: red;">กรุณากรอกชื่อภาษาอังกฤษ</label>
+                            </div>
+                        </div>
+                    </div>
+                    <label for="LastName">Last Name (English)</label>
+                    <div class="d-flex justify-content-start form-group row">
+                        <div class="col-12">
+                            <input id="LastName" class="form-control" maxlength="20" placeholder="Fill last name" type="text" [ngClass]="{'is-invalid':loginForm.controls.lastName.invalid && loginForm.controls.lastName.touched}" formControlName="lastName" />
+                            <div *ngIf="loginForm.controls.lastName.invalid && loginForm.controls.lastName.touched">
+                                <label class="col-form-label" style="color: red;">กรุณากรอกนามสกุลภาษาอังกฤษ</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group col-12">
+                    <label for="bankAccountName">Bank Account Name (Thai)</label>
+                    <input id="bankAccountName" class="form-control" maxlength="40" placeholder="Fill account name" type="text" [ngClass]="{'is-invalid':loginForm.controls.bankAccountName.invalid && loginForm.controls.bankAccountName.touched}" formControlName="bankAccountName"
+                    />
+                    <div *ngIf="loginForm.controls.bankAccountName.invalid && loginForm.controls.bankAccountName.touched">
+                        <label class="col-form-label" style="color: red;">กรุณากรอกชื่อบัญชีภาษาไทย</label>
+                    </div>
+                </div>
 
-        <div class="form-group col-12">
-          <label for="slackAccount">Slack Account (Email)</label>
-          <input id="slackAccount" class="form-control" maxlength="30" placeholder="Fill slack account (Email)" [ngClass]="{'is-invalid':loginForm.controls.slackAccount.invalid && loginForm.controls.slackAccount.touched}" type="text" formControlName="slackAccount" />
-          <div *ngIf="loginForm.controls.slackAccount.invalid && loginForm.controls.slackAccount.touched">
-            <label class="col-form-label" style="color: red;">กรุณากรอกอีเมลที่ใช้ใน Slack</label>
-          </div>
-        </div>
+                <div class="form-group col-12">
+                    <label for="bankAccountNumber">Bank Account Number (9-16 digits)</label>
+                    <input id="bankAccountNumber" class="form-control" maxlength="16" [placeholder]="bankAccountPlaceholder" [ngClass]="{'is-invalid':loginForm.controls.bankAccountNumber.invalid && loginForm.controls.bankAccountNumber.touched}" type="text" formControlName="bankAccountNumber"
+                    />
+                    <div *ngIf="loginForm.controls.bankAccountNumber.invalid && loginForm.controls.bankAccountNumber.touched">
+                        <label class="col-form-label" style="color: red;">กรุณากรอกเลขบัญชีด้วยตัวเลข 9-16 ตัว</label>
+                    </div>
+                </div>
 
-        <div class="form-group col-12">
-          <label>User Type</label>
-          <div class="d-flex justify-content-start">
-            <div class="checkbox col-auto" *ngFor="let role of roles">
-              <label><input type="checkbox" [checked]="role.isCheck" (change)="onCheckBoxRole(role.value)" formControlName="role"> {{role.name}}</label>
-            </div>
-          </div>
-        </div>
-        <div class="col-12" *ngIf="isCorporate">
-          <div class="form-group col-12">
-            <label for="corporateName">Corporate Name</label>
-            <input id="corporateName" class="form-control" maxlength="30" placeholder="Fill corporate name" type="text" [ngClass]="{'is-invalid':loginForm.controls.corporateName.invalid && loginForm.controls.corporateName.touched}" formControlName="corporateName" />
+                <div class="form-group col-12">
+                    <label for="slackAccount">Slack Account (Email)</label>
+                    <input id="slackAccount" class="form-control" maxlength="30" placeholder="Fill slack account (Email)" [ngClass]="{'is-invalid':loginForm.controls.slackAccount.invalid && loginForm.controls.slackAccount.touched}" type="text" formControlName="slackAccount"
+                    />
+                    <div *ngIf="loginForm.controls.slackAccount.invalid && loginForm.controls.slackAccount.touched">
+                        <label class="col-form-label" style="color: red;">กรุณากรอกอีเมลที่ใช้ใน Slack</label>
+                    </div>
+                </div>
 
-            <div *ngIf="loginForm.controls.corporateName.invalid && loginForm.controls.corporateName.touched">
-              <label class="col-form-label" style="color: red;">กรุณากรอกชื่อบริษัท</label>
-            </div>
-          </div>
+                <div class="form-group col-12">
+                    <label>User Type</label>
+                    <div class="d-flex justify-content-start">
+                        <div class="checkbox col-auto" *ngFor="let role of roles">
+                            <label><input type="checkbox" [checked]="role.isCheck" (change)="onCheckBoxRole(role.value)" formControlName="role"> {{role.name}}</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12" *ngIf="isCorporate">
+                    <div class="form-group col-12">
+                        <label for="corporateName">Corporate Name</label>
+                        <input id="corporateName" class="form-control" maxlength="30" placeholder="Fill corporate name" type="text" [ngClass]="{'is-invalid':loginForm.controls.corporateName.invalid && loginForm.controls.corporateName.touched}" formControlName="corporateName"
+                        />
 
-          <div class="form-group col-12">
-            <label>Select Vat</label>
-            <div class="d-flex justify-content-start">
-              <div class="checkbox col-auto" *ngFor="let vat of vatList">
-                <label><input type="checkbox" [checked]="vat.isCheck" (change)="onCheckBoxVat(vat.value)" formControlName="vat">
+                        <div *ngIf="loginForm.controls.corporateName.invalid && loginForm.controls.corporateName.touched">
+                            <label class="col-form-label" style="color: red;">กรุณากรอกชื่อบริษัท</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-12">
+                        <label>Select Vat</label>
+                        <div class="d-flex justify-content-start">
+                            <div class="checkbox col-auto" *ngFor="let vat of vatList">
+                                <label><input type="checkbox" [checked]="vat.isCheck" (change)="onCheckBoxVat(vat.value)" formControlName="vat">
                   {{vat.name}}</label>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="form-group col-12">
-          <label>Site</label>
-          <select id="siteId" name="siteId" class="browser-default custom-select form-control" formControlName="siteId" [ngClass]="{'is-invalid':loginForm.controls.siteId.invalid && loginForm.controls.siteId.touched}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group col-12">
+                    <label>Site</label>
+                    <select id="siteId" name="siteId" class="browser-default custom-select form-control" formControlName="siteId" [ngClass]="{'is-invalid':loginForm.controls.siteId.invalid && loginForm.controls.siteId.touched}">
             <option selected value="">select site</option>
             <option *ngFor="let s of siteList" [value]="s.id">{{s.name}}</option>
           </select>
-          <div *ngIf="loginForm.controls.siteId.invalid && loginForm.controls.siteId.touched">
-            <label class="col-form-label" style="color: red;">กรุณาเลือกไซต์ที่ทำงาน</label>
-          </div>
+                    <div *ngIf="loginForm.controls.siteId.invalid && loginForm.controls.siteId.touched">
+                        <label class="col-form-label" style="color: red;">กรุณาเลือกไซต์ที่ทำงาน</label>
+                    </div>
+                </div>
+                <div class="form-group col-12 mb-2">
+                    <label>Upload ID Card</label>
+                    <div class="form-group">
+                        <div class="upload-file-wrapper">
+                            <span *ngIf="(loginForm.controls.idCardFile.invalid)">
+                          <button class="btn button-upload" type="button">
+                            Choose file...
+                          </button>
+                          <input type="file" accept="application/pdf"
+                            (change)="onChangeIdCardFile($event)"  />
+                          </span>
+                            <span *ngIf="loginForm.controls.idCardFile.value">
+                            <button class="btn button-remove" type="button" (click)="onRemove('idcard')">
+                              Remove
+                            </button>
+                          </span>
+                            <span class="avatar-file-name prepend-left-default">
+                          {{ loginForm.controls.idCardFile.value ? loginForm.controls.idCardFile.value : 'No file was chosen.' }}
+                          </span>
+                        </div>
+                    </div>
+                    <div class="form-text text-muted">The maximum file size allowed is 200KB.</div>
+                    <div *ngIf="loginForm.controls.idCardFile.invalid && loginForm.controls.idCardFile.touched">
+                        <label class="col-form-label" style="color: red;">กรุณาอัพโหลด ID Card ของท่านด้วย</label>
+                    </div>
+
+                </div>
+
+                <div class="form-group col-12">
+                    <label for="project">Project or team</label>
+                    <input id="project" class="form-control" maxlength="30" placeholder="Fill project or team" type="text" formControlName="project" />
+                </div>
+                <div class="form-group text-right col-12">
+                    <button type="button" class="btn btn-blue" (click)="submit()">Save</button>
+                </div>
+            </div>
         </div>
-        <div class="form-group col-12">
-          <label for="project">Project or team</label>
-          <input id="project" class="form-control" maxlength="30" placeholder="Fill project or team" type="text" formControlName="project" />
-        </div>
-        <div class="form-group text-right col-12">
-          <button type="button" class="btn btn-blue" (click)="submit()">Save</button>
-        </div>
-      </div>
     </div>
-  </div>
 </form>
