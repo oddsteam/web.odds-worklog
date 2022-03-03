@@ -4,3 +4,59 @@
     align-items: center;
     min-height: 100vh;
 }
+
+.button-download {
+    float: left;
+}
+
+.button-remove {
+    margin-left: 1rem;
+    color: #fff;
+    background-color: #EE4749;
+    border-color: #B62020;
+    width: auto;
+}
+
+.button-remove:hover,
+.button-remove:focus {
+    color: #fff;
+    background-color: rgb(209, 72, 74);
+    border-color: rgb(199, 82, 82);
+}
+
+.margin-upload {
+    margin-top: 2rem;
+}
+
+.button-upload {
+    width: auto;
+    padding: 0 1rem;
+    border-radius: 3px;
+    font-size: 14px;
+    font-weight: 400;
+    padding: 6px 10px;
+    background-color: #fff;
+    border-color: #e5e5e5;
+    color: #2e2e2e;
+}
+
+.avatar-file-name {
+    position: relative;
+    top: 2px;
+    display: inline-block;
+}
+
+.prepend-left-default {
+    margin-left: 16px;
+}
+
+.append-bottom-10 {
+    margin-bottom: 10px;
+}
+
+.button-upload:hover,
+.button-upload:focus {
+    background-color: #f0f0f0;
+    border-color: #e3e3e3;
+    color: #2e2e2e;
+}

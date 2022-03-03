@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { FileService } from 'src/app/core/file.service';
 import { CustomValidators } from 'src/app/validators/custom-validators';
 import { WorklogApiService } from '../../core/worklog-api.service';
 import { Site } from '../../shared/model/site';
 import { User } from '../../shared/model/user';
+import { MyFile } from '../profile/file';
 
 @Component({
   selector: 'app-first-login',
@@ -15,6 +17,7 @@ export class FirstLoginComponent implements OnInit {
   loginForm: FormGroup;
   user: User;
   siteList: Site[];
+
   vatList = [
     {
       value: 'Y',
@@ -46,11 +49,14 @@ export class FirstLoginComponent implements OnInit {
   constructor(private fb: FormBuilder,
     private worklogService: WorklogApiService,
     private router: Router,
+    private fileService: FileService
   ) { }
 
   ngOnInit() {
     this.getListSite();
     this.setupForm();
+    console.log((this.loginForm.controls.idCardFile.invalid));
+
   }
 
   setupForm() {
@@ -64,7 +70,8 @@ export class FirstLoginComponent implements OnInit {
       role: [true, Validators.required],
       vat: [true, Validators.required],
       siteId: ['', Validators.required],
-      project: ['']
+      project: [''],
+      idCardFile: [null, Validators.required]
     });
   }
 
@@ -86,6 +93,9 @@ export class FirstLoginComponent implements OnInit {
         } else {
           this.router.navigate([res.role]);
         }
+        this.worklogService.sendMailNotificationNewUser().subscribe(res => {
+
+        });
       },
         error => {
           this.router.navigate(['login']);
@@ -173,4 +183,35 @@ export class FirstLoginComponent implements OnInit {
   get bankAccountPlaceholder(): string {
     return 'ต้องเป็นบัญชีกรุงไทยเท่านั้นนะ';
   }
+  get idCardFile(): FormControl {
+    return this.loginForm.get('idCardFile') as FormControl;
+  }
+
+
+
+  onChangeIdCardFile(event) {
+    const file = event.target.files[0];
+    this.idCardFile.setValue(event.target.files[0].name);
+    if (file) {
+      this.onSubmit(file, 'idcard');
+    }
+  }
+
+  onSubmit(file, type) {
+    this.fileService.uploadIdCard(file).subscribe(response => {
+      const message = response['message'];
+      alert(message);
+      if (message) {
+      }
+    }, err => alert('Upload id card failed.'));
+  }
+
+  onRemove(type) {
+    this.fileService.removeIdCard().subscribe(response => {
+      alert(response['message']);
+      this.idCardFile.setValue(null);
+    }, err => alert('Remove id card failed.'));
+  }
 }
+
+
