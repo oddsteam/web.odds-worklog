@@ -192,11 +192,11 @@ export class FirstLoginComponent implements OnInit {
   onChangeIdCardFile(event) {
     const file = event.target.files[0];
     if (file) {
-      if(file.type == 'application/pdf') {
+      if (file.type === 'application/pdf') {
         this.idCardFile.setValue(file.name);
         this.onSubmit(file, 'idcard');
       } else {
-        alert('กรุณาอัพโหลดไฟล์นามสกุล PDF เท่านั้น')
+        alert('กรุณาอัพโหลดไฟล์นามสกุล PDF เท่านั้น');
       }
     }
   }
