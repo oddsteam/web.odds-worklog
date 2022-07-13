@@ -22,4 +22,5 @@ export class User {
     statusTavi: boolean;
     idCard: string;
     degreeCertificate: string;
+    phone: string;
 }

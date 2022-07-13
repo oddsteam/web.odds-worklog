@@ -72,6 +72,7 @@ describe('Service: WorklogApi', () => {
           statusTavi: true,
           degreeCertificate: '',
           idCard: '',
+          phone: ''
         }
       ]
     };
@@ -108,6 +109,7 @@ describe('Service: WorklogApi', () => {
           statusTavi: true,
           degreeCertificate: '',
           idCard: '',
+          phone: ''
         }
       ]
     };
