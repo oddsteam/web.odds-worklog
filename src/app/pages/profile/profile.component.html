@@ -1,23 +1,23 @@
 <div>
-  <div *ngIf="showSuccessMessage">
-    <app-message-tooltip></app-message-tooltip>
-  </div>
-  <div class="container">
-    <form [formGroup]="fileForm">
-      <div class="row">
+    <div *ngIf="showSuccessMessage">
+        <app-message-tooltip></app-message-tooltip>
+    </div>
+    <div class="container">
+        <form [formGroup]="fileForm">
+            <div class="row">
 
-        <div class="col-lg-6">
-          <h5 class="prepend-top-0">Upload Transcript</h5>
-          <div class="prepend-top-5 append-bottom-10">
-            <div class="upload-file-wrapper">
-              <span [hidden]="(userInfo && userInfo.transcript)">
+                <div class="col-lg-6">
+                    <h5 class="prepend-top-0">Upload Transcript</h5>
+                    <div class="prepend-top-5 append-bottom-10">
+                        <div class="upload-file-wrapper">
+                            <span [hidden]="(userInfo && userInfo.transcript)">
                 <button class="btn button-upload" type="button">
                   Choose file...
                 </button>
                 <input formControlName="transcriptFile" type="file" accept="application/pdf"
                   (change)="onChangeTranscriptFile($event)" />
               </span>
-              <span [hidden]="!(userInfo && userInfo.transcript)">
+                            <span [hidden]="!(userInfo && userInfo.transcript)">
                 <button class="btn button-download" type="button" (click)="onDownload('transcript')">
                   Download
                 </button>
@@ -25,26 +25,26 @@
                   Remove
                 </button>
               </span>
-              <span class="avatar-file-name prepend-left-default" *ngIf="!(userInfo && userInfo.transcript)">
+                            <span class="avatar-file-name prepend-left-default" *ngIf="!(userInfo && userInfo.transcript)">
                 {{ getTranscriptFile.fileName }}
               </span>
-            </div>
-          </div>
-          <div class="form-text text-muted">The maximum file size allowed is 200KB.</div>
-        </div>
+                        </div>
+                    </div>
+                    <div class="form-text text-muted">The maximum file size allowed is 200KB.</div>
+                </div>
 
-        <div class="col-lg-6">
-          <h5 class="prepend-top-0">Upload new avatar</h5>
-          <div class="prepend-top-5 append-bottom-10">
-            <div class="upload-file-wrapper">
-              <span [hidden]="(userInfo && userInfo.imageProfile)">
+                <div class="col-lg-6">
+                    <h5 class="prepend-top-0">Upload new avatar</h5>
+                    <div class="prepend-top-5 append-bottom-10">
+                        <div class="upload-file-wrapper">
+                            <span [hidden]="(userInfo && userInfo.imageProfile)">
                 <button class="btn button-upload" type="button">
                   Choose file...
                 </button>
                 <input formControlName="imageFile" type="file" accept="image/x-png,image/gif,image/jpeg"
                   (change)="onChangeImageFile($event)" />
               </span>
-              <span [hidden]="!(userInfo && userInfo.imageProfile)">
+                            <span [hidden]="!(userInfo && userInfo.imageProfile)">
                 <button class="btn button-download" type="button" (click)="onDownload('image')">
                   Download
                 </button>
@@ -52,26 +52,26 @@
                   Remove
                 </button>
               </span>
-              <span class="avatar-file-name prepend-left-default" *ngIf="!(userInfo && userInfo.imageProfile)">
+                            <span class="avatar-file-name prepend-left-default" *ngIf="!(userInfo && userInfo.imageProfile)">
                 {{ getImageFile.fileName }}
               </span>
-            </div>
-          </div>
-          <div class="form-text text-muted">The maximum file size allowed is 200KB.</div>
-        </div>
+                        </div>
+                    </div>
+                    <div class="form-text text-muted">The maximum file size allowed is 200KB.</div>
+                </div>
 
-        <div class="col-lg-6 margin-upload">
-          <h5 class="prepend-top-0">Upload Degree Certificate</h5>
-          <div class="prepend-top-5 append-bottom-10">
-            <div class="upload-file-wrapper">
-              <span [hidden]="(userInfo && userInfo.degreeCertificate)">
+                <div class="col-lg-6 margin-upload">
+                    <h5 class="prepend-top-0">Upload Degree Certificate</h5>
+                    <div class="prepend-top-5 append-bottom-10">
+                        <div class="upload-file-wrapper">
+                            <span [hidden]="(userInfo && userInfo.degreeCertificate)">
                 <button class="btn button-upload" type="button">
                   Choose file...
                 </button>
                 <input formControlName="degreeCertificateFile" type="file" accept="application/pdf"
                   (change)="onChangeDegreeCertificateFile($event)" />
               </span>
-              <span [hidden]="!(userInfo && userInfo.degreeCertificate)">
+                            <span [hidden]="!(userInfo && userInfo.degreeCertificate)">
                 <button class="btn button-download" type="button" (click)="onDownload('degreecertificate')">
                   Download
                 </button>
@@ -79,26 +79,26 @@
                   Remove
                 </button>
               </span>
-              <span class="avatar-file-name prepend-left-default" *ngIf="!(userInfo && userInfo.degreeCertificate)">
+                            <span class="avatar-file-name prepend-left-default" *ngIf="!(userInfo && userInfo.degreeCertificate)">
                 {{ getDegreeCertificateFile.fileName }}
               </span>
-            </div>
-          </div>
-          <div class="form-text text-muted">The maximum file size allowed is 200KB.</div>
-        </div>
+                        </div>
+                    </div>
+                    <div class="form-text text-muted">The maximum file size allowed is 200KB.</div>
+                </div>
 
-        <div class="col-lg-6 margin-upload">
-          <h5 class="prepend-top-0">Upload ID Card</h5>
-          <div class="prepend-top-5 append-bottom-10">
-            <div class="upload-file-wrapper">
-              <span [hidden]="(userInfo && userInfo.idCard)">
+                <div class="col-lg-6 margin-upload">
+                    <h5 class="prepend-top-0">Upload ID Card</h5>
+                    <div class="prepend-top-5 append-bottom-10">
+                        <div class="upload-file-wrapper">
+                            <span [hidden]="(userInfo && userInfo.idCard)">
                 <button class="btn button-upload" type="button">
                   Choose file...
                 </button>
                 <input formControlName="idCardFile" type="file" accept="application/pdf"
                   (change)="onChangeIdCardFile($event)" />
               </span>
-              <span [hidden]="!(userInfo && userInfo.idCard)">
+                            <span [hidden]="!(userInfo && userInfo.idCard)">
                 <button class="btn button-download" type="button" (click)="onDownload('idcard')">
                   Download
                 </button>
@@ -106,168 +106,163 @@
                   Remove
                 </button>
               </span>
-              <span class="avatar-file-name prepend-left-default" *ngIf="!(userInfo && userInfo.idCard)">
+                            <span class="avatar-file-name prepend-left-default" *ngIf="!(userInfo && userInfo.idCard)">
                 {{ getIdCardFile.fileName }}
               </span>
-            </div>
-          </div>
-          <div class="form-text text-muted">The maximum file size allowed is 200KB.</div>
-        </div>
+                        </div>
+                    </div>
+                    <div class="form-text text-muted">The maximum file size allowed is 200KB.</div>
+                </div>
 
-      </div>
-      <hr>
-    </form>
+            </div>
+            <hr>
+        </form>
 
-    <form class="edit-user prepend-top-default" [formGroup]="profileForm">
-      <div class="row justify-content-center">
-        <div class="col-lg-12">
-          <div class="row" *ngIf="isCorporate">
-            <div class="form-group col-md-12">
-              <label>Corporate Name</label>
-              <input class="form-control" type="text" formControlName="corporateName"
-                [ngClass]="{'is-invalid': profileForm.controls.corporateName.invalid && profileForm.controls.corporateName.touched}">
-              <div *ngIf="profileForm.controls.corporateName.invalid && profileForm.controls.corporateName.touched">
-                <label class="col-form-label" style="color: red;">กรุณากรอกชื่อ</label>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="form-group col-md-6">
-              <label>First Name</label>
-              <input class="form-control" type="text" formControlName="firstName"
-                [ngClass]="{'is-invalid': profileForm.controls.firstName.invalid && profileForm.controls.firstName.touched}">
-              <div *ngIf="profileForm.controls.firstName.invalid && profileForm.controls.firstName.touched">
-                <label class="col-form-label" style="color: red;">กรุณากรอกชื่อ</label>
-              </div>
-            </div>
+        <form class="edit-user prepend-top-default" [formGroup]="profileForm">
+            <div class="row justify-content-center">
+                <div class="col-lg-12">
+                    <div class="row" *ngIf="isCorporate">
+                        <div class="form-group col-md-12">
+                            <label>Corporate Name</label>
+                            <input class="form-control" type="text" formControlName="corporateName" [ngClass]="{'is-invalid': profileForm.controls.corporateName.invalid && profileForm.controls.corporateName.touched}">
+                            <div *ngIf="profileForm.controls.corporateName.invalid && profileForm.controls.corporateName.touched">
+                                <label class="col-form-label" style="color: red;">กรุณากรอกชื่อ</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label>First Name</label>
+                            <input class="form-control" type="text" formControlName="firstName" [ngClass]="{'is-invalid': profileForm.controls.firstName.invalid && profileForm.controls.firstName.touched}">
+                            <div *ngIf="profileForm.controls.firstName.invalid && profileForm.controls.firstName.touched">
+                                <label class="col-form-label" style="color: red;">กรุณากรอกชื่อ</label>
+                            </div>
+                        </div>
 
-            <div class="form-group col-md-6">
-              <label>Last Name</label>
-              <input class="form-control" type="text" formControlName="lastName"
-                [ngClass]="{'is-invalid': profileForm.controls.lastName.invalid && profileForm.controls.lastName.touched}">
-              <div *ngIf="profileForm.controls.lastName.invalid && profileForm.controls.lastName.touched">
-                <label class="col-form-label" style="color: red;">กรุณากรอกนามสกุล</label>
-              </div>
-            </div>
-          </div>
+                        <div class="form-group col-md-6">
+                            <label>Last Name</label>
+                            <input class="form-control" type="text" formControlName="lastName" [ngClass]="{'is-invalid': profileForm.controls.lastName.invalid && profileForm.controls.lastName.touched}">
+                            <div *ngIf="profileForm.controls.lastName.invalid && profileForm.controls.lastName.touched">
+                                <label class="col-form-label" style="color: red;">กรุณากรอกนามสกุล</label>
+                            </div>
+                        </div>
+                    </div>
 
-          <div class="row">
-            <div class="form-group col-md-6">
-              <label>Email</label>
-              <input class="form-control" type="text" formControlName="email">
-            </div>
-            <div class="form-group col-md-6">
-              <label>Slack Account</label>
-              <input class="form-control" type="text" formControlName="slackAccount"
-                [ngClass]="{'is-invalid': profileForm.controls.slackAccount.invalid && profileForm.controls.slackAccount.touched}">
-              <div *ngIf="profileForm.controls.slackAccount.invalid && profileForm.controls.slackAccount.touched">
-                <label class="col-form-label" style="color: red;">กรุณากรอก Slack Account</label>
-              </div>
-            </div>
-          </div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label>Email</label>
+                            <input class="form-control" type="text" formControlName="email">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label>Slack Account</label>
+                            <input class="form-control" type="text" formControlName="slackAccount" [ngClass]="{'is-invalid': profileForm.controls.slackAccount.invalid && profileForm.controls.slackAccount.touched}">
+                            <div *ngIf="profileForm.controls.slackAccount.invalid && profileForm.controls.slackAccount.touched">
+                                <label class="col-form-label" style="color: red;">กรุณากรอก Slack Account</label>
+                            </div>
+                        </div>
+                    </div>
 
-          <div class="row">
-            <div class="form-group col-md-6">
-              <label>Bank Account Name</label>
-              <input class="form-control" type="text" formControlName="bankAccount"
-                [ngClass]="{'is-invalid': profileForm.controls.bankAccount.invalid && profileForm.controls.bankAccount.touched}">
-              <div *ngIf="profileForm.controls.bankAccount.invalid && profileForm.controls.bankAccount.touched">
-                <label class="col-form-label" style="color: red;">กรุณากรอกชื่อบัญชี</label>
-              </div>
-            </div>
-            <div class="form-group col-md-6">
-              <label>Bank Account Number</label>
-              <input class="form-control" type="text" formControlName="bankAccountNumber"
-                [ngClass]="{'is-invalid': profileForm.controls.bankAccountNumber.invalid && profileForm.controls.bankAccountNumber.touched}">
-              <div
-                *ngIf="profileForm.controls.bankAccountNumber.invalid && profileForm.controls.bankAccountNumber.touched">
-                <label class="col-form-label" style="color: red;">กรุณากรอกเลขบัญชี</label>
-              </div>
-            </div>
-          </div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label>Bank Account Name</label>
+                            <input class="form-control" type="text" formControlName="bankAccount" [ngClass]="{'is-invalid': profileForm.controls.bankAccount.invalid && profileForm.controls.bankAccount.touched}">
+                            <div *ngIf="profileForm.controls.bankAccount.invalid && profileForm.controls.bankAccount.touched">
+                                <label class="col-form-label" style="color: red;">กรุณากรอกชื่อบัญชี</label>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label>Bank Account Number</label>
+                            <input class="form-control" type="text" formControlName="bankAccountNumber" [ngClass]="{'is-invalid': profileForm.controls.bankAccountNumber.invalid && profileForm.controls.bankAccountNumber.touched}">
+                            <div *ngIf="profileForm.controls.bankAccountNumber.invalid && profileForm.controls.bankAccountNumber.touched">
+                                <label class="col-form-label" style="color: red;">กรุณากรอกเลขบัญชี</label>
+                            </div>
+                        </div>
+                    </div>
 
 
-          <div class="row">
-            <div class="form-group col-md-6">
-              <label>Site</label>
-              <app-drop-down [defaultSelect]="site" [listSources]="dataListSite"
-                (emitSource)="getEmitSourceSite($event)"></app-drop-down>
-            </div>
-            <div class="form-group col-md-6">
-              <label>Project or team</label>
-              <input class="form-control" type="text" formControlName="project">
-            </div>
-          </div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label>Site</label>
+                            <app-drop-down [defaultSelect]="site" [listSources]="dataListSite" (emitSource)="getEmitSourceSite($event)"></app-drop-down>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label>Project or team</label>
+                            <input class="form-control" type="text" formControlName="project">
+                        </div>
+                    </div>
 
 
-          <div class="row">
-            <div class="form-group col-md-6">
-              <label>เงินรายวันที่ได้</label>
-              <input class="form-control" type="text" formControlName="dailyIncome"
-                [ngClass]="{'is-invalid': profileForm.controls.dailyIncome.invalid && profileForm.controls.dailyIncome.touched}">
-              <div *ngIf="profileForm.controls.dailyIncome.invalid && profileForm.controls.dailyIncome.touched">
-                <label class="col-form-label" style="color: red;">กรุณากรอกเงินรายวันที่ได้</label>
-              </div>
-            </div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label>เงินรายวันที่ได้</label>
+                            <input class="form-control" type="text" formControlName="dailyIncome" [ngClass]="{'is-invalid': profileForm.controls.dailyIncome.invalid && profileForm.controls.dailyIncome.touched}">
+                            <div *ngIf="profileForm.controls.dailyIncome.invalid && profileForm.controls.dailyIncome.touched">
+                                <label class="col-form-label" style="color: red;">กรุณากรอกเงินรายวันที่ได้</label>
+                            </div>
+                        </div>
 
-            <div class="form-group col-md-6">
-              <label>Account Type</label>
-              <app-drop-down [defaultSelect]="personType" [listSources]="listPersonType"
-                (emitSource)="getEmitSourcePersonType($event)"></app-drop-down>
-            </div>
+                        <div class="form-group col-md-6">
+                            <label>Account Type</label>
+                            <app-drop-down [defaultSelect]="personType" [listSources]="listPersonType" (emitSource)="getEmitSourcePersonType($event)"></app-drop-down>
+                        </div>
 
-          </div>
-          <div class="row">
-            <div class="form-group col-md-6">
-              <label>Address</label>
-              <textarea class="form-control" id="address" name="address" placeholder="ที่อยู่ปัจจุบัน"
-                formControlName="address"
-                [ngClass]="{'is-invalid': profileForm.controls.address.invalid && profileForm.controls.address.touched}"></textarea>
-              <div *ngIf="profileForm.controls.address.invalid && profileForm.controls.address.touched">
-                <label class="col-form-label" style="color: red;">กรุณากรอกที่อยู่</label>
-              </div>
-            </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label>Address</label>
+                            <textarea class="form-control" id="address" name="address" placeholder="ที่อยู่ปัจจุบัน" formControlName="address" [ngClass]="{'is-invalid': profileForm.controls.address.invalid && profileForm.controls.address.touched}"></textarea>
+                            <div *ngIf="profileForm.controls.address.invalid && profileForm.controls.address.touched">
+                                <label class="col-form-label" style="color: red;">กรุณากรอกที่อยู่</label>
+                            </div>
+                        </div>
 
 
-            <div class="row mt-4">
-              <div class="form-group col-md-12 pl-5 ">
-                <label>VAT</label><br>
-                <div class="checkbox custom-control-inline">
-                  <label><input type="radio" value="Y" formControlName="vat" >
+                        <div class="row mt-4">
+                            <div class="form-group col-md-12 pl-5 ">
+                                <label>VAT</label><br>
+                                <div class="checkbox custom-control-inline">
+                                    <label><input type="radio" value="Y" formControlName="vat" >
                     vat</label>
-                </div>
-                <div class="checkbox custom-control-inline">
-                  <label><input type="radio" value="N" formControlName="vat">
+                                </div>
+                                <div class="checkbox custom-control-inline">
+                                    <label><input type="radio" value="N" formControlName="vat">
                     non-vat</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label>ThaiCitizenId</label>
+                            <input class="form-control" id="thaiCitizenId" name="thaiCitizenId" placeholder="เลขบัตรประจำตัวบัตรประชาชน" formControlName="thaiCitizenId" [ngClass]="{'is-invalid':profileForm.controls.thaiCitizenId.invalid && profileForm.controls.thaiCitizenId.touched}">
+                            <div *ngIf="profileForm.controls.thaiCitizenId.errors?.required && profileForm.controls.thaiCitizenId.touched">
+                                <label class="col-form-label" style="color: red;">กรุณากรอกเลขบัตรประชาชน</label>
+                            </div>
+                            <div *ngIf="profileForm.controls.thaiCitizenId.errors?.pattern">
+                                <label class="col-form-label" style="color: red;">กรุณากรอกเลขบัตรประชาชนให้ครบ 13 หลัก</label>
+                            </div>
+                            <div *ngIf="profileForm.controls.thaiCitizenId.errors?.checkSum">
+                                <label class="col-form-label" style="color: red;">{{thaiCitizenId.errors?.checkSum.message}}</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label>Phone</label>
+                            <input class="form-control" id="phone" name="phone" placeholder="เบอร์โทรศัพท์" formControlName="phone" [ngClass]="{'is-invalid':profileForm.controls.phone.invalid && profileForm.controls.phone.touched}">
+                            <div *ngIf="profileForm.controls.phone.errors?.required && profileForm.controls.phone.touched">
+                                <label class="col-form-label" style="color: red;">กรุณากรอกเบอร์โทรศัพท์</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr>
+                    <div class="prepend-top-default append-bottom-default inner">
+                        <button class="btn button-green" (click)="updateData()">Update</button>
+                        <button class="btn" (click)="onReset()" style="float: right;">Reset</button>
+                    </div>
                 </div>
-              </div>
-          </div>
-          </div>
-          <div class="row">
-            <div class="form-group col-md-6">
-              <label>ThaiCitizenId</label>
-              <input class="form-control" id="thaiCitizenId" name="thaiCitizenId"
-                placeholder="เลขบัตรประจำตัวบัตรประชาชน" formControlName="thaiCitizenId"
-                [ngClass]="{'is-invalid':profileForm.controls.thaiCitizenId.invalid && profileForm.controls.thaiCitizenId.touched}">
-              <div
-                *ngIf="profileForm.controls.thaiCitizenId.errors?.required && profileForm.controls.thaiCitizenId.touched">
-                <label class="col-form-label" style="color: red;">กรุณากรอกเลขบัตรประชาชน</label>
-              </div>
-              <div *ngIf="profileForm.controls.thaiCitizenId.errors?.pattern">
-                <label class="col-form-label" style="color: red;">กรุณากรอกเลขบัตรประชาชนให้ครบ 13 หลัก</label>
-              </div>
-              <div *ngIf="profileForm.controls.thaiCitizenId.errors?.checkSum">
-                <label class="col-form-label" style="color: red;">{{thaiCitizenId.errors?.checkSum.message}}</label>
-              </div>
             </div>
-          </div>
-          <hr>
-          <div class="prepend-top-default append-bottom-default inner">
-            <button class="btn button-green" (click)="updateData()">Update</button>
-            <button class="btn" (click)="onReset()" style="float: right;">Reset</button>
-          </div>
-        </div>
-      </div>
-    </form>
-  </div>
+        </form>
+    </div>
 </div>

@@ -130,6 +130,7 @@ describe('ProfileComponent', () => {
       statusTavi: true,
       degreeCertificate: null,
       idCard: null,
+      phone: ''
 
     };
     const mockListSites: Site[] = [
@@ -235,7 +236,8 @@ describe('ProfileComponent', () => {
       vat: 'N',
       transcript: null,
       imageProfile: null,
-      thaiCitizenId: '123467890'
+      thaiCitizenId: '123467890',
+      phone: ''
 
     };
     // get user data
@@ -330,6 +332,7 @@ describe('ProfileComponent', () => {
         statusTavi: true,
         degreeCertificate: null,
         idCard: null,
+        phone: null,
       };
       component.userInfo = new User();
       component.id = mockResponse.id;
@@ -345,7 +348,8 @@ describe('ProfileComponent', () => {
         dailyIncome: '14',
         address: 'every Where',
         thaiCitizenId: '123467890',
-        vat: 'N'
+        vat: 'N',
+        phone: '0123123123'
       });
     });
 
@@ -448,6 +452,7 @@ describe('ProfileComponent', () => {
       component.personType = 'individual'
       component.address.setValue('-');
       component.thaiCitizenId.setValue('-');
+      component.phone.setValue('-');
       component.setDataToModel();
     });
 

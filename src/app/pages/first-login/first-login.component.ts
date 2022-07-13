@@ -71,7 +71,8 @@ export class FirstLoginComponent implements OnInit {
       vat: [true, Validators.required],
       siteId: ['', Validators.required],
       project: [''],
-      idCardFile: [null, Validators.required]
+      idCardFile: [null, Validators.required],
+      phone: [null, Validators.required]
     });
   }
 
@@ -146,6 +147,7 @@ export class FirstLoginComponent implements OnInit {
     this.user.vat = this.vat;
     this.user.siteId = this.siteIdForm.value;
     this.user.project = this.projectForm.value;
+    this.user.phone = this.phone.value;
   }
 
   get firstNameForm(): FormControl {
@@ -178,6 +180,10 @@ export class FirstLoginComponent implements OnInit {
 
   get projectForm(): FormControl {
     return this.loginForm.get('project') as FormControl;
+  }
+
+  get phone(): FormControl {
+    return this.loginForm.get('phone') as FormControl;
   }
 
   get bankAccountPlaceholder(): string {

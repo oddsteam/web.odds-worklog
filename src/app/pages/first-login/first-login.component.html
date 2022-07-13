@@ -45,6 +45,14 @@
                 </div>
 
                 <div class="form-group col-12">
+                    <label for="phone">Phone </label>
+                    <input id="phone" class="form-control" placeholder="Fill phone" [ngClass]="{'is-invalid':loginForm.controls.phone.invalid && loginForm.controls.phone.touched}" type="text" formControlName="phone" />
+                    <div *ngIf="loginForm.controls.phone.invalid && loginForm.controls.phone.touched">
+                        <label class="col-form-label" style="color: red;">กรุณากรอกเบอร์โทรศัพท์</label>
+                    </div>
+                </div>
+
+                <div class="form-group col-12">
                     <label for="slackAccount">Slack Account (Email)</label>
                     <input id="slackAccount" class="form-control" maxlength="30" placeholder="Fill slack account (Email)" [ngClass]="{'is-invalid':loginForm.controls.slackAccount.invalid && loginForm.controls.slackAccount.touched}" type="text" formControlName="slackAccount"
                     />

@@ -82,7 +82,8 @@ export class ProfileComponent implements OnInit {
       address: ['', Validators.required],
       thaiCitizenId: ['', Validators.compose([Validators.required, Validators.pattern(/^[0-9]{13}?$/),
       this.validateCitized.validateCitizenId.bind(this.validateCitized), Validators.maxLength(100)])],
-      vat: ['', Validators.required]
+      vat: ['', Validators.required],
+      phone: ['', Validators.required]
     });
 
     this.fileForm = this.formBuilder.group({
@@ -117,6 +118,7 @@ export class ProfileComponent implements OnInit {
     this.address.setValue(user.address);
     this.thaiCitizenId.setValue(user.thaiCitizenId);
     this.vat.setValue(user.vat)
+    this.phone.setValue(user.phone)
     console.log(this.vat.value);
     
     this.getNameSite();
@@ -169,6 +171,7 @@ export class ProfileComponent implements OnInit {
     this.userInfo.role = this.personType;
     this.userInfo.address = this.address.value;
     this.userInfo.thaiCitizenId = this.thaiCitizenId.value;
+    this.userInfo.phone = this.phone.value;
   }
 
   onReset() {
@@ -462,6 +465,10 @@ export class ProfileComponent implements OnInit {
 
   get vat(): FormControl {
     return this.profileForm.get('vat') as FormControl;
+  }
+
+  get phone(): FormControl {
+    return this.profileForm.get('phone') as FormControl;
   }
 
   triggerHeader() {
