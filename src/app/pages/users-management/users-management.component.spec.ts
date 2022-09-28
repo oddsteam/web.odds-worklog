@@ -58,7 +58,7 @@ describe('UsersManagementComponent', () => {
       statusTavi: true,
       degreeCertificate: '',
       idCard: '',
-
+      phone: ''
     };
     spyOn(worklogApiService, 'getUsersData').and.returnValue(of(mockResponse));
     component.getUsersData();
@@ -90,6 +90,7 @@ describe('UsersManagementComponent', () => {
       statusTavi: true,
       degreeCertificate: '',
       idCard: '',
+      phone: ''
     };
     spyOn(worklogApiService, 'getUsersData').and.returnValue(of(mockResponse));
     component.getUsersData();
