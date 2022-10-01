@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
 import { User } from 'src/app/shared/model/user';
 import { Site } from 'src/app/shared/model/site';
+import { DefaultRouteReuseStrategy } from '@angular/router/src/route_reuse_strategy';
 
 @Component({
   selector: 'app-users-management',
@@ -9,7 +10,7 @@ import { Site } from 'src/app/shared/model/site';
   styleUrls: ['./users-management.component.scss']
 })
 export class UsersManagementComponent implements OnInit {
-  user: User;
+  users: User[];
   sites: Site[] = [];
   constructor(private worklogApiService: WorklogApiService) { }
 
@@ -20,7 +21,13 @@ export class UsersManagementComponent implements OnInit {
 
   getUsersData() {
     this.worklogApiService.getUsersData().subscribe(res => {
-      this.user = res;
+      this.users = res;
+    });
+  }
+
+  deleteUser(userId: string) {
+    this.worklogApiService.deleteUser(userId).subscribe( res => {
+      this.users = this.users.filter((user) => user.id != userId)
     });
   }
 

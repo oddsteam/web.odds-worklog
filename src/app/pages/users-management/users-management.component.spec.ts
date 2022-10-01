@@ -58,7 +58,7 @@ describe('UsersManagementComponent', () => {
       statusTavi: true,
       degreeCertificate: '',
       idCard: '',
-
+      phone: ''
     };
     spyOn(worklogApiService, 'getUsersData').and.returnValue(of(mockResponse));
     component.getUsersData();
@@ -66,7 +66,7 @@ describe('UsersManagementComponent', () => {
   });
 
   it('component.user should equal to response from service when call getUsersData', () => {
-    const mockResponse: User = {
+    const mockResponse: User[] = [{
       id: '1233',
       role: 'individual',
       firstName: 'Odds',
@@ -90,9 +90,10 @@ describe('UsersManagementComponent', () => {
       statusTavi: true,
       degreeCertificate: '',
       idCard: '',
-    };
+      phone: ''
+    }];
     spyOn(worklogApiService, 'getUsersData').and.returnValue(of(mockResponse));
     component.getUsersData();
-    expect(component.user).toEqual(mockResponse);
+    expect(component.users).toEqual(mockResponse);
   });
 });

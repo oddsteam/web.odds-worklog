@@ -6,6 +6,7 @@
         <th class="text-left align-middle">E-mail</th>
         <th class="text-left align-middle">Account Name</th>
         <th class="text-left align-middle">Account Number</th>
+        <th class="text-left align-middle">Phone Number</th>
         <th class="text-center align-middle">Submit Date</th>
         <th class="text-center align-middle">Work Day</th>
         <th class="text-center align-middle">Working Hours</th>
@@ -23,6 +24,7 @@
         <td class="text-left">{{ checkValue(ListData[0].user?.email) }}</td>
         <td class="text-left">{{ checkValue(ListData[0].user?.bankAccountName) }}</td>
         <td class="text-left">{{ checkValue(ListData[0].user?.bankAccountNumber) }}</td>
+        <td class="text-left">{{ checkValue(ListData[0].user?.phone) }}</td>
         <td class="text-center">
           {{
           ListData[0]?.submitDate == ""
@@ -44,6 +46,7 @@
         <td class="text-left">{{ checkValue(listData.user?.email) }}</td>
         <td class="text-left">{{ checkValue(listData.user?.bankAccountName) }}</td>
         <td class="text-left">{{ checkValue(listData.user?.bankAccountNumber) }}</td>
+        <td class="text-left">{{ checkValue(listData.user?.phone) }}</td>
         <td class="text-center">
           {{
             listData?.submitDate == ""

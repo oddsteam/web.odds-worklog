@@ -127,6 +127,7 @@ describe('ListIndividualComponent', () => {
           statusTavi: true,
           degreeCertificate: '',
           idCard: '',
+          phone: ''
         },
         {
           id: '1233',
@@ -149,6 +150,7 @@ describe('ListIndividualComponent', () => {
           statusTavi: true,
           degreeCertificate: '',
           idCard: '',
+          phone: ''
         },
       ]
     };
