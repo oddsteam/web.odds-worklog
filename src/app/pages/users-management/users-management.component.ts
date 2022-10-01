@@ -27,7 +27,7 @@ export class UsersManagementComponent implements OnInit {
 
   deleteUser(userId: string) {
     this.worklogApiService.deleteUser(userId).subscribe( res => {
-      console.log("delete success")
+      this.users = this.users.filter((user) => user.id != userId)
     });
   }
 
