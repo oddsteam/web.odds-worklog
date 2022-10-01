@@ -201,8 +201,8 @@ export class WorklogApiService {
         });
     }
 
-    getUsersData(): Observable<User> {
-        return this.http.get<User>(`${this.apiPath}users`, {
+    getUsersData(): Observable<User[]> {
+        return this.http.get<User[]>(`${this.apiPath}users`, {
             headers: new HttpHeaders({
                 Authorization: sessionStorage.getItem('token')
             })

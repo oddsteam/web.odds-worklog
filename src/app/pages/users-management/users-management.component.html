@@ -9,13 +9,13 @@
         <th></th>
       </thead>
       <tbody>
-        <tr *ngFor="let users of user ">
-          <td>{{users.firstName + ' ' + users.lastName}}</td>
-          <td>{{users.email}}</td>
-          <td>{{users?.site?.name !== null ? users?.site?.name : '-'}}</td>
+        <tr *ngFor="let user of users ">
+          <td>{{user.firstName + ' ' + user.lastName}}</td>
+          <td>{{user.email}}</td>
+          <td>{{user?.site?.name !== null ? user?.site?.name : '-'}}</td>
           <td class="text-center">
-            <app-tool-tip-site [listSources]="sites" [userId]="users?.id"></app-tool-tip-site>
-            <a href="javascript:void(0)"  (click)="deleteUser(users?.id)" ><i class="fa fa-trash"></i></a>
+            <app-tool-tip-site [listSources]="sites" [userId]="user?.id"></app-tool-tip-site>
+            <a href="javascript:void(0)"  (click)="deleteUser(user?.id)" ><i class="fa fa-trash"></i></a>
           </td>
         </tr>
       </tbody>
