@@ -330,6 +330,13 @@ export class WorklogApiService {
         });
     }
     
+    deleteUser(id: string) {
+        return this.http.delete(`${this.apiPath}users/${id}`, {
+            headers: new HttpHeaders({
+                Authorization: sessionStorage.getItem('token')
+            })
+        });
+    }
 
     getDailyIncome() {
         return this.dailyIncome;

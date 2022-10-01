@@ -15,6 +15,7 @@
           <td>{{users?.site?.name !== null ? users?.site?.name : '-'}}</td>
           <td class="text-center">
             <app-tool-tip-site [listSources]="sites" [userId]="users?.id"></app-tool-tip-site>
+            <a href="javascript:void(0)"  (click)="deleteUser(users?.id)" ><i class="fa fa-trash"></i></a>
           </td>
         </tr>
       </tbody>
