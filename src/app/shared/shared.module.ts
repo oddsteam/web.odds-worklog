@@ -57,7 +57,7 @@ import { MessageTooltipComponent } from './components/message-tooltip/message-to
   ]
 })
 export class SharedModule {
-  static forRoot(): ModuleWithProviders {
+  static forRoot(): ModuleWithProviders<SharedModule> {
     return {
       ngModule: SharedModule,
     };
