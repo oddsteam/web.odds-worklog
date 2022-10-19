@@ -9,11 +9,11 @@ describe('StateService', () => {
     TestBed.configureTestingModule({
       providers: [StateService],
     });
-    mockService = TestBed.get(StateService);
+    mockService = TestBed.inject(StateService);
   });
 
   it('should be created', () => {
-    const service: StateService = TestBed.get(StateService);
+    const service: StateService = TestBed.inject(StateService);
     expect(service).toBeTruthy();
   });
 });

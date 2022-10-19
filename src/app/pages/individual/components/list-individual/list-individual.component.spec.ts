@@ -32,7 +32,7 @@ describe('ListIndividualComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ListIndividualComponent);
-    worklogService = TestBed.get(WorklogApiService);
+    worklogService = TestBed.inject(WorklogApiService);
     component = fixture.componentInstance;
     individualListed = [{
       user: {

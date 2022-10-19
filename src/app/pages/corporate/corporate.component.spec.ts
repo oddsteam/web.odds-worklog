@@ -33,7 +33,7 @@ describe('CorporateComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CorporateComponent);
-    worklogApiService = TestBed.get(WorklogApiService);
+    worklogApiService = TestBed.inject(WorklogApiService);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

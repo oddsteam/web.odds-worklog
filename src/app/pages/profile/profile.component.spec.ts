@@ -34,9 +34,9 @@ describe('ProfileComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProfileComponent);
-    worklogApiService = TestBed.get(WorklogApiService);
-    fileService = TestBed.get(FileService);
-    stateService = TestBed.get(StateService);
+    worklogApiService = TestBed.inject(WorklogApiService);
+    fileService = TestBed.inject(FileService);
+    stateService = TestBed.inject(StateService);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

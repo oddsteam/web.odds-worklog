@@ -33,8 +33,8 @@ describe('ListCorporateComponent', () => {
 
     beforeEach(() => {
         fixture = TestBed.createComponent(ListCorporateComponent);
-        worklogService = TestBed.get(WorklogApiService);
-        stateService = TestBed.get(StateService);
+        worklogService = TestBed.inject(WorklogApiService);
+        stateService = TestBed.inject(StateService);
         component = fixture.componentInstance;
         fixture.detectChanges();
         corporateListed = [{

@@ -47,8 +47,8 @@ describe('TabelListComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(TableListComponent);
-    service = TestBed.get(WorklogApiService);
-    stateService = TestBed.get(StateService);
+    service = TestBed.inject(WorklogApiService);
+    stateService = TestBed.inject(StateService);
     component = fixture.componentInstance;
   });
 

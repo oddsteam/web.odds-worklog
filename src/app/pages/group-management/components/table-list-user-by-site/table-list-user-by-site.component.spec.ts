@@ -21,7 +21,7 @@ describe('TableListUserBySiteComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(TableListUserBySiteComponent);
     component = fixture.componentInstance;
-    worklogAPIService = TestBed.get(WorklogApiService);
+    worklogAPIService = TestBed.inject(WorklogApiService);
     fixture.detectChanges();
   });
 

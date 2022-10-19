@@ -13,12 +13,12 @@ describe('FileService', () => {
       providers: [FileService],
       imports: [HttpClientTestingModule],
     });
-    mockService = TestBed.get(FileService);
-    backEnd = TestBed.get(HttpTestingController);
+    mockService = TestBed.inject(FileService);
+    backEnd = TestBed.inject(HttpTestingController);
   });
 
   it('should be created', () => {
-    const service: FileService = TestBed.get(FileService);
+    const service: FileService = TestBed.inject(FileService);
     expect(service).toBeTruthy();
   });
 

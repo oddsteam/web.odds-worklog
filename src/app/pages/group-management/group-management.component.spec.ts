@@ -23,7 +23,7 @@ describe('GroupManagementComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(GroupManagementComponent);
     component = fixture.componentInstance;
-    worklogAPIService = TestBed.get(WorklogApiService);
+    worklogAPIService = TestBed.inject(WorklogApiService);
     fixture.detectChanges();
   });
 

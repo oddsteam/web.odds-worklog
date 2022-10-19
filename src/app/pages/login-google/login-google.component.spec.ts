@@ -30,7 +30,7 @@ describe('LoginGoogleComponent', () => {
     fixture = TestBed.createComponent(LoginGoogleComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    workLogService = TestBed.get(WorklogApiService);
+    workLogService = TestBed.inject(WorklogApiService);
   });
 
   it('should create', () => {

@@ -32,7 +32,7 @@ describe('LayoutsComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(LayoutsComponent);
-    worklogApiService = TestBed.get(WorklogApiService);
+    worklogApiService = TestBed.inject(WorklogApiService);
     component = fixture.componentInstance;
   });
 

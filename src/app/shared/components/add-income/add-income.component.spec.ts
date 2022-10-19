@@ -27,8 +27,8 @@ describe('AddIncomeComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AddIncomeComponent);
-    worklogservice = TestBed.get(WorklogApiService);
-    modalService = TestBed.get(BsModalService);
+    worklogservice = TestBed.inject(WorklogApiService);
+    modalService = TestBed.inject(BsModalService);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

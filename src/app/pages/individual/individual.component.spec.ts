@@ -32,7 +32,7 @@ describe('IndividualComponent', () => {
   }));
 
   beforeEach(() => {
-    worklogApiService = TestBed.get(WorklogApiService);
+    worklogApiService = TestBed.inject(WorklogApiService);
     fixture = TestBed.createComponent(IndividualComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

@@ -16,8 +16,8 @@ describe('Service: WorklogApi', () => {
       providers: [WorklogApiService],
       imports: [HttpClientTestingModule],
     });
-    mockService = TestBed.get(WorklogApiService);
-    backEnd = TestBed.get(HttpTestingController);
+    mockService = TestBed.inject(WorklogApiService);
+    backEnd = TestBed.inject(HttpTestingController);
   });
 
   it('should ...', inject([WorklogApiService], (service: WorklogApiService) => {

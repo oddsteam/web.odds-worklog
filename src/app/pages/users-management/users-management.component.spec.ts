@@ -24,7 +24,7 @@ describe('UsersManagementComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UsersManagementComponent);
-    worklogApiService = TestBed.get(WorklogApiService);
+    worklogApiService = TestBed.inject(WorklogApiService);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
