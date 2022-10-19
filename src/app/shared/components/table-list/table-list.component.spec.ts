@@ -1,11 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormsModule, ReactiveFormsModule, FormArray } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ContentLoaderModule } from '@netbasal/content-loader';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { BsModalService, ComponentLoaderFactory, PositioningService } from 'ngx-bootstrap';
+import { BsModalService } from 'ngx-bootstrap/modal';
 import { OrderModule } from 'ngx-order-pipe';
 import { Observable, of } from 'rxjs';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
@@ -13,7 +12,9 @@ import { StateService } from '../../../core/state.service';
 import { StatusHighlightDirective } from '../../directives/status-highlight.directive';
 import { TableListComponent } from './table-list.component';
 import { User } from '../../model/user';
-import { ListIncomeResponse } from '../../model/list-income-model-response';
+import { ComponentLoaderFactory } from 'ngx-bootstrap/component-loader';
+import { PositioningService } from 'ngx-bootstrap/positioning';
+import { ContentLoaderModule } from '@netbasal/ngx-content-loader';
 
 const mockBlob = new Blob([], { type: 'text/csv;charset=utf-8;' });
 class MockWorklogApiService extends WorklogApiService {
@@ -34,7 +35,7 @@ describe('TabelListComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [TableListComponent, StatusHighlightDirective],
-      imports: [FormsModule, ReactiveFormsModule, CommonModule, RouterTestingModule, NgbModule.forRoot(),
+      imports: [FormsModule, ReactiveFormsModule, CommonModule, RouterTestingModule, NgbModule,
         HttpClientTestingModule, ContentLoaderModule, OrderModule],
       providers: [
         { provide: WorklogApiService, useClass: MockWorklogApiService }

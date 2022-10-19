@@ -16,7 +16,7 @@ describe('UsersManagementComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [UsersManagementComponent, ToolTipSiteComponent],
-      imports: [NgbModule.forRoot(), HttpClientTestingModule, SharedModule],
+      imports: [NgbModule, HttpClientTestingModule, SharedModule],
       providers: [WorklogApiService]
     })
       .compileComponents();

@@ -26,7 +26,7 @@ describe('ProfileComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ProfileComponent, DropDownComponent, MessageTooltipComponent],
       imports: [ReactiveFormsModule, HttpClientTestingModule, FormsModule
-        , RouterTestingModule, NgbModule.forRoot()],
+        , RouterTestingModule, NgbModule],
       providers: [ValidateCitizenIdUtil]
     })
       .compileComponents();

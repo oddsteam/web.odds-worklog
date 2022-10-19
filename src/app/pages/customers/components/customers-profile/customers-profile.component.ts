@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
 import { Customers } from 'src/app/shared/model/customers';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { BsModalService, BsModalRef } from 'ngx-bootstrap';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-customers-profile',

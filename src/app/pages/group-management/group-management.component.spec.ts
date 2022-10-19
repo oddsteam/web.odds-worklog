@@ -15,7 +15,7 @@ describe('GroupManagementComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [GroupManagementComponent, TableListUserBySiteComponent],
-      imports: [NgbModule.forRoot(), HttpClientTestingModule, RouterTestingModule]
+      imports: [NgbModule, HttpClientTestingModule, RouterTestingModule]
     })
       .compileComponents();
   }));

@@ -1,11 +1,13 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { AddIncomeComponent } from './add-income.component';
-import { NO_ERRORS_SCHEMA, TemplateRef } from '@angular/core';
-import { BsModalService, ComponentLoaderFactory, PositioningService } from 'ngx-bootstrap';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { BsModalService } from 'ngx-bootstrap/modal';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
 import { of, throwError } from 'rxjs';
 import { AddIncomeResponse } from 'src/app/shared/model/add-income-model-response';
+import { ComponentLoaderFactory } from 'ngx-bootstrap/component-loader';
+import { PositioningService } from 'ngx-bootstrap/positioning';
 
 describe('AddIncomeComponent', () => {
   let component: AddIncomeComponent;

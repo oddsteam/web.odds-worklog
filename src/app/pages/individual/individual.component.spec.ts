@@ -2,7 +2,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ContentLoaderModule } from '@netbasal/content-loader';
+import { ContentLoaderModule } from '@netbasal/ngx-content-loader';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { OrderModule } from 'ngx-order-pipe';
 import { of } from 'rxjs';
@@ -24,7 +24,7 @@ describe('IndividualComponent', () => {
     TestBed.configureTestingModule({
       declarations: [IndividualComponent, TableListComponent, StatusHighlightDirective,
         ListIndividualComponent, AddIncomeComponent, ModalIncomeComponent],
-      imports: [NgbModule.forRoot(), HttpClientTestingModule, ContentLoaderModule, OrderModule,
+      imports: [NgbModule, HttpClientTestingModule, ContentLoaderModule, OrderModule,
         FormsModule, ReactiveFormsModule],
       providers: [WorklogApiService]
     })

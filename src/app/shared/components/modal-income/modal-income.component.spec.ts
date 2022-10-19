@@ -19,7 +19,7 @@ describe('ModalIncomeComponent', () => {
     TestBed.configureTestingModule({
       imports: [BrowserModule,
         FormsModule,
-        ReactiveFormsModule, RouterTestingModule, HttpClientTestingModule, NgbModule.forRoot()],
+        ReactiveFormsModule, RouterTestingModule, HttpClientTestingModule, NgbModule],
       declarations: [ModalIncomeComponent],
       providers: [WorklogApiService, FormBuilder]
     })
