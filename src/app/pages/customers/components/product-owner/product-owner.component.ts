@@ -13,7 +13,7 @@ import { NumberUtil } from 'src/app/shared/utils/number.util';
 })
 export class ProductOwnerComponent implements OnInit {
 
-  @ViewChild('templateModal') templateModal: TemplateRef<any>;
+  @ViewChild('templateModal', { static: true }) templateModal: TemplateRef<any>;
   modalRef: BsModalRef;
   customerId: string;
   formGroupProductOw: FormGroup;

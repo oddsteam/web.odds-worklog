@@ -11,7 +11,7 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap';
   styleUrls: ['./customers-profile.component.scss']
 })
 export class CustomersProfileComponent implements OnInit {
-  @ViewChild('templateModal') templateModal: TemplateRef<any>;
+  @ViewChild('templateModal', { static: true }) templateModal: TemplateRef<any>;
   modalRef: BsModalRef;
   customers: Customers[];
   showMessage = false;

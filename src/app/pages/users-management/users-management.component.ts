@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
 import { User } from 'src/app/shared/model/user';
 import { Site } from 'src/app/shared/model/site';
-import { DefaultRouteReuseStrategy } from '@angular/router/src/route_reuse_strategy';
 
 @Component({
   selector: 'app-users-management',

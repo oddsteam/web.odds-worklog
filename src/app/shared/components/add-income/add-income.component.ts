@@ -13,7 +13,7 @@ import { IncomeFlag } from 'src/app/shared/model/income-flag';
 export class AddIncomeComponent implements OnInit {
   id = sessionStorage.getItem('idUser');
   salary = 0;
-  @ViewChild('templateModal') templateModal: TemplateRef<any>;
+  @ViewChild('templateModal', { static: true }) templateModal: TemplateRef<any>;
   @Output() addIncomeAlready = new EventEmitter();
   @Input() role: string;
   modalRef: BsModalRef;

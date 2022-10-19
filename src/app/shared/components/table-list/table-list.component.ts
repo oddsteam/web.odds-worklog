@@ -13,7 +13,7 @@ import { StatusTavi } from '../../model/status-tavi';
     styleUrls: ['./table-list.component.scss']
 })
 export class TableListComponent implements OnInit, OnDestroy, OnChanges {
-    @ViewChild('templateModal') templateModal: TemplateRef<any>;
+    @ViewChild('templateModal', { static: true }) templateModal: TemplateRef<any>;
     @Input() ListData;
     dtTrigger: Subject<any> = new Subject();
     swapArrowIconSort = false;

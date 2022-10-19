@@ -13,7 +13,7 @@ import { WorklogApiService } from 'src/app/core/worklog-api.service';
 })
 export class InvoiceComponent implements OnInit {
 
-  @ViewChild('templateModal') templateModal: TemplateRef<any>;
+  @ViewChild('templateModal', { static: true }) templateModal: TemplateRef<any>;
   modalRef: BsModalRef;
   invoiceData: InvoiceModel[];
   showMessage: Boolean = false;
