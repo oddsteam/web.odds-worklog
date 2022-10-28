@@ -42,10 +42,6 @@ describe('LayoutsComponent', () => {
     component = fixture.componentInstance;
   });
 
-  afterEach(() => {
-    TestBed.resetTestingModule();
-  })
-
   it('should create', () => {
     expect(component).toBeTruthy();
   });
