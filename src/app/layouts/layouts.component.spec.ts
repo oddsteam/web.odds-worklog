@@ -13,6 +13,8 @@ import { ModalIncomeComponent } from '../shared/components/modal-income/modal-in
 import { HeaderComponent } from '../shared/components/header/header.component';
 import { TabMenuComponent } from '../shared/components/tab-menu/tab-menu.component';
 import { LayoutsComponent } from './layouts.component';
+import { LoginLayoutComponent } from './login-layout/login-layout.component';
+import { CorporateComponent } from '../pages/corporate/corporate.component';
 
 describe('LayoutsComponent', () => {
   let component: LayoutsComponent;
@@ -21,7 +23,11 @@ describe('LayoutsComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [LayoutsComponent, TabMenuComponent, HeaderComponent, AddIncomeComponent, ModalIncomeComponent],
-      imports: [CommonModule, ReactiveFormsModule, FormsModule, RouterTestingModule, HttpClientTestingModule
+      imports: [CommonModule, ReactiveFormsModule, FormsModule,
+        RouterTestingModule.withRoutes([
+        {path: 'login', component: LoginLayoutComponent},
+        {path: 'corporate', component: CorporateComponent},
+      ]), HttpClientTestingModule
         , TranslateModule.forRoot({
           loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
         })],
@@ -35,6 +41,10 @@ describe('LayoutsComponent', () => {
     worklogApiService = TestBed.inject(WorklogApiService);
     component = fixture.componentInstance;
   });
+
+  afterEach(() => {
+    TestBed.resetTestingModule();
+  })
 
   it('should create', () => {
     expect(component).toBeTruthy();
