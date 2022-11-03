@@ -5,10 +5,12 @@ import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.componen
 import { InvoiceComponent } from './components/invoice/invoice.component';
 import { ProductOwnerComponent } from './components/product-owner/product-owner.component';
 import { CustomersProfileComponent } from './components/customers-profile/customers-profile.component';
-import { BsModalService, ComponentLoaderFactory, PositioningService } from 'ngx-bootstrap';
+import { BsModalService } from 'ngx-bootstrap/modal';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MessageTooltipComponent } from 'src/app/shared/components/message-tooltip/message-tooltip.component';
+import { ComponentLoaderFactory } from 'ngx-bootstrap/component-loader';
+import { PositioningService } from 'ngx-bootstrap/positioning';
 
 
 describe('CustomersComponent', () => {

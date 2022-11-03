@@ -10,42 +10,42 @@ const routes: Routes = [
             {
                 path: 'profile',
                 loadChildren:
-                '../pages/profile/profile.module#ProfileModule',
+                () => import('../pages/profile/profile.module').then(m => m.ProfileModule),
             },
             {
                 path: 'corporate',
                 loadChildren:
-                '../pages/corporate/corporate.module#CorporateModule',
+                () => import('../pages/corporate/corporate.module').then(m => m.CorporateModule),
             },
             {
                 path: 'individual',
                 loadChildren:
-                '../pages/individual/individual.module#IndividualModule',
+                () => import('../pages/individual/individual.module').then(m => m.IndividualModule),
             },
             {
                 path: 'settings',
                 loadChildren:
-                '../pages/setting/setting.module#SettingModule',
+                () => import('../pages/setting/setting.module').then(m => m.SettingModule),
             },
             {
                 path: 'users',
                 loadChildren:
-                '../pages/users-management/users-management.module#UsersManagementModule',
+                () => import('../pages/users-management/users-management.module').then(m => m.UsersManagementModule),
             },
             {
                 path: 'groups',
                 loadChildren:
-                '../pages/group-management/group-management.module#GroupManagementModule',
+                () => import('../pages/group-management/group-management.module').then(m => m.GroupManagementModule),
             },
             {
                 path: 'customers',
                 loadChildren:
-                '../pages/customers/customers.module#CustomersModule',
+                () => import('../pages/customers/customers.module').then(m => m.CustomersModule),
             },
             {
                 path: 'history',
                 loadChildren:
-                '../pages/history/history.module#HistoryModule',
+                () => import('../pages/history/history.module').then(m => m.HistoryModule),
             }
 
         ]

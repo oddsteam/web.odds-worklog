@@ -1,7 +1,7 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { Router } from '@angular/router';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
 import { ProductOwner } from 'src/app/shared/model/product-owner';
 import { NumberUtil } from 'src/app/shared/utils/number.util';
@@ -13,7 +13,7 @@ import { NumberUtil } from 'src/app/shared/utils/number.util';
 })
 export class ProductOwnerComponent implements OnInit {
 
-  @ViewChild('templateModal') templateModal: TemplateRef<any>;
+  @ViewChild('templateModal', { static: true }) templateModal: TemplateRef<any>;
   modalRef: BsModalRef;
   customerId: string;
   formGroupProductOw: FormGroup;

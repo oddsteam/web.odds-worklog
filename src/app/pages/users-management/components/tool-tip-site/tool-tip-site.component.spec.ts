@@ -12,7 +12,7 @@ describe('ToolTipSiteComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ToolTipSiteComponent],
-      imports: [NgbModule.forRoot(), HttpClientTestingModule, SharedModule],
+      imports: [NgbModule, HttpClientTestingModule, SharedModule],
     })
       .compileComponents();
   }));

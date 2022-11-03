@@ -19,7 +19,7 @@ describe('ModalIncomeComponent', () => {
     TestBed.configureTestingModule({
       imports: [BrowserModule,
         FormsModule,
-        ReactiveFormsModule, RouterTestingModule, HttpClientTestingModule, NgbModule.forRoot()],
+        ReactiveFormsModule, RouterTestingModule, HttpClientTestingModule, NgbModule],
       declarations: [ModalIncomeComponent],
       providers: [WorklogApiService, FormBuilder]
     })
@@ -28,7 +28,7 @@ describe('ModalIncomeComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ModalIncomeComponent);
-    worklogApiService = TestBed.get(WorklogApiService);
+    worklogApiService = TestBed.inject(WorklogApiService);
     component = fixture.componentInstance;
     // fixture.detectChanges();
   });

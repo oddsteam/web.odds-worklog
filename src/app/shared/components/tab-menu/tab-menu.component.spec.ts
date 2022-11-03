@@ -33,9 +33,9 @@ describe('TabMenuComponent', () => {
   }));
 
   beforeEach(() => {
-    router = TestBed.get(Router);
-    worklogApiService = TestBed.get(WorklogApiService);
-    stateService = TestBed.get(StateService);
+    router = TestBed.inject(Router);
+    worklogApiService = TestBed.inject(WorklogApiService);
+    stateService = TestBed.inject(StateService);
     fixture = TestBed.createComponent(TabMenuComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

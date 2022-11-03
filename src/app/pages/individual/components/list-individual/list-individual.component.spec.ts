@@ -1,7 +1,6 @@
 /* tslint:disable:no-unused-variable */
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { ContentLoaderModule } from '@netbasal/content-loader';
 import { DataTablesModule } from 'angular-datatables';
 import { OrderModule } from 'ngx-order-pipe';
 import { of, throwError } from 'rxjs';
@@ -10,8 +9,11 @@ import { TableListComponent } from 'src/app/shared/components/table-list/table-l
 import { StatusHighlightDirective } from 'src/app/shared/directives/status-highlight.directive';
 import { ListIndividualComponent } from './list-individual.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { BsModalService, ComponentLoaderFactory, PositioningService } from 'ngx-bootstrap';
+import { BsModalService } from 'ngx-bootstrap/modal';
 import { StateService } from '../../../../core/state.service';
+import { ComponentLoaderFactory } from 'ngx-bootstrap/component-loader';
+import { PositioningService } from 'ngx-bootstrap/positioning';
+import { ContentLoaderModule } from '@netbasal/ngx-content-loader';
 
 
 describe('ListIndividualComponent', () => {
@@ -30,7 +32,7 @@ describe('ListIndividualComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ListIndividualComponent);
-    worklogService = TestBed.get(WorklogApiService);
+    worklogService = TestBed.inject(WorklogApiService);
     component = fixture.componentInstance;
     individualListed = [{
       user: {
@@ -127,6 +129,7 @@ describe('ListIndividualComponent', () => {
           statusTavi: true,
           degreeCertificate: '',
           idCard: '',
+          phone: ''
         },
         {
           id: '1233',
@@ -149,6 +152,7 @@ describe('ListIndividualComponent', () => {
           statusTavi: true,
           degreeCertificate: '',
           idCard: '',
+          phone: ''
         },
       ]
     };

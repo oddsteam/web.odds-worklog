@@ -2,7 +2,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { AuthService } from 'angular-6-social-login';
+import { AuthService } from 'angularx-social-login';
 import { of } from 'rxjs';
 import { Login } from 'src/app/shared/model/login';
 import { WorklogApiService } from '../../core/worklog-api.service';
@@ -30,7 +30,7 @@ describe('LoginGoogleComponent', () => {
     fixture = TestBed.createComponent(LoginGoogleComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    workLogService = TestBed.get(WorklogApiService);
+    workLogService = TestBed.inject(WorklogApiService);
   });
 
   it('should create', () => {

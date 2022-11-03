@@ -23,7 +23,7 @@ describe('HistoryComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(HistoryComponent);
     component = fixture.componentInstance;
-    worklogservice = TestBed.get(WorklogApiService);
+    worklogservice = TestBed.inject(WorklogApiService);
     fixture.detectChanges();
   });
 

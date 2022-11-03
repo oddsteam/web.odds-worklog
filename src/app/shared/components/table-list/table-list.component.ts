@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Subject } from 'rxjs';
 import { User } from 'src/app/shared/model/user';
 import { StateService } from '../../../core/state.service';
@@ -13,7 +13,7 @@ import { StatusTavi } from '../../model/status-tavi';
     styleUrls: ['./table-list.component.scss']
 })
 export class TableListComponent implements OnInit, OnDestroy, OnChanges {
-    @ViewChild('templateModal') templateModal: TemplateRef<any>;
+    @ViewChild('templateModal', { static: true }) templateModal: TemplateRef<any>;
     @Input() ListData;
     dtTrigger: Subject<any> = new Subject();
     swapArrowIconSort = false;

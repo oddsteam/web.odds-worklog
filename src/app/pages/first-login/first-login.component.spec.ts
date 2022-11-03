@@ -26,7 +26,7 @@ describe('FirstLoginComponent', () => {
     fixture = TestBed.createComponent(FirstLoginComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    worklogapiService = TestBed.get(WorklogApiService);
+    worklogapiService = TestBed.inject(WorklogApiService);
   });
 
   it('should create', () => {

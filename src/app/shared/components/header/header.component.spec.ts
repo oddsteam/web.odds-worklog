@@ -30,8 +30,8 @@ describe('HeaderComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(HeaderComponent);
-    workLogService = TestBed.get(WorklogApiService);
-    stateService = TestBed.get(StateService);
+    workLogService = TestBed.inject(WorklogApiService);
+    stateService = TestBed.inject(StateService);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -2,7 +2,7 @@ import { NumberUtil } from 'src/app/shared/utils/number.util';
 import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
 import { InvoiceModel } from 'src/app/shared/model/invoice-model';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { InvoiceService } from 'src/app/core/invoice.service';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
 
@@ -13,7 +13,7 @@ import { WorklogApiService } from 'src/app/core/worklog-api.service';
 })
 export class InvoiceComponent implements OnInit {
 
-  @ViewChild('templateModal') templateModal: TemplateRef<any>;
+  @ViewChild('templateModal', { static: true }) templateModal: TemplateRef<any>;
   modalRef: BsModalRef;
   invoiceData: InvoiceModel[];
   showMessage: Boolean = false;
