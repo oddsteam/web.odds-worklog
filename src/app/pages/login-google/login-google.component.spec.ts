@@ -2,7 +2,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { AuthService } from 'angularx-social-login';
+import { SocialAuthService} from 'angularx-social-login';
 import { of } from 'rxjs';
 import { Login } from 'src/app/shared/model/login';
 import { WorklogApiService } from '../../core/worklog-api.service';
@@ -12,7 +12,7 @@ describe('LoginGoogleComponent', () => {
   let component: LoginGoogleComponent;
   let fixture: ComponentFixture<LoginGoogleComponent>;
   let workLogService: WorklogApiService;
-  const socialAuthService = jasmine.createSpyObj('AuthService',
+  const socialAuthService = jasmine.createSpyObj('SocialAuthService',
     ['signIn']
   );
   beforeEach(async(() => {
@@ -21,7 +21,7 @@ describe('LoginGoogleComponent', () => {
       imports: [RouterTestingModule, HttpClientTestingModule],
       providers: [
         WorklogApiService,
-        { provide: AuthService, useValue: socialAuthService }]
+        { provide: SocialAuthService, useValue: socialAuthService }]
     })
       .compileComponents();
   }));

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService, GoogleLoginProvider } from 'angularx-social-login';
+import { SocialAuthService, GoogleLoginProvider } from 'angularx-social-login';
 import { forkJoin } from 'rxjs';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
 
@@ -10,7 +10,7 @@ import { WorklogApiService } from 'src/app/core/worklog-api.service';
   styleUrls: ['./login-google.component.scss']
 })
 export class LoginGoogleComponent implements OnInit {
-  constructor(private socialAuthService: AuthService,
+  constructor(private socialAuthService: SocialAuthService,
     private router: Router,
     private worklogService: WorklogApiService
   ) { }

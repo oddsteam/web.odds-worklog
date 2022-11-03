@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { AuthServiceConfig, GoogleLoginProvider, SocialLoginModule } from 'angularx-social-login';
+import { SocialAuthServiceConfig, GoogleLoginProvider, SocialLoginModule } from 'angularx-social-login';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SharedModule } from './shared/shared.module';
@@ -16,15 +16,14 @@ export function createTranslateLoader(http: HttpClient) {
 
 
 export function getAuthServiceConfigs() {
-  const config = new AuthServiceConfig(
-    [
+  const config = {
+    providers: [
       {
         id: GoogleLoginProvider.PROVIDER_ID,
         provider: new GoogleLoginProvider('956316396976-mhb092ad69gn2olis0mtmc1fpe8blgn8.apps.googleusercontent.com')
       },
-
     ]
-  );
+  } as SocialAuthServiceConfig;
   return config;
 }
 
@@ -46,8 +45,8 @@ export function getAuthServiceConfigs() {
   ],
   providers: [
     {
-      provide: AuthServiceConfig,
-      useFactory: getAuthServiceConfigs
+      provide: 'SocialAuthServiceConfig',
+      useValue: getAuthServiceConfigs()
     },
     ValidateCitizenIdUtil
     // {
