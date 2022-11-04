@@ -46,7 +46,7 @@ describe('ProfileComponent', () => {
   });
 
   it('should be call getUserByID expect data in form control to change', () => {
-    const data = {
+    const data = new User({
       bankAccountName: 'กอไก่ ขอไข่',
       bankAccountNumber: '0123456789',
       email: 'who@odds.team',
@@ -58,7 +58,7 @@ describe('ProfileComponent', () => {
       vat: 'N',
       transcript: null,
       thaiCitizenId: '123467890'
-    };
+    });
 
     spyOn(worklogApiService, 'getUserByID').and.returnValue(of(data));
     component.getData();
@@ -72,7 +72,7 @@ describe('ProfileComponent', () => {
   });
 
   it('should call getSiteData in worklog service when call getData()', () => {
-    const data = {
+    const data = new User({
       bankAccountName: 'กอไก่ ขอไข่',
       bankAccountNumber: '0123456789',
       email: 'who@odds.team',
@@ -83,8 +83,7 @@ describe('ProfileComponent', () => {
       slackAccount: 'who@odds.team',
       vat: 'N',
       thaiCitizenId: '123467890'
-
-    };
+    });
     const mockListSites: Site[] = [
       {
         id: '5c0fb860f37e2f8698989cdd',
@@ -98,11 +97,11 @@ describe('ProfileComponent', () => {
         id: '5c0fb860f37e2f8698989vcd',
         name: 'SET'
       },
-    ];
+    ] as Site[];
     spyOn(worklogApiService, 'getUserByID').and.returnValue(of(data));
-    spyOn(component, 'getNameSite').and.returnValue(of(mockListSites));
+    spyOn(worklogApiService, 'getSitesData').and.returnValue(of(mockListSites));
     component.getData();
-    expect(component.getNameSite).toHaveBeenCalled();
+    expect(worklogApiService.getSitesData).toHaveBeenCalled();
   });
 
   it('component.site should equal to user info', () => {
@@ -173,7 +172,7 @@ describe('ProfileComponent', () => {
         ]
       }
     };
-    spyOn(fileService, 'uploadFileTranscript').and.returnValues(of('message'));
+    spyOn(fileService, 'uploadFileTranscript').and.returnValues(of({message: 'message'}));
     component.onSubmit(file, 'transcript');
     expect(fileService.uploadFileTranscript).toHaveBeenCalledWith(file);
   });
@@ -192,7 +191,7 @@ describe('ProfileComponent', () => {
         ]
       }
     };
-    spyOn(fileService, 'uploadImageProfile').and.returnValue(of('message'));
+    spyOn(fileService, 'uploadImageProfile').and.returnValues(of({message: 'message'}));
     component.onChangeImageFile(mockFile);
     expect(fileService.uploadImageProfile).toHaveBeenCalledTimes(1);
   });
@@ -205,7 +204,7 @@ describe('ProfileComponent', () => {
         ]
       }
     };
-    spyOn(fileService, 'uploadDegreeCertificate').and.returnValue(of('message'));
+    spyOn(fileService, 'uploadDegreeCertificate').and.returnValue(of({message: 'message'}));
     component.onChangeDegreeCertificateFile(mockFile);
     expect(fileService.uploadDegreeCertificate).toHaveBeenCalledTimes(1);
   });
@@ -218,13 +217,13 @@ describe('ProfileComponent', () => {
         ]
       }
     };
-    spyOn(fileService, 'uploadIdCard').and.returnValue(of('message'));
+    spyOn(fileService, 'uploadIdCard').and.returnValue(of({message: 'message'}));
     component.onChangeIdCardFile(mockFile);
     expect(fileService.uploadIdCard).toHaveBeenCalledTimes(1);
   });
 
   it('should call downloadTranscriptFile in file service when call onDownload', () => {
-    const data = {
+    const data = new User({
       bankAccountName: 'กอไก่ ขอไข่',
       bankAccountNumber: '0123456789',
       email: 'who@odds.team',
@@ -238,8 +237,7 @@ describe('ProfileComponent', () => {
       imageProfile: null,
       thaiCitizenId: '123467890',
       phone: ''
-
-    };
+    });
     // get user data
     spyOn(worklogApiService, 'getUserByID').and.returnValue(of(data));
     component.getData();
@@ -251,7 +249,7 @@ describe('ProfileComponent', () => {
   });
 
   it('if downloadTranscriptFile in file service is success it should call downloadFile', () => {
-    const data = {
+    const data = new User({
       bankAccountName: 'กอไก่ ขอไข่',
       bankAccountNumber: '0123456789',
       email: 'who@odds.team',
@@ -265,7 +263,7 @@ describe('ProfileComponent', () => {
       imageProfile: null,
       thaiCitizenId: '123467890'
 
-    };
+    });
     // get user data
     spyOn(worklogApiService, 'getUserByID').and.returnValue(of(data));
     component.getData();
@@ -281,7 +279,7 @@ describe('ProfileComponent', () => {
  
   describe('getEmitSourceSite', () => {
     it('should set user site id when call getEmitSource', () => {
-      const data = {
+      const data = new User({
         bankAccountName: 'กอไก่ ขอไข่',
         bankAccountNumber: '0123456789',
         corporateName: 'บอบอ',
@@ -296,7 +294,7 @@ describe('ProfileComponent', () => {
         imageProfile: null,
         siteId: '5c0fb860f37e2f8698989cff',
         thaiCitizenId: '123467890'
-      };
+      });
       // get user data
       spyOn(worklogApiService, 'getUserByID').and.returnValue(of(data));
       component.getData();
