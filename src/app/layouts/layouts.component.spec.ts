@@ -15,6 +15,7 @@ import { TabMenuComponent } from '../shared/components/tab-menu/tab-menu.compone
 import { LayoutsComponent } from './layouts.component';
 import { LoginLayoutComponent } from './login-layout/login-layout.component';
 import { CorporateComponent } from '../pages/corporate/corporate.component';
+import { User } from '../shared/model/user';
 
 describe('LayoutsComponent', () => {
   let component: LayoutsComponent;
@@ -47,15 +48,16 @@ describe('LayoutsComponent', () => {
   });
 
   it('should call method ngOnInit to Have Been Called worklogApiService getUserById ', () => {
-    const mockUsers = {
+    const mockUsers = new User({
       id: '1234567890',
       role: 'corporate',
-      fullnameEn: 'ทดสอบ ชอบลงทุน',
+      firstName: 'ทดสอบ',
+      lastName: 'ชอบลงทุน',
       email: 'abc@abc.com',
       bankAccountName: 'ทดสอบ ชอบลงทุน',
       bankAccountNumber: '0987654321',
       thaiCitizenId: '1234567890',
-    };
+    });
     spyOn(worklogApiService, 'getUserByID').and.returnValues(of(mockUsers));
     component.ngOnInit();
     expect(worklogApiService.getUserByID).toHaveBeenCalled();
@@ -78,11 +80,11 @@ describe('LayoutsComponent', () => {
   }));
 
   it('should navigate to firstlogin if first name from service is empty', inject([Router], (router: Router) => {
-    const mockUser = {
+    const mockUser = new User({
       id: '1234567890',
       firstName: '',
       lastName: '',
-    };
+    });
     spyOn(worklogApiService, 'getUserByID').and.returnValues(of(mockUser));
     spyOn(router, 'navigate');
     component.ngOnInit();
@@ -94,16 +96,14 @@ describe('LayoutsComponent', () => {
       token: '.eyJ1c2VySWQiOiJbyZVcdWZmZmQ6Mlx1MDAwNFx1ZmZmZGBcdWZmZmRcclx1ZmZ'
     };
     spyOn(worklogApiService, 'getLogin').and.returnValues(of(mockToken));
-    spyOn(worklogApiService, 'getUserByID').and.returnValue(of(''));
+    spyOn(worklogApiService, 'getUserByID').and.returnValue(of(new User()));
     spyOn(component, 'goToPage');
     component.ngOnInit();
     expect(component.goToPage).toHaveBeenCalledTimes(0);
   });
 
   it('should navigate to /corporate when role is admin', inject([Router], (router: Router) => {
-    const res = {
-      role: 'admin'
-    };
+    const res = new User({role: 'admin', firstName: 'firstName', lastName: 'lastName'});
     spyOn(worklogApiService, 'getUserByID').and.returnValue(of(res));
     spyOn(router, 'navigate');
 
@@ -114,9 +114,7 @@ describe('LayoutsComponent', () => {
   }));
 
   it('should navigate to /individual when role is individual', inject([Router], (router: Router) => {
-    const res = {
-      role: 'individual'
-    };
+    const res = new User({role: 'individual', firstName: 'firstName', lastName: 'lastName'});
     spyOn(worklogApiService, 'getUserByID').and.returnValue(of(res));
     spyOn(router, 'navigate');
 
@@ -127,9 +125,7 @@ describe('LayoutsComponent', () => {
   }));
 
   it('should navigate to /corporate when role is corporate', inject([Router], (router: Router) => {
-    const res = {
-      role: 'corporate'
-    };
+    const res = new User({role: 'corporate', firstName: 'firstName', lastName: 'lastName'});
     spyOn(worklogApiService, 'getUserByID').and.returnValue(of(res));
     spyOn(router, 'navigate');
 
@@ -139,3 +135,4 @@ describe('LayoutsComponent', () => {
     expect(router.navigate).toHaveBeenCalledWith(['/corporate']);
   }));
 });
+
