@@ -7,6 +7,7 @@ import { of, throwError } from 'rxjs';
 import { StateService } from 'src/app/core/state.service';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
 import { AddIncomeResponse } from '../../model/add-income-model-response';
+import { User } from '../../model/user';
 import { HeaderComponent } from './header.component';
 
 describe('HeaderComponent', () => {
@@ -47,7 +48,7 @@ describe('HeaderComponent', () => {
   });
 
   it('should call getUserByID in workLog service', () => {
-    const mockResponse = {
+    const mockResponse = new User({
       id: '5bde550643b397000127274re',
       role: 'individual',
       firstName: 'odds',
@@ -60,7 +61,7 @@ describe('HeaderComponent', () => {
       transcript: '',
       siteId: '',
       vat: '123'
-    };
+    });
     spyOn(workLogService, 'getUserByID').and.returnValue(of(mockResponse));
     spyOn(stateService, 'setTypeUser');
     spyOn(stateService, 'setFlagVat');
@@ -71,7 +72,7 @@ describe('HeaderComponent', () => {
   });
 
   it('name in component should be equal response from getUserByID in workLog service', () => {
-    const mockResponse = {
+    const mockResponse = new User({
       id: '5bde550643b397000127274re',
       role: 'individual',
       firstName: 'odds',
@@ -84,7 +85,7 @@ describe('HeaderComponent', () => {
       transcript: '',
       siteId: '',
       vat: '123'
-    };
+    });
     spyOn(workLogService, 'getUserByID').and.returnValue(of(mockResponse));
     spyOn(stateService, 'setTypeUser');
     spyOn(stateService, 'setFlagVat');
@@ -98,7 +99,13 @@ describe('HeaderComponent', () => {
     spyOn(workLogService, 'exportDataPdf').and.returnValue(of({
       fileName: 'example.pdf',
       path: '82d09f47-2fe3-4a33-b385-007a6dda8e13.pdf',
-      tempFileName: '82d09f47-2fe3-4a33-b385-007a6dda8e13.pdf'
+      tempFileName: '82d09f47-2fe3-4a33-b385-007a6dda8e13.pdf',
+      type: 'pdf',
+      size: 0,
+      arrayBuffer: (): any => {},
+      stream: (): any => {},
+      slice: (): any => {},
+      text: (): any => {},
     }));
     component.exportTavi50();
     expect(workLogService.exportDataPdf).toHaveBeenCalled();
