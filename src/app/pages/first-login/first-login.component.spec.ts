@@ -1,5 +1,5 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing';
+import { ComponentFixture, inject, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -13,7 +13,7 @@ describe('FirstLoginComponent', () => {
   let component: FirstLoginComponent;
   let fixture: ComponentFixture<FirstLoginComponent>;
   let worklogapiService: WorklogApiService;
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [FirstLoginComponent],
       imports: [ReactiveFormsModule, RouterTestingModule, HttpClientTestingModule

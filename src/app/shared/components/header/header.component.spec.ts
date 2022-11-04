@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateFakeLoader, TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { of, throwError } from 'rxjs';
@@ -14,7 +14,7 @@ describe('HeaderComponent', () => {
   let fixture: ComponentFixture<HeaderComponent>;
   let workLogService: WorklogApiService;
   let stateService: StateService;
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [HeaderComponent],
       imports: [

@@ -1,5 +1,5 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { AddIncomeComponent } from './add-income.component';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { BsModalService } from 'ngx-bootstrap/modal';
@@ -14,7 +14,7 @@ describe('AddIncomeComponent', () => {
   let fixture: ComponentFixture<AddIncomeComponent>;
   let worklogservice: WorklogApiService;
   let modalService: BsModalService;
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [AddIncomeComponent],
       imports: [HttpClientTestingModule],

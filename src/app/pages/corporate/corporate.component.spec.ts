@@ -1,6 +1,6 @@
 /* tslint:disable:no-unused-variable */
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ContentLoaderModule } from '@netbasal/ngx-content-loader';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -20,7 +20,7 @@ describe('CorporateComponent', () => {
   let fixture: ComponentFixture<CorporateComponent>;
   let worklogApiService: WorklogApiService;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [CorporateComponent, TableListComponent, StatusHighlightDirective, ListCorporateComponent,
         AddIncomeComponent, ModalIncomeComponent],

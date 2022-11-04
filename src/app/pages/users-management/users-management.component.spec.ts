@@ -1,5 +1,5 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { of } from 'rxjs';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
@@ -13,7 +13,7 @@ describe('UsersManagementComponent', () => {
   let component: UsersManagementComponent;
   let fixture: ComponentFixture<UsersManagementComponent>;
   let worklogApiService: WorklogApiService;
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [UsersManagementComponent, ToolTipSiteComponent],
       imports: [NgbModule, HttpClientTestingModule, SharedModule],

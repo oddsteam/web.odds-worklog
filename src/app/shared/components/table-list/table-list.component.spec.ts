@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -32,7 +32,7 @@ describe('TabelListComponent', () => {
   let fixture: ComponentFixture<TableListComponent>;
   let service: WorklogApiService;
   let stateService: StateService;
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [TableListComponent, StatusHighlightDirective],
       imports: [FormsModule, ReactiveFormsModule, CommonModule, RouterTestingModule, NgbModule,

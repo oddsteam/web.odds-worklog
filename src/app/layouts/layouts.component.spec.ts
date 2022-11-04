@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing';
+import { ComponentFixture, inject, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -20,7 +20,7 @@ describe('LayoutsComponent', () => {
   let component: LayoutsComponent;
   let fixture: ComponentFixture<LayoutsComponent>;
   let worklogApiService: WorklogApiService;
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [LayoutsComponent, TabMenuComponent, HeaderComponent, AddIncomeComponent, ModalIncomeComponent],
       imports: [CommonModule, ReactiveFormsModule, FormsModule,

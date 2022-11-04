@@ -1,6 +1,6 @@
 /* tslint:disable:no-unused-variable */
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { DataTablesModule } from 'angular-datatables';
 import { OrderModule } from 'ngx-order-pipe';
 import { of, throwError } from 'rxjs';
@@ -21,7 +21,7 @@ describe('ListIndividualComponent', () => {
   let fixture: ComponentFixture<ListIndividualComponent>;
   let worklogService: WorklogApiService;
   let individualListed;
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ListIndividualComponent, TableListComponent, StatusHighlightDirective],
       imports: [FormsModule, ReactiveFormsModule, HttpClientTestingModule, DataTablesModule.forRoot(), ContentLoaderModule, OrderModule],

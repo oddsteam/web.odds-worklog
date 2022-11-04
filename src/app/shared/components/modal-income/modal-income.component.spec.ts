@@ -1,6 +1,6 @@
 /* tslint:disable:no-unused-variable */
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -15,7 +15,7 @@ describe('ModalIncomeComponent', () => {
   let component: ModalIncomeComponent;
   let fixture: ComponentFixture<ModalIncomeComponent>;
   let worklogApiService: WorklogApiService;
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [BrowserModule,
         FormsModule,

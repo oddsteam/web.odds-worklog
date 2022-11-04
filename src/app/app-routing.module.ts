@@ -16,7 +16,7 @@ const routes: Routes = [
         path: 'firstlogin',
         loadChildren: () => import('src/app/pages/first-login/first-login.module').then(m => m.FirstLoginModule),
     },
-    {
+    { 
         path: '**',
         redirectTo: '',
         canActivate: [AuthGuard]
@@ -24,7 +24,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-    imports: [RouterModule.forRoot(routes)],
+    imports: [RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' })],
     exports: [RouterModule],
 })
 export class AppRoutingModule { }

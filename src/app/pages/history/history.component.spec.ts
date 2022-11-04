@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { HistoryComponent } from './history.component';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
 import { AddIncomeResponse } from 'src/app/shared/model/add-income-model-response';
@@ -11,7 +11,7 @@ describe('HistoryComponent', () => {
   let worklogservice: WorklogApiService;
 
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [HistoryComponent],
       imports: [HttpClientTestingModule],

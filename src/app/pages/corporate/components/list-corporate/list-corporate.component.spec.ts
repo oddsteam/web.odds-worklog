@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ContentLoaderModule } from '@netbasal/ngx-content-loader';
 import { ComponentLoaderFactory } from 'ngx-bootstrap/component-loader';
@@ -22,7 +22,7 @@ describe('ListCorporateComponent', () => {
     let worklogService: WorklogApiService;
     let stateService: StateService;
     let corporateListed;
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
             declarations: [ListCorporateComponent, TableListComponent, StatusHighlightDirective],
             imports: [HttpClientTestingModule, ContentLoaderModule, OrderModule, FormsModule, ReactiveFormsModule],
