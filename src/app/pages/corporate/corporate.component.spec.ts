@@ -11,6 +11,7 @@ import { AddIncomeComponent } from 'src/app/shared/components/add-income/add-inc
 import { ModalIncomeComponent } from 'src/app/shared/components/modal-income/modal-income.component';
 import { TableListComponent } from 'src/app/shared/components/table-list/table-list.component';
 import { StatusHighlightDirective } from 'src/app/shared/directives/status-highlight.directive';
+import { User } from 'src/app/shared/model/user';
 import { ListCorporateComponent } from './components/list-corporate/list-corporate.component';
 import { CorporateComponent } from './corporate.component';
 
@@ -43,9 +44,7 @@ describe('CorporateComponent', () => {
   });
 
   it('should be personType to equal corporate when role is corporate', () => {
-    const res = {
-      role: 'corporate'
-    };
+    const res = new User({ role: 'corporate' });
     spyOn(worklogApiService, 'getUserByID').and.returnValue(of(res));
 
     component.ngOnInit();
