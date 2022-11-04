@@ -13,6 +13,7 @@ import { WorklogApiService } from 'src/app/core/worklog-api.service';
 import { TableListComponent } from 'src/app/shared/components/table-list/table-list.component';
 import { StatusHighlightDirective } from 'src/app/shared/directives/status-highlight.directive';
 import { ListIncomeResponse } from 'src/app/shared/model/list-income-model-response';
+import { User } from 'src/app/shared/model/user';
 import { ListCorporateComponent } from './list-corporate.component';
 
 
@@ -56,21 +57,22 @@ describe('ListCorporateComponent', () => {
         expect(component.listIncome).toEqual(corporateListed);
     });
 
-    it('forCheckTokenPleaseRemoveMeIfFlowLoginFinnished should be defined', () => {
-        spyOn(stateService, 'listIncomeCorporateTrigger').and.returnValue(of());
-        component.ngOnInit();
-        expect(stateService.listIncomeCorporateTrigger).toBeDefined();
-    });
+    // it('forCheckTokenPleaseRemoveMeIfFlowLoginFinnished should be defined', () => {
+    //     spyOn(stateService, 'listIncomeCorporateTrigger').and.returnValue(of());
+    //     component.ngOnInit();
+    //     expect(stateService.listIncomeCorporateTrigger).toBeDefined();
+    // });
 
     it('should call getListIncomeCorporate in worklog service', () => {
         const mockResponse = {
             submitDate: '2018-10-09:00:00:00',
             status: 'Y',
             user: [
-                {
+                new User({
                     id: '1233',
                     role: 'corporate',
-                    fullnameEn: 'ODDS ODDS',
+                    firstName: 'ODDS',
+                    lastName: 'ODDS',
                     email: 'odds@odds.team',
                     bankAccountName: 'odds odds',
                     bankAccountNumber: '112211221122',
@@ -79,11 +81,12 @@ describe('ListCorporateComponent', () => {
                     siteId: '',
                     transcript: '',
                     project: ''
-                },
-                {
+                }),
+                new User({
                     id: '1233',
                     role: 'corporate',
-                    fullnameEn: 'ODDS ODDS',
+                    firstName: 'ODDS',
+                    lastName: 'ODDS',
                     email: 'odds@odds.team',
                     bankAccountName: 'odds odds',
                     bankAccountNumber: '112211221122',
@@ -92,7 +95,7 @@ describe('ListCorporateComponent', () => {
                     siteId: '',
                     transcript: '',
                     project: ''
-                },
+                }),
             ]
         };
         spyOn(worklogService, 'getListIncomeCorporate').and.returnValue(of(mockResponse));
@@ -177,7 +180,7 @@ describe('ListCorporateComponent', () => {
             submitDate: '2018-10-09:00:00:00',
             status: 'Y',
             user: [
-                {
+                new User({
                     id: '1233',
                     role: 'corporate',
                     firstName: 'ODDS',
@@ -190,8 +193,8 @@ describe('ListCorporateComponent', () => {
                     slackAccount: 'odds@odds.team',
                     siteId: '',
                     transcript: ''
-                },
-                {
+                }),
+                new User({
                     id: '1233',
                     role: 'corporate',
                     firstName: 'ODDS',
@@ -204,7 +207,7 @@ describe('ListCorporateComponent', () => {
                     slackAccount: 'odds@odds.team',
                     siteId: '',
                     transcript: ''
-                },
+                }),
             ]
         };
         spyOn(worklogService, 'getListIncomeCorporate').and.returnValue(of(mockResponse));
