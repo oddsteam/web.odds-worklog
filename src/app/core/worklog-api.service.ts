@@ -48,7 +48,6 @@ export class WorklogApiService {
     }
 
     initDataService() {
-        console.log('for check = ', this.forCheckTokenPleaseRemoveMeIfFlowLoginFinnished())
         this.forCheckTokenPleaseRemoveMeIfFlowLoginFinnished().subscribe( (checkTokenInterval) => {
             if (checkTokenInterval) {
                 this.getListIncomeIndividual().subscribe(individual => {
