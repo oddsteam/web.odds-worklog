@@ -95,9 +95,7 @@ describe('FirstLoginComponent', () => {
   });
 
   it('when call updateUser() but role equal admin router navigate go to corporate', inject([Router], (router: Router) => {
-    const res = {
-      role: 'admin'
-    };
+    const res = new User({ role: 'admin' });
     spyOn(worklogapiService, 'updateUser').and.returnValue(of(res));
     spyOn(router, 'navigate');
 
@@ -107,9 +105,7 @@ describe('FirstLoginComponent', () => {
   }));
 
   it('when call updateUser() but role equal individual router navigate go to individual', inject([Router], (router: Router) => {
-    const res = {
-      role: 'individual'
-    };
+    const res = new User({ role: 'individual' });
     spyOn(worklogapiService, 'updateUser').and.returnValue(of(res));
     spyOn(router, 'navigate');
 
