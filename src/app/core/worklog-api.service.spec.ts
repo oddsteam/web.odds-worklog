@@ -200,7 +200,7 @@ describe('Service: WorklogApi', () => {
   });
 
   it('should set getListIncomeIndividual, getListIncomeCorporate when call initDataService()', () => {
-    spyOn(mockService, 'forCheckTokenPleaseRemoveMeIfFlowLoginFinnished').and.returnValue(false);
+    spyOn(mockService, 'forCheckTokenPleaseRemoveMeIfFlowLoginFinnished').and.returnValue(of(false))
     spyOn(mockService, 'getListIncomeIndividual').and.returnValue(of());
     spyOn(mockService, 'getListIncomeCorporate').and.returnValue(of());
     mockService.initDataService();
@@ -210,7 +210,7 @@ describe('Service: WorklogApi', () => {
   });
 
   it('should not set getListIncomeIndividual, getListIncomeCorporate when forcheck() fucntion return false', () => {
-    spyOn(mockService, 'forCheckTokenPleaseRemoveMeIfFlowLoginFinnished').and.returnValue(true);
+    spyOn(mockService, 'forCheckTokenPleaseRemoveMeIfFlowLoginFinnished').and.returnValue(of(true));
     spyOn(mockService, 'getListIncomeIndividual').and.returnValue(of());
     spyOn(mockService, 'getListIncomeCorporate').and.returnValue(of());
     mockService.initDataService();

@@ -48,15 +48,18 @@ export class WorklogApiService {
     }
 
     initDataService() {
-        if (this.forCheckTokenPleaseRemoveMeIfFlowLoginFinnished()) {
-            this.getListIncomeIndividual().subscribe(individual => {
-                this.individualListed = individual;
-            });
+        console.log('for check = ', this.forCheckTokenPleaseRemoveMeIfFlowLoginFinnished())
+        this.forCheckTokenPleaseRemoveMeIfFlowLoginFinnished().subscribe( (checkTokenInterval) => {
+            if (checkTokenInterval) {
+                this.getListIncomeIndividual().subscribe(individual => {
+                    this.individualListed = individual;
+                });
 
-            this.getListIncomeCorporate().subscribe(corporate => {
-                this.corporateListed = corporate;
-            });
-        }
+                this.getListIncomeCorporate().subscribe(corporate => {
+                    this.corporateListed = corporate;
+                });
+            }
+        })
     }
 
     getHttpHeaderOption(): { headers: HttpHeaders } {
