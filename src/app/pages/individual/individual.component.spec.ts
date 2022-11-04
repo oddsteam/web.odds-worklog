@@ -11,6 +11,7 @@ import { AddIncomeComponent } from 'src/app/shared/components/add-income/add-inc
 import { ModalIncomeComponent } from 'src/app/shared/components/modal-income/modal-income.component';
 import { TableListComponent } from 'src/app/shared/components/table-list/table-list.component';
 import { StatusHighlightDirective } from 'src/app/shared/directives/status-highlight.directive';
+import { User } from 'src/app/shared/model/user';
 import { ListIndividualComponent } from './components/list-individual/list-individual.component';
 import { IndividualComponent } from './individual.component';
 
@@ -43,9 +44,7 @@ describe('IndividualComponent', () => {
   });
 
   it('should be personType to equal individual when role is individual', () => {
-    const res = {
-      role: 'individual'
-    };
+    const res = new User({ role: 'individual' });
     spyOn(worklogApiService, 'getUserByID').and.returnValue(of(res));
 
     component.ngOnInit();
