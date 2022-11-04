@@ -43,7 +43,7 @@ describe('TabMenuComponent', () => {
 
   describe('onInit', () => {
     it('should call get user by id when called', () => {
-      spyOn(component, 'getUserById').and.returnValue(of({}));
+      spyOn(component, 'getUserById').and.returnValue();
 
       component.ngOnInit();
 
@@ -51,7 +51,7 @@ describe('TabMenuComponent', () => {
     });
 
     it('should call check user type when called', () => {
-      spyOn(component, 'checkUserType').and.returnValue(of({}));
+      spyOn(component, 'checkUserType').and.returnValue();
 
       component.ngOnInit();
 
@@ -61,7 +61,7 @@ describe('TabMenuComponent', () => {
 
   describe('getUserById', () => {
     it('should get user by id from worklog api service', () => {
-      spyOn(worklogApiService, 'getUserByID').and.returnValue(of({}));
+      spyOn(worklogApiService, 'getUserByID').and.returnValue(of(new User()));
 
       component.getUserById();
 
@@ -69,7 +69,7 @@ describe('TabMenuComponent', () => {
     });
 
     it('should get user by id from worklog api service with given user id = MOCK_USER_ID', () => {
-      spyOn(worklogApiService, 'getUserByID').and.returnValue(of({}));
+      spyOn(worklogApiService, 'getUserByID').and.returnValue(of(new User()));
       component.id = 'MOCK_USER_ID';
 
       component.getUserById();
@@ -78,7 +78,7 @@ describe('TabMenuComponent', () => {
     });
 
     it('should set person type = MOCK_ROLE when get user by id is successfully', () => {
-      spyOn(worklogApiService, 'getUserByID').and.returnValue(of({ role: 'MOCK_ROLE' }));
+      spyOn(worklogApiService, 'getUserByID').and.returnValue(of(new User({ role: 'MOCK_ROLE' })));
       const expected = new User();
       expected.role = 'MOCK_ROLE';
 
@@ -89,7 +89,7 @@ describe('TabMenuComponent', () => {
 
     it('should call check tab menu when get user by id is successfully', () => {
       spyOn(component, 'checkTabMenu');
-      spyOn(worklogApiService, 'getUserByID').and.returnValue(of({ role: 'MOCK_ROLE' }));
+      spyOn(worklogApiService, 'getUserByID').and.returnValue(of(new User({ role: 'MOCK_ROLE' })));
 
       component.getUserById();
 
@@ -99,7 +99,7 @@ describe('TabMenuComponent', () => {
 
   describe('checkUserType', () => {
     it('should call is user type when called', () => {
-      spyOn(stateService, 'getTypeUser').and.returnValue(of({}));
+      spyOn(stateService, 'getTypeUser').and.returnValue(of(""));
 
       component.checkUserType();
 
