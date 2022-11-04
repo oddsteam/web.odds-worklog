@@ -34,7 +34,7 @@ describe('UsersManagementComponent', () => {
   });
 
   it('should call getUsersData in worklogApiService when call getUsersData', () => {
-    const mockResponse: User = {
+    const mockResponse: User[] = [new User({
       id: '1233',
       role: 'individual',
       firstName: 'Odds',
@@ -59,7 +59,7 @@ describe('UsersManagementComponent', () => {
       degreeCertificate: '',
       idCard: '',
       phone: ''
-    };
+    })];
     spyOn(worklogApiService, 'getUsersData').and.returnValue(of(mockResponse));
     component.getUsersData();
     expect(worklogApiService.getUsersData).toHaveBeenCalled();
