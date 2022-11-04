@@ -14,6 +14,7 @@ import { StateService } from '../../../../core/state.service';
 import { ComponentLoaderFactory } from 'ngx-bootstrap/component-loader';
 import { PositioningService } from 'ngx-bootstrap/positioning';
 import { ContentLoaderModule } from '@netbasal/ngx-content-loader';
+import { User } from 'src/app/shared/model/user';
 
 
 describe('ListIndividualComponent', () => {
@@ -58,10 +59,11 @@ describe('ListIndividualComponent', () => {
       submitDate: '2018-10-09:00:00:00',
       status: 'Y',
       user: [
-        {
+        new User({
           id: '1233',
           role: 'individual',
-          fullnameEn: 'ODDS ODDS',
+          firstName: "ODDS",
+          lastName: 'ODDS',
           email: 'odds@odds.team',
           bankAccountName: 'ชวินธร odds',
           bankAccountNumber: '112211221122',
@@ -76,11 +78,12 @@ describe('ListIndividualComponent', () => {
           statusTavi: true,
           degreeCertificate: '',
           idCard: '',
-        },
-        {
+        }),
+        new User({
           id: '1233',
           role: 'individual',
-          fullnameEn: 'ODDS ODDS',
+          firstName: "ODDS",
+          lastName: 'ODDS',
           email: 'odds@odds.team',
           bankAccountName: 'ชวินธรสอง odds',
           bankAccountNumber: '112211221122',
@@ -95,7 +98,7 @@ describe('ListIndividualComponent', () => {
           statusTavi: true,
           degreeCertificate: '',
           idCard: '',
-        },
+        }),
       ]
     };
     spyOn(worklogService, 'getListIncomeIndividual').and.returnValue(of(mockResponse));
@@ -190,7 +193,7 @@ describe('ListIndividualComponent', () => {
       submitDate: '2018-10-09:00:00:00',
       status: 'Y',
       user: [
-        {
+        new User({
           id: '1233',
           role: 'individual',
           firstName: 'ODDS',
@@ -209,8 +212,8 @@ describe('ListIndividualComponent', () => {
           statusTavi: true,
           degreeCertificate: '',
           idCard: '',
-        },
-        {
+        }),
+        new User({
           id: '1233',
           role: 'individual',
           firstName: 'ODDS',
@@ -229,7 +232,7 @@ describe('ListIndividualComponent', () => {
           statusTavi: true,
           degreeCertificate: '',
           idCard: '',
-        },
+        }),
       ]
     };
     spyOn(worklogService, 'getListIncomeIndividual').and.returnValue(of(mockResponse));
