@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { SocialAuthService} from 'angularx-social-login';
 import { of } from 'rxjs';
+import { ListIncomeResponse } from 'src/app/shared/model/list-income-model-response';
 import { Login } from 'src/app/shared/model/login';
 import { WorklogApiService } from '../../core/worklog-api.service';
 import { LoginGoogleComponent } from './login-google.component';
@@ -52,8 +53,8 @@ describe('LoginGoogleComponent', () => {
   });
 
   it('should set individualListed, corporateListed when call cacheData()', () => {
-    spyOn(workLogService, 'getListIncomeIndividual').and.returnValue(of(''));
-    spyOn(workLogService, 'getListIncomeCorporate').and.returnValue(of(''));
+    spyOn(workLogService, 'getListIncomeIndividual').and.returnValue(of(new ListIncomeResponse()));
+    spyOn(workLogService, 'getListIncomeCorporate').and.returnValue(of(new ListIncomeResponse()));
 
     component.cacheData();
 
