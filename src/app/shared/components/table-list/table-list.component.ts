@@ -41,7 +41,7 @@ export class TableListComponent implements OnInit, OnDestroy, OnChanges {
                     return;
                 }
             });
-            this.dtTrigger.next();
+            this.dtTrigger.next('');
         } else {
             this.isNoData = true;
             this.isShowLoading = false;
