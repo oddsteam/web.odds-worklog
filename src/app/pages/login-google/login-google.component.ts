@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { SocialAuthService, GoogleLoginProvider } from 'angularx-social-login';
+import { GoogleLoginProvider, SocialAuthService } from '@abacritt/angularx-social-login';
 import { forkJoin } from 'rxjs';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
 

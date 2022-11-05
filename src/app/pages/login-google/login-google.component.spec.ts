@@ -2,7 +2,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, inject, TestBed, waitForAsync } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { SocialAuthService} from 'angularx-social-login';
+import { SocialAuthService} from '@abacritt/angularx-social-login';
 import { of } from 'rxjs';
 import { ListIncomeResponse } from 'src/app/shared/model/list-income-model-response';
 import { Login } from 'src/app/shared/model/login';
