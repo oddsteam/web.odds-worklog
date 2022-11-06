@@ -1,3 +1,4 @@
+import { SocialAuthService } from '@abacritt/angularx-social-login';
 import { HttpErrorResponse } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
@@ -6,6 +7,7 @@ import { TranslateFakeLoader, TranslateLoader, TranslateModule } from '@ngx-tran
 import { of, throwError } from 'rxjs';
 import { StateService } from 'src/app/core/state.service';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
+import { createMockSocialAuthService } from 'src/app/pages/login-google/login-google.component.spec';
 import { AddIncomeResponse } from '../../model/add-income-model-response';
 import { User } from '../../model/user';
 import { HeaderComponent } from './header.component';
@@ -24,7 +26,8 @@ describe('HeaderComponent', () => {
           loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
         }), HttpClientTestingModule
       ],
-      providers: []
+      providers: [
+        { provide: SocialAuthService, useValue: createMockSocialAuthService() }]
     })
       .compileComponents();
   }));

@@ -1,3 +1,4 @@
+import { SocialAuthService } from '@abacritt/angularx-social-login';
 import { CommonModule } from '@angular/common';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, inject, TestBed, waitForAsync } from '@angular/core/testing';
@@ -16,6 +17,8 @@ import { LayoutsComponent } from './layouts.component';
 import { LoginLayoutComponent } from './login-layout/login-layout.component';
 import { CorporateComponent } from '../pages/corporate/corporate.component';
 import { User } from '../shared/model/user';
+import { FirstLoginComponent } from '../pages/first-login/first-login.component';
+import { createMockSocialAuthService } from '../pages/login-google/login-google.component.spec';
 
 describe('LayoutsComponent', () => {
   let component: LayoutsComponent;
@@ -26,13 +29,15 @@ describe('LayoutsComponent', () => {
       declarations: [LayoutsComponent, TabMenuComponent, HeaderComponent, AddIncomeComponent, ModalIncomeComponent],
       imports: [CommonModule, ReactiveFormsModule, FormsModule,
         RouterTestingModule.withRoutes([
+        {path: 'firstlogin', component: FirstLoginComponent},
         {path: 'login', component: LoginLayoutComponent},
         {path: 'corporate', component: CorporateComponent},
       ]), HttpClientTestingModule
         , TranslateModule.forRoot({
           loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
         })],
-      providers: [WorklogApiService, StateService],
+      providers: [WorklogApiService, StateService,
+        { provide: SocialAuthService, useValue: createMockSocialAuthService() }]
     })
       .compileComponents();
   }));
@@ -135,4 +140,3 @@ describe('LayoutsComponent', () => {
     expect(router.navigate).toHaveBeenCalledWith(['/corporate']);
   }));
 });
-
