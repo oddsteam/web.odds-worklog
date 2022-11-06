@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { SocialAuthServiceConfig, GoogleLoginProvider, SocialLoginModule } from '@abacritt/angularx-social-login';
+import { GoogleLoginProvider, SocialAuthServiceConfig } from '@abacritt/angularx-social-login';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SharedModule } from './shared/shared.module';
@@ -17,6 +17,7 @@ export function createTranslateLoader(http: HttpClient) {
 
 export function getAuthServiceConfigs() {
   const config = {
+    autoLogin: false,
     providers: [
       {
         id: GoogleLoginProvider.PROVIDER_ID,
@@ -30,7 +31,6 @@ export function getAuthServiceConfigs() {
 @NgModule({
   declarations: [AppComponent],
   imports: [
-    SocialLoginModule,
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,

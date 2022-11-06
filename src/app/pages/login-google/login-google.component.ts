@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { GoogleLoginProvider, SocialAuthService } from '@abacritt/angularx-social-login';
+import { GoogleLoginProvider, SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
 import { forkJoin } from 'rxjs';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
 
@@ -16,13 +16,8 @@ export class LoginGoogleComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-  }
-
-  socialSignIn() {
-    let socialPlatformProvider;
-    socialPlatformProvider = GoogleLoginProvider.PROVIDER_ID;
-    this.socialAuthService.signIn(socialPlatformProvider).then(
-      (userData) => {
+    this.socialAuthService.authState.subscribe(
+      (userData: SocialUser) => {
         if (this.isOddsTeam(userData.email)) {
           this.loginGoogle(userData.idToken);
         }
