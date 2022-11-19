@@ -1,4 +1,5 @@
 /* tslint:disable:no-unused-variable */
+import { HttpClient } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { DataTablesModule } from 'angular-datatables';
@@ -15,13 +16,15 @@ import { ComponentLoaderFactory } from 'ngx-bootstrap/component-loader';
 import { PositioningService } from 'ngx-bootstrap/positioning';
 import { ContentLoaderModule } from '@netbasal/ngx-content-loader';
 import { User } from 'src/app/shared/model/user';
+import { ListIncomeResponse } from 'src/app/shared/model/list-income-model-response';
 
 
 describe('ListIndividualComponent', () => {
   let component: ListIndividualComponent;
   let fixture: ComponentFixture<ListIndividualComponent>;
   let worklogService: WorklogApiService;
-  let individualListed;
+  let http: HttpClient;
+
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ListIndividualComponent, TableListComponent, StatusHighlightDirective],
@@ -35,13 +38,6 @@ describe('ListIndividualComponent', () => {
     fixture = TestBed.createComponent(ListIndividualComponent);
     worklogService = TestBed.inject(WorklogApiService);
     component = fixture.componentInstance;
-    individualListed = [{
-      user: {
-        id: '5c0c7f34ee10e80001cb3c9b', role: 'individual'
-        , firstName: 'aaa', lastName: 'bbb', email: 'who@odds.team', bankAccountName: 'มานะ ไม่มา'
-        , bankAccountNumber: '9898144777', vat: 'N', slackAccount: ''
-      }, submitDate: '', status: 'N'
-    }];
   });
 
   it('should create', () => {
@@ -49,131 +45,47 @@ describe('ListIndividualComponent', () => {
   });
 
   it('should call forCheckTokenPleaseRemoveMeIfFlowLoginFinnished in worklog service', () => {
-    spyOn(worklogService, 'getIndividualListed').and.returnValue(individualListed);
+    let individualListed = [{
+      user: {
+        id: '5c0c7f34ee10e80001cb3c9b', role: 'individual',
+        firstName: 'aaa', lastName: 'bbb', email: 'who@odds.team', bankAccountName: 'มานะ ไม่มา',
+        bankAccountNumber: '9898144777', vat: 'N', slackAccount: ''
+      }, submitDate: '', status: 'N'
+    }] as unknown as ListIncomeResponse;
+    let worklogService = createMockWorklogApiService(individualListed)
+    let component = new ListIndividualComponent(worklogService, TestBed.inject(StateService));
     component.ngOnInit();
     expect(component.listIncomeIndividual).toEqual(individualListed);
   });
 
   it('should call getListIncomeIndividual in worklog service', () => {
-    const mockResponse = {
-      submitDate: '2018-10-09:00:00:00',
-      status: 'Y',
-      user: [
-        new User({
-          id: '1233',
-          role: 'individual',
-          firstName: "ODDS",
-          lastName: 'ODDS',
-          email: 'odds@odds.team',
-          bankAccountName: 'ชวินธร odds',
-          bankAccountNumber: '112211221122',
-          thaiCitizenId: '12345423',
-          slackAccount: 'odds@odds.team',
-          siteId: '',
-          transcript: '',
-          site: null,
-          project: '',
-          dailyIncome: '',
-          address: 'every Where',
-          statusTavi: true,
-          degreeCertificate: '',
-          idCard: '',
-        }),
-        new User({
-          id: '1233',
-          role: 'individual',
-          firstName: "ODDS",
-          lastName: 'ODDS',
-          email: 'odds@odds.team',
-          bankAccountName: 'ชวินธรสอง odds',
-          bankAccountNumber: '112211221122',
-          thaiCitizenId: '12345423',
-          slackAccount: 'odds@odds.team',
-          siteId: '',
-          transcript: '',
-          site: null,
-          project: '',
-          dailyIncome: '',
-          address: 'every Where',
-          statusTavi: true,
-          degreeCertificate: '',
-          idCard: '',
-        }),
-      ]
-    };
-    spyOn(worklogService, 'getListIncomeIndividual').and.returnValue(of(mockResponse));
+    let mockResponse = mockIndividualUserList();
+    let worklogService = createMockWorklogApiService(mockResponse)
+    let component = new ListIndividualComponent(worklogService, TestBed.inject(StateService));
     component.getListIncomeIndividual();
-    expect(worklogService.getListIncomeIndividual).toHaveBeenCalled();
+    expect(http.get).toHaveBeenCalled();
   });
 
   it('listIncome should equal to response data', () => {
-    const mockResponse = {
-      submitDate: '2018-10-09:00:00:00',
-      status: 'Y',
-      user: [
-        {
-          id: '1233',
-          role: 'individual',
-          firstName: 'ODDS',
-          lastName: 'ODDS',
-          email: 'odds@odds.team',
-          bankAccountName: 'odds odds',
-          bankAccountNumber: '112211221122',
-          thaiCitizenId: '12345423',
-          vat: 'non-vat',
-          slackAccount: 'odds@odds.team',
-          siteId: '',
-          transcript: '',
-          site: null,
-          imageProfile: null,
-          project: '',
-          dailyIncome: '',
-          address: 'every Where',
-          statusTavi: true,
-          degreeCertificate: '',
-          idCard: '',
-          phone: ''
-        },
-        {
-          id: '1233',
-          role: 'individual',
-          firstName: 'ODDS',
-          lastName: 'ODDS',
-          email: 'odds@odds.team',
-          bankAccountName: 'odds odds',
-          bankAccountNumber: '112211221122',
-          thaiCitizenId: '12345423',
-          vat: 'non-vat',
-          slackAccount: 'odds@odds.team',
-          siteId: '',
-          transcript: '',
-          site: null,
-          imageProfile: null,
-          project: '',
-          dailyIncome: '',
-          address: 'every Where',
-          statusTavi: true,
-          degreeCertificate: '',
-          idCard: '',
-          phone: ''
-        },
-      ]
-    };
-    spyOn(worklogService, 'getListIncomeIndividual').and.returnValue(of(mockResponse));
+    let mockResponse = mockIndividualUserList();
+    let worklogService = createMockWorklogApiService(mockResponse)
+    let component = new ListIndividualComponent(worklogService, TestBed.inject(StateService));
     component.getListIncomeIndividual();
     expect(component.listIncomeIndividual).toEqual(mockResponse);
   });
 
   it('should call exportDataIndividual', () => {
     const mockBlob = new Blob([], { type: 'text/csv;charset=utf-8;' });
-    spyOn(worklogService, 'exportDataIndividual').and.returnValue(of(mockBlob));
+    let worklogService = createMockWorklogApiService(mockBlob)
+    let component = new ListIndividualComponent(worklogService, TestBed.inject(StateService));
     component.exportIndividual('0');
-    expect(worklogService.exportDataIndividual).toHaveBeenCalled();
+    expect(http.get).toHaveBeenCalled();
   });
 
   it('should call downloadFile if exportDataIndividual return response', () => {
     const mockBlob = new Blob([], { type: 'text/csv;charset=utf-8;' });
-    spyOn(worklogService, 'exportDataIndividual').and.returnValue(of(mockBlob));
+    let worklogService = createMockWorklogApiService(mockBlob)
+    let component = new ListIndividualComponent(worklogService, TestBed.inject(StateService));
     spyOn(component, 'downloadFile');
     component.exportIndividual('0');
     expect(component.downloadFile).toHaveBeenCalledWith(mockBlob, 'income_individual.csv');
@@ -189,55 +101,63 @@ describe('ListIndividualComponent', () => {
   });
 
   it('should call getListIncomeIndividual when isUpdateList = true', () => {
-    const mockResponse = {
-      submitDate: '2018-10-09:00:00:00',
-      status: 'Y',
-      user: [
-        new User({
-          id: '1233',
-          role: 'individual',
-          firstName: 'ODDS',
-          lastName: 'ODDS',
-          email: 'odds@odds.team',
-          bankAccountName: 'odds odds',
-          bankAccountNumber: '112211221122',
-          thaiCitizenId: '12345423',
-          vat: 'non-vat',
-          slackAccount: 'odds@odds.team',
-          siteId: '',
-          transcript: '',
-          site: null,
-          dailyIncome: '',
-          address: 'every Where',
-          statusTavi: true,
-          degreeCertificate: '',
-          idCard: '',
-        }),
-        new User({
-          id: '1233',
-          role: 'individual',
-          firstName: 'ODDS',
-          lastName: 'ODDS',
-          email: 'odds@odds.team',
-          bankAccountName: 'odds odds',
-          bankAccountNumber: '112211221122',
-          thaiCitizenId: '12345423',
-          vat: 'non-vat',
-          slackAccount: 'odds@odds.team',
-          siteId: '',
-          transcript: '',
-          site: null,
-          dailyIncome: '',
-          address: 'every Where',
-          statusTavi: true,
-          degreeCertificate: '',
-          idCard: '',
-        }),
-      ]
-    };
-    spyOn(worklogService, 'getListIncomeIndividual').and.returnValue(of(mockResponse));
+    let worklogService = createMockWorklogApiService(mockIndividualUserList())
+    let component = new ListIndividualComponent(worklogService, TestBed.inject(StateService));
     component.isUpdateList = true;
     component.ngOnChanges();
-    expect(worklogService.getListIncomeIndividual).toHaveBeenCalled();
+    expect(http.get).toHaveBeenCalled();
   });
+  function mockIndividualUserList() {
+    return {
+        submitDate: '2018-10-09:00:00:00',
+        status: 'Y',
+        user: [
+          new User({
+            id: '1233',
+            role: 'individual',
+            firstName: "ODDS",
+            lastName: 'ODDS',
+            email: 'odds@odds.team',
+            bankAccountName: 'ชวินธร odds',
+            bankAccountNumber: '112211221122',
+            thaiCitizenId: '12345423',
+            slackAccount: 'odds@odds.team',
+            siteId: '',
+            transcript: '',
+            site: null,
+            project: '',
+            dailyIncome: '',
+            address: 'every Where',
+            statusTavi: true,
+            degreeCertificate: '',
+            idCard: '',
+          }),
+          new User({
+            id: '1233',
+            role: 'individual',
+            firstName: "ODDS",
+            lastName: 'ODDS',
+            email: 'odds@odds.team',
+            bankAccountName: 'ชวินธรสอง odds',
+            bankAccountNumber: '112211221122',
+            thaiCitizenId: '12345423',
+            slackAccount: 'odds@odds.team',
+            siteId: '',
+            transcript: '',
+            site: null,
+            project: '',
+            dailyIncome: '',
+            address: 'every Where',
+            statusTavi: true,
+            degreeCertificate: '',
+            idCard: '',
+          }),
+        ]
+      }
+  }
+  function createMockWorklogApiService(mockResponse:any) {
+      http = {} as HttpClient;
+      http.get = jasmine.createSpy().and.returnValue(of(mockResponse));
+      return new WorklogApiService(http);
+  }
 });
