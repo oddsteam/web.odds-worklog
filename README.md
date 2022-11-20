@@ -1,3 +1,4 @@
+[![Build Status](https://github.com/oddsteam/web.odds-worklog/actions/workflows/deployment.yml/badge.svg)](https://github.com/oddsteam/web.odds-worklog/actions)
 # Odds Worklog
 ### Online Prod [http://worklog.odds.team/](http://worklog.odds.team/) ###
 ### Online Dev [http://worklog-dev.odds.team:32835/](http://worklog.odds.team/) ###
