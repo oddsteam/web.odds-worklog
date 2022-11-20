@@ -49,7 +49,7 @@ jobs:
       run: npm i
 
     - name: Run web unit test
-      run: npm t
+      run: npm run test:ci 
 
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
