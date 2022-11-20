@@ -76,7 +76,7 @@ describe('ListIndividualComponent', () => {
     });
   })
 
-  it('should call exportDataIndividual', () => {
+  it('should get data from backend when export data of the current month', () => {
     const mockBlob = new Blob([], { type: 'text/csv;charset=utf-8;' });
     let worklogService = createMockWorklogApiService(mockBlob)
     let component = new ListIndividualComponent(worklogService, TestBed.inject(StateService));
@@ -84,7 +84,7 @@ describe('ListIndividualComponent', () => {
     expect(http.get).toHaveBeenCalled();
   });
 
-  it('should call downloadFile if exportDataIndividual return response', () => {
+  it('should call download file automatically when export data successfully', () => {
     const mockBlob = new Blob([], { type: 'text/csv;charset=utf-8;' });
     let worklogService = createMockWorklogApiService(mockBlob)
     let component = new ListIndividualComponent(worklogService, TestBed.inject(StateService));
@@ -93,7 +93,7 @@ describe('ListIndividualComponent', () => {
     expect(component.downloadFile).toHaveBeenCalledWith(mockBlob, 'income_individual.csv');
   });
 
-  it('alert message if exportDataIndividual return error', () => {
+  it('shoudl show alert popup when export data fail', () => {
     spyOn(worklogService, 'exportDataIndividual').and.callFake(() => {
       return throwError('Fake Error');
     });
@@ -102,7 +102,7 @@ describe('ListIndividualComponent', () => {
     expect(window.alert).toHaveBeenCalledWith(`Can't export individual income to CSV file.`);
   });
 
-  it('should call getListIncomeIndividual when isUpdateList = true', () => {
+  it('should call get data from backend again when isUpdateList = true', () => {
     let worklogService = createMockWorklogApiService(mockIndividualUserList())
     let component = new ListIndividualComponent(worklogService, TestBed.inject(StateService));
     component.isUpdateList = true;
