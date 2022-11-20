@@ -40,11 +40,11 @@ describe('ListIndividualComponent', () => {
     component = fixture.componentInstance;
   });
 
-  it('should create', () => {
+  it('should be able to render individual listing page', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call forCheckTokenPleaseRemoveMeIfFlowLoginFinnished in worklog service', () => {
+  it('should get data from backend on init', () => {
     let individualListed = [{
       user: {
         id: '5c0c7f34ee10e80001cb3c9b', role: 'individual',
@@ -58,21 +58,23 @@ describe('ListIndividualComponent', () => {
     expect(component.listIncomeIndividual).toEqual(individualListed);
   });
 
-  it('should call getListIncomeIndividual in worklog service', () => {
-    let mockResponse = mockIndividualUserList();
-    let worklogService = createMockWorklogApiService(mockResponse)
-    let component = new ListIndividualComponent(worklogService, TestBed.inject(StateService));
-    component.getListIncomeIndividual();
-    expect(http.get).toHaveBeenCalled();
-  });
+  describe('getListIncomeIndividual ', () => {
+    it('should get data from backend', () => {
+      let mockResponse = mockIndividualUserList();
+      let worklogService = createMockWorklogApiService(mockResponse)
+      let component = new ListIndividualComponent(worklogService, TestBed.inject(StateService));
+      component.getListIncomeIndividual();
+      expect(http.get).toHaveBeenCalled();
+    });
 
-  it('listIncome should equal to response data', () => {
-    let mockResponse = mockIndividualUserList();
-    let worklogService = createMockWorklogApiService(mockResponse)
-    let component = new ListIndividualComponent(worklogService, TestBed.inject(StateService));
-    component.getListIncomeIndividual();
-    expect(component.listIncomeIndividual).toEqual(mockResponse);
-  });
+    it('should bound response in data table', () => {
+      let mockResponse = mockIndividualUserList();
+      let worklogService = createMockWorklogApiService(mockResponse)
+      let component = new ListIndividualComponent(worklogService, TestBed.inject(StateService));
+      component.getListIncomeIndividual();
+      expect(component.listIncomeIndividual).toEqual(mockResponse);
+    });
+  })
 
   it('should call exportDataIndividual', () => {
     const mockBlob = new Blob([], { type: 'text/csv;charset=utf-8;' });
