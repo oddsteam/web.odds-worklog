@@ -1,4 +1,5 @@
 /* tslint:disable:no-unused-variable */
+import { HttpClient } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -6,6 +7,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { of } from 'rxjs';
+import { StateService } from 'src/app/core/state.service';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
 import { AddIncomeResponse } from '../../model/add-income-model-response';
 import { IncomeFlag } from '../../model/income-flag';
@@ -15,6 +17,8 @@ describe('ModalIncomeComponent', () => {
   let component: ModalIncomeComponent;
   let fixture: ComponentFixture<ModalIncomeComponent>;
   let worklogApiService: WorklogApiService;
+  let http: HttpClient;
+
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [BrowserModule,
@@ -207,34 +211,6 @@ describe('ModalIncomeComponent', () => {
   it('should calculate VAT correctly', () => {
     const result = component.calVAT('100,000');
     expect(result).toEqual('7000.000000000001');
-  });
-
-  it('should call updateIncomeService in worklogApiService', () => {
-    const mockResponse: AddIncomeResponse = {
-      id: '01',
-      userId: '0000022233',
-      totalIncome: '100000',
-      netIncome: '40',
-      netDailyIncome: '',
-      submitDate: '2018-10-22:00:00:00',
-      note: '',
-      vat: '0.23',
-      wht: '100',
-      workDate: '20',
-      specialIncome: '2000',
-      netSpecialIncome: '2000',
-      workingHours: '10'
-    };
-    component.addIncomeData = null;
-    component.onSetupForm();
-    component.fg.patchValue({
-      specialIncome: '100000',
-      note: 'เงินเดือนนี้'
-    });
-    fixture.detectChanges();
-    spyOn(worklogApiService, 'updateIncomeService').and.returnValue(of(mockResponse));
-    component.updateIncomeService('100000');
-    expect(worklogApiService.updateIncomeService).toHaveBeenCalledWith(component.fg.value);
   });
 
   it('should emit closeModalEmit with true when updateIncomeService success', () => {
@@ -476,6 +452,54 @@ describe('ModalIncomeComponent', () => {
     component.updateData();
     expect(component.addIncomeData.wht).toEqual('300');
   });
+});
 
+describe('ModalIncomeComponent', () => {
+  let http: HttpClient;
+
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [BrowserModule,
+        FormsModule,
+        ReactiveFormsModule, RouterTestingModule, HttpClientTestingModule, NgbModule],
+      declarations: [ModalIncomeComponent],
+      providers: [WorklogApiService, FormBuilder]
+    })
+      .compileComponents();
+  }));
+
+  it('should call updateIncomeService in worklogApiService', () => {
+    const mockResponse: AddIncomeResponse = {
+      id: '01',
+      userId: '0000022233',
+      totalIncome: '100000',
+      netIncome: '40',
+      netDailyIncome: '',
+      submitDate: '2018-10-22:00:00:00',
+      note: '',
+      vat: '0.23',
+      wht: '100',
+      workDate: '20',
+      specialIncome: '2000',
+      netSpecialIncome: '2000',
+      workingHours: '10'
+    };
+    let worklogService = createMockWorklogApiService(mockResponse)
+    let component = new ModalIncomeComponent(TestBed.inject(FormBuilder), worklogService, TestBed.inject(StateService));
+    component.addIncomeData = null;
+    component.onSetupForm();
+    component.fg.patchValue({
+      specialIncome: '100000',
+      note: 'เงินเดือนนี้'
+    });
+    component.updateIncomeService('100000');
+    expect(http.put).toHaveBeenCalledWith(jasmine.anything(), component.fg.value, jasmine.anything());
+  });
+
+  function createMockWorklogApiService(mockResponse: AddIncomeResponse) {
+    http = {} as HttpClient;
+    http.put = jasmine.createSpy().and.returnValue(of(mockResponse));
+    return new WorklogApiService(http);
+  }
 });
 
