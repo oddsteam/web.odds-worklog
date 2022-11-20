@@ -263,7 +263,6 @@ describe('ModalIncomeComponent', () => {
         specialIncome: '100000',
         note: 'เงินเดือนนี้'
       });
-      // fixture.detectChanges();
       spyOn(worklogApiService, 'addIncomeConfirm').and.returnValue(of(mockResponse));
       spyOn(component.closeModalEmit, 'emit');
       component.addIncomeConfirm('100000');
@@ -343,7 +342,6 @@ describe('ModalIncomeComponent', () => {
         specialIncome: '100000',
         note: 'เงินเดือนนี้'
       });
-      // fixture.detectChanges();
       component.onSubmit();
       expect(component.addIncomeData.totalIncome).toEqual(component.totalIncome);
     });
@@ -356,7 +354,6 @@ describe('ModalIncomeComponent', () => {
         specialIncome: '100000',
         note: ''
       });
-      // fixture.detectChanges();
       component.onConfirm();
       expect(component.addIncomeEmit.emit).toHaveBeenCalledWith(true);
     });
@@ -433,13 +430,8 @@ describe('ModalIncomeComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [BrowserModule,
-        FormsModule,
-        ReactiveFormsModule, RouterTestingModule, HttpClientTestingModule, NgbModule],
-      declarations: [ModalIncomeComponent],
-      providers: [WorklogApiService, FormBuilder]
-    })
-      .compileComponents();
+      providers: [FormBuilder]
+    }).compileComponents();
   }));
 
   it('should call updateIncomeService in worklogApiService', () => {
@@ -464,7 +456,6 @@ describe('ModalIncomeComponent', () => {
       specialIncome: '100000',
       note: 'เงินเดือนนี้'
     });
-    // fixture.detectChanges();
     spyOn(component.closeModalEmit, 'emit');
     component.updateIncomeService('100000');
     expect(component.closeModalEmit.emit).toHaveBeenCalledWith(true);
