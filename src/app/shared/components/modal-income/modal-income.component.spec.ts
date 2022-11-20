@@ -443,22 +443,7 @@ describe('ModalIncomeComponent', () => {
   }));
 
   it('should call updateIncomeService in worklogApiService', () => {
-    const mockResponse: AddIncomeResponse = {
-      id: '01',
-      userId: '0000022233',
-      totalIncome: '100000',
-      netIncome: '40',
-      netDailyIncome: '',
-      submitDate: '2018-10-22:00:00:00',
-      note: '',
-      vat: '0.23',
-      wht: '100',
-      workDate: '20',
-      specialIncome: '2000',
-      netSpecialIncome: '2000',
-      workingHours: '10'
-    };
-    let worklogService = createMockWorklogApiService(mockResponse)
+    let worklogService = createMockWorklogApiService(mockAddIncomeResponse())
     let component = new ModalIncomeComponent(TestBed.inject(FormBuilder), worklogService, TestBed.inject(StateService));
     component.addIncomeData = null;
     component.onSetupForm();
@@ -471,22 +456,7 @@ describe('ModalIncomeComponent', () => {
   });
 
   it('should emit closeModalEmit with true when updateIncomeService success', () => {
-    const mockResponse: AddIncomeResponse = {
-      id: '01',
-      userId: '0000022233',
-      totalIncome: '100000',
-      netIncome: '40',
-      netDailyIncome: '',
-      submitDate: '2018-10-22:00:00:00',
-      note: '',
-      vat: '0.23',
-      wht: '100',
-      workDate: '20',
-      specialIncome: '2000',
-      netSpecialIncome: '2000',
-      workingHours: '10'
-    };
-    let worklogService = createMockWorklogApiService(mockResponse)
+    let worklogService = createMockWorklogApiService(mockAddIncomeResponse())
     let component = new ModalIncomeComponent(TestBed.inject(FormBuilder), worklogService, TestBed.inject(StateService));
     component.addIncomeData = null;
     component.onSetupForm();
@@ -507,4 +477,22 @@ describe('ModalIncomeComponent', () => {
     return new WorklogApiService(http);
   }
 });
+
+function mockAddIncomeResponse(): AddIncomeResponse {
+  return {
+    id: '01',
+    userId: '0000022233',
+    totalIncome: '100000',
+    netIncome: '40',
+    netDailyIncome: '',
+    submitDate: '2018-10-22:00:00:00',
+    note: '',
+    vat: '0.23',
+    wht: '100',
+    workDate: '20',
+    specialIncome: '2000',
+    netSpecialIncome: '2000',
+    workingHours: '10'
+  };
+}
 
