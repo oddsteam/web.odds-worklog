@@ -1,9 +1,10 @@
+import { SocialAuthService } from '@abacritt/angularx-social-login';
+import { HttpErrorResponse } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, inject, TestBed, waitForAsync } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { SocialAuthService} from '@abacritt/angularx-social-login';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { ListIncomeResponse } from 'src/app/shared/model/list-income-model-response';
 import { Login } from 'src/app/shared/model/login';
 import { WorklogApiService } from '../../core/worklog-api.service';
@@ -94,6 +95,21 @@ describe('LoginGoogleComponent', () => {
     component.loginGoogle('123');
     expect(workLogService.initDataService).toHaveBeenCalled();
     expect(router.navigate).toHaveBeenCalledWith(['firstlogin']);
+  }));
+
+  it('should show popup to user when API is down', () => {
+    const error = new HttpErrorResponse({ status: 500, error: 'Http failure response' })
+    spyOn(workLogService, 'getLoginGoogle').and.returnValue(throwError(error));
+    spyOn(window, 'alert');
+    component.loginGoogle('123');
+    expect(window.alert).toHaveBeenCalledWith(error.message);
+  });
+
+  it('should not redirect anywhere when API is down', inject([Router], (router: Router) => {
+    spyOn(router, 'navigate');
+    spyOn(workLogService, 'getLoginGoogle').and.returnValue(throwError(new HttpErrorResponse({ status: 500, error: 'Http failure response' })));
+    component.loginGoogle('123');
+    expect(router.navigate).not.toHaveBeenCalled();
   }));
 });
 

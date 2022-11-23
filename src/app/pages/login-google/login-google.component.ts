@@ -1,8 +1,9 @@
+import { SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { GoogleLoginProvider, SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
 import { forkJoin } from 'rxjs';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
+import { Login } from 'src/app/shared/model/login';
 
 @Component({
   selector: 'app-login-google',
@@ -26,7 +27,17 @@ export class LoginGoogleComponent implements OnInit {
   }
 
   loginGoogle(idToken: string) {
-    this.worklogService.getLoginGoogle(idToken).subscribe(res => {
+    this.worklogService.getLoginGoogle(idToken).subscribe({
+      next: res => this.handleSuccess(res),
+      error: (err) => {
+        console.log('before calling handle error')
+        this.handleError(err)
+      },
+    });
+
+  }
+
+  private handleSuccess(res: Login) {
       sessionStorage.setItem('token', 'Bearer ' + res.token);
       this.worklogService.initDataService();
       sessionStorage.setItem('idUser', res.user.id);
@@ -42,8 +53,11 @@ export class LoginGoogleComponent implements OnInit {
       } else {
         this.router.navigate(['firstlogin']);
       }
-    });
+  }
 
+  private handleError(err) {
+    alert(err.message);
+    console.log(err);
   }
 
   private isOddsTeam(email: string): boolean {
