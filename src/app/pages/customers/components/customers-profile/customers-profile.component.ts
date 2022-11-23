@@ -70,12 +70,14 @@ export class CustomersProfileComponent implements OnInit {
 
   onUpdate() {
     if (this.formGroupCustomer.valid) {
-      this.worklogApiService.updateCustomerById(this.customerId, this.formGroupCustomer.value).subscribe(response => {
-        this.closeModal();
-        this.getCustomerData();
-        this.formGroupCustomer.reset();
-        this.showMessage = true;
-      }, err => console.log(err));
+      this.worklogApiService.updateCustomerById(this.customerId, this.formGroupCustomer.value).subscribe({
+        next: _ => {
+          this.closeModal();
+          this.getCustomerData();
+          this.formGroupCustomer.reset();
+          this.showMessage = true;
+        }, 
+        error: err => console.log(err)});
     } else {
       alert('กรุณากรอกข้อมมูลให้ครบถ้วน');
     }

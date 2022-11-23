@@ -38,25 +38,31 @@ export class InvoiceComponent implements OnInit {
   }
 
   getProductOwnerId() {
-    this.worklogService.getProductOwnerId.subscribe(id => {
-      this.poId = id;
-    }, err => console.log(err));
+    this.worklogService.getProductOwnerId.subscribe({
+      next: id => {
+        this.poId = id;
+      }, 
+      error: err => console.log(err)});
   }
 
   getInvoiceNumber() {
-    this.invoiceService.getNextInvoiceNumber(this.poId).subscribe(response => {
-      this.invoiceNo = response.invoiceNo;
-      this.fg.get('invoiceNo').setValue(response.invoiceNo);
-    }, err => console.log(err));
+    this.invoiceService.getNextInvoiceNumber(this.poId).subscribe({
+      next: response => {
+        this.invoiceNo = response.invoiceNo;
+        this.fg.get('invoiceNo').setValue(response.invoiceNo);
+      }, 
+      error: err => console.log(err)});
   }
 
   getInvoiceData() {
-    this.invoiceService.getInvoiceListPoById(this.poId).subscribe(response => {
-      this.invoiceData = response;
-      if (response.length === 0) {
-        this.getInvoiceNumber();
-      }
-    }, err => console.log(err));
+    this.invoiceService.getInvoiceListPoById(this.poId).subscribe({
+      next: response => {
+        this.invoiceData = response;
+        if (response.length === 0) {
+          this.getInvoiceNumber();
+        }
+      }, 
+      error: err => console.log(err)});
   }
 
   setupForm() {
