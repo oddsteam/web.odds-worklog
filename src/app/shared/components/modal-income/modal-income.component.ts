@@ -179,10 +179,7 @@ export class ModalIncomeComponent implements OnInit {
         this.stateService.triggerListIncomeIndividual();
         this.closeModalEmit.emit(true);
       },
-      error: (err) => {
-        alert(err.message);
-        console.log(err);
-      },
+      error: this.handleError,
     });
   }
 
@@ -197,11 +194,13 @@ export class ModalIncomeComponent implements OnInit {
         this.stateService.triggerListIncomeIndividual();
         this.closeModalEmit.emit(true);
       },
-      error: (err) => {
-        alert(err.message);
-        console.log(err);
-      },
+      error: this.handleError,
     });
+  }
+
+  handleError(err) {
+    alert(err.message);
+    console.log(err);
   }
 
   calVAT(netIncome: string): string {
