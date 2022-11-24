@@ -214,21 +214,7 @@ describe('ModalIncomeComponent', () => {
     });
 
     it('should call addIncomeConfirm in worklogApiService', () => {
-      const mockResponse: AddIncomeResponse = {
-        id: '01',
-        userId: '0000022233',
-        totalIncome: '100000',
-        netIncome: '40',
-        netDailyIncome: '',
-        submitDate: '2018-10-22:00:00:00',
-        note: '',
-        vat: '0.23',
-        wht: '100',
-        workDate: '20',
-        specialIncome: '2000',
-        netSpecialIncome: '2000',
-        workingHours: '10'
-      };
+      const mockResponse: AddIncomeResponse = mockAddIncomeResponse();
       component.addIncomeData = null;
       component.onSetupForm();
       component.fg.patchValue({
