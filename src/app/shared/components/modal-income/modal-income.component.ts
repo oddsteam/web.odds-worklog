@@ -175,9 +175,7 @@ export class ModalIncomeComponent implements OnInit {
     this.worklogApiService.addIncomeConfirm(addIncome).subscribe({
       next: (_) => {
         IncomeFlag.isUpdate = true;
-        this.stateService.triggerListIncomeCorporate();
-        this.stateService.triggerListIncomeIndividual();
-        this.closeModalEmit.emit(true);
+        this.handleSaveIncomeSuccess();
       },
       error: this.handleError,
     });
@@ -189,13 +187,15 @@ export class ModalIncomeComponent implements OnInit {
     });
     const addIncome = this.fg.value;
     this.worklogApiService.updateIncomeService(addIncome).subscribe({
-      next: (_) => {
-        this.stateService.triggerListIncomeCorporate();
-        this.stateService.triggerListIncomeIndividual();
-        this.closeModalEmit.emit(true);
-      },
+      next: (_) => this.handleSaveIncomeSuccess(),
       error: this.handleError,
     });
+  }
+
+  handleSaveIncomeSuccess() {
+    this.stateService.triggerListIncomeCorporate();
+    this.stateService.triggerListIncomeIndividual();
+    this.closeModalEmit.emit(true);
   }
 
   handleError(err) {
