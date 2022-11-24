@@ -198,6 +198,7 @@ export class ModalIncomeComponent implements OnInit {
         this.closeModalEmit.emit(true);
       },
       error: (err) => {
+        alert(err.message);
         console.log(err);
       },
     });

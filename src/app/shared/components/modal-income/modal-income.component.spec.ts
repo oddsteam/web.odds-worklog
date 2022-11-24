@@ -6,7 +6,7 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angul
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { of, throwError } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { StateService } from 'src/app/core/state.service';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
 import { AddIncomeResponse } from '../../model/add-income-model-response';
@@ -214,14 +214,13 @@ describe('ModalIncomeComponent', () => {
     });
 
     it('should call addIncomeConfirm in worklogApiService', () => {
-      const mockResponse: AddIncomeResponse = mockAddIncomeResponse();
       component.addIncomeData = null;
       component.onSetupForm();
       component.fg.patchValue({
         specialIncome: '100000',
         note: 'เงินเดือนนี้'
       });
-      spyOn(worklogApiService, 'addIncomeConfirm').and.returnValue(of(mockResponse));
+      spyOn(worklogApiService, 'addIncomeConfirm').and.returnValue(mockAddIncomeResponse());
       component.addIncomeConfirm('100000');
       expect(worklogApiService.addIncomeConfirm).toHaveBeenCalledWith(component.fg.value);
     });
@@ -446,6 +445,21 @@ describe('ModalIncomeComponent', () => {
     expect(http.put).toHaveBeenCalledWith(jasmine.anything(), component.fg.value, jasmine.anything());
   });
 
+  it('should alert error when cannot update income', () => {
+    const error = new Error("Cannot connect API");
+    let worklogService = createMockWorklogApiService(throwError(error))
+    let component = new ModalIncomeComponent(TestBed.inject(FormBuilder), worklogService, TestBed.inject(StateService));
+    component.addIncomeData = null;
+    component.onSetupForm();
+    component.fg.patchValue({
+      specialIncome: '100000',
+      note: 'เงินเดือนนี้'
+    });
+    spyOn(window, 'alert');
+    component.updateIncomeService('100000');
+    expect(window.alert).toHaveBeenCalledWith(error.message);
+  });
+
   it('should emit closeModalEmit with true when updateIncomeService success', () => {
     let worklogService = createMockWorklogApiService(mockAddIncomeResponse())
     let component = new ModalIncomeComponent(TestBed.inject(FormBuilder), worklogService, TestBed.inject(StateService));
@@ -461,15 +475,15 @@ describe('ModalIncomeComponent', () => {
   });
 
 
-  function createMockWorklogApiService(mockResponse: AddIncomeResponse) {
+  function createMockWorklogApiService(mockResponse: any) {
     http = {} as HttpClient;
-    http.put = jasmine.createSpy().and.returnValue(of(mockResponse));
+    http.put = jasmine.createSpy().and.returnValue(mockResponse);
     return new WorklogApiService(http);
   }
 });
 
-function mockAddIncomeResponse(): AddIncomeResponse {
-  return {
+function mockAddIncomeResponse(): Observable<AddIncomeResponse> {
+  return of({
     id: '01',
     userId: '0000022233',
     totalIncome: '100000',
@@ -483,6 +497,6 @@ function mockAddIncomeResponse(): AddIncomeResponse {
     specialIncome: '2000',
     netSpecialIncome: '2000',
     workingHours: '10'
-  };
+  });
 }
 
