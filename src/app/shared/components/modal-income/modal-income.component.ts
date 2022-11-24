@@ -182,7 +182,7 @@ export class ModalIncomeComponent implements OnInit {
       error: (err) => {
         alert(err.message);
         console.log(err);
-      }
+      },
     });
   }
 
@@ -191,16 +191,16 @@ export class ModalIncomeComponent implements OnInit {
       specialIncome: specialIncome,
     });
     const addIncome = this.fg.value;
-    this.worklogApiService.updateIncomeService(addIncome).subscribe(
-      (res) => {
+    this.worklogApiService.updateIncomeService(addIncome).subscribe({
+      next: (res) => {
         this.stateService.triggerListIncomeCorporate();
         this.stateService.triggerListIncomeIndividual();
         this.closeModalEmit.emit(true);
       },
-      (err) => {
+      error: (err) => {
         console.log(err);
-      }
-    );
+      },
+    });
   }
 
   calVAT(netIncome: string): string {
