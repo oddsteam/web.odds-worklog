@@ -173,7 +173,7 @@ export class ModalIncomeComponent implements OnInit {
     });
     const addIncome = this.fg.value;
     this.worklogApiService.addIncomeConfirm(addIncome).subscribe({
-      next: (res) => {
+      next: (_) => {
         IncomeFlag.isUpdate = true;
         this.stateService.triggerListIncomeCorporate();
         this.stateService.triggerListIncomeIndividual();
@@ -189,7 +189,7 @@ export class ModalIncomeComponent implements OnInit {
     });
     const addIncome = this.fg.value;
     this.worklogApiService.updateIncomeService(addIncome).subscribe({
-      next: (res) => {
+      next: (_) => {
         this.stateService.triggerListIncomeCorporate();
         this.stateService.triggerListIncomeIndividual();
         this.closeModalEmit.emit(true);
