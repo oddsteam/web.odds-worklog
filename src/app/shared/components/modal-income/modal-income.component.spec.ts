@@ -6,7 +6,7 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angul
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { StateService } from 'src/app/core/state.service';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
 import { AddIncomeResponse } from '../../model/add-income-model-response';
@@ -221,10 +221,23 @@ describe('ModalIncomeComponent', () => {
         specialIncome: '100000',
         note: 'เงินเดือนนี้'
       });
-      // fixture.detectChanges();
       spyOn(worklogApiService, 'addIncomeConfirm').and.returnValue(of(mockResponse));
       component.addIncomeConfirm('100000');
       expect(worklogApiService.addIncomeConfirm).toHaveBeenCalledWith(component.fg.value);
+    });
+
+    it('should alert error when cannot add income', () => {
+      component.addIncomeData = null;
+      component.onSetupForm();
+      component.fg.patchValue({
+        specialIncome: '100000',
+        note: 'เงินเดือนนี้'
+      });
+      const error = new Error("Cannot connect API")
+      spyOn(worklogApiService, 'addIncomeConfirm').and.returnValue(throwError(error));
+      spyOn(window, 'alert');
+      component.addIncomeConfirm('100000');
+      expect(window.alert).toHaveBeenCalledWith(error.message);
     });
 
     it('should emit closeModalEmit with true when addIncomeConfirm success', () => {

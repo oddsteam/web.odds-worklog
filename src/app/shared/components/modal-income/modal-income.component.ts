@@ -158,6 +158,7 @@ export class ModalIncomeComponent implements OnInit {
       this.stateService.triggerListIncomeIndividual();
       this.closeModalEmit.emit(true);
     }, err => {
+      alert(err.message);
       console.log(err);
     });
   }
