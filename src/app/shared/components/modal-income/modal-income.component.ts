@@ -172,18 +172,18 @@ export class ModalIncomeComponent implements OnInit {
       specialIncome: specialIncome,
     });
     const addIncome = this.fg.value;
-    this.worklogApiService.addIncomeConfirm(addIncome).subscribe(
-      (res) => {
+    this.worklogApiService.addIncomeConfirm(addIncome).subscribe({
+      next: (res) => {
         IncomeFlag.isUpdate = true;
         this.stateService.triggerListIncomeCorporate();
         this.stateService.triggerListIncomeIndividual();
         this.closeModalEmit.emit(true);
       },
-      (err) => {
+      error: (err) => {
         alert(err.message);
         console.log(err);
       }
-    );
+    });
   }
 
   updateIncomeService(specialIncome) {
