@@ -168,11 +168,7 @@ export class ModalIncomeComponent implements OnInit {
   }
 
   addIncomeConfirm(specialIncome) {
-    this.fg.patchValue({
-      specialIncome: specialIncome,
-    });
-    const addIncome = this.fg.value;
-    this.worklogApiService.addIncomeConfirm(addIncome).subscribe({
+    this.worklogApiService.addIncomeConfirm(this.getIncome(specialIncome)).subscribe({
       next: (_) => {
         IncomeFlag.isUpdate = true;
         this.handleSaveIncomeSuccess();
@@ -182,14 +178,18 @@ export class ModalIncomeComponent implements OnInit {
   }
 
   updateIncomeService(specialIncome) {
+    this.worklogApiService.updateIncomeService(this.getIncome(specialIncome)).subscribe({
+      next: (_) => this.handleSaveIncomeSuccess(),
+      error: this.handleError,
+    });
+  }
+
+  getIncome(specialIncome) {
     this.fg.patchValue({
       specialIncome: specialIncome,
     });
     const addIncome = this.fg.value;
-    this.worklogApiService.updateIncomeService(addIncome).subscribe({
-      next: (_) => this.handleSaveIncomeSuccess(),
-      error: this.handleError,
-    });
+    return addIncome; 
   }
 
   handleSaveIncomeSuccess() {
