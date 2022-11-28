@@ -95,17 +95,15 @@ export class ModalIncomeComponent implements OnInit {
     this.dailyIncome
       ? ""
       : alert("รบกวนใส่ รายได้ต่อวัน ที่หน้า Profile ก่อนนะ");
-    const dailyIncome = this.dailyIncome
-      ? this.stringToNumber(this.dailyIncome)
-      : 1;
+    const dailyIncome = this.dailyIncome ? stringToNumber(this.dailyIncome) : 1;
     const workDate = this.workDate.value
-      ? this.stringToNumber(this.workDate.value)
+      ? stringToNumber(this.workDate.value)
       : 0;
     const specialIncome = this.specialIncome.value
-      ? this.stringToNumber(this.specialIncome.value)
+      ? stringToNumber(this.specialIncome.value)
       : 1;
     const workingHours = this.workingHours.value
-      ? this.stringToNumber(this.workingHours.value)
+      ? stringToNumber(this.workingHours.value)
       : 0;
     const netDailyIncome = dailyIncome * workDate;
     const netSpecialIncome = specialIncome * workingHours;
@@ -116,16 +114,14 @@ export class ModalIncomeComponent implements OnInit {
   }
 
   calTax() {
-    this.vatPrimary = this.calVAT(this.addIncomeData.netDailyIncome);
-    this.vatSpecial = this.calVAT(this.addIncomeData.netSpecialIncome);
+    this.vatPrimary = calVAT(this.addIncomeData.netDailyIncome);
+    this.vatSpecial = calVAT(this.addIncomeData.netSpecialIncome);
     if (sessionStorage.getItem("role") === "corporate") {
-      this.whtPrimary = this.calWHTCorporate(this.addIncomeData.netDailyIncome);
-      this.whtSpecial = this.calWHTCorporate(
-        this.addIncomeData.netSpecialIncome
-      );
+      this.whtPrimary = calWHTCorporate(this.addIncomeData.netDailyIncome);
+      this.whtSpecial = calWHTCorporate(this.addIncomeData.netSpecialIncome);
     } else {
-      this.whtPrimary = this.calWHT(this.addIncomeData.netDailyIncome);
-      this.whtSpecial = this.calWHT(this.addIncomeData.netSpecialIncome);
+      this.whtPrimary = calWHT(this.addIncomeData.netDailyIncome);
+      this.whtSpecial = calWHT(this.addIncomeData.netSpecialIncome);
     }
   }
 
@@ -140,9 +136,9 @@ export class ModalIncomeComponent implements OnInit {
 
   onConfirm() {
     if (IncomeFlag.isUpdate) {
-      this.updateIncomeService(this.cutComma(this.specialIncome.value));
+      this.updateIncomeService(cutComma(this.specialIncome.value));
     } else {
-      this.addIncomeConfirm(this.cutComma(this.specialIncome.value));
+      this.addIncomeConfirm(cutComma(this.specialIncome.value));
     }
     this.closeModalEmit.emit(true);
     this.addIncomeEmit.emit(true);
@@ -152,15 +148,13 @@ export class ModalIncomeComponent implements OnInit {
     this.specialIncome.setValue(
       this.specialIncome.value === "" ? "0" : this.specialIncome.value
     );
-    this.addIncomeData.vat = this.calVAT(this.addIncomeData.totalIncome);
+    this.addIncomeData.vat = calVAT(this.addIncomeData.totalIncome);
     if (sessionStorage.getItem("role") === "corporate") {
-      this.addIncomeData.wht = this.calWHTCorporate(
-        this.addIncomeData.totalIncome
-      );
+      this.addIncomeData.wht = calWHTCorporate(this.addIncomeData.totalIncome);
     } else {
-      this.addIncomeData.wht = this.calWHT(this.addIncomeData.totalIncome);
+      this.addIncomeData.wht = calWHT(this.addIncomeData.totalIncome);
     }
-    this.addIncomeData.totalIncome = this.calNetIncome(
+    this.addIncomeData.totalIncome = calNetIncome(
       this.addIncomeData.totalIncome,
       this.typeVat === "Y" ? this.addIncomeData.vat : "0",
       this.addIncomeData.wht
@@ -168,20 +162,24 @@ export class ModalIncomeComponent implements OnInit {
   }
 
   addIncomeConfirm(specialIncome) {
-    this.worklogApiService.addIncomeConfirm(this.getIncome(specialIncome)).subscribe({
-      next: (_) => {
-        IncomeFlag.isUpdate = true;
-        this.handleSaveIncomeSuccess();
-      },
-      error: this.handleError,
-    });
+    this.worklogApiService
+      .addIncomeConfirm(this.getIncome(specialIncome))
+      .subscribe({
+        next: (_) => {
+          IncomeFlag.isUpdate = true;
+          this.handleSaveIncomeSuccess();
+        },
+        error: this.handleError,
+      });
   }
 
   updateIncomeService(specialIncome) {
-    this.worklogApiService.updateIncomeService(this.getIncome(specialIncome)).subscribe({
-      next: (_) => this.handleSaveIncomeSuccess(),
-      error: this.handleError,
-    });
+    this.worklogApiService
+      .updateIncomeService(this.getIncome(specialIncome))
+      .subscribe({
+        next: (_) => this.handleSaveIncomeSuccess(),
+        error: this.handleError,
+      });
   }
 
   getIncome(specialIncome) {
@@ -189,7 +187,7 @@ export class ModalIncomeComponent implements OnInit {
       specialIncome: specialIncome,
     });
     const addIncome = this.fg.value;
-    return addIncome; 
+    return addIncome;
   }
 
   handleSaveIncomeSuccess() {
@@ -201,30 +199,6 @@ export class ModalIncomeComponent implements OnInit {
   handleError(err) {
     alert(err.message);
     console.log(err);
-  }
-
-  calVAT(netIncome: string): string {
-    return (this.stringToNumber(netIncome) * 0.07).toString();
-  }
-
-  calWHT(netIncome: string): string {
-    return (this.stringToNumber(netIncome) * 0.03).toString();
-  }
-
-  calWHTCorporate(netIncome: string): string {
-    return (this.stringToNumber(netIncome) * 0.03).toString();
-  }
-
-  calNetIncome(totalIncome: string, vat: string, wht: string): string {
-    return (
-      this.stringToNumber(totalIncome) +
-      this.stringToNumber(vat) -
-      this.stringToNumber(wht)
-    ).toString();
-  }
-
-  stringToNumber(text: string): number {
-    return Number(this.cutComma(text));
   }
 
   disableButton(): boolean {
@@ -249,10 +223,6 @@ export class ModalIncomeComponent implements OnInit {
     const workingHours = this.workingHours.value;
     const stringFormat = this.formatInteger(workingHours);
     this.fg.get("workingHours").setValue(stringFormat);
-  }
-
-  cutComma(text: string): string {
-    return text.replace(/,/g, "");
   }
 
   formatInteger(data: string): string {
@@ -318,4 +288,36 @@ export class ModalIncomeComponent implements OnInit {
   get workingHours(): AbstractControl {
     return this.fg.get("workingHours");
   }
+}
+
+export function calVAT(netIncome: string): string {
+  return (stringToNumber(netIncome) * 0.07).toString();
+}
+
+export function calWHT(netIncome: string): string {
+  return (stringToNumber(netIncome) * 0.03).toString();
+}
+
+export function calWHTCorporate(netIncome: string): string {
+  return (stringToNumber(netIncome) * 0.03).toString();
+}
+
+export function calNetIncome(
+  totalIncome: string,
+  vat: string,
+  wht: string
+): string {
+  return (
+    stringToNumber(totalIncome) +
+    stringToNumber(vat) -
+    stringToNumber(wht)
+  ).toString();
+}
+
+export function stringToNumber(text: string): number {
+  return Number(cutComma(text));
+}
+
+export function cutComma(text: string): string {
+  return text.replace(/,/g, "");
 }

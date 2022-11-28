@@ -11,7 +11,7 @@ import { StateService } from 'src/app/core/state.service';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
 import { AddIncomeResponse } from '../../model/add-income-model-response';
 import { IncomeFlag } from '../../model/income-flag';
-import { ModalIncomeComponent } from './modal-income.component';
+import { calNetIncome, calVAT, calWHT, cutComma, ModalIncomeComponent, stringToNumber } from './modal-income.component';
 
 describe('ModalIncomeComponent', () => {
   beforeEach(waitForAsync(() => {
@@ -78,7 +78,7 @@ describe('ModalIncomeComponent', () => {
     });
 
     it('should convert string to number', () => {
-      expect(component.stringToNumber('100,000,000')).toEqual(100000000);
+      expect(stringToNumber('100,000,000')).toEqual(100000000);
     });
 
     it('attribute in form should be empty if addIncome = null', () => {
@@ -146,7 +146,7 @@ describe('ModalIncomeComponent', () => {
     });
 
     it('should remove comma in number', () => {
-      expect(component.cutComma('100,000,000')).toEqual('100000000');
+      expect(cutComma('100,000,000')).toEqual('100000000');
     });
 
     it('should No zero Infrontof Amount', () => {
@@ -199,17 +199,17 @@ describe('ModalIncomeComponent', () => {
     });
 
     it('should calculate net income correctly', () => {
-      const result = component.calNetIncome('110,000', '0.07', '0.03');
+      const result = calNetIncome('110,000', '0.07', '0.03');
       expect(result).toEqual('110000.04000000001');
     });
 
     it('should calculate WHT correctly', () => {
-      const result = component.calWHT('100,000');
+      const result = calWHT('100,000');
       expect(result).toEqual('3000');
     });
 
     it('should calculate VAT correctly', () => {
-      const result = component.calVAT('100,000');
+      const result = calVAT('100,000');
       expect(result).toEqual('7000.000000000001');
     });
 
@@ -283,27 +283,30 @@ describe('ModalIncomeComponent', () => {
       expect(component.addIncomeData.wht).toEqual('300');
     });
 
-    it('if user is Y when call updateData addIncomeData.net should have not call calNetIncome with vat = 0', () => {
+    it('corporate user should earn 104% of total when updateData', () => {
       component.addIncomeData = null;
       component.onSetupForm();
-      component.addIncomeData.totalIncome = '10000';
+      const total = 10000;
+      component.addIncomeData.totalIncome = `${total}`;
       component.typeUser = 'Y';
       component.typeVat = 'Y';
-      spyOn(component, 'calNetIncome');
       component.updateData();
-      expect(component.calNetIncome).toHaveBeenCalledWith('10000', component.addIncomeData.vat,
-        component.addIncomeData.wht);
+      const vat7percent = total * 0.07;
+      const withholdingtax3percnet = total * 0.03;
+      const expected = total + vat7percent - withholdingtax3percnet
+      expect(component.addIncomeData.totalIncome).toEqual(`${expected}`)
     });
 
-    it('if user is N when call updateData addIncomeData.net should have call calNetIncome with vat = 0', () => {
+    it('individual user income should be deducted by 3% as withholding tax individual when updateData', () => {
       component.addIncomeData = null;
       component.onSetupForm();
-      component.addIncomeData.totalIncome = '10000';
+      const total = 10000;
+      component.addIncomeData.totalIncome = `${total}`;
       component.typeUser = 'N';
-      spyOn(component, 'calNetIncome');
+      const withholdingtax3percnet = total * 0.03;
+      const expected = total - withholdingtax3percnet
       component.updateData();
-      expect(component.calNetIncome).toHaveBeenCalledWith('10000', '0',
-        component.addIncomeData.wht);
+      expect(component.addIncomeData.totalIncome).toEqual('9700')
     });
 
     it('when IncomeFlag.isUpdate = true it should call updateIncomeService', () => {
