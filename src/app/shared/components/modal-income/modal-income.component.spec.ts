@@ -297,6 +297,19 @@ describe('ModalIncomeComponent', () => {
       expect(component.addIncomeData.totalIncome).toEqual(`${expected}`)
     });
 
+    it('sme (corporate) user with yearly income less than 1.8M does not require VAT so it should earn 97% of total when updateData', () => {
+      component.addIncomeData = null;
+      component.onSetupForm();
+      const total = 10000;
+      component.addIncomeData.totalIncome = `${total}`;
+      component.typeUser = 'Y';
+      component.typeVat = 'N';
+      component.updateData();
+      const withholdingtax3percnet = total * 0.03;
+      const expected = total - withholdingtax3percnet
+      expect(component.addIncomeData.totalIncome).toEqual(`${expected}`)
+    });
+
     it('individual user income should be deducted by 3% as withholding tax individual when updateData', () => {
       component.addIncomeData = null;
       component.onSetupForm();
@@ -306,7 +319,7 @@ describe('ModalIncomeComponent', () => {
       const withholdingtax3percnet = total * 0.03;
       const expected = total - withholdingtax3percnet
       component.updateData();
-      expect(component.addIncomeData.totalIncome).toEqual('9700')
+      expect(component.addIncomeData.totalIncome).toEqual(`${expected}`)
     });
 
     it('when IncomeFlag.isUpdate = true it should call updateIncomeService', () => {
