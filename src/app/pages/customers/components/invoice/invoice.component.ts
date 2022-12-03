@@ -2,7 +2,7 @@ import { NumberUtil } from 'src/app/shared/utils/number.util';
 import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
 import { InvoiceModel } from 'src/app/shared/model/invoice-model';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { InvoiceService } from 'src/app/core/invoice.service';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
 
@@ -13,7 +13,7 @@ import { WorklogApiService } from 'src/app/core/worklog-api.service';
 })
 export class InvoiceComponent implements OnInit {
 
-  @ViewChild('templateModal') templateModal: TemplateRef<any>;
+  @ViewChild('templateModal', { static: true }) templateModal: TemplateRef<any>;
   modalRef: BsModalRef;
   invoiceData: InvoiceModel[];
   showMessage: Boolean = false;
@@ -38,25 +38,31 @@ export class InvoiceComponent implements OnInit {
   }
 
   getProductOwnerId() {
-    this.worklogService.getProductOwnerId.subscribe(id => {
-      this.poId = id;
-    }, err => console.log(err));
+    this.worklogService.getProductOwnerId.subscribe({
+      next: id => {
+        this.poId = id;
+      }, 
+      error: err => console.log(err)});
   }
 
   getInvoiceNumber() {
-    this.invoiceService.getNextInvoiceNumber(this.poId).subscribe(response => {
-      this.invoiceNo = response.invoiceNo;
-      this.fg.get('invoiceNo').setValue(response.invoiceNo);
-    }, err => console.log(err));
+    this.invoiceService.getNextInvoiceNumber(this.poId).subscribe({
+      next: response => {
+        this.invoiceNo = response.invoiceNo;
+        this.fg.get('invoiceNo').setValue(response.invoiceNo);
+      }, 
+      error: err => console.log(err)});
   }
 
   getInvoiceData() {
-    this.invoiceService.getInvoiceListPoById(this.poId).subscribe(response => {
-      this.invoiceData = response;
-      if (response.length === 0) {
-        this.getInvoiceNumber();
-      }
-    }, err => console.log(err));
+    this.invoiceService.getInvoiceListPoById(this.poId).subscribe({
+      next: response => {
+        this.invoiceData = response;
+        if (response.length === 0) {
+          this.getInvoiceNumber();
+        }
+      }, 
+      error: err => console.log(err)});
   }
 
   setupForm() {

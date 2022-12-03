@@ -10,12 +10,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { DataTablesModule } from 'angular-datatables';
 import { AddIncomeComponent } from './components/add-income/add-income.component';
-import { ContentLoaderModule } from '@netbasal/content-loader';
 import { OrderModule } from 'ngx-order-pipe';
-import { BsDropdownModule } from 'ngx-bootstrap';
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { DropDownComponent } from './components/drop-down/drop-down.component';
 import { RouterModule } from '@angular/router';
 import { MessageTooltipComponent } from './components/message-tooltip/message-tooltip.component';
+import { ContentLoaderModule } from '@netbasal/ngx-content-loader';
 @NgModule({
   imports: [
     CommonModule,
@@ -57,7 +57,7 @@ import { MessageTooltipComponent } from './components/message-tooltip/message-to
   ]
 })
 export class SharedModule {
-  static forRoot(): ModuleWithProviders {
+  static forRoot(): ModuleWithProviders<SharedModule> {
     return {
       ngModule: SharedModule,
     };

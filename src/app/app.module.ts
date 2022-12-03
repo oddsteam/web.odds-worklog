@@ -3,11 +3,13 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { AuthServiceConfig, GoogleLoginProvider, SocialLoginModule } from 'angular-6-social-login';
+import { GoogleLoginProvider, SocialAuthServiceConfig } from '@abacritt/angularx-social-login';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SharedModule } from './shared/shared.module';
 import { ValidateCitizenIdUtil } from './shared/utils/validate-citizenId.util';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 // import { AuthorizationInterceptor } from './shared/interceptors/authorization.interceptor';
 
 export function createTranslateLoader(http: HttpClient) {
@@ -16,23 +18,23 @@ export function createTranslateLoader(http: HttpClient) {
 
 
 export function getAuthServiceConfigs() {
-  const config = new AuthServiceConfig(
-    [
+  const config = {
+    autoLogin: false,
+    providers: [
       {
         id: GoogleLoginProvider.PROVIDER_ID,
         provider: new GoogleLoginProvider('956316396976-mhb092ad69gn2olis0mtmc1fpe8blgn8.apps.googleusercontent.com')
       },
-
     ]
-  );
+  } as SocialAuthServiceConfig;
   return config;
 }
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
-    SocialLoginModule,
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     HttpClientModule,
     SharedModule.forRoot(),
@@ -46,8 +48,8 @@ export function getAuthServiceConfigs() {
   ],
   providers: [
     {
-      provide: AuthServiceConfig,
-      useFactory: getAuthServiceConfigs
+      provide: 'SocialAuthServiceConfig',
+      useValue: getAuthServiceConfigs()
     },
     ValidateCitizenIdUtil
     // {

@@ -1,5 +1,5 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { WorklogApiService } from '../../../../core/worklog-api.service';
 import { TableListUserBySiteComponent } from './table-list-user-by-site.component';
@@ -9,7 +9,7 @@ describe('TableListUserBySiteComponent', () => {
   let component: TableListUserBySiteComponent;
   let fixture: ComponentFixture<TableListUserBySiteComponent>;
   let worklogAPIService: WorklogApiService;
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [TableListUserBySiteComponent],
       imports: [HttpClientTestingModule, RouterTestingModule]
@@ -21,7 +21,7 @@ describe('TableListUserBySiteComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(TableListUserBySiteComponent);
     component = fixture.componentInstance;
-    worklogAPIService = TestBed.get(WorklogApiService);
+    worklogAPIService = TestBed.inject(WorklogApiService);
     fixture.detectChanges();
   });
 

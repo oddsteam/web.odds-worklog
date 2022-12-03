@@ -1,5 +1,5 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing';
+import { ComponentFixture, inject, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -13,7 +13,7 @@ describe('FirstLoginComponent', () => {
   let component: FirstLoginComponent;
   let fixture: ComponentFixture<FirstLoginComponent>;
   let worklogapiService: WorklogApiService;
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [FirstLoginComponent],
       imports: [ReactiveFormsModule, RouterTestingModule, HttpClientTestingModule
@@ -26,7 +26,7 @@ describe('FirstLoginComponent', () => {
     fixture = TestBed.createComponent(FirstLoginComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    worklogapiService = TestBed.get(WorklogApiService);
+    worklogapiService = TestBed.inject(WorklogApiService);
   });
 
   it('should create', () => {
@@ -95,9 +95,7 @@ describe('FirstLoginComponent', () => {
   });
 
   it('when call updateUser() but role equal admin router navigate go to corporate', inject([Router], (router: Router) => {
-    const res = {
-      role: 'admin'
-    };
+    const res = new User({ role: 'admin' });
     spyOn(worklogapiService, 'updateUser').and.returnValue(of(res));
     spyOn(router, 'navigate');
 
@@ -107,9 +105,7 @@ describe('FirstLoginComponent', () => {
   }));
 
   it('when call updateUser() but role equal individual router navigate go to individual', inject([Router], (router: Router) => {
-    const res = {
-      role: 'individual'
-    };
+    const res = new User({ role: 'individual' });
     spyOn(worklogapiService, 'updateUser').and.returnValue(of(res));
     spyOn(router, 'navigate');
 

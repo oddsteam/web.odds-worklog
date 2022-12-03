@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { SettingComponent } from './setting.component';
 import { FormsModule } from '@angular/forms';
@@ -24,7 +24,7 @@ describe('SettingComponent', () => {
   let component: SettingComponent;
   let fixture: ComponentFixture<SettingComponent>;
   let worklogApiService: WorklogApiService;
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [SettingComponent],
       imports: [FormsModule, SharedModule.forRoot(), HttpClientTestingModule],
@@ -34,7 +34,7 @@ describe('SettingComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(SettingComponent);
-    worklogApiService = TestBed.get(WorklogApiService);
+    worklogApiService = TestBed.inject(WorklogApiService);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -10,10 +10,10 @@
       "prefix": "app",
       "schematics": {
         "@schematics/angular:component": {
-          "styleext": "scss"
+          "style": "scss"
         }
       },
-      "targets": {
+      "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
@@ -36,10 +36,22 @@
               "node_modules/jquery/dist/jquery.js",
               "node_modules/datatables.net/js/jquery.dataTables.js",
               "node_modules/bootstrap/dist/js/bootstrap.min.js"
-            ]
+            ],
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
           },
           "configurations": {
             "production": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
@@ -49,26 +61,41 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true
             },
             "develop": {
-              "fileReplacements": [{
-                "replace": "src/environments/environment.ts",
-                "with": "src/environments/environment.dev.ts"
-              }]
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.dev.ts"
+                }
+              ]
             },
             "local": {
-              "fileReplacements": [{
-                "replace": "src/environments/environment.ts",
-                "with": "src/environments/environment.local.ts"
-              }]
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.local.ts"
+                }
+              ]
             }
-          }
+          },
+          "defaultConfiguration": ""
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -103,6 +130,7 @@
             "styles": [
               "node_modules/datatables.net-dt/css/jquery.dataTables.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "node_modules/@fortawesome/fontawesome-free/css/all.min.css",
               "src/styles.scss",
               "src/assets/font.css"
             ],
@@ -112,25 +140,13 @@
               "src/assets"
             ]
           }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "src/tsconfig.app.json",
-              "src/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
         }
       }
     },
     "odds-worklog-e2e": {
       "root": "e2e/",
       "projectType": "application",
-      "targets": {
+      "architect": {
         "e2e": {
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
@@ -142,18 +158,12 @@
               "devServerTarget": "odds-worklog:serve:production"
             }
           }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": "e2e/tsconfig.e2e.json",
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
         }
       }
     }
   },
-  "defaultProject": "odds-worklog"
+  "defaultProject": "odds-worklog",
+  "cli": {
+    "analytics": "f19697c2-d37a-49e5-ad85-c1ca0389d6ff"
+  }
 }

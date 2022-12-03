@@ -1,5 +1,5 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ToolTipSiteComponent } from './tool-tip-site.component';
@@ -9,10 +9,10 @@ describe('ToolTipSiteComponent', () => {
   let component: ToolTipSiteComponent;
   let fixture: ComponentFixture<ToolTipSiteComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ToolTipSiteComponent],
-      imports: [NgbModule.forRoot(), HttpClientTestingModule, SharedModule],
+      imports: [NgbModule, HttpClientTestingModule, SharedModule],
     })
       .compileComponents();
   }));

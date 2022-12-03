@@ -1,12 +1,15 @@
+import { SocialAuthService } from '@abacritt/angularx-social-login';
 import { HttpErrorResponse } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateFakeLoader, TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { of, throwError } from 'rxjs';
 import { StateService } from 'src/app/core/state.service';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
+import { createMockSocialAuthService } from 'src/app/pages/login-google/login-google.component.spec';
 import { AddIncomeResponse } from '../../model/add-income-model-response';
+import { User } from '../../model/user';
 import { HeaderComponent } from './header.component';
 
 describe('HeaderComponent', () => {
@@ -14,7 +17,7 @@ describe('HeaderComponent', () => {
   let fixture: ComponentFixture<HeaderComponent>;
   let workLogService: WorklogApiService;
   let stateService: StateService;
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [HeaderComponent],
       imports: [
@@ -23,15 +26,16 @@ describe('HeaderComponent', () => {
           loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
         }), HttpClientTestingModule
       ],
-      providers: []
+      providers: [
+        { provide: SocialAuthService, useValue: createMockSocialAuthService() }]
     })
       .compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(HeaderComponent);
-    workLogService = TestBed.get(WorklogApiService);
-    stateService = TestBed.get(StateService);
+    workLogService = TestBed.inject(WorklogApiService);
+    stateService = TestBed.inject(StateService);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -47,7 +51,7 @@ describe('HeaderComponent', () => {
   });
 
   it('should call getUserByID in workLog service', () => {
-    const mockResponse = {
+    const mockResponse = new User({
       id: '5bde550643b397000127274re',
       role: 'individual',
       firstName: 'odds',
@@ -60,7 +64,7 @@ describe('HeaderComponent', () => {
       transcript: '',
       siteId: '',
       vat: '123'
-    };
+    });
     spyOn(workLogService, 'getUserByID').and.returnValue(of(mockResponse));
     spyOn(stateService, 'setTypeUser');
     spyOn(stateService, 'setFlagVat');
@@ -71,7 +75,7 @@ describe('HeaderComponent', () => {
   });
 
   it('name in component should be equal response from getUserByID in workLog service', () => {
-    const mockResponse = {
+    const mockResponse = new User({
       id: '5bde550643b397000127274re',
       role: 'individual',
       firstName: 'odds',
@@ -84,7 +88,7 @@ describe('HeaderComponent', () => {
       transcript: '',
       siteId: '',
       vat: '123'
-    };
+    });
     spyOn(workLogService, 'getUserByID').and.returnValue(of(mockResponse));
     spyOn(stateService, 'setTypeUser');
     spyOn(stateService, 'setFlagVat');
@@ -98,7 +102,13 @@ describe('HeaderComponent', () => {
     spyOn(workLogService, 'exportDataPdf').and.returnValue(of({
       fileName: 'example.pdf',
       path: '82d09f47-2fe3-4a33-b385-007a6dda8e13.pdf',
-      tempFileName: '82d09f47-2fe3-4a33-b385-007a6dda8e13.pdf'
+      tempFileName: '82d09f47-2fe3-4a33-b385-007a6dda8e13.pdf',
+      type: 'pdf',
+      size: 0,
+      arrayBuffer: (): any => {},
+      stream: (): any => {},
+      slice: (): any => {},
+      text: (): any => {},
     }));
     component.exportTavi50();
     expect(workLogService.exportDataPdf).toHaveBeenCalled();

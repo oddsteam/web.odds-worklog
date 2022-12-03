@@ -1,6 +1,6 @@
 /* tslint:disable:no-unused-variable */
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
@@ -19,7 +19,7 @@ describe('TabMenuComponent', () => {
   let worklogApiService: WorklogApiService;
   let stateService: StateService;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [TabMenuComponent],
       imports: [RouterTestingModule, HttpClientTestingModule],
@@ -33,9 +33,9 @@ describe('TabMenuComponent', () => {
   }));
 
   beforeEach(() => {
-    router = TestBed.get(Router);
-    worklogApiService = TestBed.get(WorklogApiService);
-    stateService = TestBed.get(StateService);
+    router = TestBed.inject(Router);
+    worklogApiService = TestBed.inject(WorklogApiService);
+    stateService = TestBed.inject(StateService);
     fixture = TestBed.createComponent(TabMenuComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -43,7 +43,7 @@ describe('TabMenuComponent', () => {
 
   describe('onInit', () => {
     it('should call get user by id when called', () => {
-      spyOn(component, 'getUserById').and.returnValue(of({}));
+      spyOn(component, 'getUserById').and.returnValue();
 
       component.ngOnInit();
 
@@ -51,7 +51,7 @@ describe('TabMenuComponent', () => {
     });
 
     it('should call check user type when called', () => {
-      spyOn(component, 'checkUserType').and.returnValue(of({}));
+      spyOn(component, 'checkUserType').and.returnValue();
 
       component.ngOnInit();
 
@@ -61,7 +61,7 @@ describe('TabMenuComponent', () => {
 
   describe('getUserById', () => {
     it('should get user by id from worklog api service', () => {
-      spyOn(worklogApiService, 'getUserByID').and.returnValue(of({}));
+      spyOn(worklogApiService, 'getUserByID').and.returnValue(of(new User()));
 
       component.getUserById();
 
@@ -69,7 +69,7 @@ describe('TabMenuComponent', () => {
     });
 
     it('should get user by id from worklog api service with given user id = MOCK_USER_ID', () => {
-      spyOn(worklogApiService, 'getUserByID').and.returnValue(of({}));
+      spyOn(worklogApiService, 'getUserByID').and.returnValue(of(new User()));
       component.id = 'MOCK_USER_ID';
 
       component.getUserById();
@@ -78,7 +78,7 @@ describe('TabMenuComponent', () => {
     });
 
     it('should set person type = MOCK_ROLE when get user by id is successfully', () => {
-      spyOn(worklogApiService, 'getUserByID').and.returnValue(of({ role: 'MOCK_ROLE' }));
+      spyOn(worklogApiService, 'getUserByID').and.returnValue(of(new User({ role: 'MOCK_ROLE' })));
       const expected = new User();
       expected.role = 'MOCK_ROLE';
 
@@ -89,7 +89,7 @@ describe('TabMenuComponent', () => {
 
     it('should call check tab menu when get user by id is successfully', () => {
       spyOn(component, 'checkTabMenu');
-      spyOn(worklogApiService, 'getUserByID').and.returnValue(of({ role: 'MOCK_ROLE' }));
+      spyOn(worklogApiService, 'getUserByID').and.returnValue(of(new User({ role: 'MOCK_ROLE' })));
 
       component.getUserById();
 
@@ -99,7 +99,7 @@ describe('TabMenuComponent', () => {
 
   describe('checkUserType', () => {
     it('should call is user type when called', () => {
-      spyOn(stateService, 'getTypeUser').and.returnValue(of({}));
+      spyOn(stateService, 'getTypeUser').and.returnValue(of(""));
 
       component.checkUserType();
 

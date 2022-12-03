@@ -11,7 +11,9 @@ describe('CheckSum', () => {
 
     beforeAll(() => {
         TestBed.resetTestEnvironment();
-        TestBed.initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDynamicTesting());
+        TestBed.initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDynamicTesting(), {
+    teardown: { destroyAfterEach: false }
+});
     });
 
     beforeEach(() => {

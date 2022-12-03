@@ -1,5 +1,5 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { of } from 'rxjs';
@@ -12,10 +12,10 @@ describe('GroupManagementComponent', () => {
   let component: GroupManagementComponent;
   let fixture: ComponentFixture<GroupManagementComponent>;
   let worklogAPIService: WorklogApiService;
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [GroupManagementComponent, TableListUserBySiteComponent],
-      imports: [NgbModule.forRoot(), HttpClientTestingModule, RouterTestingModule]
+      imports: [NgbModule, HttpClientTestingModule, RouterTestingModule]
     })
       .compileComponents();
   }));
@@ -23,7 +23,7 @@ describe('GroupManagementComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(GroupManagementComponent);
     component = fixture.componentInstance;
-    worklogAPIService = TestBed.get(WorklogApiService);
+    worklogAPIService = TestBed.inject(WorklogApiService);
     fixture.detectChanges();
   });
 

@@ -1,14 +1,19 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { StateService } from 'src/app/core/state.service';
-import { WorklogApiService } from 'src/app/core/worklog-api.service';
-import { AddIncomeResponse } from '../../model/add-income-model-response';
-import { IncomeFlag } from '../../model/income-flag';
+import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  Validators,
+} from "@angular/forms";
+import { StateService } from "src/app/core/state.service";
+import { WorklogApiService } from "src/app/core/worklog-api.service";
+import { AddIncomeResponse } from "../../model/add-income-model-response";
+import { IncomeFlag } from "../../model/income-flag";
 
 @Component({
-  selector: 'app-modal-income',
-  templateUrl: './modal-income.component.html',
-  styleUrls: ['./modal-income.component.scss']
+  selector: "app-modal-income",
+  templateUrl: "./modal-income.component.html",
+  styleUrls: ["./modal-income.component.scss"],
 })
 export class ModalIncomeComponent implements OnInit {
   @Output() closeModalEmit = new EventEmitter();
@@ -33,17 +38,17 @@ export class ModalIncomeComponent implements OnInit {
     private fb: FormBuilder,
     private worklogApiService: WorklogApiService,
     private stateService: StateService
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.getDailyIncome();
     this.onSetupForm();
-    this.title = 'Add Income';
-    this.role = sessionStorage.getItem('role');
+    this.title = "Add Income";
+    this.role = sessionStorage.getItem("role");
   }
 
   isVat(): boolean {
-    return this.typeVat === 'Y' ? true : false;
+    return this.typeVat === "Y" ? true : false;
   }
 
   getDailyIncome() {
@@ -51,35 +56,34 @@ export class ModalIncomeComponent implements OnInit {
   }
 
   onSetupForm() {
-
     if (this.addIncomeData === null) {
       this.addIncomeData = {
-        id: '',
-        userId: '',
-        submitDate: '',
-        note: '',
-        vat: '',
-        wht: '',
-        workDate: '',
-        netIncome: '',
-        netDailyIncome: '',
-        workingHours: '',
-        specialIncome: '',
-        netSpecialIncome: '',
-        totalIncome: '',
+        id: "",
+        userId: "",
+        submitDate: "",
+        note: "",
+        vat: "",
+        wht: "",
+        workDate: "",
+        netIncome: "",
+        netDailyIncome: "",
+        workingHours: "",
+        specialIncome: "",
+        netSpecialIncome: "",
+        totalIncome: "",
       };
       this.fg = this.fb.group({
-        note: ['', Validators.required],
-        workDate: ['', Validators.required],
-        workingHours: ['', Validators.required],
-        specialIncome: ['', Validators.required]
+        note: ["", Validators.required],
+        workDate: ["", Validators.required],
+        workingHours: ["", Validators.required],
+        specialIncome: ["", Validators.required],
       });
     } else {
       this.fg = this.fb.group({
         note: [this.addIncomeData.note, Validators.required],
         workDate: [this.addIncomeData.workDate, Validators.required],
         workingHours: [this.addIncomeData.workingHours, Validators.required],
-        specialIncome: [this.addIncomeData.specialIncome, Validators.required]
+        specialIncome: [this.addIncomeData.specialIncome, Validators.required],
       });
       this.inputIncomeAmount();
       this.inputWorkingHours();
@@ -88,11 +92,19 @@ export class ModalIncomeComponent implements OnInit {
 
   calTotalIncome() {
     // tslint:disable-next-line:no-unused-expression
-    this.dailyIncome ? '' : alert('รบกวนใส่ รายได้ต่อวัน ที่หน้า Profile ก่อนนะ');
-    const dailyIncome = this.dailyIncome ? this.stringToNumber(this.dailyIncome) : 1;
-    const workDate = this.workDate.value ? this.stringToNumber(this.workDate.value) : 0;
-    const specialIncome = this.specialIncome.value ? this.stringToNumber(this.specialIncome.value) : 1;
-    const workingHours = this.workingHours.value ? this.stringToNumber(this.workingHours.value) : 0;
+    this.dailyIncome
+      ? ""
+      : alert("รบกวนใส่ รายได้ต่อวัน ที่หน้า Profile ก่อนนะ");
+    const dailyIncome = this.dailyIncome ? stringToNumber(this.dailyIncome) : 1;
+    const workDate = this.workDate.value
+      ? stringToNumber(this.workDate.value)
+      : 0;
+    const specialIncome = this.specialIncome.value
+      ? stringToNumber(this.specialIncome.value)
+      : 1;
+    const workingHours = this.workingHours.value
+      ? stringToNumber(this.workingHours.value)
+      : 0;
     const netDailyIncome = dailyIncome * workDate;
     const netSpecialIncome = specialIncome * workingHours;
     this.totalIncome = String(netDailyIncome + netSpecialIncome);
@@ -102,21 +114,21 @@ export class ModalIncomeComponent implements OnInit {
   }
 
   calTax() {
-    this.vatPrimary = this.calVAT(this.addIncomeData.netDailyIncome);
-    this.vatSpecial = this.calVAT(this.addIncomeData.netSpecialIncome);
-    if (sessionStorage.getItem('role') === 'corporate') {
-      this.whtPrimary = this.calWHTCorporate(this.addIncomeData.netDailyIncome);
-      this.whtSpecial = this.calWHTCorporate(this.addIncomeData.netSpecialIncome);
+    this.vatPrimary = calVAT(this.addIncomeData.netDailyIncome);
+    this.vatSpecial = calVAT(this.addIncomeData.netSpecialIncome);
+    if (sessionStorage.getItem("role") === "corporate") {
+      this.whtPrimary = calWHTCorporate(this.addIncomeData.netDailyIncome);
+      this.whtSpecial = calWHTCorporate(this.addIncomeData.netSpecialIncome);
     } else {
-      this.whtPrimary = this.calWHT(this.addIncomeData.netDailyIncome);
-      this.whtSpecial = this.calWHT(this.addIncomeData.netSpecialIncome);
+      this.whtPrimary = calWHT(this.addIncomeData.netDailyIncome);
+      this.whtSpecial = calWHT(this.addIncomeData.netSpecialIncome);
     }
   }
 
   onSubmit() {
     this.calTotalIncome();
     this.calTax();
-    this.title = 'Confirm Income';
+    this.title = "Confirm Income";
     this.addIncomeData.totalIncome = this.totalIncome;
     this.addIncomeAlready = true;
     this.updateData();
@@ -124,81 +136,69 @@ export class ModalIncomeComponent implements OnInit {
 
   onConfirm() {
     if (IncomeFlag.isUpdate) {
-      this.updateIncomeService(this.cutComma(this.specialIncome.value));
+      this.updateIncomeService(cutComma(this.specialIncome.value));
     } else {
-      this.addIncomeConfirm(this.cutComma(this.specialIncome.value));
+      this.addIncomeConfirm(cutComma(this.specialIncome.value));
     }
     this.closeModalEmit.emit(true);
     this.addIncomeEmit.emit(true);
   }
 
   updateData() {
-    this.specialIncome.setValue(this.specialIncome.value === '' ? '0' : this.specialIncome.value);
-    this.addIncomeData.vat = this.calVAT(this.addIncomeData.totalIncome);
-    if (sessionStorage.getItem('role') === 'corporate') {
-      this.addIncomeData.wht = this.calWHTCorporate(this.addIncomeData.totalIncome);
+    this.specialIncome.setValue(
+      this.specialIncome.value === "" ? "0" : this.specialIncome.value
+    );
+    this.addIncomeData.vat = calVAT(this.addIncomeData.totalIncome);
+    if (sessionStorage.getItem("role") === "corporate") {
+      this.addIncomeData.wht = calWHTCorporate(this.addIncomeData.totalIncome);
     } else {
-      this.addIncomeData.wht = this.calWHT(this.addIncomeData.totalIncome);
+      this.addIncomeData.wht = calWHT(this.addIncomeData.totalIncome);
     }
-    this.addIncomeData.totalIncome = this.calNetIncome(
+    this.addIncomeData.totalIncome = calNetIncome(
       this.addIncomeData.totalIncome,
-      this.typeVat === 'Y' ? this.addIncomeData.vat : '0',
+      this.typeVat === "Y" ? this.addIncomeData.vat : "0",
       this.addIncomeData.wht
     );
   }
 
   addIncomeConfirm(specialIncome) {
-    this.fg.patchValue({
-      specialIncome: specialIncome
-    });
-    const addIncome = this.fg.value;
-    this.worklogApiService.addIncomeConfirm(addIncome).subscribe(res => {
-      IncomeFlag.isUpdate = true;
-      this.stateService.triggerListIncomeCorporate();
-      this.stateService.triggerListIncomeIndividual();
-      this.closeModalEmit.emit(true);
-    }, err => {
-      console.log(err);
-    });
+    this.worklogApiService
+      .addIncomeConfirm(this.getIncome(specialIncome))
+      .subscribe({
+        next: (_) => {
+          IncomeFlag.isUpdate = true;
+          this.handleSaveIncomeSuccess();
+        },
+        error: this.handleError,
+      });
   }
 
   updateIncomeService(specialIncome) {
+    this.worklogApiService
+      .updateIncomeService(this.getIncome(specialIncome))
+      .subscribe({
+        next: (_) => this.handleSaveIncomeSuccess(),
+        error: this.handleError,
+      });
+  }
+
+  getIncome(specialIncome) {
     this.fg.patchValue({
-      specialIncome: specialIncome
+      specialIncome: specialIncome,
     });
     const addIncome = this.fg.value;
-    this.worklogApiService.updateIncomeService(addIncome).subscribe(res => {
-      this.stateService.triggerListIncomeCorporate();
-      this.stateService.triggerListIncomeIndividual();
-      this.closeModalEmit.emit(true);
-    }, err => {
-      console.log(err);
-    });
+    return addIncome;
   }
 
-  calVAT(netIncome: string): string {
-    return (this.stringToNumber(netIncome) * 0.07).toString();
+  handleSaveIncomeSuccess() {
+    this.stateService.triggerListIncomeCorporate();
+    this.stateService.triggerListIncomeIndividual();
+    this.closeModalEmit.emit(true);
   }
 
-  calWHT(netIncome: string): string {
-    return (this.stringToNumber(netIncome) * 0.03).toString();
-  }
-
-  calWHTCorporate(netIncome: string): string {
-    return (this.stringToNumber(netIncome) * 0.03).toString();
-  }
-
-  calNetIncome(totalIncome: string, vat: string, wht: string): string {
-    return (
-      this.stringToNumber(totalIncome) +
-      this.stringToNumber(vat) -
-      this.stringToNumber(wht)
-    ).toString();
-  }
-
-
-  stringToNumber(text: string): number {
-    return Number(this.cutComma(text));
+  handleError(err) {
+    alert(err.message);
+    console.log(err);
   }
 
   disableButton(): boolean {
@@ -215,23 +215,19 @@ export class ModalIncomeComponent implements OnInit {
     // this.numberFormat = this.formatInteger(this.totalIncome);
     const stringFormat = this.formatInteger(specialIncome);
     const realFormat = this.formatAmount(stringFormat);
-    this.fg.get('specialIncome').setValue(realFormat);
+    this.fg.get("specialIncome").setValue(realFormat);
   }
 
   inputWorkingHours() {
     this.flagChange = true;
     const workingHours = this.workingHours.value;
     const stringFormat = this.formatInteger(workingHours);
-    this.fg.get('workingHours').setValue(stringFormat);
-  }
-
-  cutComma(text: string): string {
-    return text.replace(/,/g, '');
+    this.fg.get("workingHours").setValue(stringFormat);
   }
 
   formatInteger(data: string): string {
-    data = data.replace(/[^0-9.]/g, '');
-    data = data.indexOf(',') !== -1 ? data.replace(/,/g, '') : data;
+    data = data.replace(/[^0-9.]/g, "");
+    data = data.indexOf(",") !== -1 ? data.replace(/,/g, "") : data;
     return data;
   }
 
@@ -241,11 +237,13 @@ export class ModalIncomeComponent implements OnInit {
   }
 
   maskTextInput_BalanceNumber(input: string) {
-    const Result = (false) ? input.replace(/[^0-9.]/g, '') : input.replace(/[^0-9]/g, '');
+    const Result = false
+      ? input.replace(/[^0-9.]/g, "")
+      : input.replace(/[^0-9]/g, "");
     if (this.checkTextHaveDigit(Result)) {
-      const array = Result.split('.');
+      const array = Result.split(".");
       array[1] = array[1].substring(0, 0);
-      return this.formatInt(array[0]) + '.' + array[1];
+      return this.formatInt(array[0]) + "." + array[1];
     } else {
       return this.formatInt(Result);
     }
@@ -253,9 +251,9 @@ export class ModalIncomeComponent implements OnInit {
 
   formatInt(Result: string): string {
     Result = Result.substring(0, 9);
-    Result = Result.replace(/^(\d+)(\d{3})/, '$1,$2');
-    Result = Result.replace(/^(\d+)(\d{3})/, '$1,$2');
-    Result = Result.replace(/^(\d+)(\d{3})/, '$1,$2');
+    Result = Result.replace(/^(\d+)(\d{3})/, "$1,$2");
+    Result = Result.replace(/^(\d+)(\d{3})/, "$1,$2");
+    Result = Result.replace(/^(\d+)(\d{3})/, "$1,$2");
     return Result;
   }
 
@@ -265,7 +263,7 @@ export class ModalIncomeComponent implements OnInit {
 
   checkFirstValueIsZero(Text: string) {
     if (/(^(0+|,|\.)[0-9,])/.test(Text)) {
-      Text = Text.split(',').join('');
+      Text = Text.split(",").join("");
       Text = String(Number(Text));
     }
     return Text;
@@ -273,21 +271,53 @@ export class ModalIncomeComponent implements OnInit {
 
   onCancel() {
     this.addIncomeAlready = false;
-    this.title = 'Add Income';
+    this.title = "Add Income";
   }
 
   closeModal() {
     this.closeModalEmit.emit(true);
   }
   get workDate(): AbstractControl {
-    return this.fg.get('workDate');
+    return this.fg.get("workDate");
   }
 
   get specialIncome(): AbstractControl {
-    return this.fg.get('specialIncome');
+    return this.fg.get("specialIncome");
   }
 
   get workingHours(): AbstractControl {
-    return this.fg.get('workingHours');
+    return this.fg.get("workingHours");
   }
+}
+
+export function calVAT(netIncome: string): string {
+  return (stringToNumber(netIncome) * 0.07).toString();
+}
+
+export function calWHT(netIncome: string): string {
+  return (stringToNumber(netIncome) * 0.03).toString();
+}
+
+export function calWHTCorporate(netIncome: string): string {
+  return (stringToNumber(netIncome) * 0.03).toString();
+}
+
+export function calNetIncome(
+  totalIncome: string,
+  vat: string,
+  wht: string
+): string {
+  return (
+    stringToNumber(totalIncome) +
+    stringToNumber(vat) -
+    stringToNumber(wht)
+  ).toString();
+}
+
+export function stringToNumber(text: string): number {
+  return Number(cutComma(text));
+}
+
+export function cutComma(text: string): string {
+  return text.replace(/,/g, "");
 }

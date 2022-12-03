@@ -2,11 +2,11 @@
   <table class="table table-hover" *ngIf="ListData; else ContentLoader">
     <thead>
       <tr>
-        <th class="text-left align-middle">Name</th>
-        <th class="text-left align-middle">E-mail</th>
-        <th class="text-left align-middle">Account Name</th>
-        <th class="text-left align-middle">Account Number</th>
-        <th class="text-left align-middle">Phone Number</th>
+        <th class="text-start align-middle">Name</th>
+        <th class="text-start align-middle">E-mail</th>
+        <th class="text-start align-middle">Account Name</th>
+        <th class="text-start align-middle">Account Number</th>
+        <th class="text-start align-middle">Phone Number</th>
         <th class="text-center align-middle">Submit Date</th>
         <th class="text-center align-middle">Work Day</th>
         <th class="text-center align-middle">Working Hours</th>
@@ -20,11 +20,11 @@
     </thead>
     <tbody>
       <tr>
-        <td class="text-left">{{ getName(ListData[0].user) }}</td>
-        <td class="text-left">{{ checkValue(ListData[0].user?.email) }}</td>
-        <td class="text-left">{{ checkValue(ListData[0].user?.bankAccountName) }}</td>
-        <td class="text-left">{{ checkValue(ListData[0].user?.bankAccountNumber) }}</td>
-        <td class="text-left">{{ checkValue(ListData[0].user?.phone) }}</td>
+        <td class="text-start">{{ getName(ListData[0].user) }}</td>
+        <td class="text-start">{{ checkValue(ListData[0].user?.email) }}</td>
+        <td class="text-start">{{ checkValue(ListData[0].user?.bankAccountName) }}</td>
+        <td class="text-start">{{ checkValue(ListData[0].user?.bankAccountNumber) }}</td>
+        <td class="text-start">{{ checkValue(ListData[0].user?.phone) }}</td>
         <td class="text-center">
           {{
           ListData[0]?.submitDate == ""
@@ -42,11 +42,11 @@
         </td>
       </tr>
       <tr formArrayName="items" *ngFor="let listData of ListData | slice : 1 : ListData.length | orderBy: order:swapArrowIconSort:'case-insensitive'; let i = index">
-        <td class="text-left">{{ getName(listData.user) }}</td>
-        <td class="text-left">{{ checkValue(listData.user?.email) }}</td>
-        <td class="text-left">{{ checkValue(listData.user?.bankAccountName) }}</td>
-        <td class="text-left">{{ checkValue(listData.user?.bankAccountNumber) }}</td>
-        <td class="text-left">{{ checkValue(listData.user?.phone) }}</td>
+        <td class="text-start">{{ getName(listData.user) }}</td>
+        <td class="text-start">{{ checkValue(listData.user?.email) }}</td>
+        <td class="text-start">{{ checkValue(listData.user?.bankAccountName) }}</td>
+        <td class="text-start">{{ checkValue(listData.user?.bankAccountNumber) }}</td>
+        <td class="text-start">{{ checkValue(listData.user?.phone) }}</td>
         <td class="text-center">
           {{
             listData?.submitDate == ""
@@ -64,10 +64,10 @@
         </td>
       </tr>
       <tr *ngIf="role === 'admin'">
-        <td class="text-left"></td>
-        <td class="text-left"></td>
-        <td class="text-left"></td>
-        <td class="text-left"></td>
+        <td class="text-start"></td>
+        <td class="text-start"></td>
+        <td class="text-start"></td>
+        <td class="text-start"></td>
         <td class="text-center"></td>
         <td class="text-center"></td>
         <td class="text-center"></td>

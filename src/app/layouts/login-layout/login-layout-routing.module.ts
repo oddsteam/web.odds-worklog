@@ -10,7 +10,7 @@ const routes: Routes = [
       {
         path: '',
         loadChildren:
-          'src/app/pages/login-google/login-google.module#LoginGoogleModule',
+          () => import('src/app/pages/login-google/login-google.module').then(m => m.LoginGoogleModule),
       }
     ]
   }

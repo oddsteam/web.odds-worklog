@@ -1,9 +1,10 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { HistoryComponent } from './history.component';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
 import { AddIncomeResponse } from 'src/app/shared/model/add-income-model-response';
 import { of, throwError } from 'rxjs';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { User } from 'src/app/shared/model/user';
 
 describe('HistoryComponent', () => {
   let component: HistoryComponent;
@@ -11,7 +12,7 @@ describe('HistoryComponent', () => {
   let worklogservice: WorklogApiService;
 
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [HistoryComponent],
       imports: [HttpClientTestingModule],
@@ -23,7 +24,7 @@ describe('HistoryComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(HistoryComponent);
     component = fixture.componentInstance;
-    worklogservice = TestBed.get(WorklogApiService);
+    worklogservice = TestBed.inject(WorklogApiService);
     fixture.detectChanges();
   });
 
@@ -32,15 +33,16 @@ describe('HistoryComponent', () => {
   });
 
   it('should call method ngOnInit to Have Been Called worklogApiService getUserById ', () => {
-    const mockUsers = {
+    const mockUsers = new User({
       id: '1234567890',
       role: 'corporate',
-      fullnameEn: 'test test',
+      firstName: 'test',
+      lastName: 'test', 
       email: 'test@abc.com',
       bankAccountName: 'test test',
       bankAccountNumber: '0987654321',
       thaiCitizenId: '1234567890',
-    };
+    });
     spyOn(worklogservice, 'getUserByID').and.returnValues(of(mockUsers));
     component.ngOnInit();
     expect(worklogservice.getUserByID).toHaveBeenCalled();

@@ -1,9 +1,11 @@
+import { SocialAuthService } from '@abacritt/angularx-social-login';
+import { HttpErrorResponse } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing';
+import { ComponentFixture, inject, TestBed, waitForAsync } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { AuthService } from 'angular-6-social-login';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
+import { ListIncomeResponse } from 'src/app/shared/model/list-income-model-response';
 import { Login } from 'src/app/shared/model/login';
 import { WorklogApiService } from '../../core/worklog-api.service';
 import { LoginGoogleComponent } from './login-google.component';
@@ -12,16 +14,14 @@ describe('LoginGoogleComponent', () => {
   let component: LoginGoogleComponent;
   let fixture: ComponentFixture<LoginGoogleComponent>;
   let workLogService: WorklogApiService;
-  const socialAuthService = jasmine.createSpyObj('AuthService',
-    ['signIn']
-  );
-  beforeEach(async(() => {
+  const socialAuthService = createMockSocialAuthService(); 
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [LoginGoogleComponent],
       imports: [RouterTestingModule, HttpClientTestingModule],
       providers: [
         WorklogApiService,
-        { provide: AuthService, useValue: socialAuthService }]
+        { provide: SocialAuthService, useValue: socialAuthService }]
     })
       .compileComponents();
   }));
@@ -30,30 +30,16 @@ describe('LoginGoogleComponent', () => {
     fixture = TestBed.createComponent(LoginGoogleComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    workLogService = TestBed.get(WorklogApiService);
+    workLogService = TestBed.inject(WorklogApiService);
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should be call method socialSignIn loginwithGoogle', () => {
-    const res = {
-      token: '1234567890',
-      firstLogin: 'Y',
-      idUser: '1234567890'
-    };
-    const dataPromiss = {
-      idToken: '1234567890'
-    };
-    socialAuthService.signIn.and.returnValue(Promise.resolve(dataPromiss));
-    component.socialSignIn();
-    expect(socialAuthService.signIn).toHaveBeenCalled();
-  });
-
   it('should set individualListed, corporateListed when call cacheData()', () => {
-    spyOn(workLogService, 'getListIncomeIndividual').and.returnValue(of(''));
-    spyOn(workLogService, 'getListIncomeCorporate').and.returnValue(of(''));
+    spyOn(workLogService, 'getListIncomeIndividual').and.returnValue(of(new ListIncomeResponse()));
+    spyOn(workLogService, 'getListIncomeCorporate').and.returnValue(of(new ListIncomeResponse()));
 
     component.cacheData();
 
@@ -110,4 +96,28 @@ describe('LoginGoogleComponent', () => {
     expect(workLogService.initDataService).toHaveBeenCalled();
     expect(router.navigate).toHaveBeenCalledWith(['firstlogin']);
   }));
+
+  it('should show popup to user when API is down', () => {
+    const error = new HttpErrorResponse({ status: 500, error: 'Http failure response' })
+    spyOn(workLogService, 'getLoginGoogle').and.returnValue(throwError(error));
+    spyOn(window, 'alert');
+    component.loginGoogle('123');
+    expect(window.alert).toHaveBeenCalledWith(error.message);
+  });
+
+  it('should not redirect anywhere when API is down', inject([Router], (router: Router) => {
+    spyOn(router, 'navigate');
+    spyOn(workLogService, 'getLoginGoogle').and.returnValue(throwError(new HttpErrorResponse({ status: 500, error: 'Http failure response' })));
+    component.loginGoogle('123');
+    expect(router.navigate).not.toHaveBeenCalled();
+  }));
 });
+
+
+export function createMockSocialAuthService() {
+  const socialAuthService = jasmine.createSpyObj('SocialAuthService',
+    ['authState']
+  );
+  socialAuthService.authState.subscribe = jasmine.createSpy();
+  return socialAuthService;
+}

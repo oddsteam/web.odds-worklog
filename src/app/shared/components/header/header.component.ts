@@ -1,3 +1,4 @@
+import { SocialAuthService } from '@abacritt/angularx-social-login';
 import { Component, OnInit } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { Router } from '@angular/router';
@@ -24,7 +25,8 @@ export class HeaderComponent implements OnInit {
         private stateService: StateService,
         private router: Router,
         private fileService: FileService,
-        private sanitizer: DomSanitizer
+        private sanitizer: DomSanitizer,
+        private socialAuthService: SocialAuthService
     ) {
         translate.setDefaultLang('en');
         translate.use('th');
@@ -93,6 +95,7 @@ export class HeaderComponent implements OnInit {
 
     logout() {
         sessionStorage.clear();
+        this.socialAuthService.signOut();
         this.router.navigate(['login']);
     }
 

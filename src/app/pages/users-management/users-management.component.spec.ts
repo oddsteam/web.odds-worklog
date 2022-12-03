@@ -1,5 +1,5 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { of } from 'rxjs';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
@@ -13,10 +13,10 @@ describe('UsersManagementComponent', () => {
   let component: UsersManagementComponent;
   let fixture: ComponentFixture<UsersManagementComponent>;
   let worklogApiService: WorklogApiService;
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [UsersManagementComponent, ToolTipSiteComponent],
-      imports: [NgbModule.forRoot(), HttpClientTestingModule, SharedModule],
+      imports: [NgbModule, HttpClientTestingModule, SharedModule],
       providers: [WorklogApiService]
     })
       .compileComponents();
@@ -24,7 +24,7 @@ describe('UsersManagementComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UsersManagementComponent);
-    worklogApiService = TestBed.get(WorklogApiService);
+    worklogApiService = TestBed.inject(WorklogApiService);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -34,7 +34,7 @@ describe('UsersManagementComponent', () => {
   });
 
   it('should call getUsersData in worklogApiService when call getUsersData', () => {
-    const mockResponse: User = {
+    const mockResponse: User[] = [new User({
       id: '1233',
       role: 'individual',
       firstName: 'Odds',
@@ -59,7 +59,7 @@ describe('UsersManagementComponent', () => {
       degreeCertificate: '',
       idCard: '',
       phone: ''
-    };
+    })];
     spyOn(worklogApiService, 'getUsersData').and.returnValue(of(mockResponse));
     component.getUsersData();
     expect(worklogApiService.getUsersData).toHaveBeenCalled();

@@ -16,8 +16,8 @@ describe('Service: WorklogApi', () => {
       providers: [WorklogApiService],
       imports: [HttpClientTestingModule],
     });
-    mockService = TestBed.get(WorklogApiService);
-    backEnd = TestBed.get(HttpTestingController);
+    mockService = TestBed.inject(WorklogApiService);
+    backEnd = TestBed.inject(HttpTestingController);
   });
 
   it('should ...', inject([WorklogApiService], (service: WorklogApiService) => {
@@ -138,36 +138,40 @@ describe('Service: WorklogApi', () => {
       note: '',
       totalIncome: '6969696969'
     };
-    mockService.updateIncomeService(income).subscribe();
-    const req = backEnd.expectOne(`${mockService.apiPath}incomes/`);
-    req.flush(income);
-    expect(req.request.method).toEqual('PUT');
-    expect(req.request.body).toEqual(income);
-    backEnd.verify();
+    mockService.updateIncomeService(income).subscribe(_ => {
+      const req = backEnd.expectOne(`${mockService.apiPath}incomes/`);
+      req.flush(income);
+      expect(req.request.method).toEqual('PUT');
+      expect(req.request.body).toEqual(income);
+      backEnd.verify();
+    });
   });
 
   it('should call export data corporate api correctly', () => {
-    mockService.exportDataCorporate('0').subscribe();
-    const req = backEnd.expectOne(`${mockService.apiPath}incomes/export/corporate/0`);
-    expect(req.request.method).toEqual('GET');
-    expect(req.request.responseType).toEqual('blob');
-    backEnd.verify();
+    mockService.exportDataCorporate('0').subscribe(_ => {
+      const req = backEnd.expectOne(`${mockService.apiPath}incomes/export/corporate/0`);
+      expect(req.request.method).toEqual('GET');
+      expect(req.request.responseType).toEqual('blob');
+      backEnd.verify();
+    });
   });
 
   it('should call export data individual api correctly', () => {
-    mockService.exportDataIndividual('0').subscribe();
-    const req = backEnd.expectOne(`${mockService.apiPath}incomes/export/individual/0`);
-    expect(req.request.method).toEqual('GET');
-    expect(req.request.responseType).toEqual('blob');
-    backEnd.verify();
+    mockService.exportDataIndividual('0').subscribe(_ => {
+      const req = backEnd.expectOne(`${mockService.apiPath}incomes/export/individual/0`);
+      expect(req.request.method).toEqual('GET');
+      expect(req.request.responseType).toEqual('blob');
+      backEnd.verify();
+    });
   });
 
   it('should call export pdf api correctly', () => {
-    mockService.exportDataPdf('11111').subscribe();
-    const req = backEnd.expectOne(`${mockService.apiPath}incomes/export/pdf/11111`);
-    expect(req.request.method).toEqual('GET');
-    expect(req.request.responseType).toEqual('blob');
-    backEnd.verify();
+    mockService.exportDataPdf('11111').subscribe(_ => {
+      const req = backEnd.expectOne(`${mockService.apiPath}incomes/export/pdf/11111`);
+      expect(req.request.method).toEqual('GET');
+      expect(req.request.responseType).toEqual('blob');
+      backEnd.verify();
+    });
   });
 
   it('should call reminder setting api correctly', () => {
@@ -178,29 +182,32 @@ describe('Service: WorklogApi', () => {
         message: 'message'
       }
     };
-    mockService.sendMessage(body).subscribe();
-    const req = backEnd.expectOne(`${mockService.apiPath}reminder/setting`);
-    expect(req.request.method).toEqual('POST');
-    expect(req.request.responseType).toEqual('json');
-    backEnd.verify();
+    mockService.sendMessage(body).subscribe(_ => {
+      const req = backEnd.expectOne(`${mockService.apiPath}reminder/setting`);
+      expect(req.request.method).toEqual('POST');
+      expect(req.request.responseType).toEqual('json');
+      backEnd.verify();
+    });
   });
 
   it('should call get setting data api correctly', () => {
-    mockService.getSettingData().subscribe();
-    const req = backEnd.expectOne(`${mockService.apiPath}reminder/setting`);
-    expect(req.request.method).toEqual('GET');
-    backEnd.verify();
+    mockService.getSettingData().subscribe(_ => {
+      const req = backEnd.expectOne(`${mockService.apiPath}reminder/setting`);
+      expect(req.request.method).toEqual('GET');
+      backEnd.verify();
+    });
   });
 
   it('should call get users api correctly', () => {
-    mockService.getUsersData().subscribe();
-    const req = backEnd.expectOne(`${mockService.apiPath}users`);
-    expect(req.request.method).toEqual('GET');
-    backEnd.verify();
+    mockService.getUsersData().subscribe(_ => {
+      const req = backEnd.expectOne(`${mockService.apiPath}users`);
+      expect(req.request.method).toEqual('GET');
+      backEnd.verify();
+    });
   });
 
   it('should set getListIncomeIndividual, getListIncomeCorporate when call initDataService()', () => {
-    spyOn(mockService, 'forCheckTokenPleaseRemoveMeIfFlowLoginFinnished').and.returnValue(false);
+    spyOn(mockService, 'forCheckTokenPleaseRemoveMeIfFlowLoginFinnished').and.returnValue(of(false))
     spyOn(mockService, 'getListIncomeIndividual').and.returnValue(of());
     spyOn(mockService, 'getListIncomeCorporate').and.returnValue(of());
     mockService.initDataService();
@@ -210,7 +217,7 @@ describe('Service: WorklogApi', () => {
   });
 
   it('should not set getListIncomeIndividual, getListIncomeCorporate when forcheck() fucntion return false', () => {
-    spyOn(mockService, 'forCheckTokenPleaseRemoveMeIfFlowLoginFinnished').and.returnValue(true);
+    spyOn(mockService, 'forCheckTokenPleaseRemoveMeIfFlowLoginFinnished').and.returnValue(of(true));
     spyOn(mockService, 'getListIncomeIndividual').and.returnValue(of());
     spyOn(mockService, 'getListIncomeCorporate').and.returnValue(of());
     mockService.initDataService();
