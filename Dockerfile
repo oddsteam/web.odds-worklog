@@ -1,5 +1,5 @@
 # STEP 1 build static website
-FROM trion/ng-cli-e2e:14.2.7 as builder
+FROM trion/ng-cli-e2e:11.0.2 as builder
 
 # Create app directory
 WORKDIR /app
@@ -17,7 +17,7 @@ RUN npm install --no-optional && npm rebuild
 # RUN ng e2e
 
 # Build
-RUN ng build --prod
+RUN ng build --configuration production
 
 
 # STEP 2 build a small nginx image with static website
