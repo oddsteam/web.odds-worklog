@@ -74,9 +74,9 @@ export class ModalIncomeComponent implements OnInit {
       };
       this.fg = this.fb.group({
         note: ["", Validators.required],
-        workDate: ["", Validators.required],
-        workingHours: ["", Validators.required],
-        specialIncome: ["", Validators.required],
+        workDate: ["0", Validators.required],
+        workingHours: ["0", Validators.required],
+        specialIncome: ["0", Validators.required],
       });
     } else {
       this.fg = this.fb.group({
@@ -87,6 +87,7 @@ export class ModalIncomeComponent implements OnInit {
       });
       this.inputIncomeAmount();
       this.inputWorkingHours();
+      this.inputWorkDate();
     }
   }
 
@@ -223,6 +224,13 @@ export class ModalIncomeComponent implements OnInit {
     const workingHours = this.workingHours.value;
     const stringFormat = this.formatInteger(workingHours);
     this.fg.get("workingHours").setValue(stringFormat);
+  }
+  
+  inputWorkDate() {
+    this.flagChange = true;
+    const workDate = this.workDate.value;
+    const stringFormat = this.formatInteger(workDate);
+    this.fg.get("workDate").setValue(stringFormat);
   }
 
   formatInteger(data: string): string {
