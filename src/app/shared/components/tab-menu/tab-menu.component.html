@@ -1,24 +1,31 @@
-<div class="nav-side-menu">
-  <div class="logo"><img src="assets/images/odds_logo_white.png" width="120" alt="" /></div>
-  <i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse" data-target="#menu-content"></i>
-  <div class="menu-list">
-    <ul id="menu-content" class="menu-content collapse out tab-without-padding" [ngClass]="{ 'display-gray-row-none': isShowLess }">
-      <ng-container *ngFor="let tabMenu of listTabMenuShow">
-        <li [ngClass]="{'active' : tabActive ? tabActive == tabMenu?.id : personType === tabMenu?.id,'background-dark-gray' : tabMenu?.level === 1}" (click)="routerTo(tabMenu?.id)">
-          <div class="d-flex align-items-center justify-content-between">
-            <a class="d-flex align-items-center" [style.padding-left]="tabMenu?.level * 1 + 'rem'">
-              <i class="fa ps-4" [ngClass]="tabMenu?.icon"></i>
-              <span class="px-2">{{tabMenu?.text}}</span>
-            </a>
-            <span class="text-end" *ngIf="tabMenu?.id === 'servant' && isShowLess">
-              <i class="fa fa-angle-right"></i>
-            </span>
-            <span class="text-end" *ngIf="tabMenu?.id === 'servant' && !isShowLess">
-              <i class="fa fa-angle-down"></i>
-            </span>
-          </div>
-        </li>
-      </ng-container>
-    </ul>
+
+<nav class="navbar navbar-expand-lg bg-light py-0">
+  <div class="nav-side-menu">
+    <div class="logo"><img src="assets/images/odds_logo_white.png" width="120" alt="" /></div>
+    <button class="navbar-toggler toggle-btn" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="menu-list">
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul id="menu-content" class="menu-content navbar-nav me-auto mb-2 mb-lg-0">
+        <ng-container *ngFor="let tabMenu of listTabMenuShow">
+          <li [ngClass]="{'active' : tabActive ? tabActive == tabMenu?.id : personType === tabMenu?.id,'background-dark-gray' : tabMenu?.level === 1}" (click)="routerTo(tabMenu?.id)">
+            <div class="d-flex align-items-center justify-content-between">
+              <a class="d-flex align-items-center" [style.padding-left]="tabMenu?.level * 1 + 'rem'">
+                <i class="fa ps-4" ></i>
+                <span class="px-2">{{tabMenu?.text}}</span>
+              </a>
+              <span class="text-end" *ngIf="tabMenu?.id === 'servant' && isShowLess">
+                <i class="fa fa-angle-right"></i>
+              </span>
+              <span class="text-end" *ngIf="tabMenu?.id === 'servant' && !isShowLess">
+                <i class="fa fa-angle-down"></i>
+              </span>
+            </div>
+          </li>
+        </ng-container>
+      </ul>
+    </div>
+    </div>
   </div>
-</div>
+</nav>
