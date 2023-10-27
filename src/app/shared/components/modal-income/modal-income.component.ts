@@ -74,9 +74,9 @@ export class ModalIncomeComponent implements OnInit {
       };
       this.fg = this.fb.group({
         note: ["", Validators.required],
-        workDate: ["0", Validators.required],
-        workingHours: ["0", Validators.required],
-        specialIncome: ["0", Validators.required],
+        workDate: ["", Validators.required],
+        workingHours: ["", Validators.required],
+        specialIncome: ["", Validators.required],
       });
     } else {
       this.fg = this.fb.group({
