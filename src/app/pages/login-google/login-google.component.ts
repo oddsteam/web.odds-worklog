@@ -19,6 +19,7 @@ export class LoginGoogleComponent implements OnInit {
   ngOnInit() {
     this.socialAuthService.authState.subscribe(
       (userData: SocialUser) => {
+
         if (this.isOddsTeam(userData.email)) {
           this.loginGoogle(userData.idToken);
         }
