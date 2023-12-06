@@ -1,6 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { of } from 'rxjs';
@@ -57,7 +57,9 @@ describe('ProfileComponent', () => {
       slackAccount: 'who@odds.team',
       vat: 'N',
       transcript: null,
-      thaiCitizenId: '123467890'
+      thaiCitizenId: '123467890',
+      phone: '',
+      startDate: '2022-1-1'
     });
 
     spyOn(worklogApiService, 'getUserByID').and.returnValue(of(data));
@@ -82,7 +84,9 @@ describe('ProfileComponent', () => {
       role: 'admin',
       slackAccount: 'who@odds.team',
       vat: 'N',
-      thaiCitizenId: '123467890'
+      thaiCitizenId: '123467890',
+      phone: '',
+      startDate: '2022-1-1'
     });
     const mockListSites: Site[] = [
       {
@@ -129,8 +133,8 @@ describe('ProfileComponent', () => {
       statusTavi: true,
       degreeCertificate: null,
       idCard: null,
-      phone: ''
-
+      phone: '',
+      startDate: '2022-1-1'
     };
     const mockListSites: Site[] = [
       {
@@ -172,7 +176,7 @@ describe('ProfileComponent', () => {
         ]
       }
     };
-    spyOn(fileService, 'uploadFileTranscript').and.returnValues(of({message: 'message'}));
+    spyOn(fileService, 'uploadFileTranscript').and.returnValues(of({ message: 'message' }));
     component.onSubmit(file, 'transcript');
     expect(fileService.uploadFileTranscript).toHaveBeenCalledWith(file);
   });
@@ -191,7 +195,7 @@ describe('ProfileComponent', () => {
         ]
       }
     };
-    spyOn(fileService, 'uploadImageProfile').and.returnValues(of({message: 'message'}));
+    spyOn(fileService, 'uploadImageProfile').and.returnValues(of({ message: 'message' }));
     component.onChangeImageFile(mockFile);
     expect(fileService.uploadImageProfile).toHaveBeenCalledTimes(1);
   });
@@ -204,7 +208,7 @@ describe('ProfileComponent', () => {
         ]
       }
     };
-    spyOn(fileService, 'uploadDegreeCertificate').and.returnValue(of({message: 'message'}));
+    spyOn(fileService, 'uploadDegreeCertificate').and.returnValue(of({ message: 'message' }));
     component.onChangeDegreeCertificateFile(mockFile);
     expect(fileService.uploadDegreeCertificate).toHaveBeenCalledTimes(1);
   });
@@ -217,7 +221,7 @@ describe('ProfileComponent', () => {
         ]
       }
     };
-    spyOn(fileService, 'uploadIdCard').and.returnValue(of({message: 'message'}));
+    spyOn(fileService, 'uploadIdCard').and.returnValue(of({ message: 'message' }));
     component.onChangeIdCardFile(mockFile);
     expect(fileService.uploadIdCard).toHaveBeenCalledTimes(1);
   });
@@ -236,7 +240,8 @@ describe('ProfileComponent', () => {
       transcript: null,
       imageProfile: null,
       thaiCitizenId: '123467890',
-      phone: ''
+      phone: '',
+      startDate: '2022-1-1'
     });
     // get user data
     spyOn(worklogApiService, 'getUserByID').and.returnValue(of(data));
@@ -261,8 +266,9 @@ describe('ProfileComponent', () => {
       vat: 'N',
       transcript: null,
       imageProfile: null,
-      thaiCitizenId: '123467890'
-
+      thaiCitizenId: '123467890',
+      phone: '',
+      startDate: '2022-1-1'
     });
     // get user data
     spyOn(worklogApiService, 'getUserByID').and.returnValue(of(data));
@@ -276,7 +282,7 @@ describe('ProfileComponent', () => {
     expect(component.downloadFile).toHaveBeenCalledWith(mockResponse, 'ww_ww_Zt0mUDwp7LBx.pdf');
   });
 
- 
+
   describe('getEmitSourceSite', () => {
     it('should set user site id when call getEmitSource', () => {
       const data = new User({
@@ -293,7 +299,9 @@ describe('ProfileComponent', () => {
         transcript: null,
         imageProfile: null,
         siteId: '5c0fb860f37e2f8698989cff',
-        thaiCitizenId: '123467890'
+        thaiCitizenId: '123467890',
+        phone: '',
+        startDate: '2022-1-1'
       });
       // get user data
       spyOn(worklogApiService, 'getUserByID').and.returnValue(of(data));
@@ -331,8 +339,11 @@ describe('ProfileComponent', () => {
         degreeCertificate: null,
         idCard: null,
         phone: null,
+        startDate: '2022-1-1'
       };
-      component.userInfo = new User();
+      component.userInfo = new User({
+        startDate: '2022-1-1'
+      });
       component.id = mockResponse.id;
       component.profileForm.setValue({
         firstName: 'ODDS',
@@ -347,7 +358,9 @@ describe('ProfileComponent', () => {
         address: 'every Where',
         thaiCitizenId: '123467890',
         vat: 'N',
-        phone: '0123123123'
+        phone: '0123123123',
+        startDate: { year: 2022, month: 1, day: 1 }
+
       });
     });
 
@@ -434,7 +447,7 @@ describe('ProfileComponent', () => {
       expect(component.personType).toEqual('individual');
     });
 
-    it('ทดสอบเรียกฟังชั่น setDataToModel หากทำการเรียกแล้วจะทำการ set ค่าต่างๆ ลง userInfo' , () => {
+    it('ทดสอบเรียกฟังชั่น setDataToModel หากทำการเรียกแล้วจะทำการ set ค่าต่างๆ ลง userInfo', () => {
       component.userInfo = new User();
       component.createForm();
       component.corporateNameForm.setValue('');

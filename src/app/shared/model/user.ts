@@ -23,6 +23,7 @@ export class User {
   idCard: string;
   degreeCertificate: string;
   phone: string;
+  startDate: string;
 
   constructor(user: {
     id?: string;
@@ -47,6 +48,7 @@ export class User {
     idCard?: string;
     degreeCertificate?: string;
     phone?: string;
+    startDate?: string
   } = {}) {
     this.id = user.id ? user.id : "";
     this.role = user.role ? user.role : "";
@@ -62,16 +64,17 @@ export class User {
     this.slackAccount = user.slackAccount ? user.slackAccount : "";
     this.transcript = user.transcript ? user.transcript : "";
     this.siteId = user.siteId ? user.siteId : "";
-    this.site = user.site? user.site : {} as Site;
+    this.site = user.site ? user.site : {} as Site;
     this.project = user.project ? user.project : "";
     this.imageProfile = user.imageProfile ? user.imageProfile : "";
     this.dailyIncome = user.dailyIncome ? user.dailyIncome : "";
     this.address = user.address ? user.address : "";
-    this.statusTavi = user.statusTavi? user.statusTavi : false;
+    this.statusTavi = user.statusTavi ? user.statusTavi : false;
     this.idCard = user.idCard ? user.idCard : "";
     this.degreeCertificate = user.degreeCertificate
       ? user.degreeCertificate
       : "";
     this.phone = user.phone ? user.phone : "";
+    this.startDate = user.startDate ? user.startDate : "";
   }
 }

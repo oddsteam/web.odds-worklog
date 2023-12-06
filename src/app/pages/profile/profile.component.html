@@ -205,7 +205,6 @@
                             <label>Account Type</label>
                             <app-drop-down [defaultSelect]="personType" [listSources]="listPersonType" (emitSource)="getEmitSourcePersonType($event)"></app-drop-down>
                         </div>
-
                     </div>
                     <div class="row">
                         <div class="form-group col-md-6">
@@ -215,7 +214,24 @@
                                 <label class="col-form-label" style="color: red;">กรุณากรอกที่อยู่</label>
                             </div>
                         </div>
-
+                        <div class="form-group col-md-6">
+                            <label>Start WorkingDate</label>
+                            <div class="input-group ">
+                                <input type="text" class="form-control" 
+                                placeholder="yyyy-mm-dd"
+                                name="dp"
+                                formControlName="startDate"
+                                ngbDatepicker
+                                readonly="true"
+                                [ngClass]="{'is-invalid': profileForm.controls.startDate.invalid && profileForm.controls.startDate.touched}"
+                                #d="ngbDatepicker">
+                                <span class="input-group-text fa fa-calendar cursor-pointer" id="basic-addon2" (click)="d.toggle()"></span>
+                            </div>
+                            <div *ngIf="profileForm.controls.startDate.invalid && profileForm.controls.startDate.touched">
+                                <label class="col-form-label" style="color: red;">กรุณากรอกวันเริ่มต้นวันทำงานของคุณ</label>
+                            </div>
+                              
+                        </div>
 
                         <div class="row mt-4">
                             <div class="form-group col-md-12 ps-5 ">

@@ -72,7 +72,8 @@ describe('Service: WorklogApi', () => {
           statusTavi: true,
           degreeCertificate: '',
           idCard: '',
-          phone: ''
+          phone: '',
+          startDate : '2022-1-1'
         }
       ]
     };
@@ -109,7 +110,8 @@ describe('Service: WorklogApi', () => {
           statusTavi: true,
           degreeCertificate: '',
           idCard: '',
-          phone: ''
+          phone: '',
+          startDate : '2022-1-1'
         }
       ]
     };

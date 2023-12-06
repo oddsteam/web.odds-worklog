@@ -55,8 +55,6 @@ export class FirstLoginComponent implements OnInit {
   ngOnInit() {
     this.getListSite();
     this.setupForm();
-    console.log((this.loginForm.controls.idCardFile.invalid));
-
   }
 
   setupForm() {

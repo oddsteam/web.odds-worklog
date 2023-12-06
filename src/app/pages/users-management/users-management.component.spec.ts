@@ -90,7 +90,9 @@ describe('UsersManagementComponent', () => {
       statusTavi: true,
       degreeCertificate: '',
       idCard: '',
-      phone: ''
+      phone: '',
+      startDate : '2022-1-1'
+
     }];
     spyOn(worklogApiService, 'getUsersData').and.returnValue(of(mockResponse));
     component.getUsersData();
