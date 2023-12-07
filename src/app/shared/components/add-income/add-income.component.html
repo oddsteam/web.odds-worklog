@@ -1,15 +1,15 @@
-<div class="d-flex p-3" *ngIf="role !== 'admin'">
-  <div class="w-100 pr-3 salary" id="salary">
+<div class="d-flex p-3 row" *ngIf="role !== 'admin'">
+  <div class="col-md-10 col-8 pr-3 salary" id="salary">
     รายได้สุทธิของคุณ {{ salary | number: '1.2-2' }} บาท
     <br>บันทึก : {{ note }}
   </div>
-  <div class="flex-shrink-1">
-    <button id="btn-add" *ngIf="userFlag === 'Y'" type="button" class="btn btn-blue" (click)="openTemplateModal()">
-      Add Income
-    </button>
-    <button id="btn-edit" *ngIf="userFlag === 'N'" type="button" class="btn btn-red" (click)="openTemplateModal()">
-      Edit Income
-    </button>
+  <div class="flex-shrink-1 col-4 col-md-2">
+      <button id="btn-add" *ngIf="userFlag === 'Y'" type="button" class="btn btn-blue form-control" (click)="openTemplateModal()">
+        Add Income
+      </button>
+      <button id="btn-edit" *ngIf="userFlag === 'N'" type="button" class="btn btn-red form-control" (click)="openTemplateModal()">
+        Edit Income
+      </button>
   </div>
 </div>
 

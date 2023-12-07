@@ -13,9 +13,7 @@
         <th class="text-center align-middle status-sort" (click)="setOrder()">
           Status <i [ngClass]="swapArrowIconSort ? 'fa fa-caret-up' : 'fa fa-caret-down'"></i>
         </th>
-        <th  *ngIf="role === 'admin'" class="text-center align-middle ">
-          StatusTavi
-        </th>
+
       </tr>
     </thead>
     <tbody>
@@ -37,9 +35,7 @@
         <td class="text-center" appStatusHighlight [Status]="ListData[0]?.status">
           {{ ListData[0]?.status === "Y" ? "Submitted" : "Not submitted" }}
         </td>
-        <td class="text-center" *ngIf="role === 'admin'" >
-            <input type="checkbox" name="checkbox" value="value" id="isDuplicateBusiness" formControlName="statusTavi"> 
-        </td>
+
       </tr>
       <tr formArrayName="items" *ngFor="let listData of ListData | slice : 1 : ListData.length | orderBy: order:swapArrowIconSort:'case-insensitive'; let i = index">
         <td class="text-start">{{ getName(listData.user) }}</td>
@@ -59,21 +55,9 @@
         <td class="text-center" appStatusHighlight [Status]="listData?.status">
           {{ listData?.status === "Y" ? "Submitted" : "Not submitted" }}
         </td>
-        <td  *ngIf="role === 'admin'" class="text-center"  [formGroupName]="i" >
-          <input type="checkbox" id="statusTavi_{{i}}" formControlName="statusTavi">
-        </td>
+    
       </tr>
-      <tr *ngIf="role === 'admin'">
-        <td class="text-start"></td>
-        <td class="text-start"></td>
-        <td class="text-start"></td>
-        <td class="text-start"></td>
-        <td class="text-center"></td>
-        <td class="text-center"></td>
-        <td class="text-center"></td>
-        <td class="text-center"></td>
-        <td class="text-center"><button type="button" class="btn btn-blue"  (click)="openModal(templateModal)">Save</button></td>
-      </tr>
+
     </tbody>
   </table>
 </div>
