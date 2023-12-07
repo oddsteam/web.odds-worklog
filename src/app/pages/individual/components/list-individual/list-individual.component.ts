@@ -1,6 +1,8 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { StateService } from 'src/app/core/state.service';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
+import { ModalExportComponent } from 'src/app/shared/components/modal-export/modal-export.component';
 import { ListIncomeResponse } from 'src/app/shared/model/list-income-model-response';
 
 @Component({
@@ -14,10 +16,12 @@ export class ListIndividualComponent implements OnInit, OnChanges {
   @Input() isUpdateList: boolean;
   date = new Date();
   listIncomeIndividual: ListIncomeResponse;
+  modalRef: BsModalRef;
 
   constructor(
     private worklogApiService: WorklogApiService,
-    private stateService: StateService
+    private stateService: StateService,
+    private modalService: BsModalService,
   ) { }
 
   ngOnInit() {
@@ -61,6 +65,12 @@ export class ListIndividualComponent implements OnInit, OnChanges {
     }, error => {
       alert('Cant export different individuals income to CSV file.');
     });
+  }
+
+  exportByMonth() {
+    this.modalRef = this.modalService.show(ModalExportComponent,
+      Object.assign({}, {})
+    );
   }
 
   downloadFile(data: any, filename: string) {
