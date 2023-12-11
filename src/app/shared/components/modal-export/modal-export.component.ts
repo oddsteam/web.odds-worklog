@@ -1,5 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { FormControl, FormGroup } from '@angular/forms';
+import { NgbDateParserFormatter, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 
 @Component({
@@ -8,21 +9,37 @@ import { BsModalRef } from 'ngx-bootstrap/modal';
   styleUrls: ['./modal-export.component.scss']
 })
 export class ModalExportComponent implements OnInit {
-  startDate: NgbDateStruct;
-  endDate: NgbDateStruct;
-  constructor(private modalRef: BsModalRef) { }
+  form: FormGroup;
+
+  constructor(
+    private modalRef: BsModalRef,
+    private ngbDateParserFormatter: NgbDateParserFormatter
+  ) { }
 
   ngOnInit(): void {
+    this.form = new FormGroup({
+      startDate: new FormControl(new Date()),
+      endDate: new FormControl(new Date())
+    });
   }
 
 
-  exportIncomeByMonth(){
-    console.log(this.startDate);
-    console.log(this.endDate);
+  exportIncomeByMonth() {
+    console.log(this.form.controls.startDate.value);
+    console.log(this.ngbDateStructToDate(this.form.controls.startDate.value));
+    console.log(this.ngbDateStructToDate(this.form.controls.endDate.value));
   }
 
   closeModal() {
     this.modalRef.hide();
   }
+
+  ngbDateStructToDate(dateStruct: NgbDateStruct): string {
+    if (dateStruct) {
+      return this.ngbDateParserFormatter.format(dateStruct);
+    }
+    return null;
+  }
+
 
 }
