@@ -12,6 +12,7 @@ import { StatusTavi } from '../shared/model/status-tavi';
 import { User } from '../shared/model/user';
 import { Login } from './../shared/model/login';
 import { Site } from './../shared/model/site';
+import { RequestExportIncome } from '../shared/model/request-export-income';
 
 @Injectable({
     providedIn: 'root'
@@ -48,7 +49,7 @@ export class WorklogApiService {
     }
 
     initDataService() {
-        this.forCheckTokenPleaseRemoveMeIfFlowLoginFinnished().subscribe( (checkTokenInterval) => {
+        this.forCheckTokenPleaseRemoveMeIfFlowLoginFinnished().subscribe((checkTokenInterval) => {
             if (checkTokenInterval) {
                 this.getListIncomeIndividual().subscribe(individual => {
                     this.individualListed = individual;
@@ -180,6 +181,15 @@ export class WorklogApiService {
 
     exportDataPdf(id: string): Observable<Blob> {
         return this.http.get(`${this.apiPath}incomes/export/pdf/${id}`, {
+            headers: new HttpHeaders({
+                Authorization: sessionStorage.getItem('token')
+            }),
+            responseType: 'blob'
+        });
+    }
+
+    exportIncomeByMonth(requestExportIncome: RequestExportIncome) {
+        return this.http.post(`${this.apiPath}incomes/export`, requestExportIncome, {
             headers: new HttpHeaders({
                 Authorization: sessionStorage.getItem('token')
             }),
@@ -331,7 +341,7 @@ export class WorklogApiService {
             })
         });
     }
-    
+
     deleteUser(id: string) {
         return this.http.delete(`${this.apiPath}users/${id}`, {
             headers: new HttpHeaders({
