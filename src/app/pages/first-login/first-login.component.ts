@@ -42,7 +42,6 @@ export class FirstLoginComponent implements OnInit {
       isCheck: false
     }
   ];
-  role = 'individual';
   vat = 'N';
   isCorporate = false;
 
@@ -59,13 +58,13 @@ export class FirstLoginComponent implements OnInit {
 
   setupForm() {
     this.loginForm = this.fb.group({
-      firstName: ['', [Validators.required, Validators.pattern('[a-zA-Z]{2,20}')]],
-      lastName: ['', [Validators.required, Validators.pattern('[a-zA-Z]{2,20}')]],
+      firstName: ['', [Validators.required]],
+      lastName: ['', [Validators.required]],
       corporateName: [''],
       bankAccountName: ['', Validators.required],
       bankAccountNumber: ['', [Validators.required, Validators.pattern('\\d{9,16}')]],
       slackAccount: ['', [Validators.required, Validators.email]],
-      role: [true, Validators.required],
+      role: ['', Validators.required],
       vat: [true, Validators.required],
       siteId: ['', Validators.required],
       project: [''],
@@ -108,22 +107,6 @@ export class FirstLoginComponent implements OnInit {
     });
   }
 
-  onCheckBoxRole(role: string) {
-    this.role = role;
-    this.roles.map(val => {
-      val.isCheck = (role === val.value);
-    });
-    this.isCorporate = (role === 'corporate');
-    this.onCheckBoxVat(!this.isCorporate ? 'N' : 'Y');
-    if (this.role === 'individual') {
-      this.loginForm.get('corporateName').setValue('');
-      this.loginForm.get('corporateName').disable();
-    } else {
-      this.loginForm.get('corporateName').setValidators(Validators.required);
-      this.loginForm.get('corporateName').enable();
-    }
-  }
-
   getListSite() {
     this.worklogService.getSitesData().subscribe((res) => {
       this.siteList = res;
@@ -141,7 +124,7 @@ export class FirstLoginComponent implements OnInit {
     this.user.bankAccountNumber = this.bankAccountNumberForm.value;
     this.user.slackAccount = this.slackAccountForm.value;
     this.user.corporateName = this.corporateNameForm.value;
-    this.user.role = this.role;
+    this.user.role = this.role.value;
     this.user.vat = this.vat;
     this.user.siteId = this.siteIdForm.value;
     this.user.project = this.projectForm.value;
@@ -170,6 +153,9 @@ export class FirstLoginComponent implements OnInit {
 
   get corporateNameForm(): FormControl {
     return this.loginForm.get('corporateName') as FormControl;
+  }
+  get role(): FormControl {
+    return this.loginForm.get('role') as FormControl;
   }
 
   get siteIdForm(): FormControl {
