@@ -68,9 +68,8 @@ export class ListIndividualComponent implements OnInit, OnChanges {
   }
 
   exportByMonth() {
-    this.modalRef = this.modalService.show(ModalExportComponent,
-      Object.assign({}, {})
-    );
+    this.modalRef = this.modalService.show(ModalExportComponent);
+    this.modalRef.content.role = 'individual';
   }
 
   downloadFile(data: any, filename: string) {

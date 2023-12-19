@@ -3,6 +3,8 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { NgbDateParserFormatter, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { BsModalRef } from 'ngx-bootstrap/modal';
+import { WorklogApiService } from 'src/app/core/worklog-api.service';
+import { RequestExportIncome } from '../../model/request-export-income';
 
 @Component({
   selector: 'app-modal-export',
