@@ -81,7 +81,7 @@ export class ListCorporateComponent implements OnInit, OnChanges {
       const body: RequestExportIncome = {
         role: 'corporate',
         startDate: data.startDate,
-        endDate: data.startDate,
+        endDate: data.endDate,
       };
       this.worklogApiService.exportIncomeByMonth(body).subscribe((res) => {
         this.downloadFile(res, 'income_corporate_specific_month.csv');
