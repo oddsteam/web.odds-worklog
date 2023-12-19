@@ -4,6 +4,7 @@ import { StateService } from 'src/app/core/state.service';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
 import { ModalExportComponent } from 'src/app/shared/components/modal-export/modal-export.component';
 import { ListIncomeResponse } from 'src/app/shared/model/list-income-model-response';
+import { RequestExportIncome } from 'src/app/shared/model/request-export-income';
 
 @Component({
   selector: 'app-list-individual',
@@ -68,8 +69,24 @@ export class ListIndividualComponent implements OnInit, OnChanges {
   }
 
   exportByMonth() {
-    this.modalRef = this.modalService.show(ModalExportComponent);
-    this.modalRef.content.role = 'individual';
+    this.modalRef = this.modalService.show(ModalExportComponent,
+      Object.assign({}, {})
+    );
+
+    this.modalRef.content.valueDate.subscribe((data) => {
+      console.log('Received data from modal:', data);
+      const body: RequestExportIncome = {
+        role: 'individual',
+        startDate: data.startDate,
+        endDate: data.startDate,
+      };
+      this.worklogApiService.exportIncomeByMonth(body).subscribe((res) => {
+        this.downloadFile(res, 'income_individual_specific_month.csv');
+      }, err => {
+        console.log(err);
+        alert(`Can't export individual income to CSV file.`);
+      });
+    });
   }
 
   downloadFile(data: any, filename: string) {
