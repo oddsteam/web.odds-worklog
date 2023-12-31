@@ -8,7 +8,7 @@ WORKDIR /app
 COPY .  /app
 
 # Install app dependencies
-RUN npm install --no-optional --force && npm rebuild 
+RUN npm install --no-optional  && npm rebuild 
 
 # Run Unit Test
 # RUN ng test --watch false
