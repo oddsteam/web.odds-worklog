@@ -20,7 +20,7 @@ export class LoginGoogleComponent implements OnInit {
     this.socialAuthService.authState.subscribe(
       (userData: SocialUser) => {
 
-        if (this.isOddsTeam(userData.email)) {
+        if (userData && this.isOddsTeam(userData.email)) {
           this.loginGoogle(userData.idToken);
         }
       }
