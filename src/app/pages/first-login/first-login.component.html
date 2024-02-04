@@ -64,9 +64,13 @@
                 <div class="form-group col-12">
                     <label>User Type</label>
                     <div class="d-flex justify-content-start">
-                        <div class="checkbox col-auto" *ngFor="let role of roles">
-                            <label><input type="checkbox" [checked]="role.isCheck" (change)="onCheckBoxRole(role.value)" formControlName="role"> {{role.name}}</label>
-                        </div>
+                        <select id="role" name="role" class="browser-default custom-select form-control" formControlName="role" [ngClass]="{'is-invalid':loginForm.controls.role.invalid && loginForm.controls.role.touched}">
+                            <option selected value="">select user type</option>
+                            <option *ngFor="let role of roles" [value]="role.value">{{role.name}}</option>
+                          </select>
+                    </div>
+                    <div *ngIf="loginForm.controls.role.invalid && loginForm.controls.role.touched">
+                        <label class="col-form-label" style="color: red;">กรุณาเลือกประเภท user</label>
                     </div>
                 </div>
                 <div class="col-12" *ngIf="isCorporate">

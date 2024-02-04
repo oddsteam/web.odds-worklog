@@ -16,6 +16,7 @@ import { DropDownComponent } from './components/drop-down/drop-down.component';
 import { RouterModule } from '@angular/router';
 import { MessageTooltipComponent } from './components/message-tooltip/message-tooltip.component';
 import { ContentLoaderModule } from '@netbasal/ngx-content-loader';
+import { ModalExportComponent } from './components/modal-export/modal-export.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -38,6 +39,7 @@ import { ContentLoaderModule } from '@netbasal/ngx-content-loader';
     AddIncomeComponent,
     DropDownComponent,
     MessageTooltipComponent,
+    ModalExportComponent,
   ],
   exports: [
     StatusHighlightDirective,

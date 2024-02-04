@@ -9,6 +9,7 @@ import { AppComponent } from './app.component';
 import { SharedModule } from './shared/shared.module';
 import { ValidateCitizenIdUtil } from './shared/utils/validate-citizenId.util';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { DatePipe } from '@angular/common';
 
 // import { AuthorizationInterceptor } from './shared/interceptors/authorization.interceptor';
 
@@ -51,7 +52,8 @@ export function getAuthServiceConfigs() {
       provide: 'SocialAuthServiceConfig',
       useValue: getAuthServiceConfigs()
     },
-    ValidateCitizenIdUtil
+    ValidateCitizenIdUtil,
+    DatePipe
     // {
     //   provide: HTTP_INTERCEPTORS,
     //   useClass: AuthorizationInterceptor,

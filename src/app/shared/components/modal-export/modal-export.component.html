@@ -1,0 +1,52 @@
+<form [formGroup]="form">
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">เลือกเดือนและปีที่ต้องการค้นหา</h4>
+        <button type="button" class="close btn-close" aria-label="Close" (click)="closeModal()">
+        </button>
+    </div>
+
+    <ng-container>
+        <div class="modal-body mx-sm-5">
+            <div class="row">
+                <div class="col-6">
+                    เดือนเริ่มต้น
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="yyyy-mm-dd" name="dp" ngbDatepicker
+                            readonly="true" #dstartDate="ngbDatepicker" formControlName="startDate"
+                            [ngClass]="{'is-invalid': form.controls.startDate.invalid && form.controls.startDate.touched}">
+                        <span class="input-group-text fa fa-calendar cursor-pointer" id="basic-addon2"
+                            (click)="dstartDate.toggle()"></span>
+                        <div *ngIf="form.controls.startDate.invalid && form.controls.startDate.touched">
+                            <label class="col-form-label" style="color: red;">กรุณาระบุ Start Date</label>
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="col-6">
+                    ถึงเดือน
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="yyyy-mm-dd" name="dp" ngbDatepicker
+                            readonly="true" #dendDate="ngbDatepicker" formControlName="endDate"
+                            [minDate]="form.get('startDate').value"
+                            [ngClass]="{'is-invalid': form.controls.endDate.invalid && form.controls.endDate.touched}">
+                        <span class="input-group-text fa fa-calendar cursor-pointer" id="basic-addon2"
+                            (click)="dendDate.toggle()"></span>
+                        <div *ngIf="form.controls.endDate.invalid && form.controls.endDate.touched">
+                            <label class="col-form-label" style="color: red;">กรุณาระบุ End Date</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+
+    <div class="modal-footer">
+        <ng-container>
+            <div class="col-6 col-md-3">
+                <button id="btn-submit" type="button" class="btn btn-blue form-control"
+                    (click)="exportIncomeByMonth()">Export Income</button>
+            </div>
+        </ng-container>
+    </div>
+</form>

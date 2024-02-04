@@ -5,9 +5,6 @@
     <span>{{ name }}</span>
   </div>
   <div class="text-end">
-    <a class="link" href="javascript:void(0)" (click)="exportTavi50()" *ngIf="taviStatus && role !== 'admin'">
-      <i class="fa fa-file mr-1" aria-hidden="true"></i>ใบทวิ 50 </a>
-    <a *ngIf="taviStatus && role !== 'admin'">|</a>
     <a class="link" href="javascript:void(0)" (click)="logout()"> LOGOUT
       <i class="fa fa-sign-out-alt ms-1" aria-hidden="true"></i></a>
   </div>

@@ -4,8 +4,7 @@
       <tr>
         <th class="text-start align-middle">Name</th>
         <th class="text-start align-middle">E-mail</th>
-        <th class="text-start align-middle">Account Name</th>
-        <th class="text-start align-middle">Account Number</th>
+        <th class="text-center align-middle">Start Date</th>
         <th class="text-start align-middle">Phone Number</th>
         <th class="text-center align-middle">Submit Date</th>
         <th class="text-center align-middle">Work Day</th>
@@ -13,17 +12,13 @@
         <th class="text-center align-middle status-sort" (click)="setOrder()">
           Status <i [ngClass]="swapArrowIconSort ? 'fa fa-caret-up' : 'fa fa-caret-down'"></i>
         </th>
-        <th  *ngIf="role === 'admin'" class="text-center align-middle ">
-          StatusTavi
-        </th>
       </tr>
     </thead>
     <tbody>
       <tr>
         <td class="text-start">{{ getName(ListData[0].user) }}</td>
         <td class="text-start">{{ checkValue(ListData[0].user?.email) }}</td>
-        <td class="text-start">{{ checkValue(ListData[0].user?.bankAccountName) }}</td>
-        <td class="text-start">{{ checkValue(ListData[0].user?.bankAccountNumber) }}</td>
+        <td class="text-center">{{ ListData[0]?.user?.startDate | date: "dd/MM/yyyy" || '-' }}</td>
         <td class="text-start">{{ checkValue(ListData[0].user?.phone) }}</td>
         <td class="text-center">
           {{
@@ -37,15 +32,12 @@
         <td class="text-center" appStatusHighlight [Status]="ListData[0]?.status">
           {{ ListData[0]?.status === "Y" ? "Submitted" : "Not submitted" }}
         </td>
-        <td class="text-center" *ngIf="role === 'admin'" >
-            <input type="checkbox" name="checkbox" value="value" id="isDuplicateBusiness" formControlName="statusTavi"> 
-        </td>
       </tr>
-      <tr formArrayName="items" *ngFor="let listData of ListData | slice : 1 : ListData.length | orderBy: order:swapArrowIconSort:'case-insensitive'; let i = index">
+      <tr formArrayName="items"
+        *ngFor="let listData of ListData | slice : 1 : ListData.length | orderBy: order:swapArrowIconSort:'case-insensitive'; let i = index">
         <td class="text-start">{{ getName(listData.user) }}</td>
         <td class="text-start">{{ checkValue(listData.user?.email) }}</td>
-        <td class="text-start">{{ checkValue(listData.user?.bankAccountName) }}</td>
-        <td class="text-start">{{ checkValue(listData.user?.bankAccountNumber) }}</td>
+        <td class="text-center">{{ listData.user?.startDate || '-' }}</td>
         <td class="text-start">{{ checkValue(listData.user?.phone) }}</td>
         <td class="text-center">
           {{
@@ -59,27 +51,16 @@
         <td class="text-center" appStatusHighlight [Status]="listData?.status">
           {{ listData?.status === "Y" ? "Submitted" : "Not submitted" }}
         </td>
-        <td  *ngIf="role === 'admin'" class="text-center"  [formGroupName]="i" >
-          <input type="checkbox" id="statusTavi_{{i}}" formControlName="statusTavi">
-        </td>
+    
       </tr>
-      <tr *ngIf="role === 'admin'">
-        <td class="text-start"></td>
-        <td class="text-start"></td>
-        <td class="text-start"></td>
-        <td class="text-start"></td>
-        <td class="text-center"></td>
-        <td class="text-center"></td>
-        <td class="text-center"></td>
-        <td class="text-center"></td>
-        <td class="text-center"><button type="button" class="btn btn-blue"  (click)="openModal(templateModal)">Save</button></td>
-      </tr>
+
     </tbody>
   </table>
 </div>
 <ng-template #ContentLoader>
   <div *ngIf="isNoData" class="text-center">No data.</div>
-  <list-content-loader *ngIf="isShowLoading" [width]="300" [speed]="1" [secondaryColor]="'#F0F0F0'" [primaryColor]="'#A1A1A1'"></list-content-loader>
+  <list-content-loader *ngIf="isShowLoading" [width]="300" [speed]="1" [secondaryColor]="'#F0F0F0'"
+    [primaryColor]="'#A1A1A1'"></list-content-loader>
 </ng-template>
 
 

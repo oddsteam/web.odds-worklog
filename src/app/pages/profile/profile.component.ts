@@ -8,6 +8,7 @@ import { User } from 'src/app/shared/model/user';
 import { ValidateCitizenIdUtil } from 'src/app/shared/utils/validate-citizenId.util';
 import { CustomValidators } from 'src/app/validators/custom-validators';
 import { MyFile } from './file';
+import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-profile',
@@ -32,6 +33,8 @@ export class ProfileComponent implements OnInit {
   fileNamePdf: string;
   isCorporate = false;
   checkCiti: Boolean;
+  datePicker: NgbDateStruct;
+
   listPersonType = [
     {
       id: 'corporate',
@@ -83,7 +86,8 @@ export class ProfileComponent implements OnInit {
       thaiCitizenId: ['', Validators.compose([Validators.required, Validators.pattern(/^[0-9]{13}?$/),
       this.validateCitized.validateCitizenId.bind(this.validateCitized), Validators.maxLength(100)])],
       vat: ['', Validators.required],
-      phone: ['', Validators.required]
+      phone: ['', Validators.required],
+      startDate: ['', Validators.required]
     });
 
     this.fileForm = this.formBuilder.group({
@@ -119,8 +123,8 @@ export class ProfileComponent implements OnInit {
     this.thaiCitizenId.setValue(user.thaiCitizenId);
     this.vat.setValue(user.vat)
     this.phone.setValue(user.phone)
-    console.log(this.vat.value);
-    
+    const startDateSplit = user.startDate.split('-');
+    this.startDate.setValue({year: Number(startDateSplit[0]), month: Number(startDateSplit[1]),day: Number(startDateSplit[2])})
     this.getNameSite();
   }
 
@@ -132,8 +136,6 @@ export class ProfileComponent implements OnInit {
   }
 
   updateData() {
-    console.log(this.userInfo);
-    console.log(this.userInfo);
     if (!this.profileForm.valid) {
       CustomValidators.validateAllFormFields(this.profileForm);
       return false;
@@ -172,6 +174,7 @@ export class ProfileComponent implements OnInit {
     this.userInfo.address = this.address.value;
     this.userInfo.thaiCitizenId = this.thaiCitizenId.value;
     this.userInfo.phone = this.phone.value;
+    this.userInfo.startDate = this.startDate.value.year + '-' + this.startDate.value.month + '-' + this.startDate.value.day
   }
 
   onReset() {
@@ -321,7 +324,7 @@ export class ProfileComponent implements OnInit {
     }
   }
 
- 
+
 
   downloadFile(data: any, filename: string) {
     const url = window.URL.createObjectURL(data);
@@ -469,6 +472,10 @@ export class ProfileComponent implements OnInit {
 
   get phone(): FormControl {
     return this.profileForm.get('phone') as FormControl;
+  }
+
+  get startDate(): FormControl {
+    return this.profileForm.get('startDate') as FormControl;
   }
 
   triggerHeader() {

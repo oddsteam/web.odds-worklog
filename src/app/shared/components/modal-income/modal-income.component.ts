@@ -199,7 +199,6 @@ export class ModalIncomeComponent implements OnInit {
 
   handleError(err) {
     alert(err.message);
-    console.log(err);
   }
 
   disableButton(): boolean {

@@ -6,6 +6,7 @@ import { of } from 'rxjs';
 import { AddIncome } from '../shared/model/add-income-model';
 import { ListIncomeResponse } from '../shared/model/list-income-model-response';
 import { WorklogApiService } from './worklog-api.service';
+import { RequestExportIncome } from '../shared/model/request-export-income';
 
 describe('Service: WorklogApi', () => {
   let mockService: WorklogApiService;
@@ -72,7 +73,8 @@ describe('Service: WorklogApi', () => {
           statusTavi: true,
           degreeCertificate: '',
           idCard: '',
-          phone: ''
+          phone: '',
+          startDate : '2022-1-1'
         }
       ]
     };
@@ -109,7 +111,8 @@ describe('Service: WorklogApi', () => {
           statusTavi: true,
           degreeCertificate: '',
           idCard: '',
-          phone: ''
+          phone: '',
+          startDate : '2022-1-1'
         }
       ]
     };
@@ -173,6 +176,16 @@ describe('Service: WorklogApi', () => {
       backEnd.verify();
     });
   });
+
+  it('should call export income by month api correctly', () => {
+    mockService.exportIncomeByMonth(new RequestExportIncome()).subscribe(_ => {
+      const req = backEnd.expectOne(`${mockService.apiPath}incomes/export`);
+      expect(req.request.method).toEqual('POST');
+      expect(req.request.responseType).toEqual('blob');
+      backEnd.verify();
+    });
+  });
+  
 
   it('should call reminder setting api correctly', () => {
     const body = {

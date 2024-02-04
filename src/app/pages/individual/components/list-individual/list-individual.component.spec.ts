@@ -53,7 +53,7 @@ describe('ListIndividualComponent', () => {
       }, submitDate: '', status: 'N'
     }] as unknown as ListIncomeResponse;
     let worklogService = createMockWorklogApiService(individualListed)
-    let component = new ListIndividualComponent(worklogService, TestBed.inject(StateService));
+    let component = new ListIndividualComponent(worklogService, TestBed.inject(StateService),TestBed.inject(BsModalService));
     component.ngOnInit();
     expect(component.listIncomeIndividual).toEqual(individualListed);
   });
@@ -62,7 +62,7 @@ describe('ListIndividualComponent', () => {
     it('should get data from backend', () => {
       let mockResponse = mockIndividualUserList();
       let worklogService = createMockWorklogApiService(mockResponse)
-      let component = new ListIndividualComponent(worklogService, TestBed.inject(StateService));
+      let component = new ListIndividualComponent(worklogService, TestBed.inject(StateService),TestBed.inject(BsModalService));
       component.getListIncomeIndividual();
       expect(http.get).toHaveBeenCalled();
     });
@@ -70,7 +70,7 @@ describe('ListIndividualComponent', () => {
     it('should bound response in data table', () => {
       let mockResponse = mockIndividualUserList();
       let worklogService = createMockWorklogApiService(mockResponse)
-      let component = new ListIndividualComponent(worklogService, TestBed.inject(StateService));
+      let component = new ListIndividualComponent(worklogService, TestBed.inject(StateService),TestBed.inject(BsModalService));
       component.getListIncomeIndividual();
       expect(component.listIncomeIndividual).toEqual(mockResponse);
     });
@@ -79,7 +79,7 @@ describe('ListIndividualComponent', () => {
   it('should get data from backend when export data of the current month', () => {
     const mockBlob = new Blob([], { type: 'text/csv;charset=utf-8;' });
     let worklogService = createMockWorklogApiService(mockBlob)
-    let component = new ListIndividualComponent(worklogService, TestBed.inject(StateService));
+    let component = new ListIndividualComponent(worklogService, TestBed.inject(StateService),TestBed.inject(BsModalService));
     component.exportIndividual('0');
     expect(http.get).toHaveBeenCalled();
   });
@@ -87,7 +87,7 @@ describe('ListIndividualComponent', () => {
   it('should call download file automatically when export data successfully', () => {
     const mockBlob = new Blob([], { type: 'text/csv;charset=utf-8;' });
     let worklogService = createMockWorklogApiService(mockBlob)
-    let component = new ListIndividualComponent(worklogService, TestBed.inject(StateService));
+    let component = new ListIndividualComponent(worklogService, TestBed.inject(StateService),TestBed.inject(BsModalService));
     spyOn(component, 'downloadFile');
     component.exportIndividual('0');
     expect(component.downloadFile).toHaveBeenCalledWith(mockBlob, 'income_individual.csv');
@@ -104,7 +104,7 @@ describe('ListIndividualComponent', () => {
 
   it('should call get data from backend again when isUpdateList = true', () => {
     let worklogService = createMockWorklogApiService(mockIndividualUserList())
-    let component = new ListIndividualComponent(worklogService, TestBed.inject(StateService));
+    let component = new ListIndividualComponent(worklogService, TestBed.inject(StateService),TestBed.inject(BsModalService));
     component.isUpdateList = true;
     component.ngOnChanges();
     expect(http.get).toHaveBeenCalled();
