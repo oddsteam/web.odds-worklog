@@ -37,7 +37,7 @@
         *ngFor="let listData of ListData | slice : 1 : ListData.length | orderBy: order:swapArrowIconSort:'case-insensitive'; let i = index">
         <td class="text-start">{{ getName(listData.user) }}</td>
         <td class="text-start">{{ checkValue(listData.user?.email) }}</td>
-        <td class="text-center">{{ listData.user?.startDate || '-' }}</td>
+        <td class="text-center">{{ listData.user?.startDate | date: "dd/MM/yyyy" || '-' }}</td>
         <td class="text-start">{{ checkValue(listData.user?.phone) }}</td>
         <td class="text-center">
           {{
