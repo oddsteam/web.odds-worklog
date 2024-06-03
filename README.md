@@ -6,7 +6,7 @@
 ### Online Prod [http://worklog.odds.team/](http://worklog.odds.team/) ###
 ### Online Dev [http://worklog-dev.odds.team:32835/](http://worklog.odds.team/) ###
 
-# API 
+# API
 ### [http://worklog-dev.odds.team/api/v1/](http://worklog-dev.odds.team/api/v1/) ###
 
 # Swagger
@@ -30,9 +30,23 @@ Run `docker run --name web-odds-worklog -p 80:80 --rm registry.odds.team/worklog
 
 ## Development server
 
-Run `ng serve` for a dev server. Navigate to [http://localhost:4200/](http://localhost:4200/). The app will automatically reload if you change any of the source files.
+Run `ng serve` for a dev server that connects the app to the API on https://worklog-dev.odds.team/.
 
-Use `ng serve --configuration local` for running web.odds-worklog connecting to API localhost:8080
+If you want to connect the app to the API on http://localhost:8080, use the following command:
+
+```bash
+ng serve --configuration local
+```
+
+Navigate to http://localhost:4200/. The app will automatically reload if you change any of the source files.
+
+Alternatively, you can run the command below as well. This will run the `ng` in the `node_modules/.bin` folder.
+
+```bash
+npm run ng serve -- --configuration local
+```
+
+**Note:** The `--` separator means we want to pass the params to the script via the `npm` command.
 
 ## Code scaffolding
 
@@ -49,7 +63,7 @@ Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.
 ## Running end-to-end tests
 
 Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
- 
+
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
