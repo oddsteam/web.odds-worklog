@@ -184,7 +184,7 @@ export class FirstLoginComponent implements OnInit {
   }
 
   get bankAccountPlaceholder(): string {
-    return "ต้องเป็นบัญชีกรุงไทยเท่านั้นนะ";
+    return "ต้องเป็นบัญชี TTB เท่านั้นนะ";
   }
   get idCardFile(): FormControl {
     return this.loginForm.get("idCardFile") as FormControl;

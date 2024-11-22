@@ -144,6 +144,6 @@ describe("FirstLoginComponent", () => {
   it("should warn user to use ktb account or the payroll script would fail as it does not support any other bank transfer yet. (see also https://github.com/juacompe/banking-automation/tree/master/ktbnetbank)", () => {
     let actual = component.bankAccountPlaceholder;
 
-    expect(actual).toBe("ต้องเป็นบัญชีกรุงไทยเท่านั้นนะ");
+    expect(actual).toBe("ต้องเป็นบัญชี TTB เท่านั้นนะ");
   });
 });
