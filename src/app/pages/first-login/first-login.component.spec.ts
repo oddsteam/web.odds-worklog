@@ -1,25 +1,32 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { ComponentFixture, inject, TestBed, waitForAsync } from '@angular/core/testing';
-import { ReactiveFormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
-import { of, throwError } from 'rxjs';
-import { User } from 'src/app/shared/model/user';
-import { WorklogApiService } from '../../core/worklog-api.service';
-import { Site } from '../../shared/model/site';
-import { FirstLoginComponent } from './first-login.component';
+import { HttpClientTestingModule } from "@angular/common/http/testing";
+import {
+  ComponentFixture,
+  inject,
+  TestBed,
+  waitForAsync,
+} from "@angular/core/testing";
+import { ReactiveFormsModule } from "@angular/forms";
+import { Router } from "@angular/router";
+import { RouterTestingModule } from "@angular/router/testing";
+import { of, throwError } from "rxjs";
+import { User } from "src/app/shared/model/user";
+import { WorklogApiService } from "../../core/worklog-api.service";
+import { Site } from "../../shared/model/site";
+import { FirstLoginComponent } from "./first-login.component";
 
-describe('FirstLoginComponent', () => {
+describe("FirstLoginComponent", () => {
   let component: FirstLoginComponent;
   let fixture: ComponentFixture<FirstLoginComponent>;
   let worklogapiService: WorklogApiService;
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [FirstLoginComponent],
-      imports: [ReactiveFormsModule, RouterTestingModule, HttpClientTestingModule
-      ]
-    })
-    .compileComponents();
+      imports: [
+        ReactiveFormsModule,
+        RouterTestingModule,
+        HttpClientTestingModule,
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -29,7 +36,7 @@ describe('FirstLoginComponent', () => {
     worklogapiService = TestBed.inject(WorklogApiService);
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 
@@ -51,7 +58,7 @@ describe('FirstLoginComponent', () => {
   //   });
   //   spyOn(worklogapiService, 'updateUser').and.returnValue(of());
   //   component.submit();
-    
+
   //   expect(component.user.firstName).toEqual('test');
   //   expect(component.user.lastName).toEqual('lastTest');
   //   expect(component.user.bankAccountName).toEqual('ทดสอบ');
@@ -63,70 +70,80 @@ describe('FirstLoginComponent', () => {
   //   expect(worklogapiService.updateUser).toHaveBeenCalled();
   // });
 
-  it('should call method getListSite call service worklogAPIService getSitesData', () => {
-    const mockListSite: Site[] = [{
-      id: '5c0fb860f37e2f8698989cdd',
-      name: 'SEC'
-    },
-    {
-      id: '5c0fb875f37e2f8698989cde',
-      name: 'SET'
-    },
-    {
-      id: '5c0fb87df37e2f8698989cdf',
-      name: 'KTB'
-    },
-    {
-      id: '5c0fb885f37e2f8698989ce0',
-      name: 'KBTG'
-    },
-    {
-      id: '5c0fb88af37e2f8698989ce1',
-      name: 'DTAC'
-    }];
-    spyOn(worklogapiService, 'getSitesData').and.returnValue(of(mockListSite));
+  it("should call method getListSite call service worklogAPIService getSitesData", () => {
+    const mockListSite: Site[] = [
+      {
+        id: "5c0fb860f37e2f8698989cdd",
+        name: "SEC",
+      },
+      {
+        id: "5c0fb875f37e2f8698989cde",
+        name: "SET",
+      },
+      {
+        id: "5c0fb87df37e2f8698989cdf",
+        name: "KTB",
+      },
+      {
+        id: "5c0fb885f37e2f8698989ce0",
+        name: "KBTG",
+      },
+      {
+        id: "5c0fb88af37e2f8698989ce1",
+        name: "DTAC",
+      },
+    ];
+    spyOn(worklogapiService, "getSitesData").and.returnValue(of(mockListSite));
     component.getListSite();
     expect(worklogapiService.getSitesData).toHaveBeenCalled();
-    expect(component.siteList[0].name).toEqual('SEC');
-    expect(component.siteList[1].name).toEqual('SET');
-    expect(component.siteList[2].name).toEqual('KTB');
-    expect(component.siteList[3].name).toEqual('KBTG');
-    expect(component.siteList[4].name).toEqual('DTAC');
+    expect(component.siteList[0].name).toEqual("SEC");
+    expect(component.siteList[1].name).toEqual("SET");
+    expect(component.siteList[2].name).toEqual("KTB");
+    expect(component.siteList[3].name).toEqual("KBTG");
+    expect(component.siteList[4].name).toEqual("DTAC");
   });
 
-  it('when call updateUser() but role equal admin router navigate go to corporate', inject([Router], (router: Router) => {
-    const res = new User({ role: 'admin' });
-    spyOn(worklogapiService, 'updateUser').and.returnValue(of(res));
-    spyOn(router, 'navigate');
+  it("when call updateUser() but role equal admin router navigate go to corporate", inject(
+    [Router],
+    (router: Router) => {
+      const res = new User({ role: "admin" });
+      spyOn(worklogapiService, "updateUser").and.returnValue(of(res));
+      spyOn(router, "navigate");
 
-    component.updateUser();
+      component.updateUser();
 
-    expect(router.navigate).toHaveBeenCalledWith(['corporate']);
-  }));
+      expect(router.navigate).toHaveBeenCalledWith(["corporate"]);
+    }
+  ));
 
-  it('when call updateUser() but role equal individual router navigate go to individual', inject([Router], (router: Router) => {
-    const res = new User({ role: 'individual' });
-    spyOn(worklogapiService, 'updateUser').and.returnValue(of(res));
-    spyOn(router, 'navigate');
+  it("when call updateUser() but role equal individual router navigate go to individual", inject(
+    [Router],
+    (router: Router) => {
+      const res = new User({ role: "individual" });
+      spyOn(worklogapiService, "updateUser").and.returnValue(of(res));
+      spyOn(router, "navigate");
 
-    component.updateUser();
+      component.updateUser();
 
-    expect(router.navigate).toHaveBeenCalledWith(['individual']);
-  }));
+      expect(router.navigate).toHaveBeenCalledWith(["individual"]);
+    }
+  ));
 
-  it('when call updateUser() but error response router navigate go to login', inject([Router], (router: Router) => {
+  it("when call updateUser() but error response router navigate go to login", inject(
+    [Router],
+    (router: Router) => {
+      spyOn(worklogapiService, "updateUser").and.returnValue(throwError(""));
+      spyOn(router, "navigate");
 
-    spyOn(worklogapiService, 'updateUser').and.returnValue(throwError(''));
-    spyOn(router, 'navigate');
+      component.updateUser();
 
-    component.updateUser();
+      expect(router.navigate).toHaveBeenCalledWith(["login"]);
+    }
+  ));
 
-    expect(router.navigate).toHaveBeenCalledWith(['login']);
-  }));
+  it("should warn user to use ktb account or the payroll script would fail as it does not support any other bank transfer yet. (see also https://github.com/juacompe/banking-automation/tree/master/ktbnetbank)", () => {
+    let actual = component.bankAccountPlaceholder;
 
-  it('should warn user to use ktb account or the payroll script would fail as it does not support any other bank transfer yet. (see also https://github.com/juacompe/banking-automation/tree/master/ktbnetbank)', () => {
-    let actual = component.bankAccountPlaceholder
-
-    expect(actual).toBe('ต้องเป็นบัญชีกรุงไทยเท่านั้นนะ');
-  })
+    expect(actual).toBe("ต้องเป็นบัญชี TTB เท่านั้นนะ");
+  });
 });
