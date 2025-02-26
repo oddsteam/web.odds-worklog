@@ -13,7 +13,7 @@ export class FileService {
   uploadFileTranscript(file): Observable<object> {
     const payload = new FormData();
     payload.append('file', file);
-    return this.http.post<object>(`${environment.api}files/transcript`, payload, {
+    return this.http.post<object>(`${environment.api}v1/files/transcript`, payload, {
       headers: new HttpHeaders({
         Authorization: sessionStorage.getItem('token')
       })
@@ -24,7 +24,7 @@ export class FileService {
   uploadDegreeCertificate(file): Observable<object> {
     const payload = new FormData();
     payload.append('file', file);
-    return this.http.post<object>(`${environment.api}files/degreecertificate`, payload, {
+    return this.http.post<object>(`${environment.api}v1/files/degreecertificate`, payload, {
       headers: new HttpHeaders({
         Authorization: sessionStorage.getItem('token')
       })
@@ -35,7 +35,7 @@ export class FileService {
   uploadIdCard(file): Observable<object> {
     const payload = new FormData();
     payload.append('file', file);
-    return this.http.post<object>(`${environment.api}files/idcard`, payload, {
+    return this.http.post<object>(`${environment.api}v1/files/idcard`, payload, {
       headers: new HttpHeaders({
         Authorization: sessionStorage.getItem('token')
       })
@@ -46,7 +46,7 @@ export class FileService {
   uploadImageProfile(file): Observable<object> {
     const payload = new FormData();
     payload.append('image-profile', file);
-    return this.http.post<object>(`${environment.api}files/image`, payload, {
+    return this.http.post<object>(`${environment.api}v1/files/image`, payload, {
       headers: new HttpHeaders({
         Authorization: sessionStorage.getItem('token')
       })
@@ -56,7 +56,7 @@ export class FileService {
 
   downloadImageProFile(): Observable<Blob> {
     if (sessionStorage.getItem('idUser')) {
-      return this.http.get(`${environment.api}files/image/${sessionStorage.getItem('idUser')}`, {
+      return this.http.get(`${environment.api}v1/files/image/${sessionStorage.getItem('idUser')}`, {
         headers: new HttpHeaders({
           Authorization: sessionStorage.getItem('token')
         }),
@@ -67,7 +67,7 @@ export class FileService {
 
   downloadTranscriptFile(): Observable<Blob> {
     if (sessionStorage.getItem('idUser')) {
-      return this.http.get(`${environment.api}files/transcript/${sessionStorage.getItem('idUser')}`, {
+      return this.http.get(`${environment.api}v1/files/transcript/${sessionStorage.getItem('idUser')}`, {
         headers: new HttpHeaders({
           Authorization: sessionStorage.getItem('token')
         }),
@@ -78,7 +78,7 @@ export class FileService {
 
   downloadDegreeCertificateFile(): Observable<Blob> {
     if (sessionStorage.getItem('idUser')) {
-      return this.http.get(`${environment.api}files/degreecertificate/${sessionStorage.getItem('idUser')}`, {
+      return this.http.get(`${environment.api}v1/files/degreecertificate/${sessionStorage.getItem('idUser')}`, {
         headers: new HttpHeaders({
           Authorization: sessionStorage.getItem('token')
         }),
@@ -89,7 +89,7 @@ export class FileService {
 
   downloadIdCardFile(): Observable<Blob> {
     if (sessionStorage.getItem('idUser')) {
-      return this.http.get(`${environment.api}files/idcard/${sessionStorage.getItem('idUser')}`, {
+      return this.http.get(`${environment.api}v1/files/idcard/${sessionStorage.getItem('idUser')}`, {
         headers: new HttpHeaders({
           Authorization: sessionStorage.getItem('token')
         }),
@@ -100,7 +100,7 @@ export class FileService {
 
   removeTranscript(): Observable<object> {
     if (sessionStorage.getItem('idUser')) {
-      return this.http.delete(`${environment.api}files/transcript/${sessionStorage.getItem('idUser')}`, {
+      return this.http.delete(`${environment.api}v1/files/transcript/${sessionStorage.getItem('idUser')}`, {
         headers: new HttpHeaders({
           Authorization: sessionStorage.getItem('token')
         })
@@ -110,7 +110,7 @@ export class FileService {
 
   removeImage(): Observable<object> {
     if (sessionStorage.getItem('idUser')) {
-      return this.http.delete(`${environment.api}files/image/${sessionStorage.getItem('idUser')}`, {
+      return this.http.delete(`${environment.api}v1/files/image/${sessionStorage.getItem('idUser')}`, {
         headers: new HttpHeaders({
           Authorization: sessionStorage.getItem('token')
         })
@@ -120,7 +120,7 @@ export class FileService {
 
   removeDegreeCertificate(): Observable<object> {
     if (sessionStorage.getItem('idUser')) {
-      return this.http.delete(`${environment.api}files/degreecertificate/${sessionStorage.getItem('idUser')}`, {
+      return this.http.delete(`${environment.api}v1/files/degreecertificate/${sessionStorage.getItem('idUser')}`, {
         headers: new HttpHeaders({
           Authorization: sessionStorage.getItem('token')
         })
@@ -130,7 +130,7 @@ export class FileService {
 
   removeIdCard(): Observable<object> {
     if (sessionStorage.getItem('idUser')) {
-      return this.http.delete(`${environment.api}files/idcard/${sessionStorage.getItem('idUser')}`, {
+      return this.http.delete(`${environment.api}v1/files/idcard/${sessionStorage.getItem('idUser')}`, {
         headers: new HttpHeaders({
           Authorization: sessionStorage.getItem('token')
         })
