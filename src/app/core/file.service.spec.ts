@@ -28,7 +28,7 @@ describe('FileService', () => {
     mockFormData.append('file', mockFile);
 
     mockService.uploadFileTranscript(mockFile).subscribe();
-    const req = backEnd.expectOne(`${environment.api}files/transcript`);
+    const req = backEnd.expectOne(`${environment.api}v1/files/transcript`);
     expect(req.request.method).toEqual('POST');
     expect(req.request.body).toEqual(mockFormData);
     req.flush({
@@ -45,7 +45,7 @@ describe('FileService', () => {
     mockFormData.append('file', mockFile);
 
     mockService.uploadDegreeCertificate(mockFile).subscribe();
-    const req = backEnd.expectOne(`${environment.api}files/degreecertificate`);
+    const req = backEnd.expectOne(`${environment.api}v1/files/degreecertificate`);
     expect(req.request.method).toEqual('POST');
     expect(req.request.body).toEqual(mockFormData);
     req.flush({
@@ -62,7 +62,7 @@ describe('FileService', () => {
     mockFormData.append('file', mockFile);
 
     mockService.uploadIdCard(mockFile).subscribe();
-    const req = backEnd.expectOne(`${environment.api}files/idcard`);
+    const req = backEnd.expectOne(`${environment.api}v1/files/idcard`);
     expect(req.request.method).toEqual('POST');
     expect(req.request.body).toEqual(mockFormData);
     req.flush({
@@ -79,7 +79,7 @@ describe('FileService', () => {
     mockFormData.append('image-profile', mockFile);
 
     mockService.uploadImageProfile(mockFile).subscribe();
-    const req = backEnd.expectOne(`${environment.api}files/image`);
+    const req = backEnd.expectOne(`${environment.api}v1/files/image`);
     expect(req.request.method).toEqual('POST');
     expect(req.request.body).toEqual(mockFormData);
     req.flush({
@@ -93,7 +93,7 @@ describe('FileService', () => {
   it('should call download image profile api correctly', () => {
     sessionStorage.setItem('idUser', '5c0fa703780bf500019a5aea');
     mockService.downloadImageProFile().subscribe();
-    const req = backEnd.expectOne(`${environment.api}files/image/${sessionStorage.getItem('idUser')}`);
+    const req = backEnd.expectOne(`${environment.api}v1/files/image/${sessionStorage.getItem('idUser')}`);
     expect(req.request.method).toEqual('GET');
     backEnd.verify();
   });
@@ -101,7 +101,7 @@ describe('FileService', () => {
   it('should call download transcript file api correctly', () => {
     sessionStorage.setItem('idUser', '5c0fa703780bf500019a5aea');
     mockService.downloadTranscriptFile().subscribe();
-    const req = backEnd.expectOne(`${environment.api}files/transcript/${sessionStorage.getItem('idUser')}`);
+    const req = backEnd.expectOne(`${environment.api}v1/files/transcript/${sessionStorage.getItem('idUser')}`);
     expect(req.request.method).toEqual('GET');
     backEnd.verify();
   });
@@ -109,7 +109,7 @@ describe('FileService', () => {
   it('should call download degree certificate file api correctly', () => {
     sessionStorage.setItem('idUser', '5c0fa703780bf500019a5aea');
     mockService.downloadDegreeCertificateFile().subscribe();
-    const req = backEnd.expectOne(`${environment.api}files/degreecertificate/${sessionStorage.getItem('idUser')}`);
+    const req = backEnd.expectOne(`${environment.api}v1/files/degreecertificate/${sessionStorage.getItem('idUser')}`);
     expect(req.request.method).toEqual('GET');
     backEnd.verify();
   });
@@ -117,7 +117,7 @@ describe('FileService', () => {
   it('should call download id card file api correctly', () => {
     sessionStorage.setItem('idUser', '5c0fa703780bf500019a5aea');
     mockService.downloadIdCardFile().subscribe();
-    const req = backEnd.expectOne(`${environment.api}files/idcard/${sessionStorage.getItem('idUser')}`);
+    const req = backEnd.expectOne(`${environment.api}v1/files/idcard/${sessionStorage.getItem('idUser')}`);
     expect(req.request.method).toEqual('GET');
     backEnd.verify();
   });
@@ -125,7 +125,7 @@ describe('FileService', () => {
   it('should call remove transcript api correctly', () => {
     sessionStorage.setItem('idUser', '5c0fa703780bf500019a5aea');
     mockService.removeTranscript().subscribe();
-    const req = backEnd.expectOne(`${environment.api}files/transcript/${sessionStorage.getItem('idUser')}`);
+    const req = backEnd.expectOne(`${environment.api}v1/files/transcript/${sessionStorage.getItem('idUser')}`);
     expect(req.request.method).toEqual('DELETE');
     backEnd.verify();
   });
@@ -135,7 +135,7 @@ describe('FileService', () => {
     mockService.removeTranscript().subscribe((res) => {
       expect(res['message']).toEqual('Remove transcript success');
     });
-    const req = backEnd.expectOne(`${environment.api}files/transcript/${sessionStorage.getItem('idUser')}`);
+    const req = backEnd.expectOne(`${environment.api}v1/files/transcript/${sessionStorage.getItem('idUser')}`);
     expect(req.request.method).toEqual('DELETE');
     backEnd.verify();
     req.flush({
@@ -148,7 +148,7 @@ describe('FileService', () => {
     mockService.removeDegreeCertificate().subscribe((res) => {
       expect(res['message']).toEqual('Remove degree certificate success');
     });
-    const req = backEnd.expectOne(`${environment.api}files/degreecertificate/${sessionStorage.getItem('idUser')}`);
+    const req = backEnd.expectOne(`${environment.api}v1/files/degreecertificate/${sessionStorage.getItem('idUser')}`);
     expect(req.request.method).toEqual('DELETE');
     backEnd.verify();
     req.flush({
@@ -161,7 +161,7 @@ describe('FileService', () => {
     mockService.removeIdCard().subscribe((res) => {
       expect(res['message']).toEqual('Remove id card success');
     });
-    const req = backEnd.expectOne(`${environment.api}files/idcard/${sessionStorage.getItem('idUser')}`);
+    const req = backEnd.expectOne(`${environment.api}v1/files/idcard/${sessionStorage.getItem('idUser')}`);
     expect(req.request.method).toEqual('DELETE');
     backEnd.verify();
     req.flush({
