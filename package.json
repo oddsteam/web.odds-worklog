@@ -35,6 +35,7 @@
     "datatables.net": "^1.12.1",
     "datatables.net-dt": "^1.12.1",
     "jquery": "^3.6.1",
+    "keycloak-js": "^26.1.5",
     "ngx-bootstrap": "^9.0.0",
     "ngx-order-pipe": "^2.2.0",
     "puppeteer": "^19.2.2",
