@@ -30,6 +30,14 @@ Run `docker run --name web-odds-worklog -p 80:80 --rm registry.odds.team/worklog
 
 ## Development server
 
+### Requirements
+
+Worklog (Web) is tested with:
+
+| | Main Version |
+|-|-|
+| Node.js | 17.1.0 |
+
 Run `ng serve` for a dev server that connects the app to the API on https://worklog-dev.odds.team/.
 
 If you want to connect the app to the API on http://localhost:8080, use the following command:
