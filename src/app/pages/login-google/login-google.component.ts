@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { forkJoin } from 'rxjs';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
+import { login } from 'src/app/core/keycloak.service';
 import { Login } from 'src/app/shared/model/login';
 
 @Component({
@@ -19,7 +20,6 @@ export class LoginGoogleComponent implements OnInit {
   ngOnInit() {
     this.socialAuthService.authState.subscribe(
       (userData: SocialUser) => {
-
         if (userData && this.isOddsTeam(userData.email)) {
           this.loginGoogle(userData.idToken);
         }
@@ -36,6 +36,11 @@ export class LoginGoogleComponent implements OnInit {
       },
     });
 
+  }
+
+  keycloakLogin() {
+    console.log('yeah')
+    login()
   }
 
   private handleSuccess(res: Login) {
