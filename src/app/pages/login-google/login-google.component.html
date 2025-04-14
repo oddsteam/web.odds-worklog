@@ -5,8 +5,13 @@
         <img class="logo" src="assets/images/odds_logo.png" />
       </div>
       <div class="d-flex flex-column align-items-center p-3">
-        <div class="form-group text-center">
+        <div class="form-group text-center mb-3">
           <asl-google-signin-button type='standard'></asl-google-signin-button>
+        </div>
+        <div class="form-group text-center">
+          <button class="btn btn-primary" (click)="loginWithKeycloak()">
+            <i class="fas fa-key me-2"></i>Login with Keycloak
+          </button>
         </div>
       </div>
     </div>
