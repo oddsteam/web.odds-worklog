@@ -33,6 +33,13 @@ Run `docker run --name web-odds-worklog -p 80:80 --rm registry.odds.team/worklog
 
 Node version `v18.12.0` works on my machine.
 
+#### Install node modules
+
+Since our Angular is very old, we need to install with `--legacy-peer-deps`
+
+```
+npm i --legacy-peer-deps
+```
 
 Run `ng serve` for a dev server that connects the app to the API on https://worklog-dev.odds.team/.
 
