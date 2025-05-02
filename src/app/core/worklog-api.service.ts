@@ -155,19 +155,7 @@ export class WorklogApiService {
 
   exportDataCorporate(beforeMonth: string): Observable<Blob> {
     return this.http.get(
-      `${this.apiPath}v2/incomes/export/corporate/${beforeMonth}`,
-      {
-        headers: new HttpHeaders({
-          Authorization: sessionStorage.getItem("token"),
-        }),
-        responseType: "blob",
-      }
-    );
-  }
-
-  exportDataDifferentCorporate(): Observable<Blob> {
-    return this.http.get(
-      `${this.apiPath}v1/incomes/export/corporate/different`,
+      `${this.apiPath}v1/incomes/export/corporate/${beforeMonth}`,
       {
         headers: new HttpHeaders({
           Authorization: sessionStorage.getItem("token"),
@@ -179,19 +167,7 @@ export class WorklogApiService {
 
   exportDataIndividual(beforeMonth: string): Observable<Blob> {
     return this.http.get(
-      `${this.apiPath}v2/incomes/export/individual/${beforeMonth}`,
-      {
-        headers: new HttpHeaders({
-          Authorization: sessionStorage.getItem("token"),
-        }),
-        responseType: "blob",
-      }
-    );
-  }
-
-  exportDataDifferentIndividuals(): Observable<Blob> {
-    return this.http.get(
-      `${this.apiPath}v1/incomes/export/individual/different`,
+      `${this.apiPath}v1/incomes/export/individual/${beforeMonth}`,
       {
         headers: new HttpHeaders({
           Authorization: sessionStorage.getItem("token"),
@@ -212,7 +188,7 @@ export class WorklogApiService {
 
   exportIncomeByMonth(requestExportIncome: RequestExportIncome) {
     return this.http.post(
-      `${this.apiPath}v2/incomes/export`,
+      `${this.apiPath}v1/incomes/export`,
       requestExportIncome,
       {
         headers: new HttpHeaders({
