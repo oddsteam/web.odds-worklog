@@ -17,7 +17,8 @@ RUN npm install --no-optional --force && npm rebuild
 # RUN ng e2e
 
 # Build
-RUN ng build --configuration production
+ARG ANGULAR_ENV=production
+RUN ng build --configuration $ANGULAR_ENV
 
 
 # STEP 2 build a small nginx image with static website
