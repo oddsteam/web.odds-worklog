@@ -1,4 +1,4 @@
 export const environment = {
   production: false,
-  api: `https://worklog-test.odds.team/api/`,
+  api: `https://worklog-dev.odds.team/api/`,
 };
