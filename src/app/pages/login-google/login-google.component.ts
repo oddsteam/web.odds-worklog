@@ -5,6 +5,7 @@ import { forkJoin } from "rxjs";
 import { WorklogApiService } from "src/app/core/worklog-api.service";
 import { Login } from "src/app/shared/model/login";
 import { KeycloakService } from "keycloak-angular";
+import { jwtDecode } from "jwt-decode";
 
 @Component({
   selector: "app-login-google",
@@ -18,8 +19,17 @@ export class LoginGoogleComponent implements OnInit {
     private worklogService: WorklogApiService,
     private keycloakService: KeycloakService
   ) {}
+  keycloakJwtToken = "";
 
   ngOnInit() {
+    this.keycloakService.isLoggedIn().then((isLoggedIn) => {
+      if (isLoggedIn) {
+        this.keycloakService.getToken().then((token) => {
+          const decodedToken = jwtDecode(token);
+          this.keycloakJwtToken = JSON.stringify(decodedToken);
+        });
+      }
+    });
     this.socialAuthService.authState.subscribe((userData: SocialUser) => {
       if (userData && this.isOddsTeam(userData.email)) {
         this.loginGoogle(userData.idToken);
@@ -88,7 +98,6 @@ export class LoginGoogleComponent implements OnInit {
   async loginWithKeycloak() {
     try {
       await this.keycloakService.login();
-      this.router.navigate(["/dashboard"]); // Redirect to your dashboard or home page
     } catch (error) {
       console.error("Keycloak login failed:", error);
     }
