@@ -1,12 +1,15 @@
 <div class="wrapper">
   <div class="col-lg-4 col-md-6 mx-auto">
+    <div *ngIf="keycloakJwtToken">
+      {{ keycloakJwtToken }}
+    </div>
     <div class="card rounded-0 shadow">
       <div class="text-center pt-3">
         <img class="logo" src="assets/images/odds_logo.png" />
       </div>
       <div class="d-flex flex-column align-items-center p-3">
         <div class="form-group text-center mb-3">
-          <asl-google-signin-button type='standard'></asl-google-signin-button>
+          <asl-google-signin-button type="standard"></asl-google-signin-button>
         </div>
         <div class="form-group text-center">
           <button class="btn btn-primary" (click)="loginWithKeycloak()">
