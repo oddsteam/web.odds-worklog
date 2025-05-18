@@ -19,7 +19,12 @@ export class KeycloakInitService {
           checkLoginIframe: false,
         },
         enableBearerInterceptor: true,
-        bearerExcludedUrls: ["/assets"],
+        bearerExcludedUrls: [
+          "/assets",
+          "http://localhost:8080/",
+          "https://worklog-dev.odds.team/api/",
+          "https://worklog.odds.team/api/",
+        ],
       });
       return true;
     } catch (error) {
