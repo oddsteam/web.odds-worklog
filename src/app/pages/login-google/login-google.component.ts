@@ -27,6 +27,7 @@ export class LoginGoogleComponent implements OnInit {
         this.keycloakService.getToken().then((token) => {
           const decodedToken = jwtDecode(token);
           this.keycloakJwtToken = JSON.stringify(decodedToken);
+          this.authenticateWithBackend(token);
         });
       }
     });
@@ -39,6 +40,16 @@ export class LoginGoogleComponent implements OnInit {
 
   loginGoogle(idToken: string) {
     this.worklogService.getLoginGoogle(idToken).subscribe({
+      next: (res) => this.handleSuccess(res),
+      error: (err) => {
+        console.log("before calling handle error");
+        this.handleError(err);
+      },
+    });
+  }
+
+  authenticateWithBackend(idToken: string) {
+    this.worklogService.loginWithKeycloak(idToken).subscribe({
       next: (res) => this.handleSuccess(res),
       error: (err) => {
         console.log("before calling handle error");
