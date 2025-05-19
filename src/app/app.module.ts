@@ -1,23 +1,20 @@
-import { HttpClient, HttpClientModule } from "@angular/common/http";
-import { NgModule, APP_INITIALIZER } from "@angular/core";
-import { BrowserModule } from "@angular/platform-browser";
-import { TranslateLoader, TranslateModule } from "@ngx-translate/core";
-import { TranslateHttpLoader } from "@ngx-translate/http-loader";
 import {
   GoogleLoginProvider,
   SocialAuthServiceConfig,
 } from "@abacritt/angularx-social-login";
+import { DatePipe } from "@angular/common";
+import { HttpClient, HttpClientModule } from "@angular/common/http";
+import { APP_INITIALIZER, NgModule } from "@angular/core";
+import { BrowserModule } from "@angular/platform-browser";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { TranslateLoader, TranslateModule } from "@ngx-translate/core";
+import { TranslateHttpLoader } from "@ngx-translate/http-loader";
+import { KeycloakAngularModule, KeycloakService } from "keycloak-angular";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
+import { KeycloakInitService } from "./auth/keycloak-init.service";
 import { SharedModule } from "./shared/shared.module";
 import { ValidateCitizenIdUtil } from "./shared/utils/validate-citizenId.util";
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { DatePipe } from "@angular/common";
-import { KeycloakAngularModule, KeycloakService } from "keycloak-angular";
-import { KeycloakInitService } from "./auth/keycloak-init.service";
-import { environment } from "./auth/keycloak.config";
-
-// import { AuthorizationInterceptor } from './shared/interceptors/authorization.interceptor';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, "./assets/i18n/", ".json");

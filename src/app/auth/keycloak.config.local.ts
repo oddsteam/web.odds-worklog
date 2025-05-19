@@ -1,7 +1,7 @@
 import { KeycloakConfig } from "keycloak-js";
 
 const keycloakConfig: KeycloakConfig = {
-  url: "http://localhost:9000", // e.g., 'http://localhost:8080/auth'
+  url: "http://localhost:9000", // Local Keycloak server
   realm: "odds",
   clientId: "worklog",
 };
