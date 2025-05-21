@@ -22,10 +22,7 @@
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.app.json",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
+            "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
               "node_modules/datatables.net-dt/css/jquery.dataTables.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
@@ -56,6 +53,10 @@
                 {
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.prod.ts"
+                },
+                {
+                  "replace": "src/app/auth/keycloak.config.default.ts",
+                  "with": "src/app/auth/keycloak.config.prod.ts"
                 }
               ],
               "optimization": true,
@@ -77,6 +78,10 @@
                 {
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.dev.ts"
+                },
+                {
+                  "replace": "src/app/auth/keycloak.config.default.ts",
+                  "with": "src/app/auth/keycloak.config.dev.ts"
                 }
               ]
             },
@@ -91,6 +96,10 @@
                 {
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.local.ts"
+                },
+                {
+                  "replace": "src/app/auth/keycloak.config.default.ts",
+                  "with": "src/app/auth/keycloak.config.local.ts"
                 }
               ]
             }
@@ -135,10 +144,7 @@
               "src/assets/font.css"
             ],
             "scripts": [],
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ]
+            "assets": ["src/favicon.ico", "src/assets"]
           }
         }
       }

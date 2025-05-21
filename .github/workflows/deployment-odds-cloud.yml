@@ -47,6 +47,12 @@ jobs:
       - name: Run web unit test
         run: npm run test:ci
 
+      - name: Run Cucumber E2E tests
+        run: |
+          cd e2e/cucumber
+          npm install
+          npm test
+
       - name: Analyze with SonarCloud
         uses: sonarsource/sonarcloud-github-action@master
         env:

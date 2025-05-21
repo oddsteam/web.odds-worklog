@@ -102,6 +102,12 @@ export class WorklogApiService {
     });
   }
 
+  loginWithKeycloak(idToken: string) {
+    return this.http.post<any>(`${this.apiPath}v1/login-keycloak`, {
+      token: idToken,
+    });
+  }
+
   getUserByID(id: string = this.userId) {
     return this.http.get<User>(
       `${this.apiPath}v1/users/${id}`,

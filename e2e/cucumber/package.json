@@ -1,0 +1,17 @@
+{
+  "name": "odds-worklog-e2e",
+  "version": "1.0.0",
+  "description": "E2E tests for Odds Worklog",
+  "scripts": {
+    "test": "cucumber-js",
+    "test:watch": "cucumber-js --watch"
+  },
+  "devDependencies": {
+    "@cucumber/cucumber": "^10.3.1",
+    "@types/chai": "^5.2.2",
+    "@types/cucumber": "^7.0.0",
+    "chai": "^5.2.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
+  }
+}
