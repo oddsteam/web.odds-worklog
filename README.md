@@ -31,7 +31,12 @@ Run `docker run --name web-odds-worklog -p 80:80 --rm registry.odds.team/worklog
 ## Development server
 #### Set node version
 
-Node version `v18.12.0` works on my machine.
+Node version `v18.16.0`
+
+refs:
+- `FROM trion/ng-cli-e2e:15.2.7` in  `Dockerfile`.
+- `ngular-cli=15.2.7 node=18.16.0` in [trion/ng-cli-e2e:15.2.7](https://hub.docker.com/layers/trion/ng-cli-e2e/15.2.7/images/sha256-2e4685dedde058fc419c6be524153e5c843fbc70a0ad29d85b8dc28b133a2cc5)
+- `engines` in `package.json`
 
 #### Install node modules
 
