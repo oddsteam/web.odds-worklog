@@ -1,45 +1,61 @@
-import { SocialAuthService } from '@abacritt/angularx-social-login';
-import { CommonModule } from '@angular/common';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { ComponentFixture, inject, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
-import { TranslateFakeLoader, TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import { of } from 'rxjs';
-import { StateService } from '../core/state.service';
-import { WorklogApiService } from '../core/worklog-api.service';
-import { AddIncomeComponent } from '../shared/components/add-income/add-income.component';
-import { ModalIncomeComponent } from '../shared/components/modal-income/modal-income.component';
-import { HeaderComponent } from '../shared/components/header/header.component';
-import { TabMenuComponent } from '../shared/components/tab-menu/tab-menu.component';
-import { LayoutsComponent } from './layouts.component';
-import { LoginLayoutComponent } from './login-layout/login-layout.component';
-import { CorporateComponent } from '../pages/corporate/corporate.component';
-import { User } from '../shared/model/user';
-import { FirstLoginComponent } from '../pages/first-login/first-login.component';
-import { createMockSocialAuthService } from '../pages/login-google/login-google.component.spec';
+import { CommonModule } from "@angular/common";
+import { HttpClientTestingModule } from "@angular/common/http/testing";
+import {
+  ComponentFixture,
+  inject,
+  TestBed,
+  waitForAsync,
+} from "@angular/core/testing";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { Router } from "@angular/router";
+import { RouterTestingModule } from "@angular/router/testing";
+import {
+  TranslateFakeLoader,
+  TranslateLoader,
+  TranslateModule,
+} from "@ngx-translate/core";
+import { of } from "rxjs";
+import { StateService } from "../core/state.service";
+import { WorklogApiService } from "../core/worklog-api.service";
+import { AddIncomeComponent } from "../shared/components/add-income/add-income.component";
+import { ModalIncomeComponent } from "../shared/components/modal-income/modal-income.component";
+import { HeaderComponent } from "../shared/components/header/header.component";
+import { TabMenuComponent } from "../shared/components/tab-menu/tab-menu.component";
+import { LayoutsComponent } from "./layouts.component";
+import { LoginLayoutComponent } from "./login-layout/login-layout.component";
+import { CorporateComponent } from "../pages/corporate/corporate.component";
+import { User } from "../shared/model/user";
+import { FirstLoginComponent } from "../pages/first-login/first-login.component";
 
-describe('LayoutsComponent', () => {
+describe("LayoutsComponent", () => {
   let component: LayoutsComponent;
   let fixture: ComponentFixture<LayoutsComponent>;
   let worklogApiService: WorklogApiService;
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [LayoutsComponent, TabMenuComponent, HeaderComponent, AddIncomeComponent, ModalIncomeComponent],
-      imports: [CommonModule, ReactiveFormsModule, FormsModule,
+      declarations: [
+        LayoutsComponent,
+        TabMenuComponent,
+        HeaderComponent,
+        AddIncomeComponent,
+        ModalIncomeComponent,
+      ],
+      imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        FormsModule,
         RouterTestingModule.withRoutes([
-        {path: 'firstlogin', component: FirstLoginComponent},
-        {path: 'login', component: LoginLayoutComponent},
-        {path: 'corporate', component: CorporateComponent},
-      ]), HttpClientTestingModule
-        , TranslateModule.forRoot({
-          loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
-        })],
-      providers: [WorklogApiService, StateService,
-        { provide: SocialAuthService, useValue: createMockSocialAuthService() }]
-    })
-      .compileComponents();
+          { path: "firstlogin", component: FirstLoginComponent },
+          { path: "login", component: LoginLayoutComponent },
+          { path: "corporate", component: CorporateComponent },
+        ]),
+        HttpClientTestingModule,
+        TranslateModule.forRoot({
+          loader: { provide: TranslateLoader, useClass: TranslateFakeLoader },
+        }),
+      ],
+      providers: [WorklogApiService, StateService],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -48,22 +64,22 @@ describe('LayoutsComponent', () => {
     component = fixture.componentInstance;
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call method ngOnInit to Have Been Called worklogApiService getUserById ', () => {
+  it("should call method ngOnInit to Have Been Called worklogApiService getUserById ", () => {
     const mockUsers = new User({
-      id: '1234567890',
-      role: 'corporate',
-      firstName: 'ทดสอบ',
-      lastName: 'ชอบลงทุน',
-      email: 'abc@abc.com',
-      bankAccountName: 'ทดสอบ ชอบลงทุน',
-      bankAccountNumber: '0987654321',
-      thaiCitizenId: '1234567890',
+      id: "1234567890",
+      role: "corporate",
+      firstName: "ทดสอบ",
+      lastName: "ชอบลงทุน",
+      email: "abc@abc.com",
+      bankAccountName: "ทดสอบ ชอบลงทุน",
+      bankAccountNumber: "0987654321",
+      thaiCitizenId: "1234567890",
     });
-    spyOn(worklogApiService, 'getUserByID').and.returnValues(of(mockUsers));
+    spyOn(worklogApiService, "getUserByID").and.returnValues(of(mockUsers));
     component.ngOnInit();
     expect(worklogApiService.getUserByID).toHaveBeenCalled();
   });
@@ -77,66 +93,93 @@ describe('LayoutsComponent', () => {
   //   expect(sessionStorage.getItem('token')).toEqual('Bearer ' + mockToken.token);
   // });
 
-  it('should navigate to login if response from service is null', inject([Router], (router: Router) => {
-    spyOn(worklogApiService, 'getUserByID').and.returnValues(of(null));
-    spyOn(router, 'navigate');
-    component.ngOnInit();
-    expect(router.navigate).toHaveBeenCalledWith(['/login']);
-  }));
+  it("should navigate to login if response from service is null", inject(
+    [Router],
+    (router: Router) => {
+      spyOn(worklogApiService, "getUserByID").and.returnValues(of(null));
+      spyOn(router, "navigate");
+      component.ngOnInit();
+      expect(router.navigate).toHaveBeenCalledWith(["/login"]);
+    }
+  ));
 
-  it('should navigate to firstlogin if first name from service is empty', inject([Router], (router: Router) => {
-    const mockUser = new User({
-      id: '1234567890',
-      firstName: '',
-      lastName: '',
-    });
-    spyOn(worklogApiService, 'getUserByID').and.returnValues(of(mockUser));
-    spyOn(router, 'navigate');
-    component.ngOnInit();
-    expect(router.navigate).toHaveBeenCalledWith(['/firstlogin']);
-  }));
+  it("should navigate to firstlogin if first name from service is empty", inject(
+    [Router],
+    (router: Router) => {
+      const mockUser = new User({
+        id: "1234567890",
+        firstName: "",
+        lastName: "",
+      });
+      spyOn(worklogApiService, "getUserByID").and.returnValues(of(mockUser));
+      spyOn(router, "navigate");
+      component.ngOnInit();
+      expect(router.navigate).toHaveBeenCalledWith(["/firstlogin"]);
+    }
+  ));
 
-  it('should not call goToPage when worklogApiService return response null', () => {
+  it("should not call goToPage when worklogApiService return response null", () => {
     const mockToken = {
-      token: '.eyJ1c2VySWQiOiJbyZVcdWZmZmQ6Mlx1MDAwNFx1ZmZmZGBcdWZmZmRcclx1ZmZ'
+      token: ".eyJ1c2VySWQiOiJbyZVcdWZmZmQ6Mlx1MDAwNFx1ZmZmZGBcdWZmZmRcclx1ZmZ",
     };
-    spyOn(worklogApiService, 'getLogin').and.returnValues(of(mockToken));
-    spyOn(worklogApiService, 'getUserByID').and.returnValue(of(new User()));
-    spyOn(component, 'goToPage');
+    spyOn(worklogApiService, "getLogin").and.returnValues(of(mockToken));
+    spyOn(worklogApiService, "getUserByID").and.returnValue(of(new User()));
+    spyOn(component, "goToPage");
     component.ngOnInit();
     expect(component.goToPage).toHaveBeenCalledTimes(0);
   });
 
-  it('should navigate to /corporate when role is admin', inject([Router], (router: Router) => {
-    const res = new User({role: 'admin', firstName: 'firstName', lastName: 'lastName'});
-    spyOn(worklogApiService, 'getUserByID').and.returnValue(of(res));
-    spyOn(router, 'navigate');
+  it("should navigate to /corporate when role is admin", inject(
+    [Router],
+    (router: Router) => {
+      const res = new User({
+        role: "admin",
+        firstName: "firstName",
+        lastName: "lastName",
+      });
+      spyOn(worklogApiService, "getUserByID").and.returnValue(of(res));
+      spyOn(router, "navigate");
 
-    component.ngOnInit();
+      component.ngOnInit();
 
-    expect(component.personType).toEqual('admin');
-    expect(router.navigate).toHaveBeenCalledWith(['/corporate']);
-  }));
+      expect(component.personType).toEqual("admin");
+      expect(router.navigate).toHaveBeenCalledWith(["/corporate"]);
+    }
+  ));
 
-  it('should navigate to /individual when role is individual', inject([Router], (router: Router) => {
-    const res = new User({role: 'individual', firstName: 'firstName', lastName: 'lastName'});
-    spyOn(worklogApiService, 'getUserByID').and.returnValue(of(res));
-    spyOn(router, 'navigate');
+  it("should navigate to /individual when role is individual", inject(
+    [Router],
+    (router: Router) => {
+      const res = new User({
+        role: "individual",
+        firstName: "firstName",
+        lastName: "lastName",
+      });
+      spyOn(worklogApiService, "getUserByID").and.returnValue(of(res));
+      spyOn(router, "navigate");
 
-    component.ngOnInit();
+      component.ngOnInit();
 
-    expect(component.personType).toEqual('individual');
-    expect(router.navigate).toHaveBeenCalledWith(['/individual']);
-  }));
+      expect(component.personType).toEqual("individual");
+      expect(router.navigate).toHaveBeenCalledWith(["/individual"]);
+    }
+  ));
 
-  it('should navigate to /corporate when role is corporate', inject([Router], (router: Router) => {
-    const res = new User({role: 'corporate', firstName: 'firstName', lastName: 'lastName'});
-    spyOn(worklogApiService, 'getUserByID').and.returnValue(of(res));
-    spyOn(router, 'navigate');
+  it("should navigate to /corporate when role is corporate", inject(
+    [Router],
+    (router: Router) => {
+      const res = new User({
+        role: "corporate",
+        firstName: "firstName",
+        lastName: "lastName",
+      });
+      spyOn(worklogApiService, "getUserByID").and.returnValue(of(res));
+      spyOn(router, "navigate");
 
-    component.ngOnInit();
+      component.ngOnInit();
 
-    expect(component.personType).toEqual('corporate');
-    expect(router.navigate).toHaveBeenCalledWith(['/corporate']);
-  }));
+      expect(component.personType).toEqual("corporate");
+      expect(router.navigate).toHaveBeenCalledWith(["/corporate"]);
+    }
+  ));
 });

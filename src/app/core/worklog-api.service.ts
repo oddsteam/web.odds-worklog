@@ -96,12 +96,6 @@ export class WorklogApiService {
     });
   }
 
-  getLoginGoogle(idtoken: string): Observable<Login> {
-    return this.http.post<any>(`${this.apiPath}v1/login-google`, {
-      token: idtoken,
-    });
-  }
-
   loginWithKeycloak(idToken: string) {
     return this.http.post<any>(`${this.apiPath}v1/login-keycloak`, {
       token: idToken,
