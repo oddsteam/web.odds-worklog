@@ -1,4 +1,3 @@
-import { SocialAuthService, SocialUser } from "@abacritt/angularx-social-login";
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { forkJoin } from "rxjs";
@@ -14,7 +13,6 @@ import { jwtDecode } from "jwt-decode";
 })
 export class LoginGoogleComponent implements OnInit {
   constructor(
-    private socialAuthService: SocialAuthService,
     private router: Router,
     private worklogService: WorklogApiService,
     private keycloakService: KeycloakService
@@ -30,21 +28,6 @@ export class LoginGoogleComponent implements OnInit {
           this.authenticateWithBackend(token);
         });
       }
-    });
-    this.socialAuthService.authState.subscribe((userData: SocialUser) => {
-      if (userData && this.isOddsTeam(userData.email)) {
-        this.loginGoogle(userData.idToken);
-      }
-    });
-  }
-
-  loginGoogle(idToken: string) {
-    this.worklogService.getLoginGoogle(idToken).subscribe({
-      next: (res) => this.handleSuccess(res),
-      error: (err) => {
-        console.log("before calling handle error");
-        this.handleError(err);
-      },
     });
   }
 

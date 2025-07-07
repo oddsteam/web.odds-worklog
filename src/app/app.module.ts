@@ -1,7 +1,3 @@
-import {
-  GoogleLoginProvider,
-  SocialAuthServiceConfig,
-} from "@abacritt/angularx-social-login";
 import { DatePipe } from "@angular/common";
 import { HttpClient, HttpClientModule } from "@angular/common/http";
 import { APP_INITIALIZER, NgModule } from "@angular/core";
@@ -18,21 +14,6 @@ import { ValidateCitizenIdUtil } from "./shared/utils/validate-citizenId.util";
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, "./assets/i18n/", ".json");
-}
-
-export function getAuthServiceConfigs() {
-  const config = {
-    autoLogin: false,
-    providers: [
-      {
-        id: GoogleLoginProvider.PROVIDER_ID,
-        provider: new GoogleLoginProvider(
-          "956316396976-mhb092ad69gn2olis0mtmc1fpe8blgn8.apps.googleusercontent.com"
-        ),
-      },
-    ],
-  } as SocialAuthServiceConfig;
-  return config;
 }
 
 @NgModule({
@@ -53,10 +34,6 @@ export function getAuthServiceConfigs() {
     KeycloakAngularModule,
   ],
   providers: [
-    {
-      provide: "SocialAuthServiceConfig",
-      useValue: getAuthServiceConfigs(),
-    },
     ValidateCitizenIdUtil,
     DatePipe,
     {
