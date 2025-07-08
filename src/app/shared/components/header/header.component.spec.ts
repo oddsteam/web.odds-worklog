@@ -8,6 +8,7 @@ import {
   TranslateModule,
 } from "@ngx-translate/core";
 import { of, throwError } from "rxjs";
+import { KeycloakService } from "keycloak-angular";
 import { StateService } from "src/app/core/state.service";
 import { WorklogApiService } from "src/app/core/worklog-api.service";
 import { AddIncomeResponse } from "../../model/add-income-model-response";
@@ -19,6 +20,7 @@ describe("HeaderComponent", () => {
   let fixture: ComponentFixture<HeaderComponent>;
   let workLogService: WorklogApiService;
   let stateService: StateService;
+  let keycloakService: KeycloakService;
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [HeaderComponent],
@@ -29,6 +31,9 @@ describe("HeaderComponent", () => {
         }),
         HttpClientTestingModule,
       ],
+      providers: [
+        { provide: KeycloakService, useValue: keycloakService },
+      ],
     }).compileComponents();
   }));
 
@@ -36,6 +41,7 @@ describe("HeaderComponent", () => {
     fixture = TestBed.createComponent(HeaderComponent);
     workLogService = TestBed.inject(WorklogApiService);
     stateService = TestBed.inject(StateService);
+    keycloakService = TestBed.inject(KeycloakService);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

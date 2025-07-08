@@ -15,6 +15,7 @@ import {
   TranslateModule,
 } from "@ngx-translate/core";
 import { of } from "rxjs";
+import { KeycloakService } from "keycloak-angular";
 import { StateService } from "../core/state.service";
 import { WorklogApiService } from "../core/worklog-api.service";
 import { AddIncomeComponent } from "../shared/components/add-income/add-income.component";
@@ -31,6 +32,7 @@ describe("LayoutsComponent", () => {
   let component: LayoutsComponent;
   let fixture: ComponentFixture<LayoutsComponent>;
   let worklogApiService: WorklogApiService;
+  let keycloakService: KeycloakService;
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
@@ -54,13 +56,18 @@ describe("LayoutsComponent", () => {
           loader: { provide: TranslateLoader, useClass: TranslateFakeLoader },
         }),
       ],
-      providers: [WorklogApiService, StateService],
+      providers: [
+          WorklogApiService,
+          StateService,
+          { provide: KeycloakService, useValue: keycloakService },
+      ],
     }).compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(LayoutsComponent);
     worklogApiService = TestBed.inject(WorklogApiService);
+    keycloakService = TestBed.inject(KeycloakService);
     component = fixture.componentInstance;
   });
 
