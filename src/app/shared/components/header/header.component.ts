@@ -5,6 +5,7 @@ import { TranslateService } from "@ngx-translate/core";
 import { FileService } from "src/app/core/file.service";
 import { StateService } from "src/app/core/state.service";
 import { WorklogApiService } from "src/app/core/worklog-api.service";
+import { KeycloakService } from "keycloak-angular";
 
 @Component({
   selector: "app-header",
@@ -24,7 +25,8 @@ export class HeaderComponent implements OnInit {
     private stateService: StateService,
     private router: Router,
     private fileService: FileService,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private keycloakService: KeycloakService
   ) {
     translate.setDefaultLang("en");
     translate.use("th");
@@ -94,9 +96,9 @@ export class HeaderComponent implements OnInit {
       );
   }
 
-  logout() {
+  async logout() {
     sessionStorage.clear();
-    this.router.navigate(["login"]);
+    await this.keycloakService.logout();
   }
 
   downloadFile(data: any, filename: string) {
