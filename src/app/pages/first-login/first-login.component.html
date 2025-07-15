@@ -48,7 +48,7 @@
                 <div class="form-group col-12">
                     <label for="bankAccountNumber">Bank Account Number (9-16 digits)</label>
                     <div class="input-icon-wrapper">
-                        <img *ngIf="loginForm.get('bankCode').value" [src]="getBankLogo()" alt="bank-account-icon" class="input-icon" />
+                        <img *ngIf="loginForm.get('bankCode').value && !(loginForm.controls.bankAccountNumber.invalid && loginForm.controls.bankAccountNumber.touched)" [src]="getBankLogo()" alt="bank-account-icon" class="input-icon" />
                         <input id="bankAccountNumber" class="form-control input-with-icon" maxlength="16" [placeholder]="bankAccountPlaceholder" [ngClass]="{'is-invalid':loginForm.controls.bankAccountNumber.invalid && loginForm.controls.bankAccountNumber.touched}" type="text" formControlName="bankAccountNumber"
                         />
                     </div>
