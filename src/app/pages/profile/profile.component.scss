@@ -173,3 +173,36 @@ hr {
 .form-group {
   margin-bottom: 0.5rem;
 }
+
+.radio-label {
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  gap: 0.5rem;
+  p {
+    margin: 0;
+  }
+  h6 {
+    margin: 0;
+  }
+}
+
+.radio-container {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  border: 1px solid #bababa;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  align-items: start;
+
+  input[type="radio"] {
+    margin-top: 0.2rem;
+  }
+
+  margin-top: 0.5rem;
+}
+
+.checked {
+  border: 1px solid #2e353d;
+}

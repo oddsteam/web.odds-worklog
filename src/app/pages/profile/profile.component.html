@@ -456,21 +456,31 @@
               </div>
             </div>
 
-            <div class="row mt-4">
-              <div class="form-group col-md-12 ps-5">
-                <label>VAT</label><br />
-                <div class="checkbox custom-control-inline">
-                  <label
-                    ><input type="radio" value="Y" formControlName="vat" />
-                    vat</label
-                  >
-                </div>
-                <div class="checkbox custom-control-inline">
-                  <label
-                    ><input type="radio" value="N" formControlName="vat" />
-                    non-vat</label
-                  >
-                </div>
+            <div class="form-group col-md-6">
+              <label
+                >VAT
+                <a
+                  href="https://www.rd.go.th/fileadmin/user_upload/SMEs/infographic/SME_lv1_3.pdf"
+                  target="_blank"
+                  >(อ่านเพิ่มเติม)</a
+                ></label
+              >
+              <div class="checkbox custom-control-inline radio-container" [ngClass]="{'checked': vat.value === 'Y'}">
+                <input type="radio" value="Y" id="Y" formControlName="vat" />
+                <label class="radio-label" for="Y">
+                  <h6>vat</h6>
+                  <p>
+                    สำหรับบุคคลหรือธุรกิจที่มีการจดทะเบียนภาษี เช่น บริษัท หรือ
+                    ห้างหุ้นส่วนสามัญ
+                  </p>
+                </label>
+              </div>
+              <div class="checkbox custom-control-inline radio-container" [ngClass]="{'checked': vat.value === 'N'}">
+                <input type="radio" value="N" id="N" formControlName="vat" />
+                <label class="radio-label" for="N">
+                  <h6>non-vat</h6>
+                  <p>สำหรับบุคคลที่ไม่มีการจดทะเบียนภาษี เช่น บุคคลธรรมดา</p>
+                </label>
               </div>
             </div>
           </div>
