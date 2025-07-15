@@ -1,175 +1,175 @@
 .prepend-top-default {
-    margin-top: 16px !important;
+  margin-top: 16px !important;
 }
 
 .prepend-top-0 {
-    margin-top: 0;
+  margin-top: 0;
 }
 
 .a {
-    text-decoration: none;
-    background-color: transparent;
+  text-decoration: none;
+  background-color: transparent;
 }
 
 .append-bottom-default {
-    margin-bottom: 16px;
+  margin-bottom: 16px;
 }
 
 .avatar {
-    transition-property: none;
-    width: 40px;
-    height: 40px;
-    padding: 0;
-    background: #fdfdfd;
-    overflow: hidden;
+  transition-property: none;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  background: #fdfdfd;
+  overflow: hidden;
 }
 
 img {
-    vertical-align: middle;
-    border-style: none;
-    border-radius: 4px;
-    padding: 5px;
-    width: 160px;
-    height: 160px;
+  vertical-align: middle;
+  border-style: none;
+  border-radius: 4px;
+  padding: 5px;
+  width: 160px;
+  height: 160px;
 }
 
 .avatar-image {
-    float: left;
-    margin-bottom: 0;
+  float: left;
+  margin-bottom: 0;
 }
 
 .clearfix::after {
-    display: block;
-    clear: both;
-    content: "";
+  display: block;
+  clear: both;
+  content: "";
 }
 
 .avatar-image {
-    float: left;
-    margin-bottom: 0;
+  float: left;
+  margin-bottom: 0;
 }
 
 .append-bottom-10 {
-    margin-bottom: 10px;
+  margin-bottom: 10px;
 }
 
 .prepend-top-5 {
-    margin-top: 5px;
+  margin-top: 5px;
 }
 
 .btn {
-    border-radius: 3px;
-    font-size: 14px;
-    font-weight: 400;
-    padding: 6px 10px;
-    background-color: #fff;
-    border-color: #e5e5e5;
-    color: #2e2e2e;
+  border-radius: 3px;
+  font-size: 14px;
+  font-weight: 400;
+  padding: 6px 10px;
+  background-color: #fff;
+  border-color: #e5e5e5;
+  color: #2e2e2e;
 }
 
 .btn:hover,
 .btn:focus {
-    background-color: #f0f0f0;
-    border-color: #e3e3e3;
-    color: #2e2e2e;
+  background-color: #f0f0f0;
+  border-color: #e3e3e3;
+  color: #2e2e2e;
 }
 
 .avatar-file-name {
-    position: relative;
-    top: 2px;
-    display: inline-block;
+  position: relative;
+  top: 2px;
+  display: inline-block;
 }
 
 .prepend-left-default {
-    margin-left: 16px;
+  margin-left: 16px;
 }
 
 .form-text.text-muted {
-    margin-bottom: 0;
-    margin-top: 4px;
+  margin-bottom: 0;
+  margin-top: 4px;
 }
 
 .form-text {
-    display: block;
-    margin-top: 0.25rem;
+  display: block;
+  margin-top: 0.25rem;
 }
 
 hr {
-    margin: 24px 0;
-    border-top: 1px solid #e1e1e1;
-    overflow: hidden;
+  margin: 24px 0;
+  border-top: 1px solid #e1e1e1;
+  overflow: hidden;
 }
 
 .button-red {
-    color: #fff;
-    background-color: #EE4749;
-    border-color: #B62020;
-    display: block;
-    width: auto;
+  color: #fff;
+  background-color: #ee4749;
+  border-color: #b62020;
+  display: block;
+  width: auto;
 }
 
 .button-red:hover,
 .button-red:focus {
-    background-color: #a51d1d;
-    border-color: #a51d1d;
-    color: white;
+  background-color: #a51d1d;
+  border-color: #a51d1d;
+  color: white;
 }
 
 .button-green {
-    color: #fff;
-    background-color: #1aaa55;
-    border-color: #1aaa55;
-    width: auto;
+  color: #fff;
+  background-color: #1aaa55;
+  border-color: #1aaa55;
+  width: auto;
 }
 
 .button-green:hover,
 .button-green:focus {
-    background-color: #12753a;
-    border-color: #12753a;
-    color: white;
+  background-color: #12753a;
+  border-color: #12753a;
+  color: white;
 }
 
 .inner {
-    display: inline-block;
-    width: 100%;
+  display: inline-block;
+  width: 100%;
 }
 
 .button-download {
-    float: left;
+  float: left;
 }
 
 .button-remove {
-    margin-left: 1rem;
-    color: #fff;
-    background-color: #EE4749;
-    border-color: #B62020;
-    width: auto;
+  margin-left: 1rem;
+  color: #fff;
+  background-color: #ee4749;
+  border-color: #b62020;
+  width: auto;
 }
 
 .button-remove:hover,
 .button-remove:focus {
-    color: #fff;
-    background-color: rgb(209, 72, 74);
-    border-color: rgb(199, 82, 82);
+  color: #fff;
+  background-color: rgb(209, 72, 74);
+  border-color: rgb(199, 82, 82);
 }
 
 .margin-upload {
-    margin-top: 2rem;
+  margin-top: 2rem;
 }
 
 .button-upload {
-    width: auto;
-    padding: 0 1rem;
+  width: auto;
+  padding: 0 1rem;
 }
 
-.colorErrorNotformatCitizen{
-    color: rgb(199, 82, 82);
+.colorErrorNotformatCitizen {
+  color: rgb(199, 82, 82);
 }
 
 .cursor-pointer {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .form-group {
-    margin-bottom: 0.5rem;
+  margin-bottom: 0.5rem;
 }
