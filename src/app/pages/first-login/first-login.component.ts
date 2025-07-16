@@ -22,7 +22,12 @@ export class FirstLoginComponent implements OnInit {
   loginForm: FormGroup;
   user: User;
   siteList: Site[];
-
+  banks = [
+    {
+      code: "ttb",
+      name: "ธนาคารทหารไทยธนชาต (TTB)",
+    },
+  ];
   vatList = [
     {
       value: "Y",
@@ -79,6 +84,7 @@ export class FirstLoginComponent implements OnInit {
       project: [""],
       idCardFile: [null, Validators.required],
       phone: [null, Validators.required],
+      bankCode: [null, Validators.required],
     });
   }
 
@@ -222,5 +228,9 @@ export class FirstLoginComponent implements OnInit {
       },
       (err) => alert("Remove id card failed.")
     );
+  }
+
+  getBankLogo() {
+    return `assets/images/${this.loginForm.get("bankCode").value}.png`;
   }
 }

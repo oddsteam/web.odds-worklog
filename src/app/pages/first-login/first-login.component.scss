@@ -60,3 +60,30 @@
     border-color: #e3e3e3;
     color: #2e2e2e;
 }
+
+.bank-logo {
+    width: 32px;
+}
+
+.input-icon-wrapper {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}
+
+.input-with-icon {
+    padding-right: 40px;
+}
+
+.input-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 32px;
+    pointer-events: none;
+}
+
+.form-group {
+    margin-bottom: 0.5rem;
+}
