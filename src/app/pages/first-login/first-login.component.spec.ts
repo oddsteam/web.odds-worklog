@@ -146,4 +146,14 @@ describe("FirstLoginComponent", () => {
 
     expect(actual).toBe("ต้องเป็นบัญชี TTB เท่านั้นนะ");
   });
+
+  it("should select bank code to remind user to use only TTB account", () => {
+    component.submit();
+    expect(component.loginForm.get("bankCode").errors.required).toBeTruthy();
+  });
+
+  it("should remind user to use only TTB account by showing TTB logo", () => {
+    component.loginForm.get("bankCode").setValue("ttb");
+    expect(component.getBankLogo()).toBe("assets/images/ttb.png");
+  });
 });
