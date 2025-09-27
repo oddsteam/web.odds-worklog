@@ -203,6 +203,18 @@ describe("Service: WorklogApi", () => {
       });
   });
 
+
+it("should call export SAP income by period correctly", () => {
+    mockService
+        .exportSAPIncomeByPeriod({role: 'individual', startDate: '01/2023', endDate: '01/2023', dateEffective: '01/02/2023'})
+        .subscribe((_) => {
+            const req = backEnd.expectOne(`${mockService.apiPath}incomes/export`);
+            expect(req.request.method).toEqual("POST");
+            expect(req.request.responseType).toEqual("blob");
+            backEnd.verify();
+        });
+});
+
   it("should call reminder setting api correctly", () => {
     const body = {
       name: "reminder",

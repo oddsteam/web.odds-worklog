@@ -12,7 +12,7 @@ import { StatusTavi } from "../shared/model/status-tavi";
 import { User } from "../shared/model/user";
 import { Login } from "./../shared/model/login";
 import { Site } from "./../shared/model/site";
-import { RequestExportIncome } from "../shared/model/request-export-income";
+import {RequestExportIncome, RequestExportSAPIncome} from "../shared/model/request-export-income";
 
 @Injectable({
   providedIn: "root",
@@ -198,6 +198,19 @@ export class WorklogApiService {
       }
     );
   }
+
+    exportSAPIncomeByPeriod(req: RequestExportSAPIncome) {
+        return this.http.post(
+            `${this.apiPath}v1/incomes/export/format/SAP`,
+            req,
+            {
+                headers: new HttpHeaders({
+                    Authorization: sessionStorage.getItem("token"),
+                }),
+                responseType: "blob",
+            }
+        );
+    }
 
   sendMessage(body): Observable<any> {
     return this.http.post(`${this.apiPath}v1/reminder/setting`, body, {
