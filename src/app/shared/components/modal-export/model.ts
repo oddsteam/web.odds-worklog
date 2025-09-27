@@ -1,0 +1,5 @@
+export enum ModalMonthType {
+    CURRENT_MONTH = 'CURRENT_MONTH',
+    PREVIOUS_MONTH = 'PREVIOUS_MONTH',
+    SPECIFIC_MONTH = 'SPECIFIC_MONTH'
+}

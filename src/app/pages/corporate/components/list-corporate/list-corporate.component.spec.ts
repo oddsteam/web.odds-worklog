@@ -23,6 +23,7 @@ describe('ListCorporateComponent', () => {
     let worklogService: WorklogApiService;
     let stateService: StateService;
     let corporateListed;
+    let modalService: BsModalService;
     beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
             declarations: [ListCorporateComponent, TableListComponent, StatusHighlightDirective],
@@ -45,6 +46,7 @@ describe('ListCorporateComponent', () => {
                 , bankAccountNumber: '9898144777', vat: 'N', slackAccount: ''
             }, submitDate: '', status: 'N'
         }];
+        modalService = TestBed.inject(BsModalService);
     });
 
     it('should create', () => {
@@ -155,23 +157,92 @@ describe('ListCorporateComponent', () => {
 
     it('should call exportDataCorporate', () => {
         const mockBlob = new Blob([], { type: 'text/csv;charset=utf-8;' });
+        const mockValueDate$ = of({ startDate: '08/2025', endDate: '08/2025', dateEffective: '01/08/2025' });
+        const mockModalRef = {
+            content: {
+                valueDate: mockValueDate$
+            }
+        };
+        spyOn(modalService,'show').and.returnValue(mockModalRef as any)
         spyOn(worklogService, 'exportDataCorporate').and.returnValue(of(mockBlob));
+        spyOn(worklogService, 'exportSAPIncomeByPeriod').and.returnValue(of(mockBlob));
+
         component.exportCorporate('0');
+
         expect(worklogService.exportDataCorporate).toHaveBeenCalled();
+        expect(worklogService.exportSAPIncomeByPeriod).toHaveBeenCalled();
     });
 
     it('should call downloadFile if exportDataCorporate return response', () => {
         const mockBlob = new Blob([], { type: 'text/csv;charset=utf-8;' });
+        const mockValueDate$ = of({ startDate: '08/2025', endDate: '08/2025', dateEffective: '01/08/2025' });
+        const mockModalRef = {
+            content: {
+                valueDate: mockValueDate$
+            }
+        };
+        spyOn(modalService,'show').and.returnValue(mockModalRef as any)
         spyOn(worklogService, 'exportDataCorporate').and.returnValue(of(mockBlob));
+        spyOn(worklogService, 'exportSAPIncomeByPeriod').and.returnValue(of(mockBlob));
         spyOn(component, 'downloadFile');
+
         component.exportCorporate('0');
+
         expect(component.downloadFile).toHaveBeenCalledWith(mockBlob, 'income_corporate.csv');
+        expect(component.downloadFile).toHaveBeenCalledWith(mockBlob, 'income_corporate_SAP.csv');
     });
 
     it('alert message if exportDataCorporate return error', () => {
         spyOn(worklogService, 'exportDataCorporate').and.returnValue(throwError(new HttpErrorResponse({ status: 500, error: 'Error' })));
         spyOn(window, 'alert');
+        const mockValueDate$ = of({ startDate: '08/2025', endDate: '08/2025', dateEffective: '01/08/2025' });
+        const mockModalRef = {
+            content: {
+                valueDate: mockValueDate$
+            }
+        };
+        spyOn(modalService,'show').and.returnValue(mockModalRef as any)
+
+
         component.exportCorporate('0');
+        expect(window.alert).toHaveBeenCalledWith(`Can't export corporate income to CSV file.`);
+    });
+
+    it('should call downloadFile if exportByMonth return response', () => {
+        const mockBlob = new Blob([], { type: 'text/csv;charset=utf-8;' });
+        const mockValueDate$ = of({ startDate: '08/2025', endDate: '08/2025', dateEffective: '01/08/2025' });
+        const mockModalRef = {
+            content: {
+                valueDate: mockValueDate$
+            }
+        };
+        spyOn(modalService,'show').and.returnValue(mockModalRef as any)
+        spyOn(worklogService, 'exportIncomeByMonth').and.returnValue(of(mockBlob));
+        spyOn(worklogService, 'exportSAPIncomeByPeriod').and.returnValue(of(mockBlob));
+        spyOn(component, 'downloadFile');
+
+        component.exportByMonth();
+
+        expect(component.downloadFile).toHaveBeenCalledWith(mockBlob, 'income_corporate_specific_month.csv');
+        expect(component.downloadFile).toHaveBeenCalledWith(mockBlob, 'income_corporate_SAP_specific_month.csv');
+    });
+
+    it('alert message if exportDataCorporate return error', () => {
+        spyOn(worklogService, 'exportIncomeByMonth').and.returnValue(throwError(() => new HttpErrorResponse({ status: 500, error: 'Error' })));
+        spyOn(worklogService, 'exportSAPIncomeByPeriod').and.returnValue(throwError(() => new HttpErrorResponse({ status: 500, error: 'Error' })));
+        spyOn(window, 'alert');
+        const mockValueDate$ = of({ startDate: '08/2025', endDate: '08/2025', dateEffective: '01/08/2025' });
+        const mockModalRef = {
+            content: {
+                valueDate: mockValueDate$
+            }
+        };
+        spyOn(modalService,'show').and.returnValue(mockModalRef as any)
+
+
+        component.exportByMonth();
+
+
         expect(window.alert).toHaveBeenCalledWith(`Can't export corporate income to CSV file.`);
     });
 

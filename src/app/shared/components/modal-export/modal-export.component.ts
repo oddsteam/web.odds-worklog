@@ -1,10 +1,10 @@
 import { DatePipe } from '@angular/common';
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { NgbDateParserFormatter, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
-import { BsModalRef } from 'ngx-bootstrap/modal';
-import { WorklogApiService } from 'src/app/core/worklog-api.service';
-import { RequestExportIncome } from '../../model/request-export-income';
+import {BsModalRef, ModalOptions} from 'ngx-bootstrap/modal';
+import {ExportIncomeModal} from '../../model/export-income';
+import {ModalMonthType} from './model';
 
 @Component({
   selector: 'app-modal-export',
@@ -13,16 +13,19 @@ import { RequestExportIncome } from '../../model/request-export-income';
 })
 export class ModalExportComponent implements OnInit {
   form: FormGroup;
-  @Output() valueDate = new EventEmitter();
+  @Input() modalType: ModalMonthType;
+  @Output() valueDate = new EventEmitter<ExportIncomeModal>();
 
   constructor(
     private modalRef: BsModalRef,
     private ngbDateParserFormatter: NgbDateParserFormatter,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    public options: ModalOptions
   ) { }
 
   ngOnInit(): void {
     this.form = new FormGroup({
+      dateEffective: new FormControl(new Date()),
       startDate: new FormControl(new Date()),
       endDate: new FormControl(new Date())
     });
@@ -30,29 +33,66 @@ export class ModalExportComponent implements OnInit {
 
 
   exportIncomeByMonth() {
-    if (this.form.invalid) {
-      this.form.markAllAsTouched();
-      return;
-    }
-    console.log(this.ngbDateStructToDate(this.form.controls.startDate.value), this.ngbDateStructToDate(this.form.controls.endDate.value));
-
-    const startDate = this.ngbDateStructToDate(this.form.controls.startDate.value);
-    const endDate = this.ngbDateStructToDate(this.form.controls.endDate.value);
-
-    this.valueDate.emit({ startDate, endDate });
+      if (this.form.invalid) {
+          this.form.markAllAsTouched();
+          return;
+      }
+      const startDate = this.getStartDate(this.modalType, this.form.controls.startDate.value);
+      const endDate = this.getEndDate(this.modalType, this.form.controls.endDate.value);
+      const dateEffective = this.ngbDateStructToDate(this.form.controls.dateEffective.value, 'dd/MM/yyyy');
+      const result: ExportIncomeModal = {
+          startDate,
+          endDate,
+          dateEffective
+      }
+      this.valueDate.emit(result);
   }
 
   closeModal() {
     this.modalRef.hide();
   }
 
-  ngbDateStructToDate(dateStruct: NgbDateStruct): string {
+  ngbDateStructToDate(dateStruct: NgbDateStruct, format = 'MM/yyyy'): string {
     if (dateStruct) {
       const dateStr = this.ngbDateParserFormatter.format(dateStruct);
-      return this.datePipe.transform(new Date(dateStr), 'MM/yyyy');;
+      return this.datePipe.transform(new Date(dateStr), format);
     }
     return null;
   }
+
+  get isSpecificMonth(): boolean {
+    return this.modalType === ModalMonthType.SPECIFIC_MONTH;
+  }
+
+  getStartDate(modalType: ModalMonthType, value: NgbDateStruct): string{
+      const now = new Date();
+      switch (modalType) {
+          case ModalMonthType.SPECIFIC_MONTH:
+              return this.ngbDateStructToDate(value);
+          case ModalMonthType.CURRENT_MONTH:
+              return this.datePipe.transform(now, 'MM/yyyy');
+          case ModalMonthType.PREVIOUS_MONTH:
+              const previousMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+              return this.datePipe.transform(previousMonth, 'MM/yyyy');
+          default:
+              return null;
+      }
+  }
+
+    getEndDate(modalType: ModalMonthType, value: NgbDateStruct): string{
+        const now = new Date();
+        switch (modalType) {
+            case ModalMonthType.SPECIFIC_MONTH:
+                return this.ngbDateStructToDate(value);
+            case ModalMonthType.CURRENT_MONTH:
+                return this.datePipe.transform(now, 'MM/yyyy');
+            case ModalMonthType.PREVIOUS_MONTH:
+                const previousMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+                return this.datePipe.transform(previousMonth, 'MM/yyyy');
+            default:
+                return null;
+        }
+    }
 
 
 }
