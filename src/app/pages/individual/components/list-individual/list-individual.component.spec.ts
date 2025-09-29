@@ -1,5 +1,5 @@
 /* tslint:disable:no-unused-variable */
-import { HttpClient } from '@angular/common/http';
+import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { DataTablesModule } from 'angular-datatables';
@@ -24,6 +24,8 @@ describe('ListIndividualComponent', () => {
   let fixture: ComponentFixture<ListIndividualComponent>;
   let worklogService: WorklogApiService;
   let http: HttpClient;
+  let modalService: BsModalService;
+
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -38,6 +40,16 @@ describe('ListIndividualComponent', () => {
     fixture = TestBed.createComponent(ListIndividualComponent);
     worklogService = TestBed.inject(WorklogApiService);
     component = fixture.componentInstance;
+    modalService = TestBed.inject(BsModalService);
+
+      const mockValueDate$ = of({startDate: '08/2025', endDate: '08/2025', dateEffective: '01/08/2025'});
+      const mockModalRef = {
+          content: {
+              valueDate: mockValueDate$
+          }
+      };
+      spyOn(modalService, 'show').and.returnValue(mockModalRef as any);
+
   });
 
   it('should be able to render individual listing page', () => {
@@ -87,19 +99,65 @@ describe('ListIndividualComponent', () => {
   it('should call download file automatically when export data successfully', () => {
     const mockBlob = new Blob([], { type: 'text/csv;charset=utf-8;' });
     let worklogService = createMockWorklogApiService(mockBlob)
+
     let component = new ListIndividualComponent(worklogService, TestBed.inject(StateService),TestBed.inject(BsModalService));
     spyOn(component, 'downloadFile');
+    spyOn(worklogService, 'exportSAPIncomeByPeriod').and.returnValue(of(mockBlob));
+
     component.exportIndividual('0');
     expect(component.downloadFile).toHaveBeenCalledWith(mockBlob, 'income_individual.csv');
+    expect(component.downloadFile).toHaveBeenCalledWith(mockBlob, 'income_individual_SAP.txt');
   });
 
-  it('shoudl show alert popup when export data fail', () => {
-    spyOn(worklogService, 'exportDataIndividual').and.callFake(() => {
-      return throwError('Fake Error');
-    });
-    spyOn(window, 'alert');
+  it('should call exportDataIndividual with correct parameter', () => {
+        const mockBlob = new Blob([], { type: 'text/csv;charset=utf-8;' });
+        spyOn(component, 'downloadFile');
+        spyOn(worklogService, 'exportSAPIncomeByPeriod').and.returnValue(of(mockBlob));
+        spyOn(worklogService, 'exportDataIndividual').and.returnValue(of(mockBlob));
+
+        component.exportIndividual('0');
+
+        expect(worklogService.exportDataIndividual).toHaveBeenCalledWith('0');
+  });
+
+  it('should call exportSAPIncomeByPeriod with correct parameter', () => {
+    const mockBlob = new Blob([], { type: 'text/csv;charset=utf-8;' });
+    spyOn(component, 'downloadFile');
+    spyOn(worklogService, 'exportSAPIncomeByPeriod').and.returnValue(of(mockBlob));
+
     component.exportIndividual('0');
-    expect(window.alert).toHaveBeenCalledWith(`Can't export individual income to CSV file.`);
+
+    expect(worklogService.exportSAPIncomeByPeriod).toHaveBeenCalledWith({
+        role: "individual",
+        startDate: '08/2025',
+        endDate: '08/2025',
+        dateEffective: '01/08/2025',
+    });
+  });
+
+  it('should call downloadFile if exportByMonth return response', () => {
+    const mockBlob = new Blob([], { type: 'text/csv;charset=utf-8;' });
+    spyOn(worklogService, 'exportIncomeByMonth').and.returnValue(of(mockBlob));
+    spyOn(worklogService, 'exportSAPIncomeByPeriod').and.returnValue(of(mockBlob));
+    spyOn(component, 'downloadFile');
+
+    component.exportByMonth();
+
+    expect(component.downloadFile).toHaveBeenCalledWith(mockBlob, 'income_individual_specific_month.csv');
+    expect(component.downloadFile).toHaveBeenCalledWith(mockBlob, 'income_individual_SAP_specific_month.txt');
+  });
+
+  it('should alert message error when export error', () => {
+        spyOn(worklogService, 'exportIncomeByMonth').and.returnValue(throwError(() => new HttpErrorResponse({ status: 500, error: 'Error' })));
+        spyOn(worklogService, 'exportSAPIncomeByPeriod').and.returnValue(throwError(() => new HttpErrorResponse({ status: 500, error: 'Error' })));
+        spyOn(component, 'downloadFile');
+        spyOn(window, 'alert');
+
+        component.exportByMonth();
+
+        expect(window.alert).toHaveBeenCalledWith(`Can't export individual income to CSV file.`);
+        expect(window.alert).toHaveBeenCalledWith(`Can't export individual SAP income to CSV file.`);
+        expect(component.downloadFile).not.toHaveBeenCalled();
   });
 
   it('should call get data from backend again when isUpdateList = true', () => {
@@ -160,6 +218,7 @@ describe('ListIndividualComponent', () => {
   function createMockWorklogApiService(mockResponse:any) {
       http = {} as HttpClient;
       http.get = jasmine.createSpy().and.returnValue(of(mockResponse));
+      http.post = jasmine.createSpy().and.returnValue(of(mockResponse));
       return new WorklogApiService(http);
   }
 });

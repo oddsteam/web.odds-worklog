@@ -94,5 +94,18 @@ export class ModalExportComponent implements OnInit {
         }
     }
 
+    get titleModal(): string {
+        switch (this.modalType) {
+            case ModalMonthType.CURRENT_MONTH:
+                return 'Export Income - Current Month';
+            case ModalMonthType.PREVIOUS_MONTH:
+                return 'Export Income - Previous Month';
+            case ModalMonthType.SPECIFIC_MONTH:
+                return 'Export Income - Specific Month';
+            default:
+                return 'Export Income';
+        }
+    }
+
 
 }
