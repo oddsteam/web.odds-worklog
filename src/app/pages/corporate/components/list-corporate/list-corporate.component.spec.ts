@@ -189,7 +189,7 @@ describe('ListCorporateComponent', () => {
         component.exportCorporate('0');
 
         expect(component.downloadFile).toHaveBeenCalledWith(mockBlob, 'income_corporate.csv');
-        expect(component.downloadFile).toHaveBeenCalledWith(mockBlob, 'income_corporate_SAP.csv');
+        expect(component.downloadFile).toHaveBeenCalledWith(mockBlob, 'income_corporate_SAP.txt');
     });
 
     it('alert message if exportDataCorporate return error', () => {
@@ -224,7 +224,7 @@ describe('ListCorporateComponent', () => {
         component.exportByMonth();
 
         expect(component.downloadFile).toHaveBeenCalledWith(mockBlob, 'income_corporate_specific_month.csv');
-        expect(component.downloadFile).toHaveBeenCalledWith(mockBlob, 'income_corporate_SAP_specific_month.csv');
+        expect(component.downloadFile).toHaveBeenCalledWith(mockBlob, 'income_corporate_SAP_specific_month.txt');
     });
 
     it('alert message if exportDataCorporate return error', () => {

@@ -90,7 +90,7 @@ export class ListCorporateComponent implements OnInit, OnChanges {
                   this.downloadFile(income, "income_corporate.csv");
               }
               if (sapIncome) {
-                  this.downloadFile(sapIncome, "income_corporate_SAP.csv");
+                  this.downloadFile(sapIncome, "income_corporate_SAP.txt");
               }
           });
   }
@@ -139,7 +139,7 @@ export class ListCorporateComponent implements OnInit, OnChanges {
                     this.downloadFile(income, "income_corporate_specific_month.csv");
                 }
                 if (sapIncome) {
-                    this.downloadFile(sapIncome, "income_corporate_SAP_specific_month.csv");
+                    this.downloadFile(sapIncome, "income_corporate_SAP_specific_month.txt");
                 }
             });
     }
