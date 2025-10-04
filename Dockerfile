@@ -18,7 +18,7 @@ RUN npm install --no-optional --force && npm rebuild
 
 # Build
 ARG ANGULAR_ENV=production
-RUN ng build --configuration $ANGULAR_ENV
+RUN ng build --configuration $ANGULAR_ENV && bash scripts/inject-commit.sh
 
 
 # STEP 2 build a small nginx image with static website
