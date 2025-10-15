@@ -8,8 +8,8 @@ WORKDIR /app
 COPY .  /app
 
 # Install app dependencies
-RUN npm install --no-optional --force && npm rebuild 
-
+RUN npm install --no-optional --force && npm rebuild
+RUN git config --global --add safe.directory /app
 # Run Unit Test
 # RUN ng test --watch false
 
@@ -19,6 +19,7 @@ RUN npm install --no-optional --force && npm rebuild
 # Build
 ARG ANGULAR_ENV=production
 RUN ng build --configuration $ANGULAR_ENV
+RUN bash scripts/inject-commit.sh
 
 
 # STEP 2 build a small nginx image with static website
