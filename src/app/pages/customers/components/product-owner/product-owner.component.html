@@ -20,7 +20,7 @@
       <tbody *ngIf="productOwner?.length !== 0">
         <tr *ngFor="let productOwner of productOwner">
           <td>
-            <a class="link" href="javascript:void(0)" (click)="goToInvoicePage(productOwner?.id)">{{productOwner?.name}}</a>
+            {{productOwner?.name}}
           </td>
           <td>{{formatCurrency(productOwner?.amount)}}</td>
           <td>

@@ -21,7 +21,6 @@ export class WorklogApiService {
   listData: User[] = [];
   siteName: string;
   getCustomerId = new BehaviorSubject<string>(null);
-  getProductOwnerId = new BehaviorSubject<string>(null);
   dailyIncome = "";
   id = sessionStorage.getItem("idUser");
   private userId = this.id;
@@ -342,10 +341,6 @@ export class WorklogApiService {
       `${this.apiPath}v1/poes/${id}`,
       this.getHttpHeaderOption()
     );
-  }
-
-  setProductOwnerId(id: string) {
-    this.getProductOwnerId.next(id);
   }
 
   getProductOwnerById(id: string) {

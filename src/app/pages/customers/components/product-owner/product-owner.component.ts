@@ -1,6 +1,5 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
-import { Router } from '@angular/router';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
 import { ProductOwner } from 'src/app/shared/model/product-owner';
@@ -23,7 +22,6 @@ export class ProductOwnerComponent implements OnInit {
   showMessage = false;
 
   constructor(
-    private router: Router,
     private modalService: BsModalService,
     private worklogApiService: WorklogApiService,
     private fb: FormBuilder
@@ -107,11 +105,6 @@ export class ProductOwnerComponent implements OnInit {
     } else {
       alert('กรุณากรอกข้อมมูลให้ครบถ้วน');
     }
-  }
-
-  goToInvoicePage(productOwnerId) {
-    this.worklogApiService.setProductOwnerId(productOwnerId);
-    this.router.navigate(['customers/invoice']);
   }
 
   onEditProductOwner(poId) {
