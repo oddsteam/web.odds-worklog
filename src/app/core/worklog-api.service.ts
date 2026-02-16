@@ -1,12 +1,10 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { BehaviorSubject, Observable } from "rxjs";
+import { Observable } from "rxjs";
 import { environment } from "../../environments/environment";
 import { AddIncomeResponse } from "../shared/model/add-income-model-response";
-import { Customers } from "../shared/model/customers";
 import { IncomeFlag } from "../shared/model/income-flag";
 import { ListIncomeResponse } from "../shared/model/list-income-model-response";
-import { ProductOwner } from "../shared/model/product-owner";
 import { SettingReminder } from "../shared/model/setting-reminder-model";
 import { StatusTavi } from "../shared/model/status-tavi";
 import { User } from "../shared/model/user";
@@ -20,8 +18,6 @@ import {RequestExportIncome, RequestExportSAPIncome} from "../shared/model/reque
 export class WorklogApiService {
   listData: User[] = [];
   siteName: string;
-  getCustomerId = new BehaviorSubject<string>(null);
-  getProductOwnerId = new BehaviorSubject<string>(null);
   dailyIncome = "";
   id = sessionStorage.getItem("idUser");
   private userId = this.id;
@@ -266,102 +262,6 @@ export class WorklogApiService {
 
   getSiteName() {
     return this.siteName;
-  }
-
-  getCustomerResponse(): Observable<Customers[]> {
-    return this.http.get<Customers[]>(`${this.apiPath}v1/customers`, {
-      headers: new HttpHeaders({
-        Authorization: sessionStorage.getItem("token"),
-      }),
-    });
-  }
-
-  getCustomerById(customerId): Observable<Customers[]> {
-    return this.http.get<Customers[]>(
-      `${this.apiPath}v1/customers/${customerId}`,
-      {
-        headers: new HttpHeaders({
-          Authorization: sessionStorage.getItem("token"),
-        }),
-      }
-    );
-  }
-
-  updateCustomerById(customerId, body): Observable<Customers[]> {
-    return this.http.put<Customers[]>(
-      `${this.apiPath}v1/customers/${customerId}`,
-      body,
-      {
-        headers: new HttpHeaders({
-          Authorization: sessionStorage.getItem("token"),
-        }),
-      }
-    );
-  }
-
-  saveCustomerProfile(data): Observable<any> {
-    return this.http.post(`${this.apiPath}v1/customers`, data, {
-      headers: new HttpHeaders({
-        Authorization: sessionStorage.getItem("token"),
-      }),
-    });
-  }
-
-  deleteCustomer(id: string) {
-    return this.http.delete(
-      `${this.apiPath}v1/customers/${id}`,
-      this.getHttpHeaderOption()
-    );
-  }
-
-  setCustomerId(id: string) {
-    this.getCustomerId.next(id);
-  }
-
-  getProductOwnerResponse(customerId: string): Observable<ProductOwner[]> {
-    return this.http.get<ProductOwner[]>(
-      `${this.apiPath}v1/poes/customer/${customerId}`,
-      {
-        headers: new HttpHeaders({
-          Authorization: sessionStorage.getItem("token"),
-        }),
-      }
-    );
-  }
-
-  saveProductOwner(data): Observable<any> {
-    return this.http.post(`${this.apiPath}v1/poes`, data, {
-      headers: new HttpHeaders({
-        Authorization: sessionStorage.getItem("token"),
-      }),
-    });
-  }
-
-  deleteProductOwner(id: string) {
-    return this.http.delete(
-      `${this.apiPath}v1/poes/${id}`,
-      this.getHttpHeaderOption()
-    );
-  }
-
-  setProductOwnerId(id: string) {
-    this.getProductOwnerId.next(id);
-  }
-
-  getProductOwnerById(id: string) {
-    return this.http.get<ProductOwner[]>(`${this.apiPath}v1/poes/${id}`, {
-      headers: new HttpHeaders({
-        Authorization: sessionStorage.getItem("token"),
-      }),
-    });
-  }
-
-  updateProductOwner(id: string, body) {
-    return this.http.put(`${this.apiPath}v1/poes/${id}`, body, {
-      headers: new HttpHeaders({
-        Authorization: sessionStorage.getItem("token"),
-      }),
-    });
   }
 
   sendMailNotificationNewUser() {

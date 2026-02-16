@@ -75,7 +75,17 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 
 ## Running unit tests
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+To execute the unit tests via [Karma](https://karma-runner.github.io),
+
+```
+make test
+```
+
+If you get an error and want to use your Chrome instead of puppeteer's Chrome
+
+```
+CHROME_BIN="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" npm t
+```
 
 ## Running end-to-end tests
 

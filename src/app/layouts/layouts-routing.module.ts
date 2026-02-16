@@ -38,11 +38,6 @@ const routes: Routes = [
                 () => import('../pages/group-management/group-management.module').then(m => m.GroupManagementModule),
             },
             {
-                path: 'customers',
-                loadChildren:
-                () => import('../pages/customers/customers.module').then(m => m.CustomersModule),
-            },
-            {
                 path: 'history',
                 loadChildren:
                 () => import('../pages/history/history.module').then(m => m.HistoryModule),
