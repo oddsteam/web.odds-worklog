@@ -1,27 +1,53 @@
-import { Given, When, Then } from "@cucumber/cucumber";
-import { expect } from "chai";
+import { Given, When, Then, Before, After } from "@cucumber/cucumber";
+import assert from "assert";
+import { Browser, Page, chromium } from "@playwright/test";
+
+const APP_URL = "http://localhost:4200";
+
+let browser: Browser;
+let page: Page;
+
+Before(async function () {
+  browser = await chromium.launch({ headless: false });
+  page = await browser.newPage();
+});
+
+After(async function () {
+  await browser?.close();
+});
 
 Given("I am on the login page", async function () {
-  // TODO: Implement navigation to login page
-  console.log("Navigating to login page");
+  await page.goto(`${APP_URL}/login`);
+  await page.getByText("Login with Keycloak").waitFor({ state: "visible" });
 });
 
 When("I enter valid username and password", async function () {
-  // TODO: Implement entering credentials
-  console.log("Entering credentials");
+  await page.getByText("Login with Keycloak").click();
+  await page.waitForURL(/localhost:9000/);
+  await page.locator("#username").fill("e2e");
+  await page.locator("#password").fill("s3cr3t");
 });
 
 When("I click the login button", async function () {
-  // TODO: Implement clicking login button
-  console.log("Clicking login button");
+  await page.locator("#kc-login").click();
+  await page.waitForURL(
+    (url) => url.origin === APP_URL && !url.pathname.includes("/login"),
+    { timeout: 15000 }
+  );
 });
 
 Then("I should be logged in successfully", async function () {
-  // TODO: Implement verification of successful login
-  console.log("Verifying successful login");
+  const url = page.url();
+  assert.ok(!url.includes("/login"), `Expected URL to not include /login, got ${url}`);
+
+  const token = await page.evaluate(() => sessionStorage.getItem("token"));
+  assert.ok(token, "Expected sessionStorage to contain a token");
 });
 
 Then("I should see the dashboard", async function () {
-  // TODO: Implement verification of dashboard visibility
-  console.log("Verifying dashboard visibility");
+  const url = page.url();
+  assert.ok(
+    url.includes("/individual"),
+    `Expected to be on /individual, but got ${url}`
+  );
 });
