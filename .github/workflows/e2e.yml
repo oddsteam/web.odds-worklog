@@ -22,7 +22,6 @@ jobs:
         with:
           repository: oddsteam/api.odds-worklog
           path: api
-          token: ${{ secrets.API_REPO_TOKEN }}
 
       - name: Start MongoDB
         run: |
