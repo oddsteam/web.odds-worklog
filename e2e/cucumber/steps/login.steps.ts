@@ -44,10 +44,10 @@ Then("I should be logged in successfully", async function () {
   assert.ok(token, "Expected sessionStorage to contain a token");
 });
 
-Then("I should see the dashboard", async function () {
+Then("I should see the registration page", async function () {
   const url = page.url();
   assert.ok(
-    url.includes("/individual"),
-    `Expected to be on /individual, but got ${url}`
+    url.includes("/firstlogin"),
+    `Expected to be on /firstlogin, but got ${url}`
   );
 });
