@@ -48,19 +48,34 @@ jobs:
         with:
           go-version-file: api/go.mod
 
+      - name: Wait for MongoDB
+        run: |
+          echo "Waiting for MongoDB..."
+          for i in $(seq 1 30); do
+            if docker exec mongodb mongo --quiet --eval "db.adminCommand('ping')" > /dev/null 2>&1; then
+              echo "MongoDB is ready"
+              break
+            fi
+            echo "Attempt $i/30..."
+            sleep 2
+          done
+          docker exec mongodb mongo --quiet --eval "db.adminCommand('ping')" > /dev/null 2>&1 || \
+          (echo "MongoDB failed to start" && exit 1)
+
       - name: Start API server
         working-directory: api
-        env:
-          MONGO_DB_HOST: "localhost:27017"
-          MONGO_DB_NAME: "odds_worklog_db"
-          MONGO_DB_CONECTION_POOL: "10"
-          MONGO_DB_USERNAME: "admin"
-          MONGO_DB_PASSWORD: "admin"
-          API_PORT: ":8080"
-          KEYCLOAK_SERVER_URL: "http://localhost:9000"
-          KEYCLOAK_REALM: "odds"
-          KEYCLOAK_CLIENT_ID: "worklog"
-        run: go run main.go &
+        run: |
+          export MONGO_DB_HOST="localhost:27017"
+          export MONGO_DB_NAME="odds_worklog_db"
+          export MONGO_DB_CONECTION_POOL="10"
+          export MONGO_DB_USERNAME="admin"
+          export MONGO_DB_PASSWORD="admin"
+          export API_PORT=":8080"
+          export KEYCLOAK_SERVER_URL="http://localhost:9000"
+          export KEYCLOAK_REALM="odds"
+          export KEYCLOAK_CLIENT_ID="worklog"
+          nohup go run main.go > /tmp/api.log 2>&1 &
+          echo "API PID: $!"
 
       - name: Use Node.js 18.16.0
         uses: actions/setup-node@v4
