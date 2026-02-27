@@ -1,0 +1,82 @@
+---
+description: Conventions for writing Cucumber BDD e2e tests (feature files and step definitions) for this project
+globs: e2e/cucumber/**/*.{feature,ts}
+alwaysApply: false
+---
+
+# E2E Cucumber Conventions
+
+## Feature File Structure
+
+- One feature per file, scoped to a single user journey
+- Use `Scenario` (not `Scenario Outline`) for distinct flows
+- Each scenario should be independently runnable — include all prerequisites in `Given`
+
+```gherkin
+Feature: User Registration
+    As a user
+    I want to be able to register to the application
+    So that I can add my income and get paid
+
+    Scenario: Complete individual registration and reach the dashboard
+        Given I am logged in and on the registration page
+        When I fill in first name "E2E" and last name "Test"
+        And I fill in bank account name "ทดสอบ อี ทู อี"
+        And I select bank "ttb"
+        And I fill in bank account number "1234567890"
+        And I fill in phone "0812345678"
+        And I fill in slack account "e2etest@oddsteam.com"
+        And I select user type "individual"
+        And I select a site
+        And I upload the ID card PDF
+        And I click the save button
+        Then I should be on the individual dashboard
+```
+
+## Step Definitions (`e2e/cucumber/steps/*.steps.ts`)
+
+- Use `chromium` via Playwright; `browser` and `page` live in `Before`/`After` hooks
+- `APP_URL` is `http://localhost:4200`
+- Keycloak runs at `localhost:9000`; credentials are `e2e` / `s3cr3t`
+- For file upload steps, reference fixtures from `e2e/cucumber/fixtures/`
+
+```typescript
+// Login helper pattern (reused in Given steps that require auth)
+await page.goto(`${APP_URL}/login`);
+await page.getByText("Login with Keycloak").click();
+await page.waitForURL(/localhost:9000/);
+await page.locator("#username").fill("e2e");
+await page.locator("#password").fill("s3cr3t");
+await page.locator("#kc-login").click();
+await page.waitForURL((url) => !url.pathname.includes("/login"), { timeout: 15000 });
+```
+
+## Registration Flow
+
+After login, new users land on `/firstlogin`. The form fields and their selectors:
+
+| Field | Selector |
+|---|---|
+| First Name | `#FirstName` |
+| Last Name | `#LastName` |
+| Bank Account Name | `#bankAccountName` |
+| Bank | `#bankCode` (select) |
+| Bank Account Number | `#bankAccountNumber` |
+| Phone | `#phone` |
+| Slack Account | `#slackAccount` |
+| User Type (role) | `#role` (select: `individual` or `corporate`) |
+| Site | `#siteId` (select first non-empty option) |
+| ID Card PDF | `input[type="file"]` — use `setInputFiles()` |
+
+After submit with `role=individual` → redirected to `/individual`.
+
+## Fixtures
+
+Place test files in `e2e/cucumber/fixtures/`. Example: `test-idcard.pdf` for the ID card upload step.
+
+## Running Tests
+
+```bash
+make e2e          # run all scenarios
+make e2e ARGS="--tags @tag"  # run tagged scenarios
+```
