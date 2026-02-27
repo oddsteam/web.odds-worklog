@@ -16,7 +16,7 @@
 # For more information on GitHub Actions for Azure, refer to https://github.com/Azure/Actions
 on:
   push:
-    branches: [develop]
+    branches: [tmp]
   workflow_dispatch:
 
 name: CI/CD Project Worklog Web Dev ODDS Cloud
