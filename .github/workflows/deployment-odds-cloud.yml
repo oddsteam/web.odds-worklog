@@ -51,6 +51,7 @@ jobs:
         run: |
           cd e2e/cucumber
           npm install
+          npx playwright install chromium --with-deps
           npm test
 
       - name: Analyze with SonarCloud
