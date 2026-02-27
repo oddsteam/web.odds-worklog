@@ -8,4 +8,4 @@ Feature: User Login
         When I enter valid username and password
         And I click the login button
         Then I should be logged in successfully
-        And I should see the dashboard
+        And I should be able to register

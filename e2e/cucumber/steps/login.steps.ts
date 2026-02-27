@@ -44,7 +44,7 @@ Then("I should be logged in successfully", async function () {
   assert.ok(token, "Expected sessionStorage to contain a token");
 });
 
-Then("I should see the registration page", async function () {
+Then("I should be able to register", async function () {
   const url = page.url();
   assert.ok(
     url.includes("/firstlogin"),
