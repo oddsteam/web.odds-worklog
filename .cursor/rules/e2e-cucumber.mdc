@@ -6,23 +6,44 @@ alwaysApply: false
 
 # E2E Cucumber Conventions
 
-## Feature File Structure
+## Feature Files — Business Activities Only (ADR 0002)
 
-- One feature per file, scoped to a single user journey
-- Use `Scenario` (not `Scenario Outline`) for distinct flows
-- Each scenario should be independently runnable — include all prerequisites in `Given`
+See [`docs/adr/0002-declarative-feature-files.md`](../../docs/adr/0002-declarative-feature-files.md) for the full decision record.
+
+**Feature files must express business activities and outcomes only.** UI interactions, button names, form field details, and technical setup are hidden inside step definitions and page objects.
+
+### Rules
+
+- Steps describe what the user *does in business terms*, not how the UI is operated.
+- Business data (rates, amounts, counts) belongs in the feature file; test fixture details do not.
+- Assertions express business outcomes, not UI state (e.g. "modal closes").
+- Use a DataTable when verifying multiple related business values at once.
 
 ```gherkin
-Feature: User Registration
-    As a user
-    I want to be able to register to the application
-    So that I can add my income and get paid
+# ✅ Business-focused — correct
+Feature: Add Income
+    As a registered individual user
+    I want to add my income for the month
+    So that I can get paid
 
-    Scenario: Complete individual registration and reach the dashboard
-        Given I am logged in and on the registration page
-        When I fill in first name "E2E" and last name "Test"
-        ...
-        Then I should be on the individual dashboard
+    @add-income
+    Scenario: Individual user submits monthly income
+        Given I am an individual user with daily income rate of 500 baht per day
+        When I submit income for 18 work days and 20 hours of special work at 100 baht per hour
+        Then the income confirmation breakdown should be:
+            | net daily income   | 9000  |
+            | net special income | 2000  |
+            | net income         | 10670 |
+        When I confirm the income submission
+        Then my net income on the dashboard should be 10670 baht
+```
+
+```gherkin
+# ❌ UI-focused — wrong
+When I click the Add Income button
+And I fill in special income "100" and working hours "20"
+And I fill in work date "18"
+And I click the Submit button
 ```
 
 ## Page Object Pattern (ADR 0001)
@@ -35,72 +56,88 @@ See [`docs/adr/0001-page-object-pattern.md`](../../docs/adr/0001-page-object-pat
 
 ```
 e2e/cucumber/
+  features/
+    <feature>.feature   ← business scenarios only
   pages/
     <name>.page.ts      ← selectors and interactions live here
   steps/
     <name>.steps.ts     ← page object calls + assertions only
+  fixtures/
+    test-idcard.pdf     ← test assets
 ```
 
 ### Page object contract
 
 - Constructor receives a Playwright `Page` instance
 - One `Page` instance shared across all page objects in `Before` hook
-- Methods named after user actions, not selectors
+- Methods named after user actions or observable state, not selectors
 
 ```typescript
-// pages/registration.page.ts
-export class RegistrationPage {
+// pages/add-income-modal.page.ts
+export class AddIncomeModalPage {
   constructor(private page: Page) {}
-  async fillFirstName(firstName: string) {
-    await this.page.locator("#FirstName").fill(firstName);
+
+  async clickAddIncomeButton() {
+    await this.page.locator("#btn-add").click();
+  }
+
+  async getConfirmationAmount(selector: string): Promise<number> {
+    const text = await this.page.locator(selector).textContent() ?? "";
+    return parseFloat(text.replace(/[^0-9.]/g, ""));
   }
 }
 
-// steps/login.steps.ts  ✅ correct
-When("I fill in first name {string} and last name {string}", async function (firstName, lastName) {
-  await registrationPage.fillFirstName(firstName);
-  await registrationPage.fillLastName(lastName);
+// steps/login.steps.ts  ✅ correct — page object call only
+When("I submit income for ...", async function (...) {
+  await addIncomeModalPage.clickAddIncomeButton();
+  // ...
 });
 
 // steps/login.steps.ts  ❌ wrong — selector in step file
-When("I fill in first name {string} and last name {string}", async function (firstName, lastName) {
-  await page.locator("#FirstName").fill(firstName);
+When("I submit income for ...", async function (...) {
+  await page.locator("#btn-add").click();
 });
 ```
 
 ## Step Definitions (`e2e/cucumber/steps/*.steps.ts`)
 
-- Use `chromium` via Playwright; instantiate page objects in `Before`/`After` hooks
+- Use `chromium` via Playwright; instantiate all page objects in the `Before` hook
 - `APP_URL` is `http://localhost:4200`
 - Keycloak runs at `localhost:9000`; credentials are `e2e` / `s3cr3t`
+- MongoDB connection: `mongodb://admin:admin@127.0.0.1:27017/odds_worklog_db?authSource=admin`
 - For file upload steps, reference fixtures from `e2e/cucumber/fixtures/`
 
-## Registration Flow
+### Test data setup and cleanup
 
-After login, new users land on `/firstlogin`. Selectors are encapsulated in `RegistrationPage`:
+Use MongoDB directly in `Before`/`After` hooks to set up preconditions and clean up after tagged scenarios:
 
-| Field | Selector (in `registration.page.ts`) |
-|---|---|
-| First Name | `#FirstName` |
-| Last Name | `#LastName` |
-| Bank Account Name | `#bankAccountName` |
-| Bank | `#bankCode` (select) |
-| Bank Account Number | `#bankAccountNumber` |
-| Phone | `#phone` |
-| Slack Account | `#slackAccount` |
-| User Type (role) | `#role` (select: `individual` or `corporate`) |
-| Site | `#siteId` (select first non-empty option) |
-| ID Card PDF | `input[type="file"]` — use `setInputFiles()` |
+```typescript
+After({ tags: "@add-income" }, async function () {
+  if (addIncomeUserId) {
+    await clearUserIncome(addIncomeUserId);
+    await clearUserRegistration(addIncomeUserId);
+  }
+});
+```
 
-After submit with `role=individual` → redirected to `/individual`.
+### DataTable steps
 
-## Fixtures
+Use Cucumber's `DataTable` with `table.rowsHash()` for two-column key-value tables:
 
-Place test files in `e2e/cucumber/fixtures/`. Example: `test-idcard.pdf` for the ID card upload step.
+```typescript
+import { DataTable } from "@cucumber/cucumber";
+
+Then("the income confirmation breakdown should be:", async function (table: DataTable) {
+  for (const [label, value] of Object.entries(table.rowsHash())) {
+    const displayed = await addIncomeModalPage.getConfirmationAmount(SELECTORS[label]);
+    assert.strictEqual(displayed, parseFloat(value), `${label}: expected ${value}`);
+  }
+});
+```
 
 ## Running Tests
 
 ```bash
 make e2e                        # run all scenarios
-make e2e ARGS="--tags @tag"     # run tagged scenarios
+make e2e ARGS="--tags @tag"     # run tagged scenarios only
 ```

@@ -34,4 +34,15 @@ export class DashboardPage {
       { timeout: 15000 }
     );
   }
+
+  async reload() {
+    await this.page.reload();
+  }
+
+  async waitForIndividualDashboard() {
+    await this.page.waitForURL(
+      (url) => url.origin === APP_URL && url.pathname.includes("/individual"),
+      { timeout: 15000 }
+    );
+  }
 }

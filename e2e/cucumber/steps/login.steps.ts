@@ -1,4 +1,4 @@
-import { Given, When, Then, Before, After } from "@cucumber/cucumber";
+import { Given, When, Then, Before, After, DataTable } from "@cucumber/cucumber";
 import assert from "assert";
 import path from "path";
 import { MongoClient, ObjectId } from "mongodb";
@@ -7,6 +7,7 @@ import { LoginPage } from "../pages/login.page";
 import { KeycloakLoginPage } from "../pages/keycloak-login.page";
 import { RegistrationPage } from "../pages/registration.page";
 import { DashboardPage } from "../pages/dashboard.page";
+import { AddIncomeModalPage } from "../pages/add-income-modal.page";
 
 const APP_URL = "http://localhost:4200";
 const MONGO_URL = "mongodb://admin:admin@127.0.0.1:27017/odds_worklog_db?authSource=admin";
@@ -16,7 +17,9 @@ let loginPage: LoginPage;
 let keycloakLoginPage: KeycloakLoginPage;
 let registrationPage: RegistrationPage;
 let dashboardPage: DashboardPage;
+let addIncomeModalPage: AddIncomeModalPage;
 let registrationUserId: string | null = null;
+let addIncomeUserId: string | null = null;
 
 Before(async function () {
   browser = await chromium.launch({ headless: process.env.HEADLESS !== 'false' });
@@ -26,6 +29,7 @@ Before(async function () {
   keycloakLoginPage = new KeycloakLoginPage(page);
   registrationPage = new RegistrationPage(page);
   dashboardPage = new DashboardPage(page);
+  addIncomeModalPage = new AddIncomeModalPage(page);
 });
 
 After(async function () {
@@ -39,37 +43,23 @@ After({ tags: "@registration" }, async function () {
   }
 });
 
-Given("I am on the login page", async function () {
+Given("I am a new user", async function () {
   await loginPage.goto();
   await loginPage.waitForReady();
 });
 
-When("I enter valid username and password", async function () {
+When("I log in with valid credentials", async function () {
   await loginPage.clickLoginWithKeycloak();
   await keycloakLoginPage.waitForReady();
   await keycloakLoginPage.fillUsername("e2e");
   await keycloakLoginPage.fillPassword("s3cr3t");
-});
-
-When("I click the login button", async function () {
   await keycloakLoginPage.clickLogin();
   await dashboardPage.waitForRedirect();
 });
 
-Then("I should be logged in successfully", async function () {
+Then("I should be directed to complete my registration", async function () {
   const url = dashboardPage.getUrl();
-  assert.ok(!url.includes("/login"), `Expected URL to not include /login, got ${url}`);
-
-  const token = await dashboardPage.getSessionToken();
-  assert.ok(token, "Expected sessionStorage to contain a token");
-});
-
-Then("I should be able to register", async function () {
-  const url = dashboardPage.getUrl();
-  assert.ok(
-    url.includes("/firstlogin"),
-    `Expected to be on /firstlogin, but got ${url}`
-  );
+  assert.ok(url.includes("/firstlogin"), `Expected to be on /firstlogin, but got ${url}`);
 });
 
 async function performKeycloakLogin() {
@@ -117,51 +107,23 @@ async function loginAndGoToRegistration() {
   }
 }
 
-Given("I am logged in and on the registration page", { timeout: 60000 }, async function () {
+Given("I am logged in for the first time", { timeout: 60000 }, async function () {
   await loginAndGoToRegistration();
   const url = registrationPage.getUrl();
   assert.ok(url.includes("/firstlogin"), `Expected to be on /firstlogin, but got ${url}`);
 });
 
-When("I fill in first name {string} and last name {string}", async function (firstName: string, lastName: string) {
-  await registrationPage.fillFirstName(firstName);
-  await registrationPage.fillLastName(lastName);
-});
-
-When("I fill in bank account name {string}", async function (bankAccountName: string) {
-  await registrationPage.fillBankAccountName(bankAccountName);
-});
-
-When("I select bank {string}", async function (bankCode: string) {
-  await registrationPage.selectBank(bankCode);
-});
-
-When("I fill in bank account number {string}", async function (accountNumber: string) {
-  await registrationPage.fillBankAccountNumber(accountNumber);
-});
-
-When("I fill in phone {string}", async function (phone: string) {
-  await registrationPage.fillPhone(phone);
-});
-
-When("I fill in slack account {string}", async function (slackAccount: string) {
-  await registrationPage.fillSlackAccount(slackAccount);
-});
-
-When("I select user type {string}", async function (role: string) {
-  await registrationPage.selectUserType(role);
-});
-
-When("I select a site", async function () {
+When("I complete my individual registration", { timeout: 30000 }, async function () {
+  await registrationPage.fillFirstName("E2E");
+  await registrationPage.fillLastName("Test");
+  await registrationPage.fillBankAccountName("ทดสอบ อี ทู อี");
+  await registrationPage.selectBank("ttb");
+  await registrationPage.fillBankAccountNumber("1234567890");
+  await registrationPage.fillPhone("0812345678");
+  await registrationPage.fillSlackAccount("e2etest@oddsteam.com");
+  await registrationPage.selectUserType("individual");
   await registrationPage.selectSite();
-});
-
-When("I upload the ID card PDF", async function () {
-  const fixturePath = path.join(__dirname, "../fixtures/test-idcard.pdf");
-  await registrationPage.uploadIdCard(fixturePath);
-});
-
-When("I click the save button", { timeout: 30000 }, async function () {
+  await registrationPage.uploadIdCard(path.join(__dirname, "../fixtures/test-idcard.pdf"));
   await registrationPage.clickSave();
 });
 
@@ -169,4 +131,105 @@ Then("I should be on the individual dashboard", async function () {
   const url = dashboardPage.getUrl();
   assert.ok(url.includes("/individual"), `Expected to be on /individual, but got ${url}`);
   registrationUserId = await dashboardPage.getUserId();
+});
+
+After({ tags: "@add-income" }, async function () {
+  if (addIncomeUserId) {
+    await clearUserIncome(addIncomeUserId);
+    await clearUserRegistration(addIncomeUserId);
+    addIncomeUserId = null;
+  }
+});
+
+async function clearUserIncome(userId: string) {
+  const client = new MongoClient(MONGO_URL);
+  try {
+    await client.connect();
+    const db = client.db("odds_worklog_db");
+    await db.collection("income").deleteMany({ userId });
+  } finally {
+    await client.close();
+  }
+}
+
+async function ensureUserRegisteredAsIndividual(userId: string) {
+  const client = new MongoClient(MONGO_URL);
+  try {
+    await client.connect();
+    const db = client.db("odds_worklog_db");
+    await db.collection("user").updateOne(
+      { _id: new ObjectId(userId) },
+      { $set: { firstName: "E2E", lastName: "Test" } }
+    );
+  } finally {
+    await client.close();
+  }
+}
+
+async function setDailyIncomeInMongoDB(userId: string, dailyIncome: number) {
+  const client = new MongoClient(MONGO_URL);
+  try {
+    await client.connect();
+    const db = client.db("odds_worklog_db");
+    await db.collection("user").updateOne(
+      { _id: new ObjectId(userId) },
+      { $set: { dailyIncome: String(dailyIncome) } }
+    );
+  } finally {
+    await client.close();
+  }
+}
+
+Given("I am an individual user with daily income rate of {int} baht per day", { timeout: 60000 }, async function (dailyIncome: number) {
+  await loginPage.goto();
+  await loginPage.waitForReady();
+  await performKeycloakLogin();
+
+  const userId = await dashboardPage.getUserId();
+  await ensureUserRegisteredAsIndividual(userId!);
+  await setDailyIncomeInMongoDB(userId!, dailyIncome);
+
+  if (dashboardPage.getUrl().includes("/firstlogin")) {
+    await dashboardPage.clearSessionStorage();
+    await loginPage.goto();
+  } else {
+    await dashboardPage.reload();
+  }
+
+  await dashboardPage.waitForIndividualDashboard();
+  addIncomeUserId = await dashboardPage.getUserId();
+});
+
+When("I submit income for {int} work days and {int} hours of special work at {int} baht per hour", async function (workDays: number, workingHours: number, specialRate: number) {
+  await addIncomeModalPage.clickAddIncomeButton();
+  await addIncomeModalPage.fillWorkDate(String(workDays));
+  await addIncomeModalPage.fillWorkingHours(String(workingHours));
+  await addIncomeModalPage.fillSpecialIncome(String(specialRate));
+  await addIncomeModalPage.fillNote("E2E test income");
+  await addIncomeModalPage.clickSubmit();
+});
+
+const CONFIRMATION_SELECTORS: Record<string, string> = {
+  "net daily income":   "#addIncomeTotalIncome",
+  "net special income": "#addIncomeSpecialIncome",
+  "net income":         "#addIncomeNetIncome",
+};
+
+Then("the income confirmation breakdown should be:", async function (table: DataTable) {
+  for (const [label, value] of Object.entries(table.rowsHash())) {
+    const selector = CONFIRMATION_SELECTORS[label];
+    const displayed = await addIncomeModalPage.getConfirmationAmount(selector);
+    const expected = parseFloat(value);
+    assert.strictEqual(displayed, expected,
+      `Expected ${label} to be ${expected}, but got ${displayed}`);
+  }
+});
+
+When("I confirm the income submission", async function () {
+  await addIncomeModalPage.clickConfirm();
+  await addIncomeModalPage.waitForModalToClose();
+});
+
+Then("my net income on the dashboard should be {int} baht", async function (expectedAmount: number) {
+  await addIncomeModalPage.waitForNetIncomeOnDashboard(expectedAmount);
 });
