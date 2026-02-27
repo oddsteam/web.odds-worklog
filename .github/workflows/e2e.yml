@@ -1,0 +1,124 @@
+name: E2E Tests
+
+on:
+  push:
+    branches: [develop]
+  pull_request:
+    branches: [develop]
+  workflow_dispatch:
+
+jobs:
+  e2e:
+    name: E2E Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout web
+        uses: actions/checkout@v4
+
+      - name: Checkout API
+        uses: actions/checkout@v4
+        with:
+          repository: oddsteam/api.odds-worklog
+          path: api
+          token: ${{ secrets.API_REPO_TOKEN }}
+
+      - name: Start MongoDB
+        run: |
+          docker run -d --name mongodb \
+            -p 27017:27017 \
+            -e MONGO_INITDB_ROOT_USERNAME=admin \
+            -e MONGO_INITDB_ROOT_PASSWORD=admin \
+            -e MONGO_INITDB_DATABASE=odds_worklog_db \
+            -v ${{ github.workspace }}/api/scripts/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro \
+            mongo:4.0.3
+
+      - name: Start Keycloak
+        run: |
+          docker run -d --name keycloak \
+            -p 9000:8080 \
+            -e KEYCLOAK_ADMIN=admin \
+            -e KEYCLOAK_ADMIN_PASSWORD=admin \
+            -v ${{ github.workspace }}/api/realm-export.json:/opt/keycloak/data/import/realm-export.json \
+            quay.io/keycloak/keycloak:26.2 \
+            start-dev --import-realm
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: api/go.mod
+
+      - name: Start API server
+        working-directory: api
+        env:
+          MONGO_DB_HOST: "localhost:27017"
+          MONGO_DB_NAME: "odds_worklog_db"
+          MONGO_DB_CONECTION_POOL: "10"
+          MONGO_DB_USERNAME: "admin"
+          MONGO_DB_PASSWORD: "admin"
+          API_PORT: ":8080"
+          KEYCLOAK_SERVER_URL: "http://localhost:9000"
+          KEYCLOAK_REALM: "odds"
+          KEYCLOAK_CLIENT_ID: "worklog"
+        run: go run main.go &
+
+      - name: Use Node.js 18
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install web dependencies
+        run: npm ci --force
+
+      - name: Start Angular dev server
+        run: npx ng serve --configuration local &
+
+      - name: Wait for Keycloak
+        run: |
+          echo "Waiting for Keycloak..."
+          for i in $(seq 1 60); do
+            if curl -sf http://localhost:9000/realms/odds > /dev/null 2>&1; then
+              echo "Keycloak is ready"
+              break
+            fi
+            echo "Attempt $i/60..."
+            sleep 5
+          done
+          curl -sf http://localhost:9000/realms/odds > /dev/null || (echo "Keycloak failed to start" && exit 1)
+
+      - name: Wait for API
+        run: |
+          echo "Waiting for API..."
+          for i in $(seq 1 30); do
+            if curl -sf http://localhost:8080 > /dev/null 2>&1; then
+              echo "API is ready"
+              break
+            fi
+            sleep 2
+          done
+          curl -sf http://localhost:8080 > /dev/null || (echo "API failed to start" && exit 1)
+
+      - name: Wait for Angular
+        run: |
+          echo "Waiting for Angular..."
+          for i in $(seq 1 60); do
+            if curl -sf http://localhost:4200 > /dev/null 2>&1; then
+              echo "Angular is ready"
+              break
+            fi
+            sleep 2
+          done
+          curl -sf http://localhost:4200 > /dev/null || (echo "Angular failed to start" && exit 1)
+
+      - name: Install E2E dependencies
+        working-directory: e2e/cucumber
+        run: |
+          npm ci
+          npx playwright install chromium --with-deps
+
+      - name: Run E2E tests
+        working-directory: e2e/cucumber
+        env:
+          HEADLESS: "true"
+        run: npx cucumber-js
