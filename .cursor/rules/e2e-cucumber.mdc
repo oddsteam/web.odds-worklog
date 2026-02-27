@@ -137,6 +137,23 @@ Then("the income confirmation breakdown should be:", async function (table: Data
 
 ## Running Tests
 
+### Prerequisites
+
+Start the following services before running E2E tests (each in its own terminal):
+
+```bash
+# 1. Start Docker infrastructure (MongoDB + Keycloak) — in api.odds-worklog/
+make up
+
+# 2. Start API server (port 8080) — in api.odds-worklog/
+make run
+
+# 3. Start Angular dev server (port 4200) — in web.odds-worklog/
+make run
+```
+
+### Run E2E
+
 ```bash
 make e2e                        # run all scenarios
 make e2e ARGS="--tags @tag"     # run tagged scenarios only
