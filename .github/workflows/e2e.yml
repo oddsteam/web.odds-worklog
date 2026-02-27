@@ -68,7 +68,7 @@ jobs:
           node-version: 18
 
       - name: Install web dependencies
-        run: npm ci --force
+        run: npm i --legacy-peer-deps
 
       - name: Start Angular dev server
         run: npx ng serve --configuration local &
