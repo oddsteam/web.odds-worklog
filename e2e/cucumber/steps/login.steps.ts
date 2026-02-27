@@ -2,18 +2,29 @@ import { Given, When, Then, Before, After } from "@cucumber/cucumber";
 import assert from "assert";
 import path from "path";
 import { MongoClient, ObjectId } from "mongodb";
-import { Browser, Page, chromium } from "@playwright/test";
+import { Browser, chromium } from "@playwright/test";
+import { LoginPage } from "../pages/login.page";
+import { KeycloakLoginPage } from "../pages/keycloak-login.page";
+import { RegistrationPage } from "../pages/registration.page";
+import { DashboardPage } from "../pages/dashboard.page";
 
 const APP_URL = "http://localhost:4200";
 const MONGO_URL = "mongodb://admin:admin@127.0.0.1:27017/odds_worklog_db?authSource=admin";
 
 let browser: Browser;
-let page: Page;
+let loginPage: LoginPage;
+let keycloakLoginPage: KeycloakLoginPage;
+let registrationPage: RegistrationPage;
+let dashboardPage: DashboardPage;
 let registrationUserId: string | null = null;
 
 Before(async function () {
   browser = await chromium.launch({ headless: process.env.HEADLESS !== 'false' });
-  page = await browser.newPage();
+  const page = await browser.newPage();
+  loginPage = new LoginPage(page);
+  keycloakLoginPage = new KeycloakLoginPage(page);
+  registrationPage = new RegistrationPage(page);
+  dashboardPage = new DashboardPage(page);
 });
 
 After(async function () {
@@ -28,55 +39,49 @@ After({ tags: "@registration" }, async function () {
 });
 
 Given("I am on the login page", async function () {
-  await page.goto(`${APP_URL}/login`);
-  await page.getByText("Login with Keycloak").waitFor({ state: "visible" });
+  await loginPage.goto();
+  await loginPage.waitForReady();
 });
 
 When("I enter valid username and password", async function () {
-  await page.getByText("Login with Keycloak").click();
-  await page.waitForURL(/localhost:9000/);
-  await page.locator("#username").fill("e2e");
-  await page.locator("#password").fill("s3cr3t");
+  await loginPage.clickLoginWithKeycloak();
+  await keycloakLoginPage.waitForReady();
+  await keycloakLoginPage.fillUsername("e2e");
+  await keycloakLoginPage.fillPassword("s3cr3t");
 });
 
 When("I click the login button", async function () {
-  await page.locator("#kc-login").click();
-  await page.waitForURL(
-    (url) => url.origin === APP_URL && !url.pathname.includes("/login"),
-    { timeout: 15000 }
-  );
+  await keycloakLoginPage.clickLogin();
+  await dashboardPage.waitForRedirect();
 });
 
 Then("I should be logged in successfully", async function () {
-  const url = page.url();
+  const url = dashboardPage.getUrl();
   assert.ok(!url.includes("/login"), `Expected URL to not include /login, got ${url}`);
 
-  const token = await page.evaluate(() => sessionStorage.getItem("token"));
+  const token = await dashboardPage.getSessionToken();
   assert.ok(token, "Expected sessionStorage to contain a token");
 });
 
 Then("I should be able to register", async function () {
-  const url = page.url();
+  const url = dashboardPage.getUrl();
   assert.ok(
     url.includes("/firstlogin"),
     `Expected to be on /firstlogin, but got ${url}`
   );
 });
 
-async function performKeycloakLogin(page: Page) {
-  await page.getByText("Login with Keycloak").click();
+async function performKeycloakLogin() {
+  await loginPage.clickLoginWithKeycloak();
   try {
-    await page.waitForURL(/localhost:9000/, { timeout: 5000 });
-    await page.locator("#username").fill("e2e");
-    await page.locator("#password").fill("s3cr3t");
-    await page.locator("#kc-login").click();
+    await keycloakLoginPage.waitForReady(5000);
+    await keycloakLoginPage.fillUsername("e2e");
+    await keycloakLoginPage.fillPassword("s3cr3t");
+    await keycloakLoginPage.clickLogin();
   } catch {
     // Keycloak SSO session active — already redirected back to app
   }
-  await page.waitForURL(
-    (url) => url.origin === APP_URL && !url.pathname.includes("/login"),
-    { timeout: 15000 }
-  );
+  await dashboardPage.waitForRedirect();
 }
 
 async function clearUserRegistration(userId: string) {
@@ -93,89 +98,74 @@ async function clearUserRegistration(userId: string) {
   }
 }
 
-async function loginAndGoToRegistration(page: Page) {
-  await page.goto(`${APP_URL}/login`);
-  await page.getByText("Login with Keycloak").waitFor({ state: "visible" });
-  await performKeycloakLogin(page);
+async function loginAndGoToRegistration() {
+  await loginPage.goto();
+  await loginPage.waitForReady();
+  await performKeycloakLogin();
 
-  if (!page.url().includes("/firstlogin")) {
+  if (!registrationPage.getUrl().includes("/firstlogin")) {
     // User already registered — clear firstName/lastName directly in MongoDB,
     // then clear sessionStorage so the Angular app re-triggers authentication.
     // Keycloak SSO auto-authenticates; since firstName is now empty the backend
     // returns firstLogin:"Y" and redirects to /firstlogin.
-    const userId = await page.evaluate(() => sessionStorage.getItem("idUser"));
+    const userId = await dashboardPage.getUserId();
     await clearUserRegistration(userId!);
-    await page.evaluate(() => sessionStorage.clear());
-    await page.goto(`${APP_URL}/login`);
-    await page.waitForURL(
-      (url) => url.origin === APP_URL && url.pathname.includes("/firstlogin"),
-      { timeout: 15000 }
-    );
+    await dashboardPage.clearSessionStorage();
+    await loginPage.goto();
+    await dashboardPage.waitForRedirectToFirstLogin();
   }
 }
 
 Given("I am logged in and on the registration page", { timeout: 60000 }, async function () {
-  await loginAndGoToRegistration(page);
-  const url = page.url();
+  await loginAndGoToRegistration();
+  const url = registrationPage.getUrl();
   assert.ok(url.includes("/firstlogin"), `Expected to be on /firstlogin, but got ${url}`);
 });
 
 When("I fill in first name {string} and last name {string}", async function (firstName: string, lastName: string) {
-  await page.locator("#FirstName").fill(firstName);
-  await page.locator("#LastName").fill(lastName);
+  await registrationPage.fillFirstName(firstName);
+  await registrationPage.fillLastName(lastName);
 });
 
 When("I fill in bank account name {string}", async function (bankAccountName: string) {
-  await page.locator("#bankAccountName").fill(bankAccountName);
+  await registrationPage.fillBankAccountName(bankAccountName);
 });
 
 When("I select bank {string}", async function (bankCode: string) {
-  await page.locator("#bankCode").selectOption(bankCode);
+  await registrationPage.selectBank(bankCode);
 });
 
 When("I fill in bank account number {string}", async function (accountNumber: string) {
-  await page.locator("#bankAccountNumber").fill(accountNumber);
+  await registrationPage.fillBankAccountNumber(accountNumber);
 });
 
 When("I fill in phone {string}", async function (phone: string) {
-  await page.locator("#phone").fill(phone);
+  await registrationPage.fillPhone(phone);
 });
 
 When("I fill in slack account {string}", async function (slackAccount: string) {
-  await page.locator("#slackAccount").fill(slackAccount);
+  await registrationPage.fillSlackAccount(slackAccount);
 });
 
 When("I select user type {string}", async function (role: string) {
-  await page.locator("#role").selectOption(role);
+  await registrationPage.selectUserType(role);
 });
 
 When("I select a site", async function () {
-  const siteSelect = page.locator("#siteId");
-  const options = await siteSelect.locator("option").all();
-  for (const option of options) {
-    const value = await option.getAttribute("value");
-    if (value && value !== "") {
-      await siteSelect.selectOption(value);
-      break;
-    }
-  }
+  await registrationPage.selectSite();
 });
 
 When("I upload the ID card PDF", async function () {
   const fixturePath = path.join(__dirname, "../fixtures/test-idcard.pdf");
-  await page.locator('input[type="file"]').setInputFiles(fixturePath);
+  await registrationPage.uploadIdCard(fixturePath);
 });
 
 When("I click the save button", { timeout: 30000 }, async function () {
-  await page.getByRole("button", { name: "Save" }).click();
-  await page.waitForURL(
-    (url) => url.origin === APP_URL && !url.pathname.includes("/firstlogin"),
-    { timeout: 15000 }
-  );
+  await registrationPage.clickSave();
 });
 
 Then("I should be on the individual dashboard", async function () {
-  const url = page.url();
+  const url = dashboardPage.getUrl();
   assert.ok(url.includes("/individual"), `Expected to be on /individual, but got ${url}`);
-  registrationUserId = await page.evaluate(() => sessionStorage.getItem("idUser"));
+  registrationUserId = await dashboardPage.getUserId();
 });

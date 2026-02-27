@@ -21,41 +21,65 @@ Feature: User Registration
     Scenario: Complete individual registration and reach the dashboard
         Given I am logged in and on the registration page
         When I fill in first name "E2E" and last name "Test"
-        And I fill in bank account name "ทดสอบ อี ทู อี"
-        And I select bank "ttb"
-        And I fill in bank account number "1234567890"
-        And I fill in phone "0812345678"
-        And I fill in slack account "e2etest@oddsteam.com"
-        And I select user type "individual"
-        And I select a site
-        And I upload the ID card PDF
-        And I click the save button
+        ...
         Then I should be on the individual dashboard
+```
+
+## Page Object Pattern (ADR 0001)
+
+See [`docs/adr/0001-page-object-pattern.md`](../../docs/adr/0001-page-object-pattern.md) for the full decision record.
+
+**All Playwright selectors and interactions must live in page object classes under `e2e/cucumber/pages/`.** Step definitions contain no selectors — only page object method calls and assertions.
+
+### File structure
+
+```
+e2e/cucumber/
+  pages/
+    <name>.page.ts      ← selectors and interactions live here
+  steps/
+    <name>.steps.ts     ← page object calls + assertions only
+```
+
+### Page object contract
+
+- Constructor receives a Playwright `Page` instance
+- One `Page` instance shared across all page objects in `Before` hook
+- Methods named after user actions, not selectors
+
+```typescript
+// pages/registration.page.ts
+export class RegistrationPage {
+  constructor(private page: Page) {}
+  async fillFirstName(firstName: string) {
+    await this.page.locator("#FirstName").fill(firstName);
+  }
+}
+
+// steps/login.steps.ts  ✅ correct
+When("I fill in first name {string} and last name {string}", async function (firstName, lastName) {
+  await registrationPage.fillFirstName(firstName);
+  await registrationPage.fillLastName(lastName);
+});
+
+// steps/login.steps.ts  ❌ wrong — selector in step file
+When("I fill in first name {string} and last name {string}", async function (firstName, lastName) {
+  await page.locator("#FirstName").fill(firstName);
+});
 ```
 
 ## Step Definitions (`e2e/cucumber/steps/*.steps.ts`)
 
-- Use `chromium` via Playwright; `browser` and `page` live in `Before`/`After` hooks
+- Use `chromium` via Playwright; instantiate page objects in `Before`/`After` hooks
 - `APP_URL` is `http://localhost:4200`
 - Keycloak runs at `localhost:9000`; credentials are `e2e` / `s3cr3t`
 - For file upload steps, reference fixtures from `e2e/cucumber/fixtures/`
 
-```typescript
-// Login helper pattern (reused in Given steps that require auth)
-await page.goto(`${APP_URL}/login`);
-await page.getByText("Login with Keycloak").click();
-await page.waitForURL(/localhost:9000/);
-await page.locator("#username").fill("e2e");
-await page.locator("#password").fill("s3cr3t");
-await page.locator("#kc-login").click();
-await page.waitForURL((url) => !url.pathname.includes("/login"), { timeout: 15000 });
-```
-
 ## Registration Flow
 
-After login, new users land on `/firstlogin`. The form fields and their selectors:
+After login, new users land on `/firstlogin`. Selectors are encapsulated in `RegistrationPage`:
 
-| Field | Selector |
+| Field | Selector (in `registration.page.ts`) |
 |---|---|
 | First Name | `#FirstName` |
 | Last Name | `#LastName` |
@@ -77,6 +101,6 @@ Place test files in `e2e/cucumber/fixtures/`. Example: `test-idcard.pdf` for the
 ## Running Tests
 
 ```bash
-make e2e          # run all scenarios
-make e2e ARGS="--tags @tag"  # run tagged scenarios
+make e2e                        # run all scenarios
+make e2e ARGS="--tags @tag"     # run tagged scenarios
 ```
