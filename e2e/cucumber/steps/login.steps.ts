@@ -21,6 +21,7 @@ let registrationUserId: string | null = null;
 Before(async function () {
   browser = await chromium.launch({ headless: process.env.HEADLESS !== 'false' });
   const page = await browser.newPage();
+  page.on("dialog", async (dialog) => await dialog.dismiss());
   loginPage = new LoginPage(page);
   keycloakLoginPage = new KeycloakLoginPage(page);
   registrationPage = new RegistrationPage(page);

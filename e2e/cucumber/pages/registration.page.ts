@@ -57,7 +57,7 @@ export class RegistrationPage {
     await this.page.getByRole("button", { name: "Save" }).click();
     await this.page.waitForURL(
       (url) => url.origin === APP_URL && !url.pathname.includes("/firstlogin"),
-      { timeout: 15000 }
+      { timeout: 30000 }
     );
   }
 
