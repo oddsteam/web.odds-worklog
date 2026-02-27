@@ -39,14 +39,10 @@ export class RegistrationPage {
 
   async selectSite() {
     const siteSelect = this.page.locator("#siteId");
-    const options = await siteSelect.locator("option").all();
-    for (const option of options) {
-      const value = await option.getAttribute("value");
-      if (value && value !== "") {
-        await siteSelect.selectOption(value);
-        break;
-      }
-    }
+    const firstSiteOption = siteSelect.locator('option:not([value=""])').first();
+    await firstSiteOption.waitFor({ state: "attached", timeout: 10000 });
+    const value = await firstSiteOption.getAttribute("value");
+    await siteSelect.selectOption(value!);
   }
 
   async uploadIdCard(fixturePath: string) {
@@ -57,7 +53,7 @@ export class RegistrationPage {
     await this.page.getByRole("button", { name: "Save" }).click();
     await this.page.waitForURL(
       (url) => url.origin === APP_URL && !url.pathname.includes("/firstlogin"),
-      { timeout: 45000 }
+      { timeout: 25000 }
     );
   }
 
