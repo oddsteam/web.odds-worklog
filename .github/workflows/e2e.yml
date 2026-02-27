@@ -105,13 +105,13 @@ jobs:
         run: |
           echo "Waiting for API..."
           for i in $(seq 1 30); do
-            if curl -sf http://localhost:8080 > /dev/null 2>&1; then
+            if curl -s http://localhost:8080 > /dev/null 2>&1; then
               echo "API is ready"
               break
             fi
             sleep 2
           done
-          curl -sf http://localhost:8080 > /dev/null || (echo "API failed to start" && exit 1)
+          curl -s http://localhost:8080 > /dev/null || (echo "API failed to start" && exit 1)
 
       - name: Wait for Angular
         run: |
