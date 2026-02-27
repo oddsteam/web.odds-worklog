@@ -23,44 +23,13 @@ jobs:
           repository: oddsteam/api.odds-worklog
           path: api
 
-      - name: Start MongoDB
-        run: |
-          docker run -d --name mongodb \
-            -p 27017:27017 \
-            -e MONGO_INITDB_ROOT_USERNAME=admin \
-            -e MONGO_INITDB_ROOT_PASSWORD=admin \
-            -e MONGO_INITDB_DATABASE=odds_worklog_db \
-            -v ${{ github.workspace }}/api/scripts/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro \
-            mongo:4.0.3
-
-      - name: Start Keycloak
-        run: |
-          docker run -d --name keycloak \
-            -p 9000:8080 \
-            -e KEYCLOAK_ADMIN=admin \
-            -e KEYCLOAK_ADMIN_PASSWORD=admin \
-            -v ${{ github.workspace }}/api/realm-export.json:/opt/keycloak/data/import/realm-export.json \
-            quay.io/keycloak/keycloak:26.2 \
-            start-dev --import-realm
+      - name: Start infrastructure
+        run: docker compose -f api/deployment/ci/docker-compose.yaml up -d --wait
 
       - name: Set up Go
         uses: actions/setup-go@v5
         with:
           go-version-file: api/go.mod
-
-      - name: Wait for MongoDB
-        run: |
-          echo "Waiting for MongoDB..."
-          for i in $(seq 1 30); do
-            if docker exec mongodb mongo --quiet --eval "db.adminCommand('ping')" > /dev/null 2>&1; then
-              echo "MongoDB is ready"
-              break
-            fi
-            echo "Attempt $i/30..."
-            sleep 2
-          done
-          docker exec mongodb mongo --quiet --eval "db.adminCommand('ping')" > /dev/null 2>&1 || \
-          (echo "MongoDB failed to start" && exit 1)
 
       - name: Start API server
         working-directory: api
@@ -87,19 +56,6 @@ jobs:
 
       - name: Start Angular dev server
         run: npx ng serve --configuration local &
-
-      - name: Wait for Keycloak
-        run: |
-          echo "Waiting for Keycloak..."
-          for i in $(seq 1 60); do
-            if curl -sf http://localhost:9000/realms/odds > /dev/null 2>&1; then
-              echo "Keycloak is ready"
-              break
-            fi
-            echo "Attempt $i/60..."
-            sleep 5
-          done
-          curl -sf http://localhost:9000/realms/odds > /dev/null || (echo "Keycloak failed to start" && exit 1)
 
       - name: Wait for API
         run: |
