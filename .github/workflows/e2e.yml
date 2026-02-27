@@ -62,10 +62,10 @@ jobs:
           KEYCLOAK_CLIENT_ID: "worklog"
         run: go run main.go &
 
-      - name: Use Node.js 18
+      - name: Use Node.js 18.16
         uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 18.16
 
       - name: Install web dependencies
         run: npm i --legacy-peer-deps
