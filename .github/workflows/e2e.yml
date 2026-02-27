@@ -26,6 +26,16 @@ jobs:
       - name: Start infrastructure
         run: docker compose -f api/deployment/ci/docker-compose.yaml up -d --wait
 
+      - name: Seed test data
+        run: |
+          cat api/fixture/data/site.json | docker exec -i odds-worklog-mongo mongoimport \
+            -u admin -p admin \
+            --authenticationDatabase admin \
+            -d odds_worklog_db \
+            --collection site \
+            --type json \
+            --jsonArray
+
       - name: Set up Go
         uses: actions/setup-go@v5
         with:
