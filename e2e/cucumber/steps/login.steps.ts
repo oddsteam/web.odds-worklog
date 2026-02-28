@@ -20,6 +20,7 @@ let dashboardPage: DashboardPage;
 let addIncomeModalPage: AddIncomeModalPage;
 let registrationUserId: string | null = null;
 let addIncomeUserId: string | null = null;
+let editIncomeUserId: string | null = null;
 
 Before(async function () {
   browser = await chromium.launch({ headless: process.env.HEADLESS !== 'false' });
@@ -141,6 +142,14 @@ After({ tags: "@add-income" }, async function () {
   }
 });
 
+After({ tags: "@edit-income" }, async function () {
+  if (editIncomeUserId) {
+    await clearUserIncome(editIncomeUserId);
+    await clearUserRegistration(editIncomeUserId);
+    editIncomeUserId = null;
+  }
+});
+
 async function clearUserIncome(userId: string) {
   const client = new MongoClient(MONGO_URL);
   try {
@@ -233,3 +242,49 @@ When("I confirm the income submission", async function () {
 Then("my net income on the dashboard should be {int} baht", async function (expectedAmount: number) {
   await addIncomeModalPage.waitForNetIncomeOnDashboard(expectedAmount);
 });
+
+Given(
+  "I am an individual user with a daily income rate of {int} baht per day who has submitted income for {int} work days",
+  { timeout: 60000 },
+  async function (dailyIncome: number, workDays: number) {
+    await loginPage.goto();
+    await loginPage.waitForReady();
+    await performKeycloakLogin();
+
+    const userId = await dashboardPage.getUserId();
+    editIncomeUserId = userId;
+
+    await ensureUserRegisteredAsIndividual(userId!);
+    await setDailyIncomeInMongoDB(userId!, dailyIncome);
+    await clearUserIncome(userId!);
+
+    if (dashboardPage.getUrl().includes("/firstlogin")) {
+      await dashboardPage.clearSessionStorage();
+      await loginPage.goto();
+    } else {
+      await dashboardPage.reload();
+    }
+    await dashboardPage.waitForIndividualDashboard();
+
+    await addIncomeModalPage.clickAddIncomeButton();
+    await addIncomeModalPage.fillWorkDate(String(workDays));
+    await addIncomeModalPage.fillWorkingHours("0");
+    await addIncomeModalPage.fillSpecialIncome("0");
+    await addIncomeModalPage.fillNote("E2E edit income test - initial submission");
+    await addIncomeModalPage.clickSubmit();
+    await addIncomeModalPage.clickConfirm();
+    await addIncomeModalPage.waitForModalToClose();
+  }
+);
+
+When(
+  "I edit my income to {int} work days and {int} hours of special work at {int} baht per hour",
+  async function (workDays: number, workingHours: number, specialRate: number) {
+    await addIncomeModalPage.clickEditIncomeButton();
+    await addIncomeModalPage.fillWorkDate(String(workDays));
+    await addIncomeModalPage.fillWorkingHours(String(workingHours));
+    await addIncomeModalPage.fillSpecialIncome(String(specialRate));
+    await addIncomeModalPage.fillNote("E2E edit income test - updated");
+    await addIncomeModalPage.clickSubmit();
+  }
+);

@@ -8,6 +8,11 @@ export class AddIncomeModalPage {
     await this.page.locator("#specialIncome").waitFor({ state: "visible" });
   }
 
+  async clickEditIncomeButton() {
+    await this.page.locator("#btn-edit").click();
+    await this.page.locator("#specialIncome").waitFor({ state: "visible" });
+  }
+
   async fillSpecialIncome(amount: string) {
     await this.page.locator("#specialIncome").fill(amount);
     await this.page.locator("#specialIncome").dispatchEvent("keyup");
