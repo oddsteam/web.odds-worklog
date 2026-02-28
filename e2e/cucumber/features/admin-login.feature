@@ -5,7 +5,8 @@ Feature: Admin Export Income
 
     @admin-login
     Scenario: Admin exports current month individual income
-        Given I am a registered admin user
+        Given a user has submitted income for the current month
+        And I am a registered admin user
         When I log in with admin credentials
         And I navigate to the individual income page
         And I export income for the current month

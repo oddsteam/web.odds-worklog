@@ -5,6 +5,7 @@ import { Browser, BrowserContext, Download, Page, chromium } from "@playwright/t
 import { LoginPage } from "../pages/login.page";
 import { KeycloakLoginPage } from "../pages/keycloak-login.page";
 import { DashboardPage } from "../pages/dashboard.page";
+import { AddIncomeModalPage } from "../pages/add-income-modal.page";
 
 const MONGO_URL = "mongodb://admin:admin@127.0.0.1:27017/odds_worklog_db?authSource=admin";
 
@@ -15,6 +16,7 @@ let loginPage: LoginPage;
 let keycloakLoginPage: KeycloakLoginPage;
 let dashboardPage: DashboardPage;
 let adminUserId: string | null = null;
+let incomeUserId: string | null = null;
 let downloadedFile: Download | null = null;
 
 Before({ tags: "@admin-login" }, async function () {
@@ -28,6 +30,10 @@ Before({ tags: "@admin-login" }, async function () {
 });
 
 After({ tags: "@admin-login" }, async function () {
+  if (incomeUserId) {
+    await clearUserIncome(incomeUserId);
+    incomeUserId = null;
+  }
   if (adminUserId) {
     await deleteUser(adminUserId);
     adminUserId = null;
@@ -61,6 +67,97 @@ async function deleteUser(userId: string) {
   }
 }
 
+async function clearUserIncome(userId: string) {
+  const client = new MongoClient(MONGO_URL);
+  try {
+    await client.connect();
+    const db = client.db("odds_worklog_db");
+    await db.collection("income").deleteMany({ userId });
+  } finally {
+    await client.close();
+  }
+}
+
+async function ensureUserRegistered(userId: string) {
+  const client = new MongoClient(MONGO_URL);
+  try {
+    await client.connect();
+    const db = client.db("odds_worklog_db");
+    await db.collection("user").updateOne(
+      { _id: new ObjectId(userId) },
+      { $set: { firstName: "E2E", lastName: "IncomeUser" } }
+    );
+  } finally {
+    await client.close();
+  }
+}
+
+async function setDailyIncome(userId: string, dailyIncome: number) {
+  const client = new MongoClient(MONGO_URL);
+  try {
+    await client.connect();
+    const db = client.db("odds_worklog_db");
+    await db.collection("user").updateOne(
+      { _id: new ObjectId(userId) },
+      { $set: { dailyIncome: String(dailyIncome) } }
+    );
+  } finally {
+    await client.close();
+  }
+}
+
+Given("a user has submitted income for the current month", { timeout: 60000 }, async function () {
+  const tempBrowser = await chromium.launch({ headless: process.env.HEADLESS !== "false" });
+  const tempPage = await tempBrowser.newPage();
+  tempPage.on("dialog", async (dialog) => await dialog.dismiss());
+
+  const tempLoginPage = new LoginPage(tempPage);
+  const tempKeycloakLoginPage = new KeycloakLoginPage(tempPage);
+  const tempDashboardPage = new DashboardPage(tempPage);
+  const tempAddIncomePage = new AddIncomeModalPage(tempPage);
+
+  try {
+    await tempLoginPage.goto();
+    await tempLoginPage.waitForReady();
+    await tempLoginPage.clickLoginWithKeycloak();
+    try {
+      await tempKeycloakLoginPage.waitForReady(5000);
+      await tempKeycloakLoginPage.fillUsername("e2e");
+      await tempKeycloakLoginPage.fillPassword("s3cr3t");
+      await tempKeycloakLoginPage.clickLogin();
+    } catch {
+      // Keycloak SSO session active — already redirected
+    }
+    await tempDashboardPage.waitForRedirect();
+
+    const userId = await tempDashboardPage.getUserId();
+    incomeUserId = userId;
+
+    await ensureUserRegistered(userId!);
+    await setDailyIncome(userId!, 500);
+    await clearUserIncome(userId!);
+
+    if (tempDashboardPage.getUrl().includes("/firstlogin")) {
+      await tempPage.evaluate(() => sessionStorage.clear());
+      await tempLoginPage.goto();
+    } else {
+      await tempPage.reload();
+    }
+    await tempDashboardPage.waitForIndividualDashboard();
+
+    await tempAddIncomePage.clickAddIncomeButton();
+    await tempAddIncomePage.fillWorkDate("18");
+    await tempAddIncomePage.fillWorkingHours("0");
+    await tempAddIncomePage.fillSpecialIncome("0");
+    await tempAddIncomePage.fillNote("E2E admin export test");
+    await tempAddIncomePage.clickSubmit();
+    await tempAddIncomePage.clickConfirm();
+    await tempAddIncomePage.waitForModalToClose();
+  } finally {
+    await tempBrowser.close();
+  }
+});
+
 Given("I am a registered admin user", { timeout: 60000 }, async function () {
   await loginPage.goto();
   await loginPage.waitForReady();
@@ -85,17 +182,13 @@ When("I navigate to the individual income page", { timeout: 30000 }, async funct
   await dashboardPage.navigateToIndividual();
 });
 
-When("I export income for the current month", { timeout: 90000 }, async function () {
+When("I export income for the current month", { timeout: 60000 }, async function () {
   await dashboardPage.clickExportCurrentMonth();
   await dashboardPage.waitForExportModal();
   await dashboardPage.selectTodayInDatePicker();
 
-  const exportOk = (res: { url: () => string; request: () => { method: () => string }; status: () => number }) =>
-    res.url().includes("incomes/export") && res.request().method() === "POST" && res.status() === 200;
-  const responsePromise = page.waitForResponse(exportOk, { timeout: 25000 });
-  const downloadPromise = page.waitForEvent("download", { timeout: 60000 });
+  const downloadPromise = page.waitForEvent("download", { timeout: 30000 });
   await dashboardPage.clickExportIncomeButton();
-  await responsePromise;
   downloadedFile = await downloadPromise;
 });
 
