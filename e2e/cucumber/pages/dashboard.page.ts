@@ -45,4 +45,11 @@ export class DashboardPage {
       { timeout: 15000 }
     );
   }
+
+  async waitForCorporateDashboard() {
+    await this.page.waitForURL(
+      (url) => url.origin === APP_URL && url.pathname.includes("/corporate"),
+      { timeout: 15000 }
+    );
+  }
 }
