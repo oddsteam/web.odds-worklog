@@ -72,11 +72,17 @@ export class DashboardPage {
 
   async selectTodayInDatePicker() {
     await this.page.locator(".fa-calendar").first().click();
-    const today = new Date().getDate().toString();
-    await this.page.locator("ngb-datepicker .ngb-dp-day:not(.ngb-dp-hidden) .btn-light")
-      .filter({ hasText: new RegExp(`^${today}$`) })
-      .first()
-      .click();
+    await this.page.locator("ngb-datepicker .ngb-dp-day").first().waitFor({ state: "visible", timeout: 5000 });
+    const todayCell = this.page.locator("ngb-datepicker .ngb-dp-day.ngb-dp-today");
+    if ((await todayCell.count()) > 0) {
+      await todayCell.click();
+    } else {
+      const today = new Date().getDate().toString();
+      await this.page.locator("ngb-datepicker .ngb-dp-day:not(.ngb-dp-hidden) .btn-light")
+        .filter({ hasText: new RegExp(`^${today}$`) })
+        .first()
+        .click();
+    }
   }
 
   async clickExportIncomeButton() {
