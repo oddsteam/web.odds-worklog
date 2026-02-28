@@ -1,10 +1,12 @@
-Feature: Admin Login
+Feature: Admin Export Income
     As an admin user
-    I want to log in to the application
-    So that I can access the corporate dashboard
+    I want to log in and export individual income
+    So that I can process payments
 
     @admin-login
-    Scenario: Admin user is redirected to corporate dashboard after login
+    Scenario: Admin exports current month individual income
         Given I am a registered admin user
         When I log in with admin credentials
-        Then I should be on the corporate dashboard
+        And I navigate to the individual income page
+        And I export income for the current month
+        Then the income file should be downloaded

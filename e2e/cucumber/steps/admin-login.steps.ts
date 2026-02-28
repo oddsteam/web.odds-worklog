@@ -1,7 +1,7 @@
 import { Given, When, Then, Before, After } from "@cucumber/cucumber";
 import assert from "assert";
 import { MongoClient, ObjectId } from "mongodb";
-import { Browser, chromium } from "@playwright/test";
+import { Browser, BrowserContext, Download, Page, chromium } from "@playwright/test";
 import { LoginPage } from "../pages/login.page";
 import { KeycloakLoginPage } from "../pages/keycloak-login.page";
 import { DashboardPage } from "../pages/dashboard.page";
@@ -9,14 +9,18 @@ import { DashboardPage } from "../pages/dashboard.page";
 const MONGO_URL = "mongodb://admin:admin@127.0.0.1:27017/odds_worklog_db?authSource=admin";
 
 let browser: Browser;
+let context: BrowserContext;
+let page: Page;
 let loginPage: LoginPage;
 let keycloakLoginPage: KeycloakLoginPage;
 let dashboardPage: DashboardPage;
 let adminUserId: string | null = null;
+let downloadedFile: Download | null = null;
 
 Before({ tags: "@admin-login" }, async function () {
   browser = await chromium.launch({ headless: process.env.HEADLESS !== "false" });
-  const page = await browser.newPage();
+  context = await browser.newContext({ acceptDownloads: true });
+  page = await context.newPage();
   page.on("dialog", async (dialog) => await dialog.dismiss());
   loginPage = new LoginPage(page);
   keycloakLoginPage = new KeycloakLoginPage(page);
@@ -28,6 +32,7 @@ After({ tags: "@admin-login" }, async function () {
     await deleteUser(adminUserId);
     adminUserId = null;
   }
+  downloadedFile = null;
   await browser?.close();
 });
 
@@ -76,7 +81,25 @@ When("I log in with admin credentials", { timeout: 30000 }, async function () {
   await dashboardPage.waitForCorporateDashboard();
 });
 
-Then("I should be on the corporate dashboard", async function () {
-  const url = dashboardPage.getUrl();
-  assert.ok(url.includes("/corporate"), `Expected to be on /corporate, but got ${url}`);
+When("I navigate to the individual income page", { timeout: 30000 }, async function () {
+  await dashboardPage.navigateToIndividual();
+});
+
+When("I export income for the current month", { timeout: 60000 }, async function () {
+  await dashboardPage.clickExportCurrentMonth();
+  await dashboardPage.waitForExportModal();
+  await dashboardPage.selectTodayInDatePicker();
+
+  const downloadPromise = page.waitForEvent("download", { timeout: 30000 });
+  await dashboardPage.clickExportIncomeButton();
+  downloadedFile = await downloadPromise;
+});
+
+Then("the income file should be downloaded", async function () {
+  assert.ok(downloadedFile, "Expected a file download but none occurred");
+  const suggestedFilename = downloadedFile.suggestedFilename();
+  assert.ok(
+    suggestedFilename.includes("income_individual"),
+    `Expected filename to contain 'income_individual', but got '${suggestedFilename}'`
+  );
 });

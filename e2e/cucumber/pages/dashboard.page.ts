@@ -52,4 +52,34 @@ export class DashboardPage {
       { timeout: 15000 }
     );
   }
+
+  async navigateToIndividual() {
+    await this.page.locator("#menu-content span").filter({ hasText: "INDIVIDUAL" }).click();
+    await this.page.waitForURL(
+      (url) => url.origin === APP_URL && url.pathname.includes("/individual"),
+      { timeout: 15000 }
+    );
+  }
+
+  async clickExportCurrentMonth() {
+    await this.page.locator(".dropdown").hover();
+    await this.page.locator("a").filter({ hasText: "Export เดือนปัจจุบัน" }).click();
+  }
+
+  async waitForExportModal() {
+    await this.page.getByText("Export Income - Current Month").waitFor({ state: "visible", timeout: 10000 });
+  }
+
+  async selectTodayInDatePicker() {
+    await this.page.locator(".fa-calendar").first().click();
+    const today = new Date().getDate().toString();
+    await this.page.locator("ngb-datepicker .ngb-dp-day:not(.ngb-dp-hidden) .btn-light")
+      .filter({ hasText: new RegExp(`^${today}$`) })
+      .first()
+      .click();
+  }
+
+  async clickExportIncomeButton() {
+    await this.page.locator("#btn-submit").click();
+  }
 }
