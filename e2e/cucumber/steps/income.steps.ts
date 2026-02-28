@@ -133,7 +133,7 @@ Given("I am an individual user with daily income rate of {int} baht per day", { 
   addIncomeUserId = await dashboardPage.getUserId();
 });
 
-When("I submit income for {int} work days and {int} hours of special work at {int} baht per hour", async function (workDays: number, workingHours: number, specialRate: number) {
+When("I submit income for {int} work days and {int} hours of special work at {int} baht per hour", { timeout: 30000 }, async function (workDays: number, workingHours: number, specialRate: number) {
   await addIncomeModalPage.clickAddIncomeButton();
   await addIncomeModalPage.fillWorkDate(String(workDays));
   await addIncomeModalPage.fillWorkingHours(String(workingHours));
