@@ -82,35 +82,8 @@ export class HeaderComponent implements OnInit {
     });
   }
 
-  exportTavi50() {
-    this.worklogApiService
-      .exportDataPdf(sessionStorage.getItem("idUser"))
-      .subscribe(
-        (res) => {
-          this.downloadFile(res, "tavi50.zip");
-        },
-        (err) => {
-          console.log(err);
-          alert(`Can't export to PDF file.`);
-        }
-      );
-  }
-
   async logout() {
     sessionStorage.clear();
     await this.keycloakService.logout();
-  }
-
-  downloadFile(data: any, filename: string) {
-    const blob = new Blob([data], { type: "text/csv;charset=utf-8;" });
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    document.body.appendChild(a);
-    a.setAttribute("style", "display: none");
-    a.href = url;
-    a.download = filename;
-    a.click();
-    window.URL.revokeObjectURL(url);
-    a.remove();
   }
 }

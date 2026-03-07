@@ -173,15 +173,6 @@ export class WorklogApiService {
     );
   }
 
-  exportDataPdf(id: string): Observable<Blob> {
-    return this.http.get(`${this.apiPath}v1/incomes/export/pdf/${id}`, {
-      headers: new HttpHeaders({
-        Authorization: sessionStorage.getItem("token"),
-      }),
-      responseType: "blob",
-    });
-  }
-
   exportIncomeByMonth(requestExportIncome: RequestExportIncome) {
     return this.http.post(
       `${this.apiPath}v1/incomes/export`,

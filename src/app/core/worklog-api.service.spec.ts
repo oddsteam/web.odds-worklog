@@ -181,17 +181,6 @@ describe("Service: WorklogApi", () => {
     });
   });
 
-  it("should call export pdf api correctly", () => {
-    mockService.exportDataPdf("11111").subscribe((_) => {
-      const req = backEnd.expectOne(
-        `${mockService.apiPath}incomes/export/pdf/11111`
-      );
-      expect(req.request.method).toEqual("GET");
-      expect(req.request.responseType).toEqual("blob");
-      backEnd.verify();
-    });
-  });
-
   it("should call export income by month api correctly", () => {
     mockService
       .exportIncomeByMonth(new RequestExportIncome())

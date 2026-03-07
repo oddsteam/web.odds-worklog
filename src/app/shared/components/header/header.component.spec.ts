@@ -1,4 +1,3 @@
-import { HttpErrorResponse } from "@angular/common/http";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { RouterTestingModule } from "@angular/router/testing";
@@ -7,7 +6,7 @@ import {
   TranslateLoader,
   TranslateModule,
 } from "@ngx-translate/core";
-import { of, throwError } from "rxjs";
+import { of } from "rxjs";
 import { KeycloakService } from "keycloak-angular";
 import { StateService } from "src/app/core/state.service";
 import { WorklogApiService } from "src/app/core/worklog-api.service";
@@ -109,33 +108,6 @@ describe("HeaderComponent", () => {
     );
     expect(stateService.setTypeUser).toHaveBeenCalledWith("individual");
     expect(stateService.setFlagVat).toHaveBeenCalledWith("123");
-  });
-
-  it("should call exportDataPdf from worklogApiService when call exportTavi50", () => {
-    spyOn(workLogService, "exportDataPdf").and.returnValue(
-      of({
-        fileName: "example.pdf",
-        path: "82d09f47-2fe3-4a33-b385-007a6dda8e13.pdf",
-        tempFileName: "82d09f47-2fe3-4a33-b385-007a6dda8e13.pdf",
-        type: "pdf",
-        size: 0,
-        arrayBuffer: (): any => {},
-        stream: (): any => {},
-        slice: (): any => {},
-        text: (): any => {},
-      })
-    );
-    component.exportTavi50();
-    expect(workLogService.exportDataPdf).toHaveBeenCalled();
-  });
-
-  it("when exportDataPdf have error it should alert Can`t export to PDF file ", () => {
-    spyOn(workLogService, "exportDataPdf").and.returnValue(
-      throwError(new HttpErrorResponse({ status: 500, error: "Test Error" }))
-    );
-    spyOn(window, "alert");
-    component.exportTavi50();
-    expect(window.alert).toHaveBeenCalledWith(`Can't export to PDF file.`);
   });
 
   it("should be call function setFlagUser with N in stateService when the response data of getIncomeByUserID not equal null", () => {
