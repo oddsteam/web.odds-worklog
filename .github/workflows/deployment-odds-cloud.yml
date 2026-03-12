@@ -15,7 +15,9 @@
 #
 # For more information on GitHub Actions for Azure, refer to https://github.com/Azure/Actions
 on:
-  push:
+  workflow_run:
+    workflows: ["E2E Tests"]
+    types: [completed]
     branches: [develop]
   workflow_dispatch:
 
@@ -23,8 +25,9 @@ name: CI/CD Project Worklog Web Dev ODDS Cloud
 
 jobs:
   build:
-    name: Build and Deploy
+    name: Build
     runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch' }}
 
     strategy:
       matrix:
@@ -46,12 +49,6 @@ jobs:
 
       - name: Run web unit test
         run: npm run test:ci
-
-      - name: Run Cucumber E2E tests
-        run: |
-          cd e2e/cucumber
-          npm install
-          npm test
 
       - name: Analyze with SonarCloud
         uses: sonarsource/sonarcloud-github-action@master

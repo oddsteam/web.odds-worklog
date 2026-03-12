@@ -8,9 +8,11 @@
   },
   "devDependencies": {
     "@cucumber/cucumber": "^10.3.1",
+    "@playwright/test": "^1.53.1",
     "@types/chai": "^5.2.2",
     "@types/cucumber": "^7.0.0",
     "chai": "^5.2.0",
+    "mongodb": "^5.9.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3"
   }

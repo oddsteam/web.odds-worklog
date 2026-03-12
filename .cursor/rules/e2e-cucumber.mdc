@@ -1,0 +1,160 @@
+---
+description: Conventions for writing Cucumber BDD e2e tests (feature files and step definitions) for this project
+globs: e2e/cucumber/**/*.{feature,ts}
+alwaysApply: false
+---
+
+# E2E Cucumber Conventions
+
+## Feature Files — Business Activities Only (ADR 0002)
+
+See [`docs/adr/0002-declarative-feature-files.md`](../../docs/adr/0002-declarative-feature-files.md) for the full decision record.
+
+**Feature files must express business activities and outcomes only.** UI interactions, button names, form field details, and technical setup are hidden inside step definitions and page objects.
+
+### Rules
+
+- Steps describe what the user *does in business terms*, not how the UI is operated.
+- Business data (rates, amounts, counts) belongs in the feature file; test fixture details do not.
+- Assertions express business outcomes, not UI state (e.g. "modal closes").
+- Use a DataTable when verifying multiple related business values at once.
+
+```gherkin
+# ✅ Business-focused — correct
+Feature: Add Income
+    As a registered individual user
+    I want to add my income for the month
+    So that I can get paid
+
+    @add-income
+    Scenario: Individual user submits monthly income
+        Given I am an individual user with daily income rate of 500 baht per day
+        When I submit income for 18 work days and 20 hours of special work at 100 baht per hour
+        Then the income confirmation breakdown should be:
+            | net daily income   | 9000  |
+            | net special income | 2000  |
+            | net income         | 10670 |
+        When I confirm the income submission
+        Then my net income on the dashboard should be 10670 baht
+```
+
+```gherkin
+# ❌ UI-focused — wrong
+When I click the Add Income button
+And I fill in special income "100" and working hours "20"
+And I fill in work date "18"
+And I click the Submit button
+```
+
+## Page Object Pattern (ADR 0001)
+
+See [`docs/adr/0001-page-object-pattern.md`](../../docs/adr/0001-page-object-pattern.md) for the full decision record.
+
+**All Playwright selectors and interactions must live in page object classes under `e2e/cucumber/pages/`.** Step definitions contain no selectors — only page object method calls and assertions.
+
+### File structure
+
+```
+e2e/cucumber/
+  features/
+    <feature>.feature   ← business scenarios only
+  pages/
+    <name>.page.ts      ← selectors and interactions live here
+  steps/
+    <name>.steps.ts     ← page object calls + assertions only
+  fixtures/
+    test-idcard.pdf     ← test assets
+```
+
+### Page object contract
+
+- Constructor receives a Playwright `Page` instance
+- One `Page` instance shared across all page objects in `Before` hook
+- Methods named after user actions or observable state, not selectors
+
+```typescript
+// pages/add-income-modal.page.ts
+export class AddIncomeModalPage {
+  constructor(private page: Page) {}
+
+  async clickAddIncomeButton() {
+    await this.page.locator("#btn-add").click();
+  }
+
+  async getConfirmationAmount(selector: string): Promise<number> {
+    const text = await this.page.locator(selector).textContent() ?? "";
+    return parseFloat(text.replace(/[^0-9.]/g, ""));
+  }
+}
+
+// steps/login.steps.ts  ✅ correct — page object call only
+When("I submit income for ...", async function (...) {
+  await addIncomeModalPage.clickAddIncomeButton();
+  // ...
+});
+
+// steps/login.steps.ts  ❌ wrong — selector in step file
+When("I submit income for ...", async function (...) {
+  await page.locator("#btn-add").click();
+});
+```
+
+## Step Definitions (`e2e/cucumber/steps/*.steps.ts`)
+
+- Use `chromium` via Playwright; instantiate all page objects in the `Before` hook
+- `APP_URL` is `http://localhost:4200`
+- Keycloak runs at `localhost:9000`; credentials are `e2e` / `s3cr3t`
+- MongoDB connection: `mongodb://admin:admin@127.0.0.1:27017/odds_worklog_db?authSource=admin`
+- For file upload steps, reference fixtures from `e2e/cucumber/fixtures/`
+
+### Test data setup and cleanup
+
+Use MongoDB directly in `Before`/`After` hooks to set up preconditions and clean up after tagged scenarios:
+
+```typescript
+After({ tags: "@add-income" }, async function () {
+  if (addIncomeUserId) {
+    await clearUserIncome(addIncomeUserId);
+    await clearUserRegistration(addIncomeUserId);
+  }
+});
+```
+
+### DataTable steps
+
+Use Cucumber's `DataTable` with `table.rowsHash()` for two-column key-value tables:
+
+```typescript
+import { DataTable } from "@cucumber/cucumber";
+
+Then("the income confirmation breakdown should be:", async function (table: DataTable) {
+  for (const [label, value] of Object.entries(table.rowsHash())) {
+    const displayed = await addIncomeModalPage.getConfirmationAmount(SELECTORS[label]);
+    assert.strictEqual(displayed, parseFloat(value), `${label}: expected ${value}`);
+  }
+});
+```
+
+## Running Tests
+
+### Prerequisites
+
+Start the following services before running E2E tests (each in its own terminal):
+
+```bash
+# 1. Start Docker infrastructure (MongoDB + Keycloak) — in api.odds-worklog/
+make up
+
+# 2. Start API server (port 8080) — in api.odds-worklog/
+make run
+
+# 3. Start Angular dev server (port 4200) — in web.odds-worklog/
+make run
+```
+
+### Run E2E
+
+```bash
+make e2e                        # run all scenarios
+make e2e ARGS="--tags @tag"     # run tagged scenarios only
+```

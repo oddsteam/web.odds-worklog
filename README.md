@@ -89,7 +89,36 @@ CHROME_BIN="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" npm t
 
 ## Running end-to-end tests
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+E2E tests use [Cucumber.js](https://github.com/cucumber/cucumber-js) with [Playwright](https://playwright.dev/).
+
+### Prerequisites
+
+1. Docker services running (MongoDB, Keycloak, Backend API) via `docker compose -f api.odds-worklog/deployment/local/docker-compose.yaml up -d`
+2. Frontend dev server running on `http://localhost:4200` (`make run`)
+3. Playwright browsers installed: `cd e2e/cucumber && npx playwright install`
+
+### Run tests
+
+```bash
+make e2e
+```
+
+To run a specific scenario by tag:
+
+```bash
+make e2e ARGS="--tags @admin-login"
+```
+
+### E2E test users
+
+Users are defined in `api.odds-worklog/realm-export.json` (Keycloak).
+
+| Username | Password | Purpose |
+|---|---|---|
+| `e2e` | `s3cr3t` | Individual user tests (registration, add/edit/get income) |
+| `e2e-admin` | `s3cr3t` | Admin tests (export income) |
+
+The admin role is set directly in MongoDB during the test, not through Keycloak or the registration UI.
 
 ## Further help
 

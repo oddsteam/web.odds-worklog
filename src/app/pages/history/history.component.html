@@ -1,7 +1,7 @@
 <h5 class="ps-4">History</h5>
 <div class="d-flex p-3">
   <div class="table-responsive w-100">
-    <table class="table table-hover">
+    <table id="history-table" class="table table-hover">
       <thead>
         <tr class="tr-hidden">
           <th class="text-start align-middle">Year</th>
@@ -13,8 +13,8 @@
           <th class="text-center align-middle">รายได้สุทธิ</th>
         </tr>
       </thead>
-      <tbody *ngIf="isNoData">
-        <tr *ngFor="let item of incomeResponse ">
+      <tbody id="history-rows" *ngIf="isNoData">
+        <tr class="history-row" *ngFor="let item of incomeResponse ">
           <td class="text-start">{{ checkValue(item.lastUpdate | date:'yyyy')}}</td>
           <td class="text-start">{{ checkValue(item.lastUpdate | date:'MMMM')}}</td>
           <td class="text-center">{{ checkValue(item.netIncome) }}</td>

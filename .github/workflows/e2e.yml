@@ -1,0 +1,104 @@
+name: E2E Tests
+
+on:
+  push:
+    branches: [develop]
+  pull_request:
+    branches: [develop]
+  workflow_dispatch:
+
+jobs:
+  e2e:
+    name: E2E Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout web
+        uses: actions/checkout@v4
+
+      - name: Checkout API
+        uses: actions/checkout@v4
+        with:
+          repository: oddsteam/api.odds-worklog
+          path: api
+
+      - name: Start infrastructure
+        run: docker compose -f api/deployment/ci/docker-compose.yaml up -d --wait
+
+      - name: Seed test data
+        run: |
+          cat api/fixture/data/site.json | docker exec -i odds-worklog-mongo mongoimport \
+            -u admin -p admin \
+            --authenticationDatabase admin \
+            -d odds_worklog_db \
+            --collection site \
+            --type json \
+            --jsonArray
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: api/go.mod
+
+      - name: Start API server
+        working-directory: api
+        run: |
+          export MONGO_DB_HOST="localhost:27017"
+          export MONGO_DB_NAME="odds_worklog_db"
+          export MONGO_DB_CONECTION_POOL="10"
+          export MONGO_DB_USERNAME="admin"
+          export MONGO_DB_PASSWORD="admin"
+          export API_PORT=":8080"
+          export KEYCLOAK_SERVER_URL="http://localhost:9000"
+          export KEYCLOAK_REALM="odds"
+          export KEYCLOAK_CLIENT_ID="worklog"
+          nohup go run main.go > /tmp/api.log 2>&1 &
+          echo "API PID: $!"
+
+      - name: Use Node.js 18.16.0
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18.16.0
+
+      - name: Install web dependencies
+        run: npm i --legacy-peer-deps
+
+      - name: Start Angular dev server
+        run: npx ng serve --configuration local &
+
+      - name: Wait for API
+        run: |
+          echo "Waiting for API..."
+          for i in $(seq 1 30); do
+            if curl -s http://localhost:8080 > /dev/null 2>&1; then
+              echo "API is ready"
+              break
+            fi
+            sleep 2
+          done
+          curl -s http://localhost:8080 > /dev/null || (echo "API failed to start" && exit 1)
+
+      - name: Wait for Angular
+        run: |
+          echo "Waiting for Angular..."
+          for i in $(seq 1 60); do
+            if curl -sf http://localhost:4200 > /dev/null 2>&1; then
+              echo "Angular is ready"
+              break
+            fi
+            sleep 2
+          done
+          curl -sf http://localhost:4200 > /dev/null || (echo "Angular failed to start" && exit 1)
+
+      - name: Install E2E dependencies
+        working-directory: e2e/cucumber
+        run: |
+          npm ci
+          npx playwright install chromium --with-deps
+
+      - name: Run E2E tests
+        working-directory: e2e/cucumber
+        env:
+          HEADLESS: "true"
+        run: npx cucumber-js
