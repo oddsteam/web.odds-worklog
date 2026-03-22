@@ -48,7 +48,6 @@ describe("FirstLoginComponent", () => {
   //     corporateName: '',
   //     bankAccountName: 'ทดสอบ',
   //     bankAccountNumber: '1234567890',
-  //     slackAccount: 'test@odds.team',
   //     role: 'individual',
   //     vat: 'N',
   //     siteId: 'DTAC',
@@ -63,7 +62,6 @@ describe("FirstLoginComponent", () => {
   //   expect(component.user.lastName).toEqual('lastTest');
   //   expect(component.user.bankAccountName).toEqual('ทดสอบ');
   //   expect(component.user.bankAccountNumber).toEqual('1234567890');
-  //   expect(component.user.slackAccount).toEqual('test@odds.team');
   //   expect(component.user.role).toEqual('individual');
   //   expect(component.user.vat).toEqual('N');
   //   expect(component.user.siteId).toEqual('DTAC');

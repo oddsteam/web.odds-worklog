@@ -77,7 +77,6 @@ export class FirstLoginComponent implements OnInit {
         "",
         [Validators.required, Validators.pattern("\\d{9,16}")],
       ],
-      slackAccount: ["", [Validators.required, Validators.email]],
       role: ["", Validators.required],
       vat: [true, Validators.required],
       siteId: ["", Validators.required],
@@ -141,7 +140,6 @@ export class FirstLoginComponent implements OnInit {
     this.user.lastName = this.lastNameForm.value;
     this.user.bankAccountName = this.bankAccountNameForm.value;
     this.user.bankAccountNumber = this.bankAccountNumberForm.value;
-    this.user.slackAccount = this.slackAccountForm.value;
     this.user.corporateName = this.corporateNameForm.value;
     this.user.role = this.role.value;
     this.user.vat = this.vat;
@@ -164,10 +162,6 @@ export class FirstLoginComponent implements OnInit {
 
   get bankAccountNumberForm(): FormControl {
     return this.loginForm.get("bankAccountNumber") as FormControl;
-  }
-
-  get slackAccountForm(): FormControl {
-    return this.loginForm.get("slackAccount") as FormControl;
   }
 
   get corporateNameForm(): FormControl {

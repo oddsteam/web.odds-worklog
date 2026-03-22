@@ -116,7 +116,6 @@ When("I complete my individual registration", { timeout: 30000 }, async function
   await registrationPage.selectBank("ttb");
   await registrationPage.fillBankAccountNumber("1234567890");
   await registrationPage.fillPhone("0812345678");
-  await registrationPage.fillSlackAccount("e2etest@oddsteam.com");
   await registrationPage.selectUserType("individual");
   await registrationPage.selectSite();
   await registrationPage.uploadIdCard(path.join(__dirname, "../fixtures/test-idcard.pdf"));

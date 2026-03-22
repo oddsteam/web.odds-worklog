@@ -23,11 +23,6 @@ const routes: Routes = [
                 () => import('../pages/individual/individual.module').then(m => m.IndividualModule),
             },
             {
-                path: 'settings',
-                loadChildren:
-                () => import('../pages/setting/setting.module').then(m => m.SettingModule),
-            },
-            {
                 path: 'users',
                 loadChildren:
                 () => import('../pages/users-management/users-management.module').then(m => m.UsersManagementModule),

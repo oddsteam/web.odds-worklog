@@ -135,7 +135,6 @@ describe('TabMenuComponent', () => {
         { id: 'groups/all', text: 'GROUPS', icon: '', level: 1 },
         { id: 'history', text: 'HISTORY', icon: 'fa-history', level: 0 },
         { id: 'profile', text: 'PROFILE', icon: 'fa-user-circle', level: 0 },
-        { id: 'settings', text: 'SETTINGS', icon: 'fa-cog', level: 0 },
       ];
     });
 
@@ -161,7 +160,7 @@ describe('TabMenuComponent', () => {
       component.checkTabMenu('admin');
 
       expect(component.listTabMenuShow)
-        .toEqual([expected[0], expected[1], expected[2], expected[3], expected[4], expected[6], expected[7]]);
+        .toEqual([expected[0], expected[1], expected[2], expected[3], expected[4], expected[6]]);
     });
   });
 

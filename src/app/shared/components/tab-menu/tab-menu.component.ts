@@ -22,7 +22,6 @@ export class TabMenuComponent implements OnInit {
     { id: 'groups/all', text: 'GROUPS', icon: '', level: 1 },
     { id: 'history', text: 'HISTORY', icon: 'fa-history', level: 0 },
     { id: 'profile', text: 'PROFILE', icon: 'fa-user-circle', level: 0 },
-    { id: 'settings', text: 'SETTINGS', icon: 'fa-cog', level: 0 },
   ];
   listTabMenuShow = [];
   id = sessionStorage.getItem('idUser');

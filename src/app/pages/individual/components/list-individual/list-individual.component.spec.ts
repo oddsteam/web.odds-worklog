@@ -61,7 +61,7 @@ describe('ListIndividualComponent', () => {
       user: {
         id: '5c0c7f34ee10e80001cb3c9b', role: 'individual',
         firstName: 'aaa', lastName: 'bbb', email: 'who@odds.team', bankAccountName: 'มานะ ไม่มา',
-        bankAccountNumber: '9898144777', vat: 'N', slackAccount: ''
+        bankAccountNumber: '9898144777', vat: 'N'
       }, submitDate: '', status: 'N'
     }] as unknown as ListIncomeResponse;
     let worklogService = createMockWorklogApiService(individualListed)
@@ -181,7 +181,6 @@ describe('ListIndividualComponent', () => {
             bankAccountName: 'ชวินธร odds',
             bankAccountNumber: '112211221122',
             thaiCitizenId: '12345423',
-            slackAccount: 'odds@odds.team',
             siteId: '',
             transcript: '',
             site: null,
@@ -201,7 +200,6 @@ describe('ListIndividualComponent', () => {
             bankAccountName: 'ชวินธรสอง odds',
             bankAccountNumber: '112211221122',
             thaiCitizenId: '12345423',
-            slackAccount: 'odds@odds.team',
             siteId: '',
             transcript: '',
             site: null,
