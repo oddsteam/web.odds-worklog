@@ -235,18 +235,6 @@ export class WorklogApiService {
     return this.siteName;
   }
 
-  sendMailNotificationNewUser() {
-    return this.http.post(
-      `${this.apiPath}v1/reminder/mail/${sessionStorage.getItem("idUser")}`,
-      null,
-      {
-        headers: new HttpHeaders({
-          Authorization: sessionStorage.getItem("token"),
-        }),
-      }
-    );
-  }
-
   deleteUser(id: string) {
     return this.http.delete(`${this.apiPath}v1/users/${id}`, {
       headers: new HttpHeaders({

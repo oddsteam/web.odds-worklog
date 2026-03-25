@@ -106,9 +106,6 @@ export class FirstLoginComponent implements OnInit {
           } else {
             this.router.navigate([res.role]);
           }
-          this.worklogService
-            .sendMailNotificationNewUser()
-            .subscribe((res) => {});
         },
         (error) => {
           this.router.navigate(["login"]);
