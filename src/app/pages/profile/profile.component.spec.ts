@@ -54,7 +54,6 @@ describe('ProfileComponent', () => {
       id: '5c0fa703780bf500019a5aea',
       lastName: 'bbb',
       role: 'admin',
-      slackAccount: 'who@odds.team',
       vat: 'N',
       transcript: null,
       thaiCitizenId: '123467890',
@@ -69,7 +68,6 @@ describe('ProfileComponent', () => {
     expect(component.emailForm.value).toEqual('who@odds.team');
     expect(component.bankAccountForm.value).toEqual('กอไก่ ขอไข่');
     expect(component.bankAccountNumberForm.value).toEqual('0123456789');
-    expect(component.slackAccount.value).toEqual('who@odds.team');
 
   });
 
@@ -82,7 +80,6 @@ describe('ProfileComponent', () => {
       id: '5c0fa703780bf500019a5aea',
       lastName: 'bbb',
       role: 'admin',
-      slackAccount: 'who@odds.team',
       vat: 'N',
       thaiCitizenId: '123467890',
       phone: '',
@@ -117,7 +114,6 @@ describe('ProfileComponent', () => {
       id: '5c0fa703780bf500019a5aea',
       lastName: 'bbb',
       role: 'admin',
-      slackAccount: 'who@odds.team',
       siteId: '5c0fb860f37e2f8698989cdd',
       vat: 'N',
       site: {
@@ -235,7 +231,6 @@ describe('ProfileComponent', () => {
       id: '5c0fa703780bf500019a5aea',
       lastName: 'bbb',
       role: 'admin',
-      slackAccount: 'who@odds.team',
       vat: 'N',
       transcript: null,
       imageProfile: null,
@@ -262,7 +257,6 @@ describe('ProfileComponent', () => {
       id: '5c0fa703780bf500019a5aea',
       lastName: 'bbb',
       role: 'admin',
-      slackAccount: 'who@odds.team',
       vat: 'N',
       transcript: null,
       imageProfile: null,
@@ -294,7 +288,6 @@ describe('ProfileComponent', () => {
         id: '5c0fa703780bf500019a5aea',
         lastName: 'bbb',
         role: 'admin',
-        slackAccount: 'who@odds.team',
         vat: 'N',
         transcript: null,
         imageProfile: null,
@@ -322,7 +315,6 @@ describe('ProfileComponent', () => {
         id: '5c0fa703780bf500019a5aea',
         lastName: 'bbb',
         role: 'corporate',
-        slackAccount: 'who@odds.team',
         siteId: '5c0fb860f37e2f8698989cdd',
         vat: 'N',
         site: {
@@ -352,7 +344,6 @@ describe('ProfileComponent', () => {
         email: 'odds@odds.team',
         bankAccount: 'odds odds',
         bankAccountNumber: '1122334455',
-        slackAccount: 'odds@odds.team',
         project: '',
         dailyIncome: '14',
         address: 'every Where',
@@ -456,7 +447,6 @@ describe('ProfileComponent', () => {
       component.emailForm.setValue('test@abc.com');
       component.bankAccountForm.setValue('ทดสอบ ชอบลงทุน');
       component.bankAccountNumberForm.setValue('1235678900');
-      component.slackAccount.setValue('test@abc.com');
       component.vat.setValue('N');
       component.project.setValue('TEST');
       component.dailyIncome.setValue('4000');

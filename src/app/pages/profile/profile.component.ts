@@ -79,7 +79,6 @@ export class ProfileComponent implements OnInit {
       email: [{ value: '', disabled: true }, Validators.required],
       bankAccount: ['', Validators.required],
       bankAccountNumber: ['', Validators.required],
-      slackAccount: ['', Validators.required],
       project: [''],
       dailyIncome: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
       address: ['', Validators.required],
@@ -116,7 +115,6 @@ export class ProfileComponent implements OnInit {
     this.emailForm.setValue(user.email);
     this.bankAccountForm.setValue(user.bankAccountName);
     this.bankAccountNumberForm.setValue(user.bankAccountNumber);
-    this.slackAccount.setValue(user.slackAccount);
     this.project.setValue(user.project);
     this.dailyIncome.setValue(user.dailyIncome);
     this.address.setValue(user.address);
@@ -166,7 +164,6 @@ export class ProfileComponent implements OnInit {
     this.userInfo.email = this.emailForm.value;
     this.userInfo.bankAccountName = this.bankAccountForm.value;
     this.userInfo.bankAccountNumber = this.bankAccountNumberForm.value;
-    this.userInfo.slackAccount = this.slackAccount.value;
     this.userInfo.vat = this.vat.value;
     this.userInfo.project = this.project.value;
     this.userInfo.dailyIncome = this.dailyIncome.value;
@@ -444,10 +441,6 @@ export class ProfileComponent implements OnInit {
 
   get bankAccountNumberForm(): FormControl {
     return this.profileForm.get('bankAccountNumber') as FormControl;
-  }
-
-  get slackAccount(): FormControl {
-    return this.profileForm.get('slackAccount') as FormControl;
   }
 
   get project(): FormControl {

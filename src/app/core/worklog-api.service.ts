@@ -5,12 +5,12 @@ import { environment } from "../../environments/environment";
 import { AddIncomeResponse } from "../shared/model/add-income-model-response";
 import { IncomeFlag } from "../shared/model/income-flag";
 import { ListIncomeResponse } from "../shared/model/list-income-model-response";
-import { SettingReminder } from "../shared/model/setting-reminder-model";
 import { StatusTavi } from "../shared/model/status-tavi";
 import { User } from "../shared/model/user";
 import { Login } from "./../shared/model/login";
 import { Site } from "./../shared/model/site";
 import {RequestExportIncome, RequestExportSAPIncome} from "../shared/model/request-export-income";
+import { SapExportFailureLog } from "../shared/model/sap-export-failure-log";
 
 @Injectable({
   providedIn: "root",
@@ -199,31 +199,20 @@ export class WorklogApiService {
         );
     }
 
-  sendMessage(body): Observable<any> {
-    return this.http.post(`${this.apiPath}v1/reminder/setting`, body, {
-      headers: new HttpHeaders({
-        Authorization: sessionStorage.getItem("token"),
-      }),
-    });
-  }
-
-  getSettingData(): Observable<SettingReminder> {
-    return this.http.get<SettingReminder>(
-      `${this.apiPath}v1/reminder/setting`,
-      {
-        headers: new HttpHeaders({
-          Authorization: sessionStorage.getItem("token"),
-        }),
-      }
-    );
-  }
-
   getUsersData(): Observable<User[]> {
     return this.http.get<User[]>(`${this.apiPath}v1/users`, {
       headers: new HttpHeaders({
         Authorization: sessionStorage.getItem("token"),
       }),
     });
+  }
+
+  getSapExportFailures(limit?: number): Observable<SapExportFailureLog[]> {
+    let url = `${this.apiPath}v1/sap-export-failures`;
+    if (limit != null && limit > 0) {
+      url += `?limit=${encodeURIComponent(String(limit))}`;
+    }
+    return this.http.get<SapExportFailureLog[]>(url, this.getHttpHeaderOption());
   }
 
   getSitesData(): Observable<Site[]> {
@@ -253,18 +242,6 @@ export class WorklogApiService {
 
   getSiteName() {
     return this.siteName;
-  }
-
-  sendMailNotificationNewUser() {
-    return this.http.post(
-      `${this.apiPath}v1/reminder/mail/${sessionStorage.getItem("idUser")}`,
-      null,
-      {
-        headers: new HttpHeaders({
-          Authorization: sessionStorage.getItem("token"),
-        }),
-      }
-    );
   }
 
   deleteUser(id: string) {

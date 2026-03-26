@@ -23,11 +23,6 @@ const routes: Routes = [
                 () => import('../pages/individual/individual.module').then(m => m.IndividualModule),
             },
             {
-                path: 'settings',
-                loadChildren:
-                () => import('../pages/setting/setting.module').then(m => m.SettingModule),
-            },
-            {
                 path: 'users',
                 loadChildren:
                 () => import('../pages/users-management/users-management.module').then(m => m.UsersManagementModule),
@@ -36,6 +31,11 @@ const routes: Routes = [
                 path: 'groups',
                 loadChildren:
                 () => import('../pages/group-management/group-management.module').then(m => m.GroupManagementModule),
+            },
+            {
+                path: 'error-logs',
+                loadChildren:
+                () => import('../pages/error-logs/error-logs.module').then(m => m.ErrorLogsModule),
             },
             {
                 path: 'history',

@@ -267,29 +267,6 @@
               <label>Email</label>
               <input class="form-control" type="text" formControlName="email" />
             </div>
-            <div class="form-group col-md-6">
-              <label>Slack Account</label>
-              <input
-                class="form-control"
-                type="text"
-                formControlName="slackAccount"
-                [ngClass]="{
-                  'is-invalid':
-                    profileForm.controls.slackAccount.invalid &&
-                    profileForm.controls.slackAccount.touched
-                }"
-              />
-              <div
-                *ngIf="
-                  profileForm.controls.slackAccount.invalid &&
-                  profileForm.controls.slackAccount.touched
-                "
-              >
-                <label class="col-form-label" style="color: red"
-                  >กรุณากรอก Slack Account</label
-                >
-              </div>
-            </div>
           </div>
 
           <div class="row">

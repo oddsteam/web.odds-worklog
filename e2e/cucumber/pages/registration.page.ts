@@ -29,10 +29,6 @@ export class RegistrationPage {
     await this.page.locator("#phone").fill(phone);
   }
 
-  async fillSlackAccount(slackAccount: string) {
-    await this.page.locator("#slackAccount").fill(slackAccount);
-  }
-
   async selectUserType(role: string) {
     await this.page.locator("#role").selectOption(role);
   }

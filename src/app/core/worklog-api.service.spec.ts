@@ -67,7 +67,6 @@ describe("Service: WorklogApi", () => {
           bankAccountNumber: "123123123123",
           thaiCitizenId: "1234567890123",
           vat: "non-vat",
-          slackAccount: "test@odds.team",
           transcript: "",
           siteId: "",
           site: null,
@@ -107,7 +106,6 @@ describe("Service: WorklogApi", () => {
           bankAccountNumber: "123123123123",
           thaiCitizenId: "1234567890123",
           vat: "non-vat",
-          slackAccount: "test@odds.team",
           transcript: "",
           siteId: "",
           site: null,
@@ -203,30 +201,6 @@ it("should call export SAP income by period correctly", () => {
             backEnd.verify();
         });
 });
-
-  it("should call reminder setting api correctly", () => {
-    const body = {
-      name: "reminder",
-      setting: {
-        date: new Date(),
-        message: "message",
-      },
-    };
-    mockService.sendMessage(body).subscribe((_) => {
-      const req = backEnd.expectOne(`${mockService.apiPath}reminder/setting`);
-      expect(req.request.method).toEqual("POST");
-      expect(req.request.responseType).toEqual("json");
-      backEnd.verify();
-    });
-  });
-
-  it("should call get setting data api correctly", () => {
-    mockService.getSettingData().subscribe((_) => {
-      const req = backEnd.expectOne(`${mockService.apiPath}reminder/setting`);
-      expect(req.request.method).toEqual("GET");
-      backEnd.verify();
-    });
-  });
 
   it("should call get users api correctly", () => {
     mockService.getUsersData().subscribe((_) => {

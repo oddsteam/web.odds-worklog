@@ -11,7 +11,6 @@ export class User {
   bankAccountNumber: string;
   thaiCitizenId: string;
   vat: string;
-  slackAccount: string;
   transcript: string;
   siteId: string;
   site: Site;
@@ -36,7 +35,6 @@ export class User {
     bankAccountNumber?: string;
     thaiCitizenId?: string;
     vat?: string;
-    slackAccount?: string;
     transcript?: string;
     siteId?: string;
     site?: Site;
@@ -61,7 +59,6 @@ export class User {
       : "";
     this.thaiCitizenId = user.thaiCitizenId ? user.thaiCitizenId : "";
     this.vat = user.vat ? user.vat : "";
-    this.slackAccount = user.slackAccount ? user.slackAccount : "";
     this.transcript = user.transcript ? user.transcript : "";
     this.siteId = user.siteId ? user.siteId : "";
     this.site = user.site ? user.site : {} as Site;
