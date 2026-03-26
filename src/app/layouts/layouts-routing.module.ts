@@ -33,6 +33,11 @@ const routes: Routes = [
                 () => import('../pages/group-management/group-management.module').then(m => m.GroupManagementModule),
             },
             {
+                path: 'error-logs',
+                loadChildren:
+                () => import('../pages/error-logs/error-logs.module').then(m => m.ErrorLogsModule),
+            },
+            {
                 path: 'history',
                 loadChildren:
                 () => import('../pages/history/history.module').then(m => m.HistoryModule),

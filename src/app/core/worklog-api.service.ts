@@ -10,6 +10,7 @@ import { User } from "../shared/model/user";
 import { Login } from "./../shared/model/login";
 import { Site } from "./../shared/model/site";
 import {RequestExportIncome, RequestExportSAPIncome} from "../shared/model/request-export-income";
+import { SapExportFailureLog } from "../shared/model/sap-export-failure-log";
 
 @Injectable({
   providedIn: "root",
@@ -204,6 +205,14 @@ export class WorklogApiService {
         Authorization: sessionStorage.getItem("token"),
       }),
     });
+  }
+
+  getSapExportFailures(limit?: number): Observable<SapExportFailureLog[]> {
+    let url = `${this.apiPath}v1/sap-export-failures`;
+    if (limit != null && limit > 0) {
+      url += `?limit=${encodeURIComponent(String(limit))}`;
+    }
+    return this.http.get<SapExportFailureLog[]>(url, this.getHttpHeaderOption());
   }
 
   getSitesData(): Observable<Site[]> {

@@ -1,0 +1,36 @@
+<div>
+  <h5 class="mt-2 ms-2">SAP export error logs</h5>
+  <p *ngIf="loading" class="ms-2 text-muted">Loading…</p>
+  <p *ngIf="loadError" class="ms-2 text-danger">{{ loadError }}</p>
+  <div *ngIf="!loading && !loadError" class="table-responsive">
+    <table class="table table-hover table-sm">
+      <thead>
+        <tr>
+          <th class="text-start">Created</th>
+          <th>Role</th>
+          <th>Income ID</th>
+          <th>User ID</th>
+          <th>Bank account name</th>
+          <th>Row</th>
+          <th>Line</th>
+          <th>Error</th>
+          <th>Underlying</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let log of logs">
+          <td>{{ log.createdAt | date:'medium' }}</td>
+          <td>{{ log.role }}</td>
+          <td class="text-break">{{ log.incomeId }}</td>
+          <td class="text-break">{{ log.userId }}</td>
+          <td>{{ log.bankAccountName }}</td>
+          <td>{{ log.rowIndex }}</td>
+          <td>{{ log.lineKind }}</td>
+          <td class="text-break small">{{ log.errorMessage }}</td>
+          <td class="text-break small">{{ log.underlyingError }}</td>
+        </tr>
+      </tbody>
+    </table>
+    <p *ngIf="logs.length === 0" class="ms-2 text-muted">No failure logs yet.</p>
+  </div>
+</div>

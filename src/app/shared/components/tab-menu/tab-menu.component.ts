@@ -20,6 +20,7 @@ export class TabMenuComponent implements OnInit {
     { id: 'servant', text: 'SERVANT', icon: 'fa-users', level: 0 },
     { id: 'users', text: 'USERS', icon: '', level: 1 },
     { id: 'groups/all', text: 'GROUPS', icon: '', level: 1 },
+    { id: 'error-logs', text: 'ERROR LOGS', icon: '', level: 1 },
     { id: 'history', text: 'HISTORY', icon: 'fa-history', level: 0 },
     { id: 'profile', text: 'PROFILE', icon: 'fa-user-circle', level: 0 },
   ];
