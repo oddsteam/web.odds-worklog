@@ -22,6 +22,11 @@ export class ListIndividualComponent implements OnInit, OnChanges {
   listIncomeIndividual: ListIncomeResponse;
   modalRef: BsModalRef;
 
+  /** Income export is restricted to full admins (not user-admin). */
+  get showIncomeExport(): boolean {
+    return this.role === "admin";
+  }
+
   constructor(
     private worklogApiService: WorklogApiService,
     private stateService: StateService,

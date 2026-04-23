@@ -66,7 +66,16 @@ export class TabMenuComponent implements OnInit {
 
   checkTabMenu(userType: string) {
     if (userType) {
-      if (userType !== 'admin') {
+      if (userType === 'user-admin') {
+        this.listTabMenuShow = this.listTabMenu.filter(
+          x => x.id === 'users' || x.id === 'profile' || x.id === 'history'
+        );
+        const allowedUserAdminTabs = ['users', 'profile', 'history'];
+        if (!this.tabActive || !allowedUserAdminTabs.includes(this.tabActive)) {
+          this.tabActive = 'users';
+          sessionStorage.setItem('tabActive', this.tabActive);
+        }
+      } else if (userType !== 'admin') {
         this.listTabMenuShow = this.listTabMenu.filter(x => x.id === userType || x.id === 'profile' || x.id === 'history');
       } else {
         this.listTabMenuShow = this.listTabMenu.filter(x => x.id !== 'history');

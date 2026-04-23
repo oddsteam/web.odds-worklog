@@ -40,6 +40,8 @@ export class LayoutsComponent implements OnInit {
     goToPage() {
         if (this.personType === 'admin') {
             this.router.navigate([`/corporate`]);
+        } else if (this.personType === 'user-admin') {
+            this.router.navigate([`/users`]);
         } else {
             this.router.navigate([`/${this.personType}`]);
         }
