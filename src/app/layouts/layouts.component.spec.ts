@@ -189,4 +189,22 @@ describe("LayoutsComponent", () => {
       expect(router.navigate).toHaveBeenCalledWith(["/corporate"]);
     }
   ));
+
+  it("should navigate to /users when role is user-admin", inject(
+    [Router],
+    (router: Router) => {
+      const res = new User({
+        role: "user-admin",
+        firstName: "firstName",
+        lastName: "lastName",
+      });
+      spyOn(worklogApiService, "getUserByID").and.returnValue(of(res));
+      spyOn(router, "navigate");
+
+      component.ngOnInit();
+
+      expect(component.personType).toEqual("user-admin");
+      expect(router.navigate).toHaveBeenCalledWith(["/users"]);
+    }
+  ));
 });
