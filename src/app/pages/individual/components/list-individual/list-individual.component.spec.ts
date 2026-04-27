@@ -147,6 +147,37 @@ describe('ListIndividualComponent', () => {
     expect(component.downloadFile).toHaveBeenCalledWith(mockBlob, 'income_individual_SAP_specific_month.txt');
   });
 
+  it('should call exportIncomeByMonth with individual role in specific month export', () => {
+    const mockBlob = new Blob([], { type: 'text/csv;charset=utf-8;' });
+    spyOn(component, 'downloadFile');
+    spyOn(worklogService, 'exportIncomeByMonth').and.returnValue(of(mockBlob));
+    spyOn(worklogService, 'exportSAPIncomeByPeriod').and.returnValue(of(mockBlob));
+
+    component.exportByMonth();
+
+    expect(worklogService.exportIncomeByMonth).toHaveBeenCalledWith({
+      role: 'individual',
+      startDate: '08/2025',
+      endDate: '08/2025',
+    });
+  });
+
+  it('should call exportSAPIncomeByPeriod with individual role in specific month export', () => {
+    const mockBlob = new Blob([], { type: 'text/csv;charset=utf-8;' });
+    spyOn(component, 'downloadFile');
+    spyOn(worklogService, 'exportIncomeByMonth').and.returnValue(of(mockBlob));
+    spyOn(worklogService, 'exportSAPIncomeByPeriod').and.returnValue(of(mockBlob));
+
+    component.exportByMonth();
+
+    expect(worklogService.exportSAPIncomeByPeriod).toHaveBeenCalledWith({
+      role: 'individual',
+      startDate: '08/2025',
+      endDate: '08/2025',
+      dateEffective: '01/08/2025',
+    });
+  });
+
   it('should alert message error when export error', () => {
         spyOn(worklogService, 'exportIncomeByMonth').and.returnValue(throwError(() => new HttpErrorResponse({ status: 500, error: 'Error' })));
         spyOn(worklogService, 'exportSAPIncomeByPeriod').and.returnValue(throwError(() => new HttpErrorResponse({ status: 500, error: 'Error' })));
