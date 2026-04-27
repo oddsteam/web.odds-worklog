@@ -116,13 +116,13 @@ export class ListIndividualComponent implements OnInit, OnChanges {
                   console.log("Received data from modal:", data);
 
                   const body: RequestExportIncome = {
-                      role: "corporate",
+                      role: "individual",
                       startDate: data.startDate,
                       endDate: data.endDate,
                   };
 
                   const sapReq: RequestExportSAPIncome = {
-                      role: "corporate",
+                      role: "individual",
                       startDate: data.startDate,
                       endDate: data.endDate,
                       dateEffective: data.dateEffective,
