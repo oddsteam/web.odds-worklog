@@ -111,6 +111,46 @@ describe('ModalIncomeComponent', () => {
       expect(component.fg.get('note').value).toEqual(component.addIncomeData.note);
     });
 
+    it('should preserve decimal special income when setup form with existing data', () => {
+      component.addIncomeData = {
+        id: '112233rrf63545',
+        userId: '3545fdggdlk65706ijv',
+        totalIncome: '10000',
+        netIncome: '0.00',
+        netDailyIncome: '',
+        submitDate: '2018-11-09:00:00:00',
+        note: '',
+        vat: '0.00',
+        wht: '0.00',
+        workDate: '20',
+        specialIncome: '2000.50',
+        netSpecialIncome: '2000.50',
+        workingHours: '10'
+      };
+      component.onSetupForm();
+      expect(component.fg.get('specialIncome').value).toEqual('2,000.50');
+    });
+
+    it('should preserve decimal work date when setup form with existing data', () => {
+      component.addIncomeData = {
+        id: '112233rrf63545',
+        userId: '3545fdggdlk65706ijv',
+        totalIncome: '10000',
+        netIncome: '0.00',
+        netDailyIncome: '',
+        submitDate: '2018-11-09:00:00:00',
+        note: '',
+        vat: '0.00',
+        wht: '0.00',
+        workDate: '20.50',
+        specialIncome: '2000.50',
+        netSpecialIncome: '2000.50',
+        workingHours: '10'
+      };
+      component.onSetupForm();
+      expect(component.fg.get('workDate').value).toEqual('20.50');
+    });
+
     it('call function updateData and check number of addIncome correct', () => {
       sessionStorage.setItem('role', 'corporate');
       component.addIncomeData = {
@@ -139,6 +179,14 @@ describe('ModalIncomeComponent', () => {
 
     it('should set string follow by format 000,000', () => {
       expect(component.formatAmount('100000')).toEqual('100,000');
+    });
+
+    it('should keep 2 decimal places in special income amount', () => {
+      expect(component.formatAmount('1234.56')).toEqual('1,234.56');
+    });
+
+    it('should sanitize invalid decimal input in special income amount', () => {
+      expect(component.formatAmount('12a3.4.567')).toEqual('123.45');
     });
 
     it('should replace "," to ""', () => {
@@ -196,6 +244,46 @@ describe('ModalIncomeComponent', () => {
       fixture.detectChanges();
       component.inputIncomeAmount();
       expect(component.fg.get('specialIncome').value).not.toEqual('10,000');
+    });
+
+    it('should preserve decimal special income when input amount changes', () => {
+      component.addIncomeData = null;
+      component.onSetupForm();
+      component.fg.patchValue({
+        specialIncome: '1234.56'
+      });
+      component.inputIncomeAmount();
+      expect(component.fg.get('specialIncome').value).toEqual('1,234.56');
+    });
+
+    it('should preserve decimal work date when input changes', () => {
+      component.addIncomeData = null;
+      component.onSetupForm();
+      component.fg.patchValue({
+        workDate: '20.75'
+      });
+      component.inputWorkDate();
+      expect(component.fg.get('workDate').value).toEqual('20.75');
+    });
+
+    it('should sanitize invalid decimal input in work date', () => {
+      component.addIncomeData = null;
+      component.onSetupForm();
+      component.fg.patchValue({
+        workDate: '20a.7.589'
+      });
+      component.inputWorkDate();
+      expect(component.fg.get('workDate').value).toEqual('20.75');
+    });
+
+    it('should keep working hours integer only when decimal is entered', () => {
+      component.addIncomeData = null;
+      component.onSetupForm();
+      component.fg.patchValue({
+        workingHours: '10.5'
+      });
+      component.inputWorkingHours();
+      expect(component.fg.get('workingHours').value).toEqual('105');
     });
 
     it('should calculate net income correctly', () => {
@@ -427,6 +515,62 @@ describe('ModalIncomeComponent', () => {
         expect(component.addIncomeData.netIncome).toEqual('120000');
       });
 
+      it('เมื่อเรียก calTotalIncome จะคำนวณรายได้พิเศษที่มีทศนิยมได้', () => {
+        component.addIncomeData = {
+          id: '',
+          userId: '',
+          submitDate: '',
+          note: '',
+          vat: '',
+          wht: '',
+          workDate: '',
+          netIncome: '',
+          netDailyIncome: '',
+          workingHours: '',
+          specialIncome: '',
+          netSpecialIncome: '',
+          totalIncome: '',
+        };
+        component.fg = new FormBuilder().group({
+          workDate: ['20'],
+          specialIncome: ['100.50'],
+          workingHours: ['10']
+        });
+        component.dailyIncome = '5000';
+        component.calTotalIncome();
+        expect(component.addIncomeData.netDailyIncome).toEqual('100000');
+        expect(component.addIncomeData.netSpecialIncome).toEqual('1005');
+        expect(component.addIncomeData.netIncome).toEqual('101005');
+      });
+
+      it('เมื่อเรียก calTotalIncome จะคำนวณจำนวนวันที่ทำงานที่มีทศนิยมได้', () => {
+        component.addIncomeData = {
+          id: '',
+          userId: '',
+          submitDate: '',
+          note: '',
+          vat: '',
+          wht: '',
+          workDate: '',
+          netIncome: '',
+          netDailyIncome: '',
+          workingHours: '',
+          specialIncome: '',
+          netSpecialIncome: '',
+          totalIncome: '',
+        };
+        component.fg = new FormBuilder().group({
+          workDate: ['20.50'],
+          specialIncome: ['100.50'],
+          workingHours: ['10']
+        });
+        component.dailyIncome = '5000';
+        component.calTotalIncome();
+        expect(component.addIncomeData.netDailyIncome).toEqual('102500');
+        expect(component.addIncomeData.netSpecialIncome).toEqual('1005');
+        expect(component.addIncomeData.netIncome).toEqual('103505');
+      });
+
     it('when call updateData addIncomeData.wht should not equal "" for individual', () => {
       component.addIncomeData = null;
       component.onSetupForm();
@@ -515,4 +659,3 @@ function mockAddIncomeResponse(): Observable<AddIncomeResponse> {
     workingHours: '10'
   });
 }
-
