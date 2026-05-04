@@ -44,6 +44,11 @@ export class DashboardPage {
       (url) => url.origin === APP_URL && url.pathname.includes("/individual"),
       { timeout: 15000 }
     );
+    // Header sets userFlag (Y/N) after getIncomeByUserID; URL alone is not enough on slow CI.
+    await this.page.locator("#btn-add, #btn-edit").first().waitFor({
+      state: "visible",
+      timeout: 60000,
+    });
   }
 
   async waitForCorporateDashboard() {
