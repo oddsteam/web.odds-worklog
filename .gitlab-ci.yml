@@ -1,0 +1,27 @@
+stages:
+  - unit_test
+
+variables:
+  NPM_CONFIG_CACHE: $CI_PROJECT_DIR/.npm
+
+test:
+  stage: unit_test
+  image: node:18-bookworm
+  before_script:
+    - apt-get update -qq && apt-get install -y --no-install-recommends chromium
+    - export CHROME_BIN=/usr/bin/chromium
+  script:
+    - npm i --force
+    - npm run test:ci
+    - test -f coverage/lcov.info || (echo "coverage/lcov.info not generated" && exit 1)
+  artifacts:
+    when: always
+    paths:
+      - coverage/lcov.info
+    expire_in: 1 day
+  cache:
+    key:
+      files:
+        - package-lock.json
+    paths:
+      - .npm
