@@ -59,12 +59,6 @@ describe('ListCorporateComponent', () => {
         expect(component.listIncome).toEqual(corporateListed);
     });
 
-    // it('forCheckTokenPleaseRemoveMeIfFlowLoginFinnished should be defined', () => {
-    //     spyOn(stateService, 'listIncomeCorporateTrigger').and.returnValue(of());
-    //     component.ngOnInit();
-    //     expect(stateService.listIncomeCorporateTrigger).toBeDefined();
-    // });
-
     it('should call getListIncomeCorporate in worklog service', () => {
         const mockResponse = {
             submitDate: '2018-10-09:00:00:00',
@@ -151,60 +145,81 @@ describe('ListCorporateComponent', () => {
         expect(component.listIncome).toEqual(mockResponse);
     });
 
-    it('should call exportDataCorporate', () => {
+    it('should call exportDataCorporate when export CSV current month', () => {
         const mockBlob = new Blob([], { type: 'text/csv;charset=utf-8;' });
-        const mockValueDate$ = of({ startDate: '08/2025', endDate: '08/2025', dateEffective: '01/08/2025' });
-        const mockModalRef = {
-            content: {
-                valueDate: mockValueDate$
-            }
-        };
-        spyOn(modalService,'show').and.returnValue(mockModalRef as any)
         spyOn(worklogService, 'exportDataCorporate').and.returnValue(of(mockBlob));
-        spyOn(worklogService, 'exportSAPIncomeByPeriod').and.returnValue(of(mockBlob));
-
-        component.exportCorporate('0');
-
-        expect(worklogService.exportDataCorporate).toHaveBeenCalled();
-        expect(worklogService.exportSAPIncomeByPeriod).toHaveBeenCalled();
-    });
-
-    it('should call downloadFile if exportDataCorporate return response', () => {
-        const mockBlob = new Blob([], { type: 'text/csv;charset=utf-8;' });
-        const mockValueDate$ = of({ startDate: '08/2025', endDate: '08/2025', dateEffective: '01/08/2025' });
-        const mockModalRef = {
-            content: {
-                valueDate: mockValueDate$
-            }
-        };
-        spyOn(modalService,'show').and.returnValue(mockModalRef as any)
-        spyOn(worklogService, 'exportDataCorporate').and.returnValue(of(mockBlob));
-        spyOn(worklogService, 'exportSAPIncomeByPeriod').and.returnValue(of(mockBlob));
+        spyOn(worklogService, 'exportSAPIncomeByPeriod');
         spyOn(component, 'downloadFile');
 
-        component.exportCorporate('0');
+        component.exportCsvCurrentMonth();
 
+        expect(worklogService.exportDataCorporate).toHaveBeenCalledWith('0');
         expect(component.downloadFile).toHaveBeenCalledWith(mockBlob, 'income_corporate.csv');
+        expect(worklogService.exportSAPIncomeByPeriod).not.toHaveBeenCalled();
+    });
+
+    it('should call exportDataCorporate when export CSV previous month', () => {
+        const mockBlob = new Blob([], { type: 'text/csv;charset=utf-8;' });
+        spyOn(worklogService, 'exportDataCorporate').and.returnValue(of(mockBlob));
+        spyOn(worklogService, 'exportSAPIncomeByPeriod');
+        spyOn(component, 'downloadFile');
+
+        component.exportCsvPreviousMonth();
+
+        expect(worklogService.exportDataCorporate).toHaveBeenCalledWith('1');
+        expect(component.downloadFile).toHaveBeenCalledWith(mockBlob, 'income_corporate_previous.csv');
+        expect(worklogService.exportSAPIncomeByPeriod).not.toHaveBeenCalled();
+    });
+
+    it('should call exportSAPIncomeByPeriod for SAP current month', () => {
+        const mockBlob = new Blob([], { type: 'text/csv;charset=utf-8;' });
+        const mockValueDate$ = of({ startDate: '08/2025', endDate: '08/2025', dateEffective: '01/08/2025' });
+        const mockModalRef = {
+            content: {
+                valueDate: mockValueDate$
+            }
+        };
+        spyOn(modalService,'show').and.returnValue(mockModalRef as any)
+        spyOn(worklogService, 'exportSAPIncomeByPeriod').and.returnValue(of(mockBlob));
+        spyOn(worklogService, 'exportDataCorporate');
+        spyOn(component, 'downloadFile');
+
+        component.exportSapCurrentMonth();
+
+        expect(worklogService.exportSAPIncomeByPeriod).toHaveBeenCalled();
+        expect(worklogService.exportDataCorporate).not.toHaveBeenCalled();
         expect(component.downloadFile).toHaveBeenCalledWith(mockBlob, 'income_corporate_SAP.txt');
+    });
+
+    it('should call exportSAPIncomeByPeriod for SAP previous month', () => {
+        const mockBlob = new Blob([], { type: 'text/csv;charset=utf-8;' });
+        const mockValueDate$ = of({ startDate: '08/2025', endDate: '08/2025', dateEffective: '01/08/2025' });
+        const mockModalRef = {
+            content: {
+                valueDate: mockValueDate$
+            }
+        };
+        spyOn(modalService,'show').and.returnValue(mockModalRef as any)
+        spyOn(worklogService, 'exportSAPIncomeByPeriod').and.returnValue(of(mockBlob));
+        spyOn(worklogService, 'exportDataCorporate');
+        spyOn(component, 'downloadFile');
+
+        component.exportSapPreviousMonth();
+
+        expect(worklogService.exportSAPIncomeByPeriod).toHaveBeenCalled();
+        expect(worklogService.exportDataCorporate).not.toHaveBeenCalled();
+        expect(component.downloadFile).toHaveBeenCalledWith(mockBlob, 'income_corporate_SAP_previous.txt');
     });
 
     it('alert message if exportDataCorporate return error', () => {
         spyOn(worklogService, 'exportDataCorporate').and.returnValue(throwError(new HttpErrorResponse({ status: 500, error: 'Error' })));
         spyOn(window, 'alert');
-        const mockValueDate$ = of({ startDate: '08/2025', endDate: '08/2025', dateEffective: '01/08/2025' });
-        const mockModalRef = {
-            content: {
-                valueDate: mockValueDate$
-            }
-        };
-        spyOn(modalService,'show').and.returnValue(mockModalRef as any)
 
-
-        component.exportCorporate('0');
+        component.exportCsvCurrentMonth();
         expect(window.alert).toHaveBeenCalledWith(`Can't export corporate income to CSV file.`);
     });
 
-    it('should call downloadFile if exportByMonth return response', () => {
+    it('should call downloadFile if exportCsvByMonth return response', () => {
         const mockBlob = new Blob([], { type: 'text/csv;charset=utf-8;' });
         const mockValueDate$ = of({ startDate: '08/2025', endDate: '08/2025', dateEffective: '01/08/2025' });
         const mockModalRef = {
@@ -214,18 +229,17 @@ describe('ListCorporateComponent', () => {
         };
         spyOn(modalService,'show').and.returnValue(mockModalRef as any)
         spyOn(worklogService, 'exportIncomeByMonth').and.returnValue(of(mockBlob));
-        spyOn(worklogService, 'exportSAPIncomeByPeriod').and.returnValue(of(mockBlob));
+        spyOn(worklogService, 'exportSAPIncomeByPeriod');
         spyOn(component, 'downloadFile');
 
-        component.exportByMonth();
+        component.exportCsvByMonth();
 
         expect(component.downloadFile).toHaveBeenCalledWith(mockBlob, 'income_corporate_specific_month.csv');
-        expect(component.downloadFile).toHaveBeenCalledWith(mockBlob, 'income_corporate_SAP_specific_month.txt');
+        expect(worklogService.exportSAPIncomeByPeriod).not.toHaveBeenCalled();
     });
 
-    it('alert message if exportDataCorporate return error', () => {
+    it('alert message if exportCsvByMonth return error', () => {
         spyOn(worklogService, 'exportIncomeByMonth').and.returnValue(throwError(() => new HttpErrorResponse({ status: 500, error: 'Error' })));
-        spyOn(worklogService, 'exportSAPIncomeByPeriod').and.returnValue(throwError(() => new HttpErrorResponse({ status: 500, error: 'Error' })));
         spyOn(window, 'alert');
         const mockValueDate$ = of({ startDate: '08/2025', endDate: '08/2025', dateEffective: '01/08/2025' });
         const mockModalRef = {
@@ -236,7 +250,7 @@ describe('ListCorporateComponent', () => {
         spyOn(modalService,'show').and.returnValue(mockModalRef as any)
 
 
-        component.exportByMonth();
+        component.exportCsvByMonth();
 
 
         expect(window.alert).toHaveBeenCalledWith(`Can't export corporate income to CSV file.`);

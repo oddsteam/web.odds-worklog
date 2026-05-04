@@ -8,7 +8,7 @@ import {RequestExportIncome, RequestExportSAPIncome} from "src/app/shared/model/
 import {ModalMonthType} from '../../../../shared/components/modal-export/model';
 import {catchError, switchMap} from 'rxjs/operators';
 import {ExportIncomeModal} from '../../../../shared/model/export-income';
-import {forkJoin, of} from 'rxjs';
+import {of} from 'rxjs';
 
 @Component({
   selector: "app-list-individual",
@@ -56,96 +56,97 @@ export class ListIndividualComponent implements OnInit, OnChanges {
     });
   }
 
-  exportIndividual(beforeMonth: string) {
-      const modalType = beforeMonth === '0' ? ModalMonthType.CURRENT_MONTH : ModalMonthType.PREVIOUS_MONTH;
-      const initialState: ModalOptions = {
-          initialState: {
-              modalType: modalType
-          }
-      };
-      this.modalRef = this.modalService.show(
-          ModalExportComponent,
-          initialState
-      );
-      this.modalRef.content.valueDate
-          .pipe(
-              switchMap((data: ExportIncomeModal) => {
-                  console.log("Received data from modal:", data);
-
-                  const sapReq: RequestExportSAPIncome = {
-                      role: "individual",
-                      startDate: data.startDate,
-                      endDate: data.endDate,
-                      dateEffective: data.dateEffective,
-                  };
-
-                  return forkJoin({
-                      income: this.worklogApiService.exportDataIndividual(beforeMonth).pipe(
-                          this.handleExportError("Can't export corporate income to CSV file.")
-                      ),
-                      sapIncome: this.worklogApiService.exportSAPIncomeByPeriod(sapReq).pipe(
-                          this.handleExportError("Can't export corporate SAP income to CSV file.")
-                      )
-                  });
-              })
-          )
-          .subscribe(({income, sapIncome}) => {
-              if (income) {
-                  this.downloadFile(income, "income_individual.csv");
-              }
-              if (sapIncome) {
-                  this.downloadFile(sapIncome, "income_individual_SAP.txt");
-              }
-          });
+  exportCsvCurrentMonth() {
+    this.worklogApiService.exportDataIndividual('0')
+      .pipe(this.handleExportError("Can't export individual income to CSV file."))
+      .subscribe((income) => {
+        if (income) {
+          this.downloadFile(income, "income_individual.csv");
+        }
+      });
   }
 
-  exportByMonth() {
-      const initialState: ModalOptions = {
-          initialState: {
-              modalType: ModalMonthType.SPECIFIC_MONTH
-          }
-      };
-      this.modalRef = this.modalService.show(
-          ModalExportComponent,
-          initialState
-      );
+  exportCsvPreviousMonth() {
+    this.worklogApiService.exportDataIndividual('1')
+      .pipe(this.handleExportError("Can't export individual income to CSV file."))
+      .subscribe((income) => {
+        if (income) {
+          this.downloadFile(income, "income_individual_previous.csv");
+        }
+      });
+  }
 
-      this.modalRef.content.valueDate
-          .pipe(
-              switchMap((data: ExportIncomeModal) => {
-                  console.log("Received data from modal:", data);
+  exportCsvByMonth() {
+    const initialState: ModalOptions = {
+      initialState: {
+        modalType: ModalMonthType.SPECIFIC_MONTH
+      }
+    };
+    this.modalRef = this.modalService.show(
+      ModalExportComponent,
+      initialState
+    );
 
-                  const body: RequestExportIncome = {
-                      role: "individual",
-                      startDate: data.startDate,
-                      endDate: data.endDate,
-                  };
+    this.modalRef.content.valueDate
+      .pipe(
+        switchMap((data: ExportIncomeModal) => {
+          const body: RequestExportIncome = {
+            role: "individual",
+            startDate: data.startDate,
+            endDate: data.endDate,
+          };
 
-                  const sapReq: RequestExportSAPIncome = {
-                      role: "individual",
-                      startDate: data.startDate,
-                      endDate: data.endDate,
-                      dateEffective: data.dateEffective,
-                  };
+          return this.worklogApiService.exportIncomeByMonth(body).pipe(
+            this.handleExportError("Can't export individual income to CSV file.")
+          );
+        })
+      )
+      .subscribe((income) => {
+        if (income) {
+          this.downloadFile(income, "income_individual_specific_month.csv");
+        }
+      });
+  }
 
-                  return forkJoin({
-                      income: this.worklogApiService.exportIncomeByMonth(body).pipe(
-                          this.handleExportError("Can't export individual income to CSV file.")
-                      ),
-                      sapIncome: this.worklogApiService.exportSAPIncomeByPeriod(sapReq).pipe(
-                          this.handleExportError("Can't export individual SAP income to CSV file.")
-                      )
-                  });
-              })
-          )
-          .subscribe(({income, sapIncome}) => {
-              if (income) {
-                  this.downloadFile(income, "income_individual_specific_month.csv");
-              }
-              if (sapIncome) {
-                  this.downloadFile(sapIncome, "income_individual_SAP_specific_month.txt");
-              }
-          });
+  exportSapCurrentMonth() {
+    this.openSapExportModal(ModalMonthType.SAP_CURRENT_MONTH, "income_individual_SAP.txt");
+  }
+
+  exportSapPreviousMonth() {
+    this.openSapExportModal(ModalMonthType.SAP_PREVIOUS_MONTH, "income_individual_SAP_previous.txt");
+  }
+
+  private openSapExportModal(modalType: ModalMonthType, filename: string) {
+    const initialState: ModalOptions = {
+      initialState: {
+        modalType
+      }
+    };
+    this.modalRef = this.modalService.show(
+      ModalExportComponent,
+      initialState
+    );
+
+    this.modalRef.content.valueDate
+      .pipe(
+        switchMap((data: ExportIncomeModal) => {
+          const sapReq: RequestExportSAPIncome = {
+            role: "individual",
+            startDate: data.startDate,
+            endDate: data.endDate,
+            dateEffective: data.dateEffective,
+          };
+
+          return this.worklogApiService.exportSAPIncomeByPeriod(sapReq).pipe(
+            this.handleExportError("Can't export individual SAP income to CSV file.")
+          );
+        })
+      )
+      .subscribe((sapIncome) => {
+        if (sapIncome) {
+          this.downloadFile(sapIncome, filename);
+        }
+      });
   }
 
   private handleExportError(message: string) {

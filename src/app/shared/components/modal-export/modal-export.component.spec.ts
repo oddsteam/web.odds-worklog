@@ -3,14 +3,13 @@ import { ModalExportComponent } from './modal-export.component';
 import {BsModalRef, ModalOptions} from 'ngx-bootstrap/modal';
 import { DatePipe } from '@angular/common';
 import {ModalMonthType} from './model';
-import {FormControl, FormGroup} from '@angular/forms';
 
 describe('ModalExportComponent', () => {
   let component: ModalExportComponent;
   let modalRef: BsModalRef;
   let ngbDateParserFormatter: jasmine.SpyObj<NgbDateParserFormatter>;
   let datePipe: DatePipe;
-  let options: ModalOptions
+  let options: ModalOptions;
   let realDate: DateConstructor;
 
   beforeEach(() => {
@@ -22,14 +21,11 @@ describe('ModalExportComponent', () => {
       }
     };
     component = new ModalExportComponent(modalRef, ngbDateParserFormatter, datePipe, options);
-    component.form = new FormGroup({
-      dateEffective: new FormControl(null),
-      startDate: new FormControl(null),
-      endDate: new FormControl(null)
-    });
+    component.modalType = ModalMonthType.SPECIFIC_MONTH;
+    component.ngOnInit();
 
       jasmine.clock().install();
-      jasmine.clock().mockDate(new Date(2025, 8, 26)); //
+      jasmine.clock().mockDate(new Date(2025, 8, 26));
   });
 
 
@@ -69,36 +65,31 @@ describe('ModalExportComponent', () => {
           component.modalType = ModalMonthType.SPECIFIC_MONTH;
           spyOn(component, 'getStartDate').and.returnValue('06/2024');
           spyOn(component, 'getEndDate').and.returnValue('06/2024');
-          spyOn(component, 'ngbDateStructToDate').and.returnValue('01/06/2024');
 
           component.exportIncomeByMonth();
 
           expect(emitSpy).toHaveBeenCalledWith({
               startDate: '06/2024',
               endDate: '06/2024',
-              dateEffective: '01/06/2024'
+              dateEffective: null
           });
       });
 
-      it('should emit valueDate with default current month when form is valid and modalType is CURRENT_MONTH', () => {
+      it('should emit valueDate with current month when form is valid and modalType is SAP_CURRENT_MONTH', () => {
           options =  {
               initialState: {
-                  modalType: ModalMonthType.CURRENT_MONTH
+                  modalType: ModalMonthType.SAP_CURRENT_MONTH
               }
           };
           component = new ModalExportComponent(modalRef, ngbDateParserFormatter, datePipe, options);
-          component.form = new FormGroup({
-              dateEffective: new FormControl(null),
-              startDate: new FormControl(null),
-              endDate: new FormControl(null)
-          });
+          component.modalType = ModalMonthType.SAP_CURRENT_MONTH;
+          component.ngOnInit();
           const emitSpy = spyOn(component.valueDate, 'emit');
           component.form.setValue({
               dateEffective: {year: 2025, month: 10, day: 2},
               startDate: null,
               endDate: null
           });
-          component.modalType = ModalMonthType.CURRENT_MONTH;
           spyOn(component, 'ngbDateStructToDate').and.returnValue('02/10/2025');
 
           component.exportIncomeByMonth();
@@ -110,25 +101,21 @@ describe('ModalExportComponent', () => {
           });
       });
 
-      it('should emit valueDate previous month when form is valid and modalType is PREVIOUS_MONTH', () => {
+      it('should emit valueDate with previous month when form is valid and modalType is SAP_PREVIOUS_MONTH', () => {
           options =  {
               initialState: {
-                  modalType: ModalMonthType.PREVIOUS_MONTH
+                  modalType: ModalMonthType.SAP_PREVIOUS_MONTH
               }
           };
           component = new ModalExportComponent(modalRef, ngbDateParserFormatter, datePipe, options);
-          component.form = new FormGroup({
-              dateEffective: new FormControl(null),
-              startDate: new FormControl(null),
-              endDate: new FormControl(null)
-          });
+          component.modalType = ModalMonthType.SAP_PREVIOUS_MONTH;
+          component.ngOnInit();
           const emitSpy = spyOn(component.valueDate, 'emit');
           component.form.setValue({
               dateEffective: {year: 2025, month: 10, day: 2},
               startDate: null,
               endDate: null
           });
-          component.modalType = ModalMonthType.PREVIOUS_MONTH;
           spyOn(component, 'ngbDateStructToDate').and.returnValue('02/10/2025');
 
           component.exportIncomeByMonth();

@@ -1,6 +1,6 @@
 import { DatePipe } from '@angular/common';
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbDateParserFormatter, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import {BsModalRef, ModalOptions} from 'ngx-bootstrap/modal';
 import {ExportIncomeModal} from '../../model/export-income';
@@ -24,13 +24,14 @@ export class ModalExportComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    const isSap = this.isSapMode;
+    const isSpecific = this.modalType === ModalMonthType.SPECIFIC_MONTH;
     this.form = new FormGroup({
-      dateEffective: new FormControl(new Date()),
-      startDate: new FormControl(new Date()),
-      endDate: new FormControl(new Date())
+      dateEffective: new FormControl(isSap ? new Date() : null, isSap ? [Validators.required] : []),
+      startDate: new FormControl(isSpecific ? new Date() : null, isSpecific ? [Validators.required] : []),
+      endDate: new FormControl(isSpecific ? new Date() : null, isSpecific ? [Validators.required] : []),
     });
   }
-
 
   exportIncomeByMonth() {
       if (this.form.invalid) {
@@ -39,12 +40,14 @@ export class ModalExportComponent implements OnInit {
       }
       const startDate = this.getStartDate(this.modalType, this.form.controls.startDate.value);
       const endDate = this.getEndDate(this.modalType, this.form.controls.endDate.value);
-      const dateEffective = this.ngbDateStructToDate(this.form.controls.dateEffective.value, 'dd/MM/yyyy');
+      const dateEffective = this.isSapMode
+          ? this.ngbDateStructToDate(this.form.controls.dateEffective.value, 'dd/MM/yyyy')
+          : null;
       const result: ExportIncomeModal = {
           startDate,
           endDate,
           dateEffective
-      }
+      };
       this.valueDate.emit(result);
   }
 
@@ -64,48 +67,58 @@ export class ModalExportComponent implements OnInit {
     return this.modalType === ModalMonthType.SPECIFIC_MONTH;
   }
 
-  getStartDate(modalType: ModalMonthType, value: NgbDateStruct): string{
+  get isSapMode(): boolean {
+    return this.modalType === ModalMonthType.SAP_CURRENT_MONTH
+        || this.modalType === ModalMonthType.SAP_PREVIOUS_MONTH;
+  }
+
+  get submitButtonLabel(): string {
+    return this.isSapMode ? 'Export SAP' : 'Export CSV';
+  }
+
+  getStartDate(modalType: ModalMonthType, value: NgbDateStruct): string {
       const now = new Date();
       switch (modalType) {
           case ModalMonthType.SPECIFIC_MONTH:
               return this.ngbDateStructToDate(value);
-          case ModalMonthType.CURRENT_MONTH:
+          case ModalMonthType.SAP_CURRENT_MONTH:
               return this.datePipe.transform(now, 'MM/yyyy');
-          case ModalMonthType.PREVIOUS_MONTH:
+          case ModalMonthType.SAP_PREVIOUS_MONTH: {
               const previousMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1);
               return this.datePipe.transform(previousMonth, 'MM/yyyy');
+          }
           default:
               return null;
       }
   }
 
-    getEndDate(modalType: ModalMonthType, value: NgbDateStruct): string{
-        const now = new Date();
-        switch (modalType) {
-            case ModalMonthType.SPECIFIC_MONTH:
-                return this.ngbDateStructToDate(value);
-            case ModalMonthType.CURRENT_MONTH:
-                return this.datePipe.transform(now, 'MM/yyyy');
-            case ModalMonthType.PREVIOUS_MONTH:
-                const previousMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1);
-                return this.datePipe.transform(previousMonth, 'MM/yyyy');
-            default:
-                return null;
-        }
-    }
+  getEndDate(modalType: ModalMonthType, value: NgbDateStruct): string {
+      const now = new Date();
+      switch (modalType) {
+          case ModalMonthType.SPECIFIC_MONTH:
+              return this.ngbDateStructToDate(value);
+          case ModalMonthType.SAP_CURRENT_MONTH:
+              return this.datePipe.transform(now, 'MM/yyyy');
+          case ModalMonthType.SAP_PREVIOUS_MONTH: {
+              const previousMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+              return this.datePipe.transform(previousMonth, 'MM/yyyy');
+          }
+          default:
+              return null;
+      }
+  }
 
-    get titleModal(): string {
-        switch (this.modalType) {
-            case ModalMonthType.CURRENT_MONTH:
-                return 'Export Income - Current Month';
-            case ModalMonthType.PREVIOUS_MONTH:
-                return 'Export Income - Previous Month';
-            case ModalMonthType.SPECIFIC_MONTH:
-                return 'Export Income - Specific Month';
-            default:
-                return 'Export Income';
-        }
-    }
-
+  get titleModal(): string {
+      switch (this.modalType) {
+          case ModalMonthType.SAP_CURRENT_MONTH:
+              return 'Export SAP เดือนปัจจุบัน';
+          case ModalMonthType.SAP_PREVIOUS_MONTH:
+              return 'Export SAP เดือนที่แล้ว';
+          case ModalMonthType.SPECIFIC_MONTH:
+              return 'Export CSV ระบุเดือน';
+          default:
+              return 'Export';
+      }
+  }
 
 }
