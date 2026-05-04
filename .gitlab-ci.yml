@@ -31,7 +31,7 @@ e2e:
   stage: e2e
   image: golang:1.25-bookworm
   timeout: 15m
-  privileged: true
+  # docker:dind needs a runner with privileged mode (set in runner config.toml), not a job key in older GitLab schemas.
   services:
     - name: docker:27-dind
       alias: docker
