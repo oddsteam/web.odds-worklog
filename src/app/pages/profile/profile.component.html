@@ -540,3 +540,28 @@
     </form>
   </div>
 </div>
+
+<ng-template #incomeReminderModal>
+  <div class="modal-header">
+    <h4 class="modal-title">เตือนเรื่องรายได้</h4>
+    <button
+      type="button"
+      class="close btn-close"
+      aria-label="Close"
+      (click)="closeIncomeReminder()"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <p>การคำนวน income เกิดขึ้นตอนกรอกรายได้</p>
+    <p>ถ้าเปลี่ยนแปลงข้อมูลเกี่ยวกับรายได้ อย่าลืมไป update รายได้ใหม่นะ</p>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn button-green"
+      (click)="closeIncomeReminder()"
+    >
+      รับทราบ
+    </button>
+  </div>
+</ng-template>
