@@ -7,7 +7,7 @@
 
     <ng-container>
         <div class="modal-body mx-sm-5">
-            <div class="row">
+            <div class="row" *ngIf="isSapMode">
                 <div class="col-6">
                      วันที่ให้ธนาคารโอนเงิน
                     <div class="input-group">
@@ -61,7 +61,7 @@
         <ng-container>
             <div class="col-6 col-md-3">
                 <button id="btn-submit" type="button" class="btn btn-blue form-control"
-                    (click)="exportIncomeByMonth()">Export Income</button>
+                    (click)="exportIncomeByMonth()">{{submitButtonLabel}}</button>
             </div>
         </ng-container>
     </div>

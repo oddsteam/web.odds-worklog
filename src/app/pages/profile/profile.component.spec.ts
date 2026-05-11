@@ -3,6 +3,9 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ComponentLoaderFactory } from 'ngx-bootstrap/component-loader';
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { PositioningService } from 'ngx-bootstrap/positioning';
 import { of } from 'rxjs';
 import { FileService } from 'src/app/core/file.service';
 import { StateService } from 'src/app/core/state.service';
@@ -21,13 +24,14 @@ describe('ProfileComponent', () => {
   let worklogApiService: WorklogApiService;
   let fileService: FileService;
   let stateService: StateService;
+  let modalService: BsModalService;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ProfileComponent, DropDownComponent, MessageTooltipComponent],
       imports: [ReactiveFormsModule, HttpClientTestingModule, FormsModule
         , RouterTestingModule, NgbModule],
-      providers: [ValidateCitizenIdUtil]
+      providers: [ValidateCitizenIdUtil, BsModalService, ComponentLoaderFactory, PositioningService]
     })
       .compileComponents();
   }));
@@ -37,6 +41,7 @@ describe('ProfileComponent', () => {
     worklogApiService = TestBed.inject(WorklogApiService);
     fileService = TestBed.inject(FileService);
     stateService = TestBed.inject(StateService);
+    modalService = TestBed.inject(BsModalService);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -367,6 +372,7 @@ describe('ProfileComponent', () => {
       spyOn(component, 'setDataUser');
       spyOn(component, 'triggerHeader');
       spyOn(component, 'alertSuccess');
+      spyOn(modalService, 'show');
 
       component.updateData();
 
@@ -392,6 +398,7 @@ describe('ProfileComponent', () => {
       spyOn(component, 'triggerHeader');
       spyOn(component, 'alertSuccess');
       spyOn(stateService, 'setTypeUser');
+      spyOn(modalService, 'show');
 
       component.updateData();
 
@@ -402,6 +409,37 @@ describe('ProfileComponent', () => {
       expect(component.triggerHeader).toHaveBeenCalled();
       expect(component.alertSuccess).toHaveBeenCalled();
       expect(stateService.setTypeUser).toHaveBeenCalledWith('corporate');
+    });
+
+    it('should open income reminder modal after update succeeds', () => {
+      component.userInfo = new User();
+      component.vat.setValue('N');
+      component.profileForm = <FormGroup>{
+        valid: true,
+      };
+      component.personType = 'individual';
+      spyOn(component, 'setDataToModel');
+      spyOn(worklogApiService, 'setDailyIncoem');
+      spyOn(worklogApiService, 'updateUser').and.returnValue(of(mockResponse));
+      spyOn(component, 'setDataUser');
+      spyOn(component, 'triggerHeader');
+      spyOn(component, 'alertSuccess');
+      spyOn(modalService, 'show');
+
+      component.updateData();
+
+      expect(modalService.show).toHaveBeenCalledWith(
+        component.incomeReminderModal,
+        { ignoreBackdropClick: true }
+      );
+    });
+
+    it('should hide modal when closeIncomeReminder is called', () => {
+      component.modalRef = { hide: jasmine.createSpy('hide') } as any;
+
+      component.closeIncomeReminder();
+
+      expect(component.modalRef.hide).toHaveBeenCalled();
     });
   });
 

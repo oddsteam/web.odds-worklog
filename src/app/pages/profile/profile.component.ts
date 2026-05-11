@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { FileService } from 'src/app/core/file.service';
 import { StateService } from 'src/app/core/state.service';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
@@ -58,12 +59,17 @@ export class ProfileComponent implements OnInit {
   ];
   isVat = 'N';
   site = '';
+
+  @ViewChild('incomeReminderModal', { static: true }) incomeReminderModal: TemplateRef<any>;
+  modalRef: BsModalRef;
+
   constructor(
     private formBuilder: FormBuilder,
     private worklogApiService: WorklogApiService,
     private fileService: FileService,
     private stateService: StateService,
-    private validateCitized: ValidateCitizenIdUtil
+    private validateCitized: ValidateCitizenIdUtil,
+    private modalService: BsModalService
   ) { }
 
   ngOnInit() {
@@ -147,6 +153,9 @@ export class ProfileComponent implements OnInit {
       sessionStorage.setItem('role', user.role);
       this.triggerHeader();
       this.alertSuccess();
+      this.modalRef = this.modalService.show(this.incomeReminderModal, {
+        ignoreBackdropClick: true,
+      });
     });
     this.stateService.setTypeUser(this.personType);
 
@@ -155,6 +164,12 @@ export class ProfileComponent implements OnInit {
   alertSuccess() {
     this.showSuccessMessage = true;
     window.scrollTo(0, 0);
+  }
+
+  closeIncomeReminder() {
+    if (this.modalRef) {
+      this.modalRef.hide();
+    }
   }
 
   setDataToModel() {

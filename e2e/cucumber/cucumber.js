@@ -4,6 +4,5 @@ module.exports = {
     require: ["steps/**/*.ts"],
     paths: ["features/**/*.feature"],
     format: ["progress-bar", "html:cucumber-report.html"],
-    publishQuiet: true,
   },
 };

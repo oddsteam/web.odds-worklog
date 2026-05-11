@@ -33,8 +33,9 @@ export class AddIncomeModalPage {
   }
 
   async clickSubmit() {
-    await this.page.locator("#btn-submit").click();
-    await this.page.locator("#btn-confirm").waitFor({ state: "visible" });
+    const incomeModal = this.page.locator(".modal:has(#modal-basic-title)");
+    await incomeModal.locator("#btn-submit").click();
+    await incomeModal.locator("#btn-confirm").waitFor({ state: "visible", timeout: 60000 });
   }
 
   async getConfirmationAmount(selector: string): Promise<number> {

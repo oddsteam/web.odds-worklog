@@ -1,0 +1,141 @@
+stages:
+  - unit_test
+  - e2e
+
+variables:
+  NPM_CONFIG_CACHE: $CI_PROJECT_DIR/.npm
+  E2E_API_CLONE_URL: https://oauth2:${API_REPO_ACCESS_TOKEN}@gitlab.odds.team/ODDS/api-odds-worklog.git
+
+test:
+  stage: unit_test
+  image: node:18-bookworm
+  before_script:
+    - apt-get update -qq && apt-get install -y --no-install-recommends chromium
+    - export CHROME_BIN=/usr/bin/chromium
+  script:
+    - npm i --force
+    - npm run test:ci
+    - test -f coverage/lcov.info || (echo "coverage/lcov.info not generated" && exit 1)
+  artifacts:
+    when: always
+    paths:
+      - coverage/lcov.info
+    expire_in: 1 day
+  cache:
+    key:
+      files:
+        - package-lock.json
+    paths:
+      - .npm
+
+e2e:
+  stage: e2e
+  image: golang:1.25-bookworm
+  timeout: 15m
+  # Use the runner's Docker socket (typical docker executor). DinD was failing here with "can't create unix socket /var/run/docker.sock: device or resource busy" without a privileged runner.
+  variables:
+    DOCKER_HOST: "unix:///var/run/docker.sock"
+    # Compose publishes ports on the same host as the job when using the socket above (same as GitHub Actions).
+    E2E_INFRA_HOST: "localhost"
+  before_script:
+    - set -eux
+    - apt-get update -qq
+    - apt-get install -y -qq ca-certificates curl git gnupg lsb-release
+    - install -m 0755 -d /etc/apt/keyrings
+    - curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc
+    - chmod a+r /etc/apt/keyrings/docker.asc
+    - echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian bookworm stable" > /etc/apt/sources.list.d/docker.list
+    - apt-get update -qq
+    - apt-get install -y -qq docker-ce-cli docker-compose-plugin
+    - curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
+    - apt-get install -y -qq nodejs
+    - |
+      if [ -z "${E2E_API_CLONE_URL:-}" ] && [ -n "${CI_API_PROJECT_PATH:-}" ]; then
+        export E2E_API_CLONE_URL="https://gitlab-ci-token:${CI_JOB_TOKEN}@${CI_SERVER_HOST}/${CI_API_PROJECT_PATH}.git"
+      fi
+      if [ -z "${E2E_API_CLONE_URL:-}" ] && [ -n "${CI_PROJECT_PATH:-}" ]; then
+        parent="${CI_PROJECT_PATH%/*}"
+        web="${CI_PROJECT_PATH##*/}"
+        case "$web" in
+          web-odds-worklog|web.odds-worklog)
+            for api_slug in api.odds-worklog api-odds-worklog; do
+              u="https://gitlab-ci-token:${CI_JOB_TOKEN}@${CI_SERVER_HOST}/${parent}/${api_slug}.git"
+              if git ls-remote "$u" HEAD >/dev/null 2>&1; then
+                export E2E_API_CLONE_URL="$u"
+                echo "Derived API clone URL: ${parent}/${api_slug}"
+                break
+              fi
+            done
+            ;;
+        esac
+      fi
+      if [ -z "${E2E_API_CLONE_URL:-}" ]; then
+        echo "Could not clone API: set CI/CD variable E2E_API_CLONE_URL or CI_API_PROJECT_PATH, or allow this project's job token to read the API repo (Settings > CI/CD > Job token permissions) and use a matching sibling name (api.odds-worklog / api-odds-worklog)."
+        exit 1
+      fi
+    - rm -rf api
+    - git clone --depth 1 "${E2E_API_CLONE_URL}" api
+  script:
+    - docker compose -f api/deployment/ci/docker-compose.yaml up -d --wait
+    - |
+      cat api/fixture/data/site.json | docker exec -i odds-worklog-mongo mongoimport \
+        -u admin -p admin \
+        --authenticationDatabase admin \
+        -d odds_worklog_db \
+        --collection site \
+        --type json \
+        --jsonArray
+    - |
+      export MONGO_DB_HOST="${E2E_INFRA_HOST}:27017"
+      export MONGO_DB_NAME="odds_worklog_db"
+      export MONGO_DB_CONECTION_POOL="10"
+      export MONGO_DB_USERNAME="admin"
+      export MONGO_DB_PASSWORD="admin"
+      export API_PORT=":8080"
+      export JWT_SIGNING_KEY="GmkZGF3CmpZNs88dLvbV"
+      export KEYCLOAK_SERVER_URL="http://${E2E_INFRA_HOST}:9000"
+      export KEYCLOAK_REALM="odds"
+      export KEYCLOAK_CLIENT_ID="worklog"
+      cd api
+      nohup go run main.go > /tmp/api.log 2>&1 &
+      echo "API PID $!"
+      cd "${CI_PROJECT_DIR}"
+    - npm i --legacy-peer-deps
+    - npx ng serve --configuration local &
+    - |
+      echo "Waiting for API..."
+      for i in $(seq 1 30); do
+        if curl -s http://localhost:8080 > /dev/null 2>&1; then
+          echo "API is ready"
+          break
+        fi
+        sleep 2
+      done
+      curl -s http://localhost:8080 > /dev/null || (echo "API failed to start" && exit 1)
+    - |
+      echo "Waiting for Angular..."
+      for i in $(seq 1 60); do
+        if curl -sf http://localhost:4200 > /dev/null 2>&1; then
+          echo "Angular is ready"
+          break
+        fi
+        sleep 2
+      done
+      curl -sf http://localhost:4200 > /dev/null || (echo "Angular failed to start" && exit 1)
+    - cd e2e/cucumber
+    - npm ci
+    - npx playwright install chromium --with-deps
+    - export HEADLESS=true
+    - npx cucumber-js
+  after_script:
+    - |
+      if [ -f api/deployment/ci/docker-compose.yaml ]; then
+        docker compose -f api/deployment/ci/docker-compose.yaml down -v || true
+      fi
+  cache:
+    key:
+      files:
+        - package-lock.json
+        - e2e/cucumber/package-lock.json
+    paths:
+      - .npm

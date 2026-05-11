@@ -44,6 +44,11 @@ export class DashboardPage {
       (url) => url.origin === APP_URL && url.pathname.includes("/individual"),
       { timeout: 15000 }
     );
+    // Header sets userFlag (Y/N) after getIncomeByUserID; URL alone is not enough on slow CI.
+    await this.page.locator("#btn-add, #btn-edit").first().waitFor({
+      state: "visible",
+      timeout: 60000,
+    });
   }
 
   async waitForCorporateDashboard() {
@@ -61,31 +66,9 @@ export class DashboardPage {
     );
   }
 
-  async clickExportCurrentMonth() {
+  /** Individual list: CSV current month downloads immediately (no modal). */
+  async clickExportCsvCurrentMonth() {
     await this.page.locator(".dropdown").hover();
-    await this.page.locator("a").filter({ hasText: "Export เดือนปัจจุบัน" }).click();
-  }
-
-  async waitForExportModal() {
-    await this.page.getByText("Export Income - Current Month").waitFor({ state: "visible", timeout: 10000 });
-  }
-
-  async selectTodayInDatePicker() {
-    await this.page.locator(".fa-calendar").first().click();
-    await this.page.locator("ngb-datepicker .ngb-dp-day").first().waitFor({ state: "visible", timeout: 5000 });
-    const todayCell = this.page.locator("ngb-datepicker .ngb-dp-day.ngb-dp-today");
-    if ((await todayCell.count()) > 0) {
-      await todayCell.click();
-    } else {
-      const today = new Date().getDate().toString();
-      await this.page.locator("ngb-datepicker .ngb-dp-day:not(.ngb-dp-hidden) .btn-light")
-        .filter({ hasText: new RegExp(`^${today}$`) })
-        .first()
-        .click();
-    }
-  }
-
-  async clickExportIncomeButton() {
-    await this.page.locator("#btn-submit").click();
+    await this.page.getByRole("link", { name: "Export CSV เดือนปัจจุบัน" }).click();
   }
 }

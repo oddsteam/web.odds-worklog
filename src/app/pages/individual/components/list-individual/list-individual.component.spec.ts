@@ -88,44 +88,67 @@ describe('ListIndividualComponent', () => {
     });
   })
 
-  it('should get data from backend when export data of the current month', () => {
+  it('should call exportDataIndividual when export CSV current month', () => {
     const mockBlob = new Blob([], { type: 'text/csv;charset=utf-8;' });
-    let worklogService = createMockWorklogApiService(mockBlob)
-    let component = new ListIndividualComponent(worklogService, TestBed.inject(StateService),TestBed.inject(BsModalService));
-    component.exportIndividual('0');
-    expect(http.get).toHaveBeenCalled();
-  });
-
-  it('should call download file automatically when export data successfully', () => {
-    const mockBlob = new Blob([], { type: 'text/csv;charset=utf-8;' });
-    let worklogService = createMockWorklogApiService(mockBlob)
-
-    let component = new ListIndividualComponent(worklogService, TestBed.inject(StateService),TestBed.inject(BsModalService));
+    spyOn(worklogService, 'exportDataIndividual').and.returnValue(of(mockBlob));
+    spyOn(worklogService, 'exportSAPIncomeByPeriod');
     spyOn(component, 'downloadFile');
-    spyOn(worklogService, 'exportSAPIncomeByPeriod').and.returnValue(of(mockBlob));
 
-    component.exportIndividual('0');
+    component.exportCsvCurrentMonth();
+
+    expect(worklogService.exportDataIndividual).toHaveBeenCalledWith('0');
     expect(component.downloadFile).toHaveBeenCalledWith(mockBlob, 'income_individual.csv');
-    expect(component.downloadFile).toHaveBeenCalledWith(mockBlob, 'income_individual_SAP.txt');
+    expect(worklogService.exportSAPIncomeByPeriod).not.toHaveBeenCalled();
   });
 
-  it('should call exportDataIndividual with correct parameter', () => {
-        const mockBlob = new Blob([], { type: 'text/csv;charset=utf-8;' });
-        spyOn(component, 'downloadFile');
-        spyOn(worklogService, 'exportSAPIncomeByPeriod').and.returnValue(of(mockBlob));
-        spyOn(worklogService, 'exportDataIndividual').and.returnValue(of(mockBlob));
+  it('should call exportDataIndividual when export CSV previous month', () => {
+    const mockBlob = new Blob([], { type: 'text/csv;charset=utf-8;' });
+    spyOn(worklogService, 'exportDataIndividual').and.returnValue(of(mockBlob));
+    spyOn(worklogService, 'exportSAPIncomeByPeriod');
+    spyOn(component, 'downloadFile');
 
-        component.exportIndividual('0');
+    component.exportCsvPreviousMonth();
 
-        expect(worklogService.exportDataIndividual).toHaveBeenCalledWith('0');
+    expect(worklogService.exportDataIndividual).toHaveBeenCalledWith('1');
+    expect(component.downloadFile).toHaveBeenCalledWith(mockBlob, 'income_individual_previous.csv');
+    expect(worklogService.exportSAPIncomeByPeriod).not.toHaveBeenCalled();
   });
 
-  it('should call exportSAPIncomeByPeriod with correct parameter', () => {
+  it('should call downloadFile if exportCsvByMonth return response', () => {
+    const mockBlob = new Blob([], { type: 'text/csv;charset=utf-8;' });
+    spyOn(worklogService, 'exportIncomeByMonth').and.returnValue(of(mockBlob));
+    spyOn(worklogService, 'exportSAPIncomeByPeriod');
+    spyOn(component, 'downloadFile');
+
+    component.exportCsvByMonth();
+
+    expect(component.downloadFile).toHaveBeenCalledWith(mockBlob, 'income_individual_specific_month.csv');
+    expect(worklogService.exportSAPIncomeByPeriod).not.toHaveBeenCalled();
+  });
+
+  it('should call exportIncomeByMonth with individual role in specific month export', () => {
+    const mockBlob = new Blob([], { type: 'text/csv;charset=utf-8;' });
+    spyOn(component, 'downloadFile');
+    spyOn(worklogService, 'exportIncomeByMonth').and.returnValue(of(mockBlob));
+    spyOn(worklogService, 'exportSAPIncomeByPeriod');
+
+    component.exportCsvByMonth();
+
+    expect(worklogService.exportIncomeByMonth).toHaveBeenCalledWith({
+      role: 'individual',
+      startDate: '08/2025',
+      endDate: '08/2025',
+    });
+    expect(worklogService.exportSAPIncomeByPeriod).not.toHaveBeenCalled();
+  });
+
+  it('should call exportSAPIncomeByPeriod when export SAP current month', () => {
     const mockBlob = new Blob([], { type: 'text/csv;charset=utf-8;' });
     spyOn(component, 'downloadFile');
     spyOn(worklogService, 'exportSAPIncomeByPeriod').and.returnValue(of(mockBlob));
+    spyOn(worklogService, 'exportDataIndividual');
 
-    component.exportIndividual('0');
+    component.exportSapCurrentMonth();
 
     expect(worklogService.exportSAPIncomeByPeriod).toHaveBeenCalledWith({
         role: "individual",
@@ -133,61 +156,36 @@ describe('ListIndividualComponent', () => {
         endDate: '08/2025',
         dateEffective: '01/08/2025',
     });
+    expect(worklogService.exportDataIndividual).not.toHaveBeenCalled();
+    expect(component.downloadFile).toHaveBeenCalledWith(mockBlob, 'income_individual_SAP.txt');
   });
 
-  it('should call downloadFile if exportByMonth return response', () => {
-    const mockBlob = new Blob([], { type: 'text/csv;charset=utf-8;' });
-    spyOn(worklogService, 'exportIncomeByMonth').and.returnValue(of(mockBlob));
-    spyOn(worklogService, 'exportSAPIncomeByPeriod').and.returnValue(of(mockBlob));
-    spyOn(component, 'downloadFile');
-
-    component.exportByMonth();
-
-    expect(component.downloadFile).toHaveBeenCalledWith(mockBlob, 'income_individual_specific_month.csv');
-    expect(component.downloadFile).toHaveBeenCalledWith(mockBlob, 'income_individual_SAP_specific_month.txt');
-  });
-
-  it('should call exportIncomeByMonth with individual role in specific month export', () => {
+  it('should call exportSAPIncomeByPeriod when export SAP previous month', () => {
     const mockBlob = new Blob([], { type: 'text/csv;charset=utf-8;' });
     spyOn(component, 'downloadFile');
-    spyOn(worklogService, 'exportIncomeByMonth').and.returnValue(of(mockBlob));
     spyOn(worklogService, 'exportSAPIncomeByPeriod').and.returnValue(of(mockBlob));
+    spyOn(worklogService, 'exportDataIndividual');
 
-    component.exportByMonth();
-
-    expect(worklogService.exportIncomeByMonth).toHaveBeenCalledWith({
-      role: 'individual',
-      startDate: '08/2025',
-      endDate: '08/2025',
-    });
-  });
-
-  it('should call exportSAPIncomeByPeriod with individual role in specific month export', () => {
-    const mockBlob = new Blob([], { type: 'text/csv;charset=utf-8;' });
-    spyOn(component, 'downloadFile');
-    spyOn(worklogService, 'exportIncomeByMonth').and.returnValue(of(mockBlob));
-    spyOn(worklogService, 'exportSAPIncomeByPeriod').and.returnValue(of(mockBlob));
-
-    component.exportByMonth();
+    component.exportSapPreviousMonth();
 
     expect(worklogService.exportSAPIncomeByPeriod).toHaveBeenCalledWith({
-      role: 'individual',
-      startDate: '08/2025',
-      endDate: '08/2025',
-      dateEffective: '01/08/2025',
+        role: "individual",
+        startDate: '08/2025',
+        endDate: '08/2025',
+        dateEffective: '01/08/2025',
     });
+    expect(worklogService.exportDataIndividual).not.toHaveBeenCalled();
+    expect(component.downloadFile).toHaveBeenCalledWith(mockBlob, 'income_individual_SAP_previous.txt');
   });
 
-  it('should alert message error when export error', () => {
+  it('should alert message error when exportCsvByMonth error', () => {
         spyOn(worklogService, 'exportIncomeByMonth').and.returnValue(throwError(() => new HttpErrorResponse({ status: 500, error: 'Error' })));
-        spyOn(worklogService, 'exportSAPIncomeByPeriod').and.returnValue(throwError(() => new HttpErrorResponse({ status: 500, error: 'Error' })));
         spyOn(component, 'downloadFile');
         spyOn(window, 'alert');
 
-        component.exportByMonth();
+        component.exportCsvByMonth();
 
         expect(window.alert).toHaveBeenCalledWith(`Can't export individual income to CSV file.`);
-        expect(window.alert).toHaveBeenCalledWith(`Can't export individual SAP income to CSV file.`);
         expect(component.downloadFile).not.toHaveBeenCalled();
   });
 

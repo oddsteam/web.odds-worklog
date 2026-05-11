@@ -8,9 +8,11 @@
         <button class="rounded export-container"><a href="javascript:void(0)">Export</a> <i
             class="fa fa-caret-down"></i> </button>
         <div class="dropdown-content">
-          <a href="javascript:void(0)" (click)="exportIndividual('0')">Export เดือนปัจจุบัน</a>
-          <a href="javascript:void(0)" (click)="exportIndividual('1')">Export ย้อนหลัง 1 เดือน</a>
-          <a href="javascript:void(0)" (click)="exportByMonth()">Export แบบระบุเดือน</a>
+          <a href="javascript:void(0)" (click)="exportCsvCurrentMonth()">Export CSV เดือนปัจจุบัน</a>
+          <a href="javascript:void(0)" (click)="exportCsvPreviousMonth()">Export CSV เดือนที่แล้ว</a>
+          <a href="javascript:void(0)" (click)="exportCsvByMonth()">Export CSV ระบุเดือน</a>
+          <a href="javascript:void(0)" (click)="exportSapCurrentMonth()">Export SAP เดือนปัจจุบัน</a>
+          <a href="javascript:void(0)" (click)="exportSapPreviousMonth()">Export SAP เดือนที่แล้ว</a>
         </div>
       </div>
     </div>

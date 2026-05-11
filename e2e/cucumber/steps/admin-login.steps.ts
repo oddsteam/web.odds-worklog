@@ -183,12 +183,8 @@ When("I navigate to the individual income page", { timeout: 30000 }, async funct
 });
 
 When("I export income for the current month", { timeout: 60000 }, async function () {
-  await dashboardPage.clickExportCurrentMonth();
-  await dashboardPage.waitForExportModal();
-  await dashboardPage.selectTodayInDatePicker();
-
   const downloadPromise = page.waitForEvent("download", { timeout: 30000 });
-  await dashboardPage.clickExportIncomeButton();
+  await dashboardPage.clickExportCsvCurrentMonth();
   downloadedFile = await downloadPromise;
 });
 

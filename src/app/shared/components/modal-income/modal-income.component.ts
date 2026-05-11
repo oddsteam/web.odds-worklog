@@ -212,9 +212,7 @@ export class ModalIncomeComponent implements OnInit {
   inputIncomeAmount() {
     const specialIncome = this.specialIncome.value;
     this.flagChange = true;
-    // this.numberFormat = this.formatInteger(this.totalIncome);
-    const stringFormat = this.formatInteger(specialIncome);
-    const realFormat = this.formatAmount(stringFormat);
+    const realFormat = this.formatAmount(specialIncome);
     this.fg.get("specialIncome").setValue(realFormat);
   }
 
@@ -228,32 +226,72 @@ export class ModalIncomeComponent implements OnInit {
   inputWorkDate() {
     this.flagChange = true;
     const workDate = this.workDate.value;
-    const stringFormat = this.formatInteger(workDate);
+    const stringFormat = this.formatDecimal(workDate);
     this.fg.get("workDate").setValue(stringFormat);
   }
 
   formatInteger(data: string): string {
-    data = data.replace(/[^0-9.]/g, "");
-    data = data.indexOf(",") !== -1 ? data.replace(/,/g, "") : data;
-    return data;
+    if (!data) {
+      return "";
+    }
+
+    return data.replace(/,/g, "").replace(/[^0-9]/g, "");
   }
 
   formatAmount(input: string): string {
-    input = this.maskTextInput_BalanceNumber(this.checkFirstValueIsZero(input));
-    return input;
+    if (!input) {
+      return "";
+    }
+
+    const sanitizedInput = this.sanitizeDecimalInput(input);
+    return this.maskTextInput_BalanceNumber(sanitizedInput);
+  }
+
+  formatDecimal(input: string): string {
+    if (!input) {
+      return "";
+    }
+
+    const sanitizedInput = this.sanitizeDecimalInput(input);
+    const hasDecimalPoint =
+      sanitizedInput.endsWith(".") || this.checkTextHaveDigit(sanitizedInput);
+
+    if (!hasDecimalPoint) {
+      return this.normalizeIntegerPart(sanitizedInput);
+    }
+
+    const array = sanitizedInput.split(".");
+    const integerPart = this.normalizeIntegerPart(array[0], true);
+    const decimalPart = (array[1] || "").substring(0, 2);
+
+    if (sanitizedInput.endsWith(".") && decimalPart.length === 0) {
+      return `${integerPart}.`;
+    }
+
+    return decimalPart.length > 0
+      ? `${integerPart}.${decimalPart}`
+      : integerPart;
   }
 
   maskTextInput_BalanceNumber(input: string) {
-    const Result = false
-      ? input.replace(/[^0-9.]/g, "")
-      : input.replace(/[^0-9]/g, "");
-    if (this.checkTextHaveDigit(Result)) {
-      const array = Result.split(".");
-      array[1] = array[1].substring(0, 0);
-      return this.formatInt(array[0]) + "." + array[1];
-    } else {
-      return this.formatInt(Result);
+    const hasDecimalPoint = input.endsWith(".") || this.checkTextHaveDigit(input);
+
+    if (hasDecimalPoint) {
+      const array = input.split(".");
+      const integerPart = this.normalizeIntegerPart(array[0], true);
+      const decimalPart = (array[1] || "").substring(0, 2);
+      const formattedIntegerPart = this.formatInt(integerPart);
+
+      if (input.endsWith(".") && decimalPart.length === 0) {
+        return `${formattedIntegerPart}.`;
+      }
+
+      return decimalPart.length > 0
+        ? `${formattedIntegerPart}.${decimalPart}`
+        : formattedIntegerPart;
     }
+
+    return this.formatInt(this.normalizeIntegerPart(input));
   }
 
   formatInt(Result: string): string {
@@ -274,6 +312,31 @@ export class ModalIncomeComponent implements OnInit {
       Text = String(Number(Text));
     }
     return Text;
+  }
+
+  sanitizeDecimalInput(input: string): string {
+    const rawValue = input.replace(/,/g, "").replace(/[^0-9.]/g, "");
+    const segments = rawValue.split(".");
+    const integerPart = segments.shift() || "";
+    const decimalPart = segments.join("").substring(0, 2);
+
+    if (rawValue.endsWith(".") && decimalPart.length === 0) {
+      return `${integerPart}.`;
+    }
+
+    return rawValue.includes(".")
+      ? `${integerPart}.${decimalPart}`
+      : integerPart;
+  }
+
+  normalizeIntegerPart(value: string, allowZeroWhenEmpty = false): string {
+    const digits = (value || "").replace(/[^0-9]/g, "");
+
+    if (digits === "") {
+      return allowZeroWhenEmpty ? "0" : "";
+    }
+
+    return digits.replace(/^0+(?=\d)/, "");
   }
 
   onCancel() {
