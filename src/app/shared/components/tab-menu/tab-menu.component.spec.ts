@@ -164,12 +164,12 @@ describe('TabMenuComponent', () => {
         .toEqual([expected[0], expected[1], expected[2], expected[3], expected[4], expected[5], expected[7]]);
     });
 
-    it('should show users profile history when role is user-admin', () => {
+    it('should show users groups profile history when role is user-admin', () => {
       component.personType = 'user-admin';
 
       component.checkTabMenu('user-admin');
 
-      expect(component.listTabMenuShow).toEqual([expected[3], expected[6], expected[7]]);
+      expect(component.listTabMenuShow).toEqual([expected[3], expected[4], expected[6], expected[7]]);
       expect(component.tabActive).toBe('users');
     });
   });
