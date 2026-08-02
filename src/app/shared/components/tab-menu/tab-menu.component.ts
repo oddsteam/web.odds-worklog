@@ -68,9 +68,9 @@ export class TabMenuComponent implements OnInit {
     if (userType) {
       if (userType === 'user-admin') {
         this.listTabMenuShow = this.listTabMenu.filter(
-          x => x.id === 'users' || x.id === 'groups/all' || x.id === 'profile' || x.id === 'history'
+          x => x.id === 'individual' || x.id === 'users' || x.id === 'groups/all' || x.id === 'profile' || x.id === 'history'
         );
-        const allowedUserAdminTabs = ['users', 'groups/all', 'profile', 'history'];
+        const allowedUserAdminTabs = ['individual', 'users', 'groups/all', 'profile', 'history'];
         if (!this.tabActive || !allowedUserAdminTabs.includes(this.tabActive)) {
           this.tabActive = 'users';
           sessionStorage.setItem('tabActive', this.tabActive);
