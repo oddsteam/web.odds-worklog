@@ -33,6 +33,7 @@ describe('TabMenuComponent', () => {
   }));
 
   beforeEach(() => {
+    sessionStorage.clear();
     router = TestBed.inject(Router);
     worklogApiService = TestBed.inject(WorklogApiService);
     stateService = TestBed.inject(StateService);
@@ -166,11 +167,21 @@ describe('TabMenuComponent', () => {
 
     it('should show individual users groups profile history when role is user-admin', () => {
       component.personType = 'user-admin';
+      component.tabActive = undefined;
 
       component.checkTabMenu('user-admin');
 
       expect(component.listTabMenuShow).toEqual([expected[1], expected[3], expected[4], expected[6], expected[7]]);
       expect(component.tabActive).toBe('users');
+    });
+
+    it('should keep current tabActive when it is already allowed for user-admin', () => {
+      component.personType = 'user-admin';
+      component.tabActive = 'individual';
+
+      component.checkTabMenu('user-admin');
+
+      expect(component.tabActive).toBe('individual');
     });
   });
 
