@@ -5,6 +5,7 @@
       <div class="drop-down-site px-1 pb-1">
         <app-drop-down
           [listSources]="listSources"
+          [defaultSelect]="currentSiteId"
           (emitSource)="onSelectedListSite($event)"
         ></app-drop-down>
       </div>

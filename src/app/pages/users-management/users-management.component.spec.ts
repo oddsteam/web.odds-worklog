@@ -96,4 +96,39 @@ describe('UsersManagementComponent', () => {
     component.getUsersData();
     expect(component.users).toEqual(mockResponse);
   });
+
+  it('should update user site in the list when onSiteChanged is called', () => {
+    component.users = [{
+      id: '1233',
+      role: 'individual',
+      firstName: 'Odds',
+      lastName: 'Odds',
+      site: { id: '0001', name: 'SEC' },
+      vat: 'Y',
+      email: 'odds@odds.team',
+      bankAccountName: '',
+      bankAccountNumber: '',
+      thaiCitizenId: '',
+      siteId: '',
+      transcript: '',
+      imageProfile: null,
+      project: '',
+      dailyIncome: '',
+      address: '',
+      statusTavi: true,
+      degreeCertificate: '',
+      idCard: '',
+      phone: '',
+      startDate: '',
+    }];
+    component.sites = [
+      { id: '0001', name: 'SEC' },
+      { id: '0002', name: 'SET' },
+    ];
+
+    component.onSiteChanged({ userId: '1233', siteId: '0002' });
+
+    expect(component.users[0].site).toEqual({ id: '0002', name: 'SET' });
+    expect(component.users[0].siteId).toBe('0002');
+  });
 });
