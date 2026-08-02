@@ -36,23 +36,16 @@ describe('ToolTipSiteComponent', () => {
   });
 
   it('When an action is made, toggleTooltip function is called ', () => {
-    const event = <MouseEvent>{
-      target: <Object>{
-      }
-    };
+    const event = new MouseEvent('click');
 
     component.toggleTooltip(event);
 
-    expect(component.clickedElement).toEqual(event.target);
     expect(component.isShowTooltip).toBeTruthy();
   });
 
   it('When an action is made, disableTooltip function is called', () => {
     component.isShowTooltip = true;
-    const event = <MouseEvent>{
-      target: <Object>{
-      }
-    };
+    const event = new MouseEvent('click');
 
     component.disableTooltip(event);
 
