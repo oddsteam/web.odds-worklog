@@ -15,14 +15,23 @@ import { User } from '../../model/user';
 import { ComponentLoaderFactory } from 'ngx-bootstrap/component-loader';
 import { PositioningService } from 'ngx-bootstrap/positioning';
 import { ContentLoaderModule } from '@netbasal/ngx-content-loader';
+import { Site } from '../../model/site';
 
 const mockBlob = new Blob([], { type: 'text/csv;charset=utf-8;' });
+const mockSites: Site[] = [
+  { id: 'site-1', name: 'ODDS' },
+  { id: 'site-2', name: 'KTB' },
+];
+
 class MockWorklogApiService extends WorklogApiService {
   exportDataCorporate(): Observable<Blob> {
     return of(mockBlob);
   }
   exportDataIndividual(): Observable<Blob> {
     return of(mockBlob);
+  }
+  getSitesData(): Observable<Site[]> {
+    return of(mockSites);
   }
 }
 
@@ -79,9 +88,11 @@ describe('TabelListComponent', () => {
     component.ListData = mockArrayUser;
     spyOn(component, 'updateForm');
     spyOn(component, 'getRoleUser');
+    spyOn(component, 'loadSites');
     component.ngOnInit();
     expect(component.updateForm).toHaveBeenCalled();
     expect(component.getRoleUser).toHaveBeenCalled();
+    expect(component.loadSites).toHaveBeenCalled();
   });
   it('เมื่อเข้ามีการ เรียกใช้ tableList จะมีการเช็คค่าใน ListData หากมีข้อมูลตามที่กำหนดจะทำการ push array เข้า Form', () => {
     const mockUser = new User();
@@ -101,5 +112,26 @@ describe('TabelListComponent', () => {
     component.ngOnInit();
     expect(component.tableListForm.get('items').value[0].id).toEqual('0123456789');
     expect(component.tableListForm.get('items').value[1].id).toEqual('0123456789');
+  });
+
+  describe('getSiteName', () => {
+    beforeEach(() => {
+      component.loadSites();
+    });
+
+    it('should resolve site name from siteId', () => {
+      const user = new User({ siteId: 'site-1' });
+      expect(component.getSiteName(user)).toEqual('ODDS');
+    });
+
+    it('should return dash when siteId is missing', () => {
+      const user = new User();
+      expect(component.getSiteName(user)).toEqual('-');
+    });
+
+    it('should return dash when siteId is unknown', () => {
+      const user = new User({ siteId: 'missing-site' });
+      expect(component.getSiteName(user)).toEqual('-');
+    });
   });
 });

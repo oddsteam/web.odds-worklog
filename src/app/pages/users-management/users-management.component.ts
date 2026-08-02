@@ -30,6 +30,16 @@ export class UsersManagementComponent implements OnInit {
     });
   }
 
+  onSiteChanged(event: { userId: string; siteId: string }) {
+    const user = this.users.find(u => u.id === event.userId);
+    if (!user) {
+      return;
+    }
+    const site = this.sites.find(s => s.id === event.siteId);
+    user.site = site || { id: event.siteId, name: '-' };
+    user.siteId = event.siteId;
+  }
+
   private loadSites() {
     this.worklogApiService.getSitesData().subscribe(res => {
       this.sites = res;

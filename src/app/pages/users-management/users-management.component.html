@@ -14,7 +14,12 @@
           <td>{{user.email}}</td>
           <td>{{user?.site?.name !== null ? user?.site?.name : '-'}}</td>
           <td class="text-center">
-              <app-tool-tip-site [listSources]="sites" [userId]="user?.id"></app-tool-tip-site>
+              <app-tool-tip-site
+                [listSources]="sites"
+                [userId]="user?.id"
+                [currentSiteId]="user?.site?.id"
+                (siteChanged)="onSiteChanged($event)"
+              ></app-tool-tip-site>
             <a href="javascript:void(0)" class="p-2"  (click)="deleteUser(user?.id)" ><i class="fa fa-trash"></i></a>
           </td>
         </tr>

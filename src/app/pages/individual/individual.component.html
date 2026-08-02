@@ -1,5 +1,5 @@
 <div *ngIf="isShowData()">
-  <div class="card-container" *ngIf="personType !== 'admin'">
+  <div class="card-container" *ngIf="personType === 'individual'">
     <app-add-income [role]="personType" (addIncomeAlready)="addIncomeEmit($event)"></app-add-income>
   </div>
   <div>

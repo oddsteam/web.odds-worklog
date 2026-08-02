@@ -3,6 +3,7 @@
     <thead>
       <tr>
         <th class="text-start align-middle">Name</th>
+        <th class="text-start align-middle">Site</th>
         <th class="text-start align-middle">E-mail</th>
         <th class="text-center align-middle">Start Date</th>
         <th class="text-start align-middle">Phone Number</th>
@@ -17,6 +18,7 @@
     <tbody>
       <tr>
         <td class="text-start">{{ getName(ListData[0].user) }}</td>
+        <td class="text-start">{{ getSiteName(ListData[0].user) }}</td>
         <td class="text-start">{{ checkValue(ListData[0].user?.email) }}</td>
         <td class="text-center">{{ ListData[0]?.user?.startDate | date: "dd/MM/yyyy" || '-' }}</td>
         <td class="text-start">{{ checkValue(ListData[0].user?.phone) }}</td>
@@ -36,6 +38,7 @@
       <tr formArrayName="items"
         *ngFor="let listData of ListData | slice : 1 : ListData.length | orderBy: order:swapArrowIconSort:'case-insensitive'; let i = index">
         <td class="text-start">{{ getName(listData.user) }}</td>
+        <td class="text-start">{{ getSiteName(listData.user) }}</td>
         <td class="text-start">{{ checkValue(listData.user?.email) }}</td>
         <td class="text-center">{{ listData.user?.startDate | date: "dd/MM/yyyy" || '-' }}</td>
         <td class="text-start">{{ checkValue(listData.user?.phone) }}</td>

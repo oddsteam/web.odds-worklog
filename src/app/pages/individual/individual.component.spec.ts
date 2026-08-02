@@ -52,4 +52,10 @@ describe('IndividualComponent', () => {
     expect(component.personType).toEqual('individual');
     expect(worklogApiService.getUserByID).toHaveBeenCalled();
   });
+
+  it('should show data when role is user-admin', () => {
+    component.personType = 'user-admin';
+
+    expect(component.isShowData()).toBe(true);
+  });
 });

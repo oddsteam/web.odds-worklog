@@ -223,6 +223,30 @@ export class WorklogApiService {
     });
   }
 
+  createSite(site: { name: string; color?: string }): Observable<Site> {
+    return this.http.post<Site>(
+      `${this.apiPath}v1/sites`,
+      site,
+      this.getHttpHeaderOption()
+    );
+  }
+
+  updateSite(id: string, site: { name: string; color?: string }): Observable<Site> {
+    return this.http.put<Site>(
+      `${this.apiPath}v1/sites/${id}`,
+      site,
+      this.getHttpHeaderOption()
+    );
+  }
+
+  deleteSite(id: string) {
+    return this.http.delete(`${this.apiPath}v1/sites/${id}`, {
+      headers: new HttpHeaders({
+        Authorization: sessionStorage.getItem("token"),
+      }),
+    });
+  }
+
   getUserBySiteId(id: string): Observable<any> {
     return this.http.get(`${this.apiPath}v1/users/site/${id}`, {
       headers: new HttpHeaders({

@@ -24,6 +24,7 @@ export class TableListComponent implements OnInit, OnDestroy, OnChanges {
     items: FormArray;
     role: string;
     modalRef: BsModalRef;
+    private siteNameById: { [id: string]: string } = {};
 
     constructor(private fb: FormBuilder, private worklogApiService: WorklogApiService
         , private stateService: StateService, private modalService: BsModalService
@@ -52,7 +53,26 @@ export class TableListComponent implements OnInit, OnDestroy, OnChanges {
         this.createForm();
         this.getListFisrtUser();
         this.getRoleUser();
+        this.loadSites();
         this.updateForm();
+    }
+
+    loadSites() {
+        this.worklogApiService.getSitesData().subscribe((sites) => {
+            this.siteNameById = {};
+            (sites || []).forEach((site) => {
+                if (site && site.id) {
+                    this.siteNameById[site.id] = site.name || '-';
+                }
+            });
+        });
+    }
+
+    getSiteName(user: User): string {
+        if (!user || !user.siteId) {
+            return '-';
+        }
+        return this.siteNameById[user.siteId] || '-';
     }
     createForm() {
         this.tableListForm = this.fb.group({

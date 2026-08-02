@@ -21,7 +21,7 @@ export class IndividualComponent implements OnInit {
   }
 
   isShowData(): boolean {
-    return this.personType === 'individual' || this.personType === 'admin';
+    return this.personType === 'individual' || this.personType === 'admin' || this.personType === 'user-admin';
   }
 
   addIncomeEmit(event) {
