@@ -24,9 +24,13 @@ export class UsersManagementComponent implements OnInit {
     });
   }
 
-  deleteUser(userId: string) {
-    this.worklogApiService.deleteUser(userId).subscribe( res => {
-      this.users = this.users.filter((user) => user.id != userId)
+  deleteUser(user: User) {
+    const label = `${user.firstName} ${user.lastName}`.trim() || user.email;
+    if (!confirm(`Delete user "${label}"?`)) {
+      return;
+    }
+    this.worklogApiService.deleteUser(user.id).subscribe(res => {
+      this.users = this.users.filter(u => u.id != user.id);
     });
   }
 
