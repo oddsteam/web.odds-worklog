@@ -112,6 +112,7 @@ describe('ProfileComponent', () => {
 
   it('component.site should equal to user info', () => {
     component.userInfo = {
+      timesheetSynced: false,
       bankAccountName: 'กอไก่ ขอไข่',
       bankAccountNumber: '0123456789',
       email: 'who@odds.team',
@@ -313,6 +314,7 @@ describe('ProfileComponent', () => {
     let mockResponse = new User();
     beforeEach(() => {
       mockResponse = {
+        timesheetSynced: false,
         bankAccountName: 'กอไก่ ขอไข่',
         bankAccountNumber: '0123456789',
         email: 'who@odds.team',

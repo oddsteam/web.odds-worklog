@@ -79,6 +79,7 @@ describe("Service: WorklogApi", () => {
           idCard: "",
           phone: "",
           startDate: "2022-1-1",
+          timesheetSynced: false,
         },
       ],
     };
@@ -118,6 +119,7 @@ describe("Service: WorklogApi", () => {
           idCard: "",
           phone: "",
           startDate: "2022-1-1",
+          timesheetSynced: false,
         },
       ],
     };
