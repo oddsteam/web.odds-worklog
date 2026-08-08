@@ -23,7 +23,7 @@ export class User {
   degreeCertificate: string;
   phone: string;
   startDate: string;
-
+  timesheetSynced: boolean;
   constructor(user: {
     id?: string;
     role?: string;
@@ -46,7 +46,8 @@ export class User {
     idCard?: string;
     degreeCertificate?: string;
     phone?: string;
-    startDate?: string
+    startDate?: string,
+    timesheetSynced?: boolean;
   } = {}) {
     this.id = user.id ? user.id : "";
     this.role = user.role ? user.role : "";
@@ -73,5 +74,6 @@ export class User {
       : "";
     this.phone = user.phone ? user.phone : "";
     this.startDate = user.startDate ? user.startDate : "";
+    this.timesheetSynced = user.timesheetSynced ? user.timesheetSynced : false;
   }
 }
