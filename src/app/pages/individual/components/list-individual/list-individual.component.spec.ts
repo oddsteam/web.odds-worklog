@@ -142,6 +142,17 @@ describe('ListIndividualComponent', () => {
     expect(worklogService.exportSAPIncomeByPeriod).not.toHaveBeenCalled();
   });
 
+  it('should call exportDataIncomeFromTimesheetIndividual when export CSV income from timesheet current month', () => {
+    const mockBlob = new Blob([], { type: 'text/csv;charset=utf-8;' });
+    spyOn(worklogService, 'exportDataIncomeFromTimesheetIndividual').and.returnValue(of(mockBlob));
+    spyOn(component, 'downloadFile');
+
+    component.exportCsvIncomeFromTimesheetCurrentMonth();
+
+    expect(worklogService.exportDataIncomeFromTimesheetIndividual).toHaveBeenCalledWith('0');
+    expect(component.downloadFile).toHaveBeenCalledWith(mockBlob, 'income_from_timesheet_individual.csv');
+  });
+
   it('should call exportSAPIncomeByPeriod when export SAP current month', () => {
     const mockBlob = new Blob([], { type: 'text/csv;charset=utf-8;' });
     spyOn(component, 'downloadFile');

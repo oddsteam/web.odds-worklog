@@ -108,6 +108,16 @@ export class ListIndividualComponent implements OnInit, OnChanges {
       });
   }
 
+  exportCsvIncomeFromTimesheetCurrentMonth() {
+    this.worklogApiService.exportDataIncomeFromTimesheetIndividual('0')
+      .pipe(this.handleExportError("Can't export income from timesheet to CSV file."))
+      .subscribe((income) => {
+        if (income) {
+          this.downloadFile(income, "income_from_timesheet_individual.csv");
+        }
+      });
+  }
+
   exportSapCurrentMonth() {
     this.openSapExportModal(ModalMonthType.SAP_CURRENT_MONTH, "income_individual_SAP.txt");
   }

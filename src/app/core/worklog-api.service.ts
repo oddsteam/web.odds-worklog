@@ -173,6 +173,18 @@ export class WorklogApiService {
     );
   }
 
+  exportDataIncomeFromTimesheetIndividual(monthIndex: string): Observable<Blob> {
+    return this.http.get(
+      `${this.apiPath}v1/income-from-timesheet/export/individual/${monthIndex}`,
+      {
+        headers: new HttpHeaders({
+          Authorization: sessionStorage.getItem("token"),
+        }),
+        responseType: "blob",
+      }
+    );
+  }
+
   exportIncomeByMonth(requestExportIncome: RequestExportIncome) {
     return this.http.post(
       `${this.apiPath}v1/incomes/export`,
