@@ -51,6 +51,13 @@ export class DashboardPage {
     });
   }
 
+  async waitForAdminLanding() {
+    await this.page.waitForURL(
+      (url) => url.origin === APP_URL && url.pathname.includes("/individual"),
+      { timeout: 15000 }
+    );
+  }
+
   async navigateToIndividual() {
     await this.page.locator("#menu-content span").filter({ hasText: "INDIVIDUAL" }).click();
     await this.page.waitForURL(
