@@ -90,10 +90,10 @@ describe('FileService', () => {
     backEnd.verify();
   });
 
-  it('should call download image profile api correctly', () => {
+  it('should call download image profile api with an explicit user id', () => {
     sessionStorage.setItem('idUser', '5c0fa703780bf500019a5aea');
-    mockService.downloadImageProFile().subscribe();
-    const req = backEnd.expectOne(`${environment.api}v1/files/image/${sessionStorage.getItem('idUser')}`);
+    mockService.downloadImageProFile('other-user-id').subscribe();
+    const req = backEnd.expectOne(`${environment.api}v1/files/image/other-user-id`);
     expect(req.request.method).toEqual('GET');
     backEnd.verify();
   });

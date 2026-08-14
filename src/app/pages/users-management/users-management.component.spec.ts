@@ -1,5 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { Router } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { of } from 'rxjs';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
@@ -16,7 +18,7 @@ describe('UsersManagementComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [UsersManagementComponent, ToolTipSiteComponent],
-      imports: [NgbModule, HttpClientTestingModule, SharedModule],
+      imports: [NgbModule, HttpClientTestingModule, SharedModule, RouterTestingModule],
       providers: [WorklogApiService]
     })
       .compileComponents();
@@ -132,5 +134,36 @@ describe('UsersManagementComponent', () => {
 
     expect(component.users[0].site).toEqual({ id: '0002', name: 'SET' });
     expect(component.users[0].siteId).toBe('0002');
+  });
+
+  it('should allow editing profiles when current user is admin', () => {
+    sessionStorage.setItem('idUser', 'admin-1');
+    spyOn(worklogApiService, 'getUsersData').and.returnValue(of([]));
+    spyOn(worklogApiService, 'getSitesData').and.returnValue(of([]));
+    spyOn(worklogApiService, 'getUserByID').and.returnValue(of(new User({ role: 'admin' })));
+
+    component.ngOnInit();
+
+    expect(component.canEditProfiles).toBe(true);
+  });
+
+  it('should not allow editing profiles when current user is user-admin', () => {
+    sessionStorage.setItem('idUser', 'user-admin-1');
+    spyOn(worklogApiService, 'getUsersData').and.returnValue(of([]));
+    spyOn(worklogApiService, 'getSitesData').and.returnValue(of([]));
+    spyOn(worklogApiService, 'getUserByID').and.returnValue(of(new User({ role: 'user-admin' })));
+
+    component.ngOnInit();
+
+    expect(component.canEditProfiles).toBe(false);
+  });
+
+  it('should navigate to the user profile when editUser is called', () => {
+    const router = TestBed.inject(Router);
+    spyOn(router, 'navigate');
+
+    component.editUser(new User({ id: 'user-42' }));
+
+    expect(router.navigate).toHaveBeenCalledWith(['/users', 'user-42']);
   });
 });

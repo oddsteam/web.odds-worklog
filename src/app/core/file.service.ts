@@ -54,9 +54,10 @@ export class FileService {
     );
   }
 
-  downloadImageProFile(): Observable<Blob> {
-    if (sessionStorage.getItem('idUser')) {
-      return this.http.get(`${environment.api}v1/files/image/${sessionStorage.getItem('idUser')}`, {
+  downloadImageProFile(userId?: string): Observable<Blob> {
+    const id = userId || sessionStorage.getItem('idUser');
+    if (id) {
+      return this.http.get(`${environment.api}v1/files/image/${id}`, {
         headers: new HttpHeaders({
           Authorization: sessionStorage.getItem('token')
         }),
@@ -65,9 +66,10 @@ export class FileService {
     }
   }
 
-  downloadTranscriptFile(): Observable<Blob> {
-    if (sessionStorage.getItem('idUser')) {
-      return this.http.get(`${environment.api}v1/files/transcript/${sessionStorage.getItem('idUser')}`, {
+  downloadTranscriptFile(userId?: string): Observable<Blob> {
+    const id = userId || sessionStorage.getItem('idUser');
+    if (id) {
+      return this.http.get(`${environment.api}v1/files/transcript/${id}`, {
         headers: new HttpHeaders({
           Authorization: sessionStorage.getItem('token')
         }),
@@ -76,9 +78,10 @@ export class FileService {
     }
   }
 
-  downloadDegreeCertificateFile(): Observable<Blob> {
-    if (sessionStorage.getItem('idUser')) {
-      return this.http.get(`${environment.api}v1/files/degreecertificate/${sessionStorage.getItem('idUser')}`, {
+  downloadDegreeCertificateFile(userId?: string): Observable<Blob> {
+    const id = userId || sessionStorage.getItem('idUser');
+    if (id) {
+      return this.http.get(`${environment.api}v1/files/degreecertificate/${id}`, {
         headers: new HttpHeaders({
           Authorization: sessionStorage.getItem('token')
         }),
@@ -87,9 +90,10 @@ export class FileService {
     }
   }
 
-  downloadIdCardFile(): Observable<Blob> {
-    if (sessionStorage.getItem('idUser')) {
-      return this.http.get(`${environment.api}v1/files/idcard/${sessionStorage.getItem('idUser')}`, {
+  downloadIdCardFile(userId?: string): Observable<Blob> {
+    const id = userId || sessionStorage.getItem('idUser');
+    if (id) {
+      return this.http.get(`${environment.api}v1/files/idcard/${id}`, {
         headers: new HttpHeaders({
           Authorization: sessionStorage.getItem('token')
         }),

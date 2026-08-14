@@ -2,6 +2,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
+import { Router } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ComponentLoaderFactory } from 'ngx-bootstrap/component-loader';
 import { BsModalService } from 'ngx-bootstrap/modal';
@@ -443,6 +444,35 @@ describe('ProfileComponent', () => {
 
       expect(component.modalRef.hide).toHaveBeenCalled();
     });
+
+    it('should not update session header or daily income when editing another user', () => {
+      component.isEditingOther = true;
+      sessionStorage.setItem('firstName', 'Admin');
+      sessionStorage.setItem('role', 'admin');
+      fixture.detectChanges();
+      component.profileForm = <FormGroup>{
+        valid: true
+      };
+
+      spyOn(component, 'setDataToModel');
+      spyOn(worklogApiService, 'setDailyIncoem');
+      spyOn(worklogApiService, 'updateUser').and.returnValue(of(mockResponse));
+      spyOn(component, 'setDataUser');
+      spyOn(component, 'triggerHeader');
+      spyOn(component, 'alertSuccess');
+      spyOn(stateService, 'setTypeUser');
+      spyOn(modalService, 'show');
+
+      component.updateData();
+
+      expect(worklogApiService.setDailyIncoem).not.toHaveBeenCalled();
+      expect(component.triggerHeader).not.toHaveBeenCalled();
+      expect(stateService.setTypeUser).not.toHaveBeenCalled();
+      expect(sessionStorage.getItem('firstName')).toBe('Admin');
+      expect(sessionStorage.getItem('role')).toBe('admin');
+      expect(component.alertSuccess).toHaveBeenCalled();
+      expect(modalService.show).toHaveBeenCalled();
+    });
   });
 
   describe('getEmitSoucrePersonType', () => {
@@ -497,5 +527,38 @@ describe('ProfileComponent', () => {
       component.setDataToModel();
     });
 
+  });
+
+  describe('editing another user', () => {
+    it('should use route id and require admin when it differs from the current user', () => {
+      sessionStorage.setItem('idUser', 'admin-id');
+      spyOn(component, 'resolveTargetUserId').and.returnValue('other-id');
+      spyOn(component, 'ensureAdminWhenEditingOther');
+
+      component.ngOnInit();
+
+      expect(component.id).toBe('other-id');
+      expect(component.isEditingOther).toBe(true);
+      expect(component.ensureAdminWhenEditingOther).toHaveBeenCalled();
+    });
+
+    it('should redirect to users when a non-admin edits another profile', () => {
+      const router = TestBed.inject(Router);
+      spyOn(router, 'navigate');
+      spyOn(worklogApiService, 'getUserByID').and.returnValue(of(new User({ role: 'user-admin' })));
+
+      component.ensureAdminWhenEditingOther();
+
+      expect(router.navigate).toHaveBeenCalledWith(['/users']);
+    });
+
+    it('should load the target profile when an admin edits another user', () => {
+      spyOn(worklogApiService, 'getUserByID').and.returnValue(of(new User({ role: 'admin' })));
+      spyOn(component, 'getData');
+
+      component.ensureAdminWhenEditingOther();
+
+      expect(component.getData).toHaveBeenCalled();
+    });
   });
 });

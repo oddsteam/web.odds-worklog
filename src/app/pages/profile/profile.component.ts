@@ -1,5 +1,6 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { FileService } from 'src/app/core/file.service';
 import { StateService } from 'src/app/core/state.service';
@@ -59,6 +60,7 @@ export class ProfileComponent implements OnInit {
   ];
   isVat = 'N';
   site = '';
+  isEditingOther = false;
 
   @ViewChild('incomeReminderModal', { static: true }) incomeReminderModal: TemplateRef<any>;
   modalRef: BsModalRef;
@@ -69,12 +71,41 @@ export class ProfileComponent implements OnInit {
     private fileService: FileService,
     private stateService: StateService,
     private validateCitized: ValidateCitizenIdUtil,
-    private modalService: BsModalService
+    private modalService: BsModalService,
+    private route: ActivatedRoute,
+    private router: Router
   ) { }
 
   ngOnInit() {
+    this.id = this.resolveTargetUserId();
+    this.isEditingOther = this.id !== sessionStorage.getItem('idUser');
     this.createForm();
+    if (this.isEditingOther) {
+      this.ensureAdminWhenEditingOther();
+      return;
+    }
     this.getData();
+  }
+
+  resolveTargetUserId(): string {
+    const fromRoute = this.route.snapshot.paramMap.get('id')
+      || (this.route.parent && this.route.parent.snapshot.paramMap.get('id'));
+    return fromRoute || sessionStorage.getItem('idUser');
+  }
+
+  ensureAdminWhenEditingOther() {
+    const currentUserId = sessionStorage.getItem('idUser');
+    this.worklogApiService.getUserByID(currentUserId).subscribe(current => {
+      if (current.role !== 'admin') {
+        this.router.navigate(['/users']);
+        return;
+      }
+      this.getData();
+    });
+  }
+
+  backToUsers() {
+    this.router.navigate(['/users']);
   }
 
   createForm() {
@@ -146,18 +177,24 @@ export class ProfileComponent implements OnInit {
     }
 
     this.setDataToModel();
-    this.worklogApiService.setDailyIncoem(this.userInfo.dailyIncome);
+    if (!this.isEditingOther) {
+      this.worklogApiService.setDailyIncoem(this.userInfo.dailyIncome);
+    }
     this.worklogApiService.updateUser(this.id, this.userInfo).subscribe(user => {
       this.setDataUser(user);
-      sessionStorage.setItem('firstName', user.firstName);
-      sessionStorage.setItem('role', user.role);
-      this.triggerHeader();
+      if (!this.isEditingOther) {
+        sessionStorage.setItem('firstName', user.firstName);
+        sessionStorage.setItem('role', user.role);
+        this.triggerHeader();
+      }
       this.alertSuccess();
       this.modalRef = this.modalService.show(this.incomeReminderModal, {
         ignoreBackdropClick: true,
       });
     });
-    this.stateService.setTypeUser(this.personType);
+    if (!this.isEditingOther) {
+      this.stateService.setTypeUser(this.personType);
+    }
 
   }
 
@@ -267,22 +304,22 @@ export class ProfileComponent implements OnInit {
   onDownload(type) {
     if (type === 'transcript') {
       const fileName = this.getTranscriptFile.fileName;
-      this.fileService.downloadTranscriptFile().subscribe(response => {
+      this.fileService.downloadTranscriptFile(this.id).subscribe(response => {
         this.downloadFile(response, fileName);
       }, err => alert('Download Transcript failed.'));
     } else if (type === 'image') {
       const fileName = this.getImageFile.fileName;
-      this.fileService.downloadImageProFile().subscribe(response => {
+      this.fileService.downloadImageProFile(this.id).subscribe(response => {
         this.downloadFile(response, fileName);
       }, err => alert('Download image profile failed.'));
     } else if (type === 'degreecertificate') {
       const fileName = this.getDegreeCertificateFile.fileName;
-      this.fileService.downloadDegreeCertificateFile().subscribe(response => {
+      this.fileService.downloadDegreeCertificateFile(this.id).subscribe(response => {
         this.downloadFile(response, fileName);
       }, err => alert('Download degree certificate failed.'));
     } else {
       const fileName = this.getIdCardFile.fileName;
-      this.fileService.downloadIdCardFile().subscribe(response => {
+      this.fileService.downloadIdCardFile(this.id).subscribe(response => {
         this.downloadFile(response, fileName);
       }, err => alert('Download id card failed.'));
     }

@@ -10,7 +10,7 @@ const routes: Routes = [
             {
                 path: 'profile',
                 loadChildren:
-                () => import('../pages/profile/profile.module').then(m => m.ProfileModule),
+                () => import('../pages/profile/profile-routing.module').then(m => m.ProfileRoutingModule),
             },
             {
                 path: 'corporate',

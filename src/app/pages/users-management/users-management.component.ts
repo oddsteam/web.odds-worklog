@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
 import { User } from 'src/app/shared/model/user';
 import { Site } from 'src/app/shared/model/site';
@@ -11,11 +12,16 @@ import { Site } from 'src/app/shared/model/site';
 export class UsersManagementComponent implements OnInit {
   users: User[];
   sites: Site[] = [];
-  constructor(private worklogApiService: WorklogApiService) { }
+  canEditProfiles = false;
+  constructor(
+    private worklogApiService: WorklogApiService,
+    private router: Router
+  ) { }
 
   ngOnInit() {
     this.getUsersData();
     this.loadSites();
+    this.loadCurrentUserRole();
   }
 
   getUsersData() {
@@ -34,6 +40,10 @@ export class UsersManagementComponent implements OnInit {
     });
   }
 
+  editUser(user: User) {
+    this.router.navigate(['/users', user.id]);
+  }
+
   onSiteChanged(event: { userId: string; siteId: string }) {
     const user = this.users.find(u => u.id === event.userId);
     if (!user) {
@@ -42,6 +52,16 @@ export class UsersManagementComponent implements OnInit {
     const site = this.sites.find(s => s.id === event.siteId);
     user.site = site || { id: event.siteId, name: '-' };
     user.siteId = event.siteId;
+  }
+
+  private loadCurrentUserRole() {
+    const id = sessionStorage.getItem('idUser');
+    if (!id) {
+      return;
+    }
+    this.worklogApiService.getUserByID(id).subscribe(user => {
+      this.canEditProfiles = user.role === 'admin';
+    });
   }
 
   private loadSites() {

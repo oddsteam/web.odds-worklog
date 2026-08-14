@@ -3,13 +3,19 @@
     <app-message-tooltip></app-message-tooltip>
   </div>
   <div class="container">
+    <div class="edit-other-banner" *ngIf="isEditingOther">
+      <a href="javascript:void(0)" (click)="backToUsers()">กลับไป Users</a>
+      <h5 class="mt-2" *ngIf="userInfo">
+        กำลังแก้ไขโปรไฟล์ของ {{ userInfo.firstName }} {{ userInfo.lastName }}
+      </h5>
+    </div>
     <form [formGroup]="fileForm">
       <div class="row">
         <div class="col-lg-6">
           <h5 class="prepend-top-0">Upload Transcript</h5>
           <div class="prepend-top-5 append-bottom-10">
             <div class="upload-file-wrapper">
-              <span [hidden]="userInfo && userInfo.transcript">
+              <span [hidden]="isEditingOther || (userInfo && userInfo.transcript)">
                 <button class="btn button-upload" type="button">
                   Choose file...
                 </button>
@@ -31,6 +37,7 @@
                 <button
                   class="btn button-remove"
                   type="button"
+                  *ngIf="!isEditingOther"
                   (click)="onRemove('transcript')"
                 >
                   Remove
@@ -53,7 +60,7 @@
           <h5 class="prepend-top-0">Upload new avatar</h5>
           <div class="prepend-top-5 append-bottom-10">
             <div class="upload-file-wrapper">
-              <span [hidden]="userInfo && userInfo.imageProfile">
+              <span [hidden]="isEditingOther || (userInfo && userInfo.imageProfile)">
                 <button class="btn button-upload" type="button">
                   Choose file...
                 </button>
@@ -75,6 +82,7 @@
                 <button
                   class="btn button-remove"
                   type="button"
+                  *ngIf="!isEditingOther"
                   (click)="onRemove('image')"
                 >
                   Remove
@@ -97,7 +105,7 @@
           <h5 class="prepend-top-0">Upload Degree Certificate</h5>
           <div class="prepend-top-5 append-bottom-10">
             <div class="upload-file-wrapper">
-              <span [hidden]="userInfo && userInfo.degreeCertificate">
+              <span [hidden]="isEditingOther || (userInfo && userInfo.degreeCertificate)">
                 <button class="btn button-upload" type="button">
                   Choose file...
                 </button>
@@ -119,6 +127,7 @@
                 <button
                   class="btn button-remove"
                   type="button"
+                  *ngIf="!isEditingOther"
                   (click)="onRemove('degreecertificate')"
                 >
                   Remove
@@ -141,7 +150,7 @@
           <h5 class="prepend-top-0">Upload ID Card</h5>
           <div class="prepend-top-5 append-bottom-10">
             <div class="upload-file-wrapper">
-              <span [hidden]="userInfo && userInfo.idCard">
+              <span [hidden]="isEditingOther || (userInfo && userInfo.idCard)">
                 <button class="btn button-upload" type="button">
                   Choose file...
                 </button>
@@ -163,6 +172,7 @@
                 <button
                   class="btn button-remove"
                   type="button"
+                  *ngIf="!isEditingOther"
                   (click)="onRemove('idcard')"
                 >
                   Remove
