@@ -7,6 +7,7 @@ export class User {
   lastName: string;
   corporateName?: string;
   email: string;
+  peakCode: string;
   bankAccountName: string;
   bankAccountNumber: string;
   thaiCitizenId: string;
@@ -31,6 +32,7 @@ export class User {
     lastName?: string;
     corporateName?: string;
     email?: string;
+    peakCode?: string;
     bankAccountName?: string;
     bankAccountNumber?: string;
     thaiCitizenId?: string;
@@ -54,6 +56,7 @@ export class User {
     this.firstName = user.firstName ? user.firstName : "";
     this.lastName = user.lastName ? user.lastName : "";
     this.email = user.email ? user.email : "";
+    this.peakCode = user.peakCode ? user.peakCode : "";
     this.bankAccountName = user.bankAccountName ? user.bankAccountName : "";
     this.bankAccountNumber = user.bankAccountNumber
       ? user.bankAccountNumber

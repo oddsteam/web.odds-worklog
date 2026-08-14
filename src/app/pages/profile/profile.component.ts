@@ -114,6 +114,7 @@ export class ProfileComponent implements OnInit {
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       email: [{ value: '', disabled: true }, [Validators.required, Validators.email]],
+      peakCode: [{ value: '', disabled: true }],
       bankAccount: ['', Validators.required],
       bankAccountNumber: ['', Validators.required],
       project: [''],
@@ -140,6 +141,9 @@ export class ProfileComponent implements OnInit {
       if (this.isEditingOther) {
         this.emailForm.enable();
       }
+      if (this.isEditingOther || user.role === 'admin') {
+        this.peakCodeForm.enable();
+      }
       if (user.role === 'corporate') {
         this.isCorporate = true;
       }
@@ -153,6 +157,7 @@ export class ProfileComponent implements OnInit {
     this.firstNameForm.setValue(user.firstName);
     this.lastNameForm.setValue(user.lastName);
     this.emailForm.setValue(user.email);
+    this.peakCodeForm.setValue(user.peakCode || '');
     this.bankAccountForm.setValue(user.bankAccountName);
     this.bankAccountNumberForm.setValue(user.bankAccountNumber);
     this.project.setValue(user.project);
@@ -198,7 +203,12 @@ export class ProfileComponent implements OnInit {
       },
       err => {
         if (err.status === 409) {
-          alert('Email already exists');
+          const msg = err.error && err.error.message ? err.error.message : '';
+          if (msg.toLowerCase().indexOf('peak') !== -1) {
+            alert('Peak code already exists');
+          } else {
+            alert('Email already exists');
+          }
           return;
         }
         alert(err.error && err.error.message ? err.error.message : 'Update profile failed.');
@@ -226,6 +236,7 @@ export class ProfileComponent implements OnInit {
     this.userInfo.firstName = this.firstNameForm.value;
     this.userInfo.lastName = this.lastNameForm.value;
     this.userInfo.email = this.profileForm.getRawValue().email;
+    this.userInfo.peakCode = this.profileForm.getRawValue().peakCode;
     this.userInfo.bankAccountName = this.bankAccountForm.value;
     this.userInfo.bankAccountNumber = this.bankAccountNumberForm.value;
     this.userInfo.vat = this.vat.value;
@@ -497,6 +508,10 @@ export class ProfileComponent implements OnInit {
 
   get emailForm(): FormControl {
     return this.profileForm.get('email') as FormControl;
+  }
+
+  get peakCodeForm(): FormControl {
+    return this.profileForm.get('peakCode') as FormControl;
   }
 
   get bankAccountForm(): FormControl {

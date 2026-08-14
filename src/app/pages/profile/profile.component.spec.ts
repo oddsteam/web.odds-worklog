@@ -56,6 +56,7 @@ describe('ProfileComponent', () => {
       bankAccountName: 'กอไก่ ขอไข่',
       bankAccountNumber: '0123456789',
       email: 'who@odds.team',
+      peakCode: '',
       firstName: 'aaa',
       id: '5c0fa703780bf500019a5aea',
       lastName: 'bbb',
@@ -82,6 +83,7 @@ describe('ProfileComponent', () => {
       bankAccountName: 'กอไก่ ขอไข่',
       bankAccountNumber: '0123456789',
       email: 'who@odds.team',
+      peakCode: '',
       firstName: 'aaa',
       id: '5c0fa703780bf500019a5aea',
       lastName: 'bbb',
@@ -117,6 +119,7 @@ describe('ProfileComponent', () => {
       bankAccountName: 'กอไก่ ขอไข่',
       bankAccountNumber: '0123456789',
       email: 'who@odds.team',
+      peakCode: '',
       firstName: 'aaa',
       id: '5c0fa703780bf500019a5aea',
       lastName: 'bbb',
@@ -234,6 +237,7 @@ describe('ProfileComponent', () => {
       bankAccountName: 'กอไก่ ขอไข่',
       bankAccountNumber: '0123456789',
       email: 'who@odds.team',
+      peakCode: '',
       firstName: 'aaa',
       id: '5c0fa703780bf500019a5aea',
       lastName: 'bbb',
@@ -260,6 +264,7 @@ describe('ProfileComponent', () => {
       bankAccountName: 'กอไก่ ขอไข่',
       bankAccountNumber: '0123456789',
       email: 'who@odds.team',
+      peakCode: '',
       firstName: 'aaa',
       id: '5c0fa703780bf500019a5aea',
       lastName: 'bbb',
@@ -319,6 +324,7 @@ describe('ProfileComponent', () => {
         bankAccountName: 'กอไก่ ขอไข่',
         bankAccountNumber: '0123456789',
         email: 'who@odds.team',
+        peakCode: '',
         firstName: 'aaa',
         id: '5c0fa703780bf500019a5aea',
         lastName: 'bbb',
@@ -350,6 +356,7 @@ describe('ProfileComponent', () => {
         lastName: 'ODDS',
         corporateName: 'บอบอ',
         email: 'odds@odds.team',
+        peakCode: '',
         bankAccount: 'odds odds',
         bankAccountNumber: '1122334455',
         project: '',
@@ -632,6 +639,84 @@ describe('ProfileComponent', () => {
       component.setDataToModel();
 
       expect(component.userInfo.email).toBe('updated@example.com');
+    });
+  });
+
+  describe('peak code field', () => {
+    const profileUser = (role: string) => new User({
+      bankAccountName: 'กอไก่ ขอไข่',
+      bankAccountNumber: '0123456789',
+      email: 'who@odds.team',
+      peakCode: 'PK-001',
+      firstName: 'aaa',
+      id: '5c0fa703780bf500019a5aea',
+      lastName: 'bbb',
+      role,
+      vat: 'N',
+      thaiCitizenId: '123467890',
+      phone: '',
+      startDate: '2022-1-1'
+    });
+
+    it('should enable peak code when an admin edits their own profile', () => {
+      component.isEditingOther = false;
+      component.createForm();
+      spyOn(worklogApiService, 'getUserByID').and.returnValue(of(profileUser('admin')));
+      spyOn(worklogApiService, 'getSitesData').and.returnValue(of([]));
+
+      component.getData();
+
+      expect(component.peakCodeForm.enabled).toBe(true);
+      expect(component.peakCodeForm.value).toBe('PK-001');
+    });
+
+    it('should enable peak code when editing another user', () => {
+      component.isEditingOther = true;
+      component.createForm();
+      spyOn(worklogApiService, 'getUserByID').and.returnValue(of(profileUser('individual')));
+      spyOn(worklogApiService, 'getSitesData').and.returnValue(of([]));
+
+      component.getData();
+
+      expect(component.peakCodeForm.enabled).toBe(true);
+    });
+
+    it('should keep peak code disabled when an individual edits their own profile', () => {
+      component.isEditingOther = false;
+      component.createForm();
+      spyOn(worklogApiService, 'getUserByID').and.returnValue(of(profileUser('individual')));
+      spyOn(worklogApiService, 'getSitesData').and.returnValue(of([]));
+
+      component.getData();
+
+      expect(component.peakCodeForm.disabled).toBe(true);
+    });
+
+    it('should include peak code in userInfo when the field is enabled', () => {
+      component.isEditingOther = true;
+      component.userInfo = new User();
+      component.createForm();
+      component.peakCodeForm.enable();
+      component.peakCodeForm.setValue('PK-NEW');
+      component.emailForm.enable();
+      component.emailForm.setValue('updated@example.com');
+      component.corporateNameForm.setValue('');
+      component.firstNameForm.setValue('ทดสอบ');
+      component.lastNameForm.setValue('ชอบลงทุน');
+      component.bankAccountForm.setValue('ทดสอบ ชอบลงทุน');
+      component.bankAccountNumberForm.setValue('1235678900');
+      component.vat.setValue('N');
+      component.project.setValue('TEST');
+      component.dailyIncome.setValue('4000');
+      component.personType = 'individual';
+      component.address.setValue('-');
+      component.thaiCitizenId.setValue('-');
+      component.phone.setValue('-');
+      component.startDate.setValue({ year: 2022, month: 1, day: 1 });
+
+      component.setDataToModel();
+
+      expect(component.userInfo.peakCode).toBe('PK-NEW');
     });
   });
 });
