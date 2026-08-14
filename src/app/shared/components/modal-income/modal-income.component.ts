@@ -117,13 +117,8 @@ export class ModalIncomeComponent implements OnInit {
   calTax() {
     this.vatPrimary = calVAT(this.addIncomeData.netDailyIncome);
     this.vatSpecial = calVAT(this.addIncomeData.netSpecialIncome);
-    if (sessionStorage.getItem("role") === "corporate") {
-      this.whtPrimary = calWHTCorporate(this.addIncomeData.netDailyIncome);
-      this.whtSpecial = calWHTCorporate(this.addIncomeData.netSpecialIncome);
-    } else {
-      this.whtPrimary = calWHT(this.addIncomeData.netDailyIncome);
-      this.whtSpecial = calWHT(this.addIncomeData.netSpecialIncome);
-    }
+    this.whtPrimary = calWHT(this.addIncomeData.netDailyIncome);
+    this.whtSpecial = calWHT(this.addIncomeData.netSpecialIncome);
   }
 
   onSubmit() {
@@ -150,11 +145,7 @@ export class ModalIncomeComponent implements OnInit {
       this.specialIncome.value === "" ? "0" : this.specialIncome.value
     );
     this.addIncomeData.vat = calVAT(this.addIncomeData.totalIncome);
-    if (sessionStorage.getItem("role") === "corporate") {
-      this.addIncomeData.wht = calWHTCorporate(this.addIncomeData.totalIncome);
-    } else {
-      this.addIncomeData.wht = calWHT(this.addIncomeData.totalIncome);
-    }
+    this.addIncomeData.wht = calWHT(this.addIncomeData.totalIncome);
     this.addIncomeData.totalIncome = calNetIncome(
       this.addIncomeData.totalIncome,
       this.typeVat === "Y" ? this.addIncomeData.vat : "0",
@@ -192,7 +183,6 @@ export class ModalIncomeComponent implements OnInit {
   }
 
   handleSaveIncomeSuccess() {
-    this.stateService.triggerListIncomeCorporate();
     this.stateService.triggerListIncomeIndividual();
     this.closeModalEmit.emit(true);
   }
@@ -365,10 +355,6 @@ export function calVAT(netIncome: string): string {
 }
 
 export function calWHT(netIncome: string): string {
-  return (stringToNumber(netIncome) * 0.03).toString();
-}
-
-export function calWHTCorporate(netIncome: string): string {
   return (stringToNumber(netIncome) * 0.03).toString();
 }
 

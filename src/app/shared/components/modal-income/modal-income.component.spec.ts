@@ -152,7 +152,6 @@ describe('ModalIncomeComponent', () => {
     });
 
     it('call function updateData and check number of addIncome correct', () => {
-      sessionStorage.setItem('role', 'corporate');
       component.addIncomeData = {
         id: '112233rrf63545',
         userId: '3545fdggdlk65706ijv',
@@ -371,7 +370,7 @@ describe('ModalIncomeComponent', () => {
       expect(component.addIncomeData.wht).toEqual('300');
     });
 
-    it('corporate user should earn 104% of total when updateData', () => {
+    it('vat user should earn 104% of total when updateData', () => {
       component.addIncomeData = null;
       component.onSetupForm();
       const total = 10000;
@@ -385,7 +384,7 @@ describe('ModalIncomeComponent', () => {
       expect(component.addIncomeData.totalIncome).toEqual(`${expected}`)
     });
 
-    it('sme (corporate) user with yearly income less than 1.8M does not require VAT so it should earn 97% of total when updateData', () => {
+    it('sme user with yearly income less than 1.8M does not require VAT so it should earn 97% of total when updateData', () => {
       component.addIncomeData = null;
       component.onSetupForm();
       const total = 10000;

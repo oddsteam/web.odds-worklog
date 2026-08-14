@@ -24,7 +24,6 @@ import { HeaderComponent } from "../shared/components/header/header.component";
 import { TabMenuComponent } from "../shared/components/tab-menu/tab-menu.component";
 import { LayoutsComponent } from "./layouts.component";
 import { LoginLayoutComponent } from "./login-layout/login-layout.component";
-import { CorporateComponent } from "../pages/corporate/corporate.component";
 import { User } from "../shared/model/user";
 import { FirstLoginComponent } from "../pages/first-login/first-login.component";
 
@@ -49,7 +48,8 @@ describe("LayoutsComponent", () => {
         RouterTestingModule.withRoutes([
           { path: "firstlogin", component: FirstLoginComponent },
           { path: "login", component: LoginLayoutComponent },
-          { path: "corporate", component: CorporateComponent },
+          { path: "individual", component: LoginLayoutComponent },
+          { path: "profile", component: LoginLayoutComponent },
         ]),
         HttpClientTestingModule,
         TranslateModule.forRoot({
@@ -136,7 +136,7 @@ describe("LayoutsComponent", () => {
     expect(component.goToPage).toHaveBeenCalledTimes(0);
   });
 
-  it("should navigate to /corporate when role is admin", inject(
+  it("should navigate to /individual when role is admin", inject(
     [Router],
     (router: Router) => {
       const res = new User({
@@ -150,7 +150,7 @@ describe("LayoutsComponent", () => {
       component.ngOnInit();
 
       expect(component.personType).toEqual("admin");
-      expect(router.navigate).toHaveBeenCalledWith(["/corporate"]);
+      expect(router.navigate).toHaveBeenCalledWith(["/individual"]);
     }
   ));
 
@@ -172,7 +172,7 @@ describe("LayoutsComponent", () => {
     }
   ));
 
-  it("should navigate to /corporate when role is corporate", inject(
+  it("should navigate to /profile when role is corporate", inject(
     [Router],
     (router: Router) => {
       const res = new User({
@@ -186,7 +186,7 @@ describe("LayoutsComponent", () => {
       component.ngOnInit();
 
       expect(component.personType).toEqual("corporate");
-      expect(router.navigate).toHaveBeenCalledWith(["/corporate"]);
+      expect(router.navigate).toHaveBeenCalledWith(["/profile"]);
     }
   ));
 

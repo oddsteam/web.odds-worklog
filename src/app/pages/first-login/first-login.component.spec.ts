@@ -101,7 +101,7 @@ describe("FirstLoginComponent", () => {
     expect(component.siteList[4].name).toEqual("DTAC");
   });
 
-  it("when call updateUser() but role equal admin router navigate go to corporate", inject(
+  it("when call updateUser() but role equal admin router navigate go to individual", inject(
     [Router],
     (router: Router) => {
       const res = new User({ role: "admin" });
@@ -110,7 +110,7 @@ describe("FirstLoginComponent", () => {
 
       component.updateUser();
 
-      expect(router.navigate).toHaveBeenCalledWith(["corporate"]);
+      expect(router.navigate).toHaveBeenCalledWith(["individual"]);
     }
   ));
 

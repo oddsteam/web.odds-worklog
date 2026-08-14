@@ -175,7 +175,7 @@ Given("I am a registered admin user", { timeout: 60000 }, async function () {
 When("I log in with admin credentials", { timeout: 30000 }, async function () {
   await dashboardPage.clearSessionStorage();
   await loginPage.goto();
-  await dashboardPage.waitForCorporateDashboard();
+  await dashboardPage.waitForIndividualDashboard();
 });
 
 When("I navigate to the individual income page", { timeout: 30000 }, async function () {

@@ -13,11 +13,6 @@ const routes: Routes = [
                 () => import('../pages/profile/profile-routing.module').then(m => m.ProfileRoutingModule),
             },
             {
-                path: 'corporate',
-                loadChildren:
-                () => import('../pages/corporate/corporate.module').then(m => m.CorporateModule),
-            },
-            {
                 path: 'individual',
                 loadChildren:
                 () => import('../pages/individual/individual.module').then(m => m.IndividualModule),
@@ -45,7 +40,7 @@ const routes: Routes = [
 
         ]
     },
-    { path: '', redirectTo: '/corporate', pathMatch: 'full' }
+    { path: '', redirectTo: '/individual', pathMatch: 'full' }
 ];
 
 @NgModule({

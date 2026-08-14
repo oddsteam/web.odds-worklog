@@ -129,7 +129,6 @@ describe('TabMenuComponent', () => {
     let expected;
     beforeEach(() => {
       expected = [
-        { id: 'corporate', text: 'CORPORATE', icon: 'fa-building', level: 0 },
         { id: 'individual', text: 'INDIVIDUAL', icon: 'fa-user', level: 0 },
         { id: 'servant', text: 'SERVANT', icon: 'fa-users', level: 0 },
         { id: 'users', text: 'USERS', icon: '', level: 1 },
@@ -145,15 +144,17 @@ describe('TabMenuComponent', () => {
 
       component.checkTabMenu('individual');
 
-      expect(component.listTabMenuShow).toEqual([expected[1], expected[6], expected[7]]);
+      expect(component.listTabMenuShow).toEqual([expected[0], expected[5], expected[6]]);
     });
 
-    it('should be tabActive to equal corporate when role to equal corporate', () => {
+    it('should show only profile and history when role is corporate', () => {
       component.personType = 'corporate';
+      component.tabActive = undefined;
 
       component.checkTabMenu('corporate');
 
-      expect(component.listTabMenuShow).toEqual([expected[0], expected[6], expected[7]]);
+      expect(component.listTabMenuShow).toEqual([expected[5], expected[6]]);
+      expect(component.tabActive).toBe('profile');
     });
 
     it('should be tabActive to equal admin when role to equal admin', () => {
@@ -162,7 +163,7 @@ describe('TabMenuComponent', () => {
       component.checkTabMenu('admin');
 
       expect(component.listTabMenuShow)
-        .toEqual([expected[0], expected[1], expected[2], expected[3], expected[4], expected[5], expected[7]]);
+        .toEqual([expected[0], expected[1], expected[2], expected[3], expected[4], expected[6]]);
     });
 
     it('should show individual users groups profile history when role is user-admin', () => {
@@ -171,7 +172,7 @@ describe('TabMenuComponent', () => {
 
       component.checkTabMenu('user-admin');
 
-      expect(component.listTabMenuShow).toEqual([expected[1], expected[3], expected[4], expected[6], expected[7]]);
+      expect(component.listTabMenuShow).toEqual([expected[0], expected[2], expected[3], expected[5], expected[6]]);
       expect(component.tabActive).toBe('users');
     });
 

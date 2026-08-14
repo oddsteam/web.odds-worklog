@@ -77,24 +77,12 @@
                         <label class="col-form-label" style="color: red;">กรุณาเลือกประเภท user</label>
                     </div>
                 </div>
-                <div class="col-12" *ngIf="isCorporate">
-                    <div class="form-group col-12">
-                        <label for="corporateName">Corporate Name</label>
-                        <input id="corporateName" class="form-control" maxlength="30" placeholder="Fill corporate name" type="text" [ngClass]="{'is-invalid':loginForm.controls.corporateName.invalid && loginForm.controls.corporateName.touched}" formControlName="corporateName"
-                        />
-
-                        <div *ngIf="loginForm.controls.corporateName.invalid && loginForm.controls.corporateName.touched">
-                            <label class="col-form-label" style="color: red;">กรุณากรอกชื่อบริษัท</label>
-                        </div>
-                    </div>
-
-                    <div class="form-group col-12">
-                        <label>Select Vat</label>
-                        <div class="d-flex justify-content-start">
-                            <div class="checkbox col-auto" *ngFor="let vat of vatList">
-                                <label><input type="checkbox" [checked]="vat.isCheck" (change)="onCheckBoxVat(vat.value)" formControlName="vat">
-                  {{vat.name}}</label>
-                            </div>
+                <div class="form-group col-12">
+                    <label>Select Vat</label>
+                    <div class="d-flex justify-content-start">
+                        <div class="checkbox col-auto" *ngFor="let vat of vatList">
+                            <label><input type="checkbox" [checked]="vat.isCheck" (change)="onCheckBoxVat(vat.value)" formControlName="vat">
+              {{vat.name}}</label>
                         </div>
                     </div>
                 </div>

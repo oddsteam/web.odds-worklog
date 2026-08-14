@@ -23,15 +23,12 @@ export class WorklogApiService {
   private userId = this.id;
   readonly apiPath = environment.api;
   individualListed: ListIncomeResponse;
-  corporateListed: ListIncomeResponse;
 
   constructor(private http: HttpClient) {
     // this.initDataService();
   }
 
   getIndividualListed = () => this.individualListed;
-
-  getCorporateListed = () => this.corporateListed;
 
   forCheckTokenPleaseRemoveMeIfFlowLoginFinnished(): Observable<any> {
     return Observable.create((observer) => {
@@ -50,10 +47,6 @@ export class WorklogApiService {
         if (checkTokenInterval) {
           this.getListIncomeIndividual().subscribe((individual) => {
             this.individualListed = individual;
-          });
-
-          this.getListIncomeCorporate().subscribe((corporate) => {
-            this.corporateListed = corporate;
           });
         }
       }
@@ -105,13 +98,6 @@ export class WorklogApiService {
     );
   }
 
-  getListIncomeCorporate(): Observable<ListIncomeResponse> {
-    return this.http.get<ListIncomeResponse>(
-      `${this.apiPath}v1/incomes/status/corporate`,
-      this.getHttpHeaderOption()
-    );
-  }
-
   getListIncomeIndividual(): Observable<ListIncomeResponse> {
     return this.http.get<ListIncomeResponse>(
       `${this.apiPath}v1/incomes/status/individual`,
@@ -146,18 +132,6 @@ export class WorklogApiService {
       `${this.apiPath}v1/incomes/${IncomeFlag.id}`,
       data,
       this.getHttpHeaderOption()
-    );
-  }
-
-  exportDataCorporate(beforeMonth: string): Observable<Blob> {
-    return this.http.get(
-      `${this.apiPath}v1/incomes/export/corporate/${beforeMonth}`,
-      {
-        headers: new HttpHeaders({
-          Authorization: sessionStorage.getItem("token"),
-        }),
-        responseType: "blob",
-      }
     );
   }
 

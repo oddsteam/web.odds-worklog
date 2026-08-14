@@ -354,7 +354,6 @@ describe('ProfileComponent', () => {
       component.profileForm.setValue({
         firstName: 'ODDS',
         lastName: 'ODDS',
-        corporateName: 'บอบอ',
         email: 'odds@odds.team',
         peakCode: '',
         bankAccount: 'odds odds',
@@ -400,7 +399,7 @@ describe('ProfileComponent', () => {
       component.profileForm = <FormGroup>{
         valid: true,
       };
-      component.personType = 'corporate';
+      component.personType = 'individual';
       spyOn(component, 'setDataToModel');
       spyOn(worklogApiService, 'setDailyIncoem');
       spyOn(worklogApiService, 'updateUser').and.returnValue(of(mockResponse));
@@ -418,7 +417,7 @@ describe('ProfileComponent', () => {
       expect(component.setDataUser).toHaveBeenCalled();
       expect(component.triggerHeader).toHaveBeenCalled();
       expect(component.alertSuccess).toHaveBeenCalled();
-      expect(stateService.setTypeUser).toHaveBeenCalledWith('corporate');
+      expect(stateService.setTypeUser).toHaveBeenCalledWith('individual');
     });
 
     it('should open income reminder modal after update succeeds', () => {
@@ -482,43 +481,10 @@ describe('ProfileComponent', () => {
     });
   });
 
-  describe('getEmitSoucrePersonType', () => {
-    it('should set is coporate to true when event is corporate', () => {
-      const event = 'corporate';
-
-      component.getEmitSourcePersonType(event);
-
-      expect(component.isCorporate).toBe(true);
-    });
-
-    it('should set is coporate to false when event is individual', () => {
-      const event = 'individual';
-
-      component.getEmitSourcePersonType(event);
-
-      expect(component.isCorporate).toBe(false);
-    });
-
-    it('should set person type to corporate when event is corporate', () => {
-      const event = 'corporate';
-
-      component.getEmitSourcePersonType(event);
-
-      expect(component.personType).toEqual('corporate');
-    });
-
-    it('should set person type to individual when event is individual', () => {
-      const event = 'individual';
-
-      component.getEmitSourcePersonType(event);
-
-      expect(component.personType).toEqual('individual');
-    });
-
+  describe('setDataToModel', () => {
     it('ทดสอบเรียกฟังชั่น setDataToModel หากทำการเรียกแล้วจะทำการ set ค่าต่างๆ ลง userInfo', () => {
       component.userInfo = new User();
       component.createForm();
-      component.corporateNameForm.setValue('');
       component.firstNameForm.setValue('ทดสอบ');
       component.lastNameForm.setValue('ชอบลงทุน');
       component.emailForm.setValue('test@abc.com');
@@ -622,7 +588,6 @@ describe('ProfileComponent', () => {
       component.createForm();
       component.emailForm.enable();
       component.emailForm.setValue('updated@example.com');
-      component.corporateNameForm.setValue('');
       component.firstNameForm.setValue('ทดสอบ');
       component.lastNameForm.setValue('ชอบลงทุน');
       component.bankAccountForm.setValue('ทดสอบ ชอบลงทุน');
@@ -700,7 +665,6 @@ describe('ProfileComponent', () => {
       component.peakCodeForm.setValue('PK-NEW');
       component.emailForm.enable();
       component.emailForm.setValue('updated@example.com');
-      component.corporateNameForm.setValue('');
       component.firstNameForm.setValue('ทดสอบ');
       component.lastNameForm.setValue('ชอบลงทุน');
       component.bankAccountForm.setValue('ทดสอบ ชอบลงทุน');

@@ -1,6 +1,5 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
-import { forkJoin } from "rxjs";
 import { WorklogApiService } from "src/app/core/worklog-api.service";
 import { Login } from "src/app/shared/model/login";
 import { KeycloakService } from "keycloak-angular";
@@ -48,11 +47,7 @@ export class LoginGoogleComponent implements OnInit {
     sessionStorage.setItem("firstName", res.user.firstName);
     sessionStorage.setItem("role", res.user.role);
     if (res.firstLogin === "N") {
-      if (res.user.role === "admin") {
-        this.router.navigate(["corporate"]);
-      } else {
-        this.router.navigate([res.user.role]);
-      }
+      this.navigateAfterLogin(res.user.role);
       this.cacheData();
     } else {
       this.router.navigate(["firstlogin"]);
@@ -79,13 +74,19 @@ export class LoginGoogleComponent implements OnInit {
     return true;
   }
 
-  cacheData() {
-    const individualListed = this.worklogService.getListIncomeIndividual();
-    const corporateListed = this.worklogService.getListIncomeCorporate();
+  private navigateAfterLogin(role: string) {
+    if (role === "admin") {
+      this.router.navigate(["individual"]);
+    } else if (role === "corporate") {
+      this.router.navigate(["profile"]);
+    } else {
+      this.router.navigate([role]);
+    }
+  }
 
-    forkJoin([corporateListed, individualListed]).subscribe((result) => {
-      this.worklogService.corporateListed = result[0];
-      this.worklogService.individualListed = result[1];
+  cacheData() {
+    this.worklogService.getListIncomeIndividual().subscribe((individual) => {
+      this.worklogService.individualListed = individual;
     });
   }
 

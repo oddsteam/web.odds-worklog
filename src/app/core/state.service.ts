@@ -9,7 +9,6 @@ export class StateService {
   isUserType = new BehaviorSubject<string>(null);
   isUserFlag = new BehaviorSubject<string>(null);
   isVatType = new BehaviorSubject<string>(null);
-  listIncomeCorporateTrigger = new BehaviorSubject<boolean>(null);
   listIncomeIndividualTrigger = new BehaviorSubject<boolean>(null);
   headerTrigger = new BehaviorSubject<boolean>(null);
 
@@ -29,10 +28,6 @@ export class StateService {
 
   setFlagVat(flag: string) {
     this.isVatType.next(flag);
-  }
-
-  triggerListIncomeCorporate() {
-    this.listIncomeCorporateTrigger.next(true);
   }
 
   triggerListIncomeIndividual() {

@@ -46,14 +46,8 @@ export class FirstLoginComponent implements OnInit {
       name: "Individual",
       isCheck: true,
     },
-    {
-      value: "corporate",
-      name: "Corporate",
-      isCheck: false,
-    },
   ];
   vat = "N";
-  isCorporate = false;
 
   constructor(
     private fb: FormBuilder,
@@ -71,13 +65,12 @@ export class FirstLoginComponent implements OnInit {
     this.loginForm = this.fb.group({
       firstName: ["", [Validators.required]],
       lastName: ["", [Validators.required]],
-      corporateName: [""],
       bankAccountName: ["", Validators.required],
       bankAccountNumber: [
         "",
         [Validators.required, Validators.pattern("\\d{9,16}")],
       ],
-      role: ["", Validators.required],
+      role: ["individual", Validators.required],
       vat: [true, Validators.required],
       siteId: ["", Validators.required],
       project: [""],
@@ -102,7 +95,9 @@ export class FirstLoginComponent implements OnInit {
       .subscribe(
         (res) => {
           if (res.role === "admin") {
-            this.router.navigate(["corporate"]);
+            this.router.navigate(["individual"]);
+          } else if (res.role === "corporate") {
+            this.router.navigate(["profile"]);
           } else {
             this.router.navigate([res.role]);
           }
@@ -137,7 +132,6 @@ export class FirstLoginComponent implements OnInit {
     this.user.lastName = this.lastNameForm.value;
     this.user.bankAccountName = this.bankAccountNameForm.value;
     this.user.bankAccountNumber = this.bankAccountNumberForm.value;
-    this.user.corporateName = this.corporateNameForm.value;
     this.user.role = this.role.value;
     this.user.vat = this.vat;
     this.user.siteId = this.siteIdForm.value;
@@ -159,10 +153,6 @@ export class FirstLoginComponent implements OnInit {
 
   get bankAccountNumberForm(): FormControl {
     return this.loginForm.get("bankAccountNumber") as FormControl;
-  }
-
-  get corporateNameForm(): FormControl {
-    return this.loginForm.get("corporateName") as FormControl;
   }
   get role(): FormControl {
     return this.loginForm.get("role") as FormControl;

@@ -24,9 +24,6 @@ const mockSites: Site[] = [
 ];
 
 class MockWorklogApiService extends WorklogApiService {
-  exportDataCorporate(): Observable<Blob> {
-    return of(mockBlob);
-  }
   exportDataIndividual(): Observable<Blob> {
     return of(mockBlob);
   }

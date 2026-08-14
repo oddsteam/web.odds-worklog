@@ -1,8 +1,0 @@
-<div *ngIf="isShowData()">
-  <div class="card-container" *ngIf="personType !== 'admin'">
-    <app-add-income [role]="personType" (addIncomeAlready)="addIncomeEmit($event)"></app-add-income>
-  </div>
-  <div>
-    <app-list-corporate [role]="personType" [isUpdateList]="isUpdateIncome"></app-list-corporate>
-  </div>
-</div>

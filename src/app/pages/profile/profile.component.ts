@@ -33,20 +33,8 @@ export class ProfileComponent implements OnInit {
   personType: string;
   showSuccessMessage = false;
   fileNamePdf: string;
-  isCorporate = false;
   checkCiti: Boolean;
   datePicker: NgbDateStruct;
-
-  listPersonType = [
-    {
-      id: 'corporate',
-      name: 'Corporate'
-    },
-    {
-      id: 'individual',
-      name: 'Individual'
-    }
-  ];
 
   vatList = [
     {
@@ -110,7 +98,6 @@ export class ProfileComponent implements OnInit {
 
   createForm() {
     this.profileForm = this.formBuilder.group({
-      corporateName: ['', Validators.required],
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       email: [{ value: '', disabled: true }, [Validators.required, Validators.email]],
@@ -144,16 +131,12 @@ export class ProfileComponent implements OnInit {
       if (this.isEditingOther || user.role === 'admin') {
         this.peakCodeForm.enable();
       }
-      if (user.role === 'corporate') {
-        this.isCorporate = true;
-      }
     });
   }
 
   setDataUser(user: User) {
     this.userInfo = user;
     this.personType = user.role;
-    this.corporateNameForm.setValue(user.corporateName);
     this.firstNameForm.setValue(user.firstName);
     this.lastNameForm.setValue(user.lastName);
     this.emailForm.setValue(user.email);
@@ -232,7 +215,6 @@ export class ProfileComponent implements OnInit {
   }
 
   setDataToModel() {
-    this.userInfo.corporateName = this.corporateNameForm.value;
     this.userInfo.firstName = this.firstNameForm.value;
     this.userInfo.lastName = this.lastNameForm.value;
     this.userInfo.email = this.profileForm.getRawValue().email;
@@ -383,21 +365,6 @@ export class ProfileComponent implements OnInit {
     this.userInfo.siteId = event;
   }
 
-  getEmitSourcePersonType(event) {
-    if (event === 'individual' || event === 'corporate') {
-      this.personType = event;
-      this.isCorporate = (event === 'individual') ? false : true;
-    }
-
-    if (!this.isCorporate) {
-      this.corporateNameForm.disable();
-    } else {
-      this.corporateNameForm.enable();
-    }
-  }
-
-
-
   downloadFile(data: any, filename: string) {
     const url = window.URL.createObjectURL(data);
     const a = document.createElement('a');
@@ -492,10 +459,6 @@ export class ProfileComponent implements OnInit {
 
   get hasOldTranscriptFileAtStart(): Boolean {
     return !this.oldTranscriptFile !== null && this.transcriptFile === null ? true : false;
-  }
-
-  get corporateNameForm(): FormControl {
-    return this.profileForm.get('corporateName') as FormControl;
   }
 
   get firstNameForm(): FormControl {

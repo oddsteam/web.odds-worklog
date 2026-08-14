@@ -42,23 +42,18 @@ xdescribe("LoginGoogleComponent", () => {
     expect(component).toBeTruthy();
   });
 
-  it("should set individualListed, corporateListed when call cacheData()", () => {
+  it("should set individualListed when call cacheData()", () => {
     spyOn(workLogService, "getListIncomeIndividual").and.returnValue(
-      of(new ListIncomeResponse())
-    );
-    spyOn(workLogService, "getListIncomeCorporate").and.returnValue(
       of(new ListIncomeResponse())
     );
 
     component.cacheData();
 
     expect(workLogService.getListIncomeIndividual).toHaveBeenCalled();
-    expect(workLogService.getListIncomeCorporate).toHaveBeenCalled();
     expect(workLogService.individualListed).toBeDefined();
-    expect(workLogService.corporateListed).toBeDefined();
   });
 
-  it("should be router navigate to corporate page when user login role admin", inject(
+  it("should be router navigate to individual page when user login role admin", inject(
     [Router],
     (router: Router) => {
       const result = <Login>{
@@ -72,7 +67,7 @@ xdescribe("LoginGoogleComponent", () => {
       spyOn(component, "cacheData");
       component.authenticateWithBackend("123");
       expect(workLogService.initDataService).toHaveBeenCalled();
-      expect(router.navigate).toHaveBeenCalledWith(["corporate"]);
+      expect(router.navigate).toHaveBeenCalledWith(["individual"]);
       expect(component.cacheData).toHaveBeenCalled();
       expect(router.navigate).not.toHaveBeenCalledWith(["firstlogin"]);
     }

@@ -15,7 +15,6 @@ export class TabMenuComponent implements OnInit {
   personType: string;
   isShowLess = true;
   listTabMenu = [
-    { id: 'corporate', text: 'CORPORATE', icon: 'fa-building', level: 0 },
     { id: 'individual', text: 'INDIVIDUAL', icon: 'fa-user', level: 0 },
     { id: 'servant', text: 'SERVANT', icon: 'fa-users', level: 0 },
     { id: 'users', text: 'USERS', icon: '', level: 1 },
@@ -73,6 +72,15 @@ export class TabMenuComponent implements OnInit {
         const allowedUserAdminTabs = ['individual', 'users', 'groups/all', 'profile', 'history'];
         if (!this.tabActive || !allowedUserAdminTabs.includes(this.tabActive)) {
           this.tabActive = 'users';
+          sessionStorage.setItem('tabActive', this.tabActive);
+        }
+      } else if (userType === 'corporate') {
+        this.listTabMenuShow = this.listTabMenu.filter(
+          x => x.id === 'profile' || x.id === 'history'
+        );
+        const allowedCorporateTabs = ['profile', 'history'];
+        if (!this.tabActive || !allowedCorporateTabs.includes(this.tabActive)) {
+          this.tabActive = 'profile';
           sessionStorage.setItem('tabActive', this.tabActive);
         }
       } else if (userType !== 'admin') {

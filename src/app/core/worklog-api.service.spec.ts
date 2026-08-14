@@ -43,56 +43,6 @@ describe("Service: WorklogApi", () => {
     backEnd.verify();
   });
 
-  it("should call get list corporate api correctly", () => {
-    mockService.getListIncomeCorporate().subscribe();
-    const req = backEnd.expectOne(
-      `${mockService.apiPath}v1/incomes/status/corporate`
-    );
-    expect(req.request.method).toEqual("GET");
-    backEnd.verify();
-  });
-
-  it("should get list income corporate correctly", () => {
-    const listIncomeResponse: ListIncomeResponse = {
-      status: "active",
-      submitDate: "2018-06-12T17:00:00Z",
-      user: [
-        {
-          id: "5bde550643b39700012727f2",
-          role: "corporate",
-          firstName: "odds",
-          lastName: "jung",
-          email: "test@odds.team",
-          peakCode: "",
-          bankAccountName: "ทดสอบชอบลงทุน",
-          bankAccountNumber: "123123123123",
-          thaiCitizenId: "1234567890123",
-          vat: "non-vat",
-          transcript: "",
-          siteId: "",
-          site: null,
-          project: "",
-          imageProfile: null,
-          dailyIncome: "200",
-          address: "every Where",
-          statusTavi: true,
-          degreeCertificate: "",
-          idCard: "",
-          phone: "",
-          startDate: "2022-1-1",
-          timesheetSynced: false,
-        },
-      ],
-    };
-    mockService.getListIncomeCorporate().subscribe((list) => {
-      expect(list).toEqual(listIncomeResponse);
-    });
-    backEnd
-      .match(`${mockService.apiPath}v1/incomes/status/corporate`)[0]
-      .flush(listIncomeResponse);
-    backEnd.verify();
-  });
-
   it("should get list income individual correctly", () => {
     const listIncomeIndividual: ListIncomeResponse = {
       status: "active",
@@ -161,17 +111,6 @@ describe("Service: WorklogApi", () => {
     });
   });
 
-  it("should call export data corporate api correctly", () => {
-    mockService.exportDataCorporate("0").subscribe((_) => {
-      const req = backEnd.expectOne(
-        `${mockService.apiPath}v1/incomes/export/corporate/0`
-      );
-      expect(req.request.method).toEqual("GET");
-      expect(req.request.responseType).toEqual("blob");
-      backEnd.verify();
-    });
-  });
-
   it("should call export data individual api correctly", () => {
     mockService.exportDataIndividual("0").subscribe((_) => {
       const req = backEnd.expectOne(
@@ -225,27 +164,23 @@ it("should call export SAP income by period correctly", () => {
     });
   });
 
-  it("should set getListIncomeIndividual, getListIncomeCorporate when call initDataService()", () => {
+  it("should set getListIncomeIndividual when call initDataService()", () => {
     spyOn(
       mockService,
       "forCheckTokenPleaseRemoveMeIfFlowLoginFinnished"
     ).and.returnValue(of(false));
     spyOn(mockService, "getListIncomeIndividual").and.returnValue(of());
-    spyOn(mockService, "getListIncomeCorporate").and.returnValue(of());
     mockService.initDataService();
     expect(mockService.getListIncomeIndividual).not.toHaveBeenCalled();
-    expect(mockService.getListIncomeCorporate).not.toHaveBeenCalled();
   });
 
-  it("should not set getListIncomeIndividual, getListIncomeCorporate when forcheck() fucntion return false", () => {
+  it("should set getListIncomeIndividual when forcheck() function return true", () => {
     spyOn(
       mockService,
       "forCheckTokenPleaseRemoveMeIfFlowLoginFinnished"
     ).and.returnValue(of(true));
     spyOn(mockService, "getListIncomeIndividual").and.returnValue(of());
-    spyOn(mockService, "getListIncomeCorporate").and.returnValue(of());
     mockService.initDataService();
     expect(mockService.getListIncomeIndividual).toHaveBeenCalled();
-    expect(mockService.getListIncomeCorporate).toHaveBeenCalled();
   });
 });
