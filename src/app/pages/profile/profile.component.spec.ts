@@ -560,5 +560,78 @@ describe('ProfileComponent', () => {
 
       expect(component.getData).toHaveBeenCalled();
     });
+
+    it('should enable email field when editing another user', () => {
+      component.isEditingOther = true;
+      component.createForm();
+      const data = new User({
+        bankAccountName: 'กอไก่ ขอไข่',
+        bankAccountNumber: '0123456789',
+        email: 'who@odds.team',
+        firstName: 'aaa',
+        id: '5c0fa703780bf500019a5aea',
+        lastName: 'bbb',
+        role: 'individual',
+        vat: 'N',
+        thaiCitizenId: '123467890',
+        phone: '',
+        startDate: '2022-1-1'
+      });
+      spyOn(worklogApiService, 'getUserByID').and.returnValue(of(data));
+      spyOn(worklogApiService, 'getSitesData').and.returnValue(of([]));
+
+      component.getData();
+
+      expect(component.emailForm.enabled).toBe(true);
+    });
+
+    it('should keep email field disabled when editing own profile', () => {
+      component.isEditingOther = false;
+      component.createForm();
+      const data = new User({
+        bankAccountName: 'กอไก่ ขอไข่',
+        bankAccountNumber: '0123456789',
+        email: 'who@odds.team',
+        firstName: 'aaa',
+        id: '5c0fa703780bf500019a5aea',
+        lastName: 'bbb',
+        role: 'individual',
+        vat: 'N',
+        thaiCitizenId: '123467890',
+        phone: '',
+        startDate: '2022-1-1'
+      });
+      spyOn(worklogApiService, 'getUserByID').and.returnValue(of(data));
+      spyOn(worklogApiService, 'getSitesData').and.returnValue(of([]));
+
+      component.getData();
+
+      expect(component.emailForm.disabled).toBe(true);
+    });
+
+    it('should include email in userInfo when editing another user', () => {
+      component.isEditingOther = true;
+      component.userInfo = new User();
+      component.createForm();
+      component.emailForm.enable();
+      component.emailForm.setValue('updated@example.com');
+      component.corporateNameForm.setValue('');
+      component.firstNameForm.setValue('ทดสอบ');
+      component.lastNameForm.setValue('ชอบลงทุน');
+      component.bankAccountForm.setValue('ทดสอบ ชอบลงทุน');
+      component.bankAccountNumberForm.setValue('1235678900');
+      component.vat.setValue('N');
+      component.project.setValue('TEST');
+      component.dailyIncome.setValue('4000');
+      component.personType = 'individual';
+      component.address.setValue('-');
+      component.thaiCitizenId.setValue('-');
+      component.phone.setValue('-');
+      component.startDate.setValue({ year: 2022, month: 1, day: 1 });
+
+      component.setDataToModel();
+
+      expect(component.userInfo.email).toBe('updated@example.com');
+    });
   });
 });

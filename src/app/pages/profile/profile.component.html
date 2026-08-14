@@ -275,7 +275,29 @@
           <div class="row">
             <div class="form-group col-md-6">
               <label>Email</label>
-              <input class="form-control" type="text" formControlName="email" />
+              <input
+                class="form-control"
+                type="text"
+                formControlName="email"
+                [ngClass]="{
+                  'is-invalid':
+                    profileForm.controls.email.invalid &&
+                    profileForm.controls.email.touched
+                }"
+              />
+              <small *ngIf="isEditingOther" class="form-text text-muted">
+                Email ต้องตรงกับบัญชี Keycloak ของ user เพื่อให้ login ได้
+              </small>
+              <div
+                *ngIf="
+                  profileForm.controls.email.invalid &&
+                  profileForm.controls.email.touched
+                "
+              >
+                <label class="col-form-label" style="color: red"
+                  >กรุณากรอก email ให้ถูกต้อง</label
+                >
+              </div>
             </div>
           </div>
 

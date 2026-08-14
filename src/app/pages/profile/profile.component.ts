@@ -113,7 +113,7 @@ export class ProfileComponent implements OnInit {
       corporateName: ['', Validators.required],
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
-      email: [{ value: '', disabled: true }, Validators.required],
+      email: [{ value: '', disabled: true }, [Validators.required, Validators.email]],
       bankAccount: ['', Validators.required],
       bankAccountNumber: ['', Validators.required],
       project: [''],
@@ -137,6 +137,9 @@ export class ProfileComponent implements OnInit {
   getData() {
     this.worklogApiService.getUserByID(this.id).subscribe(user => {
       this.setDataUser(user);
+      if (this.isEditingOther) {
+        this.emailForm.enable();
+      }
       if (user.role === 'corporate') {
         this.isCorporate = true;
       }
@@ -180,18 +183,27 @@ export class ProfileComponent implements OnInit {
     if (!this.isEditingOther) {
       this.worklogApiService.setDailyIncoem(this.userInfo.dailyIncome);
     }
-    this.worklogApiService.updateUser(this.id, this.userInfo).subscribe(user => {
-      this.setDataUser(user);
-      if (!this.isEditingOther) {
-        sessionStorage.setItem('firstName', user.firstName);
-        sessionStorage.setItem('role', user.role);
-        this.triggerHeader();
+    this.worklogApiService.updateUser(this.id, this.userInfo).subscribe(
+      user => {
+        this.setDataUser(user);
+        if (!this.isEditingOther) {
+          sessionStorage.setItem('firstName', user.firstName);
+          sessionStorage.setItem('role', user.role);
+          this.triggerHeader();
+        }
+        this.alertSuccess();
+        this.modalRef = this.modalService.show(this.incomeReminderModal, {
+          ignoreBackdropClick: true,
+        });
+      },
+      err => {
+        if (err.status === 409) {
+          alert('Email already exists');
+          return;
+        }
+        alert(err.error && err.error.message ? err.error.message : 'Update profile failed.');
       }
-      this.alertSuccess();
-      this.modalRef = this.modalService.show(this.incomeReminderModal, {
-        ignoreBackdropClick: true,
-      });
-    });
+    );
     if (!this.isEditingOther) {
       this.stateService.setTypeUser(this.personType);
     }
@@ -213,7 +225,7 @@ export class ProfileComponent implements OnInit {
     this.userInfo.corporateName = this.corporateNameForm.value;
     this.userInfo.firstName = this.firstNameForm.value;
     this.userInfo.lastName = this.lastNameForm.value;
-    this.userInfo.email = this.emailForm.value;
+    this.userInfo.email = this.profileForm.getRawValue().email;
     this.userInfo.bankAccountName = this.bankAccountForm.value;
     this.userInfo.bankAccountNumber = this.bankAccountNumberForm.value;
     this.userInfo.vat = this.vat.value;
