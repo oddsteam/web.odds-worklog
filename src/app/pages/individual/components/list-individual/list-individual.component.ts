@@ -118,6 +118,59 @@ export class ListIndividualComponent implements OnInit, OnChanges {
       });
   }
 
+  exportPeakCurrentMonth() {
+    this.worklogApiService.exportPeakIndividual('0')
+      .pipe(this.handleExportError("Can't export individual income to PEAK file."))
+      .subscribe((income) => {
+        if (income) {
+          this.downloadFile(income, this.peakFilenameForMonthIndex('0'));
+        }
+      });
+  }
+
+  exportPeakPreviousMonth() {
+    this.worklogApiService.exportPeakIndividual('1')
+      .pipe(this.handleExportError("Can't export individual income to PEAK file."))
+      .subscribe((income) => {
+        if (income) {
+          this.downloadFile(income, this.peakFilenameForMonthIndex('1'));
+        }
+      });
+  }
+
+  exportPeakByMonth() {
+    const initialState: ModalOptions = {
+      initialState: {
+        modalType: ModalMonthType.SPECIFIC_MONTH
+      }
+    };
+    this.modalRef = this.modalService.show(
+      ModalExportComponent,
+      initialState
+    );
+
+    this.modalRef.content.valueDate
+      .pipe(
+        switchMap((data: ExportIncomeModal) => {
+          const body: RequestExportIncome = {
+            role: "individual",
+            startDate: data.startDate,
+            endDate: data.endDate,
+          };
+
+          return this.worklogApiService.exportPeakByMonth(body).pipe(
+            this.handleExportError("Can't export individual income to PEAK file."),
+            switchMap((income) => of({ income, startDate: data.startDate }))
+          );
+        })
+      )
+      .subscribe((result) => {
+        if (result && result.income) {
+          this.downloadFile(result.income, this.peakFilenameForStartDate(result.startDate));
+        }
+      });
+  }
+
   exportSapCurrentMonth() {
     this.openSapExportModal(ModalMonthType.SAP_CURRENT_MONTH, "income_individual_SAP.txt");
   }
@@ -166,6 +219,28 @@ export class ListIndividualComponent implements OnInit, OnChanges {
         return of(null);
     });
  }
+
+  peakFilenameForMonthIndex(monthIndex: string): string {
+    const now = new Date();
+    const date = monthIndex === '0'
+      ? now
+      : new Date(now.getFullYear(), now.getMonth() - 1, 1);
+    return this.peakFilename(date);
+  }
+
+  peakFilenameForStartDate(startDate: string): string {
+    const [month, year] = (startDate || '').split('/');
+    const parsed = new Date(Number(year), Number(month) - 1, 1);
+    if (isNaN(parsed.getTime())) {
+      return this.peakFilename(new Date());
+    }
+    return this.peakFilename(parsed);
+  }
+
+  private peakFilename(date: Date): string {
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    return `PEAK_ImportExpense_INDI_${month}.${date.getFullYear()}.csv`;
+  }
 
   downloadFile(data: any, filename: string) {
     const blob = new Blob([data], { type: "text/csv;charset=utf-8;" });

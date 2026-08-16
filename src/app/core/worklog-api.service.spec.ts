@@ -144,6 +144,28 @@ describe("Service: WorklogApi", () => {
       });
   });
 
+  it("should call export peak individual api correctly", () => {
+    mockService.exportPeakIndividual("0").subscribe((_) => {
+      const req = backEnd.expectOne(
+        `${mockService.apiPath}v1/incomes/export/peak/individual/0`
+      );
+      expect(req.request.method).toEqual("GET");
+      expect(req.request.responseType).toEqual("blob");
+      backEnd.verify();
+    });
+  });
+
+  it("should call export peak by month api correctly", () => {
+    mockService
+      .exportPeakByMonth(new RequestExportIncome())
+      .subscribe((_) => {
+        const req = backEnd.expectOne(`${mockService.apiPath}v1/incomes/export/peak`);
+        expect(req.request.method).toEqual("POST");
+        expect(req.request.responseType).toEqual("blob");
+        backEnd.verify();
+      });
+  });
+
 
 it("should call export SAP income by period correctly", () => {
     mockService

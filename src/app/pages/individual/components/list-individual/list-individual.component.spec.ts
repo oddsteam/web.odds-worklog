@@ -153,6 +153,54 @@ describe('ListIndividualComponent', () => {
     expect(component.downloadFile).toHaveBeenCalledWith(mockBlob, 'income_from_timesheet_individual.csv');
   });
 
+  it('should call exportPeakIndividual when export PEAK current month', () => {
+    const mockBlob = new Blob([], { type: 'text/csv;charset=utf-8;' });
+    spyOn(worklogService, 'exportPeakIndividual').and.returnValue(of(mockBlob));
+    spyOn(component, 'downloadFile');
+
+    component.exportPeakCurrentMonth();
+
+    expect(worklogService.exportPeakIndividual).toHaveBeenCalledWith('0');
+    expect(component.downloadFile).toHaveBeenCalledWith(mockBlob, component.peakFilenameForMonthIndex('0'));
+  });
+
+  it('should call exportPeakIndividual when export PEAK previous month', () => {
+    const mockBlob = new Blob([], { type: 'text/csv;charset=utf-8;' });
+    spyOn(worklogService, 'exportPeakIndividual').and.returnValue(of(mockBlob));
+    spyOn(component, 'downloadFile');
+
+    component.exportPeakPreviousMonth();
+
+    expect(worklogService.exportPeakIndividual).toHaveBeenCalledWith('1');
+    expect(component.downloadFile).toHaveBeenCalledWith(mockBlob, component.peakFilenameForMonthIndex('1'));
+  });
+
+  it('should call exportPeakByMonth with individual role in specific month export', () => {
+    const mockBlob = new Blob([], { type: 'text/csv;charset=utf-8;' });
+    spyOn(component, 'downloadFile');
+    spyOn(worklogService, 'exportPeakByMonth').and.returnValue(of(mockBlob));
+
+    component.exportPeakByMonth();
+
+    expect(worklogService.exportPeakByMonth).toHaveBeenCalledWith({
+      role: 'individual',
+      startDate: '08/2025',
+      endDate: '08/2025',
+    });
+    expect(component.downloadFile).toHaveBeenCalledWith(mockBlob, 'PEAK_ImportExpense_INDI_08.2025.csv');
+  });
+
+  it('should alert message error when exportPeakByMonth error', () => {
+    spyOn(worklogService, 'exportPeakByMonth').and.returnValue(throwError(() => new HttpErrorResponse({ status: 500, error: 'Error' })));
+    spyOn(component, 'downloadFile');
+    spyOn(window, 'alert');
+
+    component.exportPeakByMonth();
+
+    expect(window.alert).toHaveBeenCalledWith(`Can't export individual income to PEAK file.`);
+    expect(component.downloadFile).not.toHaveBeenCalled();
+  });
+
   it('should call exportSAPIncomeByPeriod when export SAP current month', () => {
     const mockBlob = new Blob([], { type: 'text/csv;charset=utf-8;' });
     spyOn(component, 'downloadFile');

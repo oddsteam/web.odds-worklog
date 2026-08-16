@@ -172,6 +172,31 @@ export class WorklogApiService {
     );
   }
 
+  exportPeakIndividual(beforeMonth: string): Observable<Blob> {
+    return this.http.get(
+      `${this.apiPath}v1/incomes/export/peak/individual/${beforeMonth}`,
+      {
+        headers: new HttpHeaders({
+          Authorization: sessionStorage.getItem("token"),
+        }),
+        responseType: "blob",
+      }
+    );
+  }
+
+  exportPeakByMonth(requestExportIncome: RequestExportIncome) {
+    return this.http.post(
+      `${this.apiPath}v1/incomes/export/peak`,
+      requestExportIncome,
+      {
+        headers: new HttpHeaders({
+          Authorization: sessionStorage.getItem("token"),
+        }),
+        responseType: "blob",
+      }
+    );
+  }
+
     exportSAPIncomeByPeriod(req: RequestExportSAPIncome) {
         return this.http.post(
             `${this.apiPath}v1/incomes/export/format/SAP`,
