@@ -20,6 +20,7 @@ export class TabMenuComponent implements OnInit {
     { id: 'users', text: 'USERS', icon: '', level: 1 },
     { id: 'groups/all', text: 'GROUPS', icon: '', level: 1 },
     { id: 'error-logs', text: 'ERROR LOGS', icon: '', level: 1 },
+    { id: 'timesheet-inbox', text: 'INBOX', icon: 'fa-inbox', level: 0 },
     { id: 'history', text: 'HISTORY', icon: 'fa-history', level: 0 },
     { id: 'profile', text: 'PROFILE', icon: 'fa-user-circle', level: 0 },
   ];
@@ -67,24 +68,27 @@ export class TabMenuComponent implements OnInit {
     if (userType) {
       if (userType === 'user-admin') {
         this.listTabMenuShow = this.listTabMenu.filter(
-          x => x.id === 'individual' || x.id === 'users' || x.id === 'groups/all' || x.id === 'profile' || x.id === 'history'
+          x => x.id === 'individual' || x.id === 'users' || x.id === 'groups/all'
+            || x.id === 'timesheet-inbox' || x.id === 'profile' || x.id === 'history'
         );
-        const allowedUserAdminTabs = ['individual', 'users', 'groups/all', 'profile', 'history'];
+        const allowedUserAdminTabs = ['individual', 'users', 'groups/all', 'timesheet-inbox', 'profile', 'history'];
         if (!this.tabActive || !allowedUserAdminTabs.includes(this.tabActive)) {
           this.tabActive = 'users';
           sessionStorage.setItem('tabActive', this.tabActive);
         }
       } else if (userType === 'corporate') {
         this.listTabMenuShow = this.listTabMenu.filter(
-          x => x.id === 'profile' || x.id === 'history'
+          x => x.id === 'timesheet-inbox' || x.id === 'profile' || x.id === 'history'
         );
-        const allowedCorporateTabs = ['profile', 'history'];
+        const allowedCorporateTabs = ['timesheet-inbox', 'profile', 'history'];
         if (!this.tabActive || !allowedCorporateTabs.includes(this.tabActive)) {
           this.tabActive = 'profile';
           sessionStorage.setItem('tabActive', this.tabActive);
         }
       } else if (userType !== 'admin') {
-        this.listTabMenuShow = this.listTabMenu.filter(x => x.id === userType || x.id === 'profile' || x.id === 'history');
+        this.listTabMenuShow = this.listTabMenu.filter(
+          x => x.id === userType || x.id === 'timesheet-inbox' || x.id === 'profile' || x.id === 'history'
+        );
       } else {
         this.listTabMenuShow = this.listTabMenu.filter(x => x.id !== 'history');
       }

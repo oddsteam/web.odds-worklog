@@ -1,0 +1,44 @@
+<div>
+  <h5 class="mt-2 ms-2">Transactional inbox — timesheet events</h5>
+  <p class="ms-2 text-muted small">Events received from the timesheet service, newest first, exactly as they arrived.</p>
+  <p *ngIf="loading" class="ms-2 text-muted">Loading…</p>
+  <p *ngIf="loadError" class="ms-2 text-danger">{{ loadError }}</p>
+  <div *ngIf="!loading && !loadError" class="table-responsive">
+    <table class="table table-hover table-sm">
+      <thead>
+        <tr>
+          <th class="text-start">Received</th>
+          <th>Event type</th>
+          <th>Employee</th>
+          <th>Period</th>
+          <th>Summary at</th>
+          <th>Sites</th>
+          <th class="text-end">Working days</th>
+          <th class="text-end">OT days</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let log of logs">
+          <td>{{ log.receivedAt | date:'medium' }}</td>
+          <td class="text-break small">{{ log.eventType }}</td>
+          <td class="text-break">
+            <div>{{ log.employee?.englishName }}</div>
+            <div class="text-muted small">{{ log.employee?.email }}</div>
+          </td>
+          <td>{{ log.month }}/{{ log.year }}</td>
+          <td>{{ log.summaryAt | date:'mediumDate' }}</td>
+          <td class="text-break small">
+            <div *ngFor="let site of log.sites">
+              {{ site.clientSite }}
+              <span class="text-muted">({{ site.customerName }}) — {{ site.workingDays }} d / {{ site.overtimeDays }} OT</span>
+            </div>
+            <span *ngIf="!log.sites || log.sites.length === 0" class="text-muted">—</span>
+          </td>
+          <td class="text-end">{{ totalWorkingDays(log) }}</td>
+          <td class="text-end">{{ totalOvertimeDays(log) }}</td>
+        </tr>
+      </tbody>
+    </table>
+    <p *ngIf="logs.length === 0" class="ms-2 text-muted">No timesheet events received yet.</p>
+  </div>
+</div>

@@ -134,6 +134,7 @@ describe('TabMenuComponent', () => {
         { id: 'users', text: 'USERS', icon: '', level: 1 },
         { id: 'groups/all', text: 'GROUPS', icon: '', level: 1 },
         { id: 'error-logs', text: 'ERROR LOGS', icon: '', level: 1 },
+        { id: 'timesheet-inbox', text: 'INBOX', icon: 'fa-inbox', level: 0 },
         { id: 'history', text: 'HISTORY', icon: 'fa-history', level: 0 },
         { id: 'profile', text: 'PROFILE', icon: 'fa-user-circle', level: 0 },
       ];
@@ -144,7 +145,7 @@ describe('TabMenuComponent', () => {
 
       component.checkTabMenu('individual');
 
-      expect(component.listTabMenuShow).toEqual([expected[0], expected[5], expected[6]]);
+      expect(component.listTabMenuShow).toEqual([expected[0], expected[5], expected[6], expected[7]]);
     });
 
     it('should show only profile and history when role is corporate', () => {
@@ -153,7 +154,7 @@ describe('TabMenuComponent', () => {
 
       component.checkTabMenu('corporate');
 
-      expect(component.listTabMenuShow).toEqual([expected[5], expected[6]]);
+      expect(component.listTabMenuShow).toEqual([expected[5], expected[6], expected[7]]);
       expect(component.tabActive).toBe('profile');
     });
 
@@ -163,7 +164,7 @@ describe('TabMenuComponent', () => {
       component.checkTabMenu('admin');
 
       expect(component.listTabMenuShow)
-        .toEqual([expected[0], expected[1], expected[2], expected[3], expected[4], expected[6]]);
+        .toEqual([expected[0], expected[1], expected[2], expected[3], expected[4], expected[5], expected[7]]);
     });
 
     it('should show individual users groups profile history when role is user-admin', () => {
@@ -172,7 +173,8 @@ describe('TabMenuComponent', () => {
 
       component.checkTabMenu('user-admin');
 
-      expect(component.listTabMenuShow).toEqual([expected[0], expected[2], expected[3], expected[5], expected[6]]);
+      expect(component.listTabMenuShow)
+        .toEqual([expected[0], expected[2], expected[3], expected[5], expected[6], expected[7]]);
       expect(component.tabActive).toBe('users');
     });
 

@@ -11,6 +11,7 @@ import { Login } from "./../shared/model/login";
 import { Site } from "./../shared/model/site";
 import {RequestExportIncome, RequestExportSAPIncome} from "../shared/model/request-export-income";
 import { SapExportFailureLog } from "../shared/model/sap-export-failure-log";
+import { TimesheetEventLog } from "../shared/model/timesheet-event-log";
 
 @Injectable({
   providedIn: "root",
@@ -224,6 +225,14 @@ export class WorklogApiService {
       url += `?limit=${encodeURIComponent(String(limit))}`;
     }
     return this.http.get<SapExportFailureLog[]>(url, this.getHttpHeaderOption());
+  }
+
+  getTimesheetEventLogs(limit?: number): Observable<TimesheetEventLog[]> {
+    let url = `${this.apiPath}v1/timesheet-event-logs`;
+    if (limit != null && limit > 0) {
+      url += `?limit=${encodeURIComponent(String(limit))}`;
+    }
+    return this.http.get<TimesheetEventLog[]>(url, this.getHttpHeaderOption());
   }
 
   getSitesData(): Observable<Site[]> {

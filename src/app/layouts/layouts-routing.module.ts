@@ -33,6 +33,11 @@ const routes: Routes = [
                 () => import('../pages/error-logs/error-logs.module').then(m => m.ErrorLogsModule),
             },
             {
+                path: 'timesheet-inbox',
+                loadChildren:
+                () => import('../pages/timesheet-inbox/timesheet-inbox.module').then(m => m.TimesheetInboxModule),
+            },
+            {
                 path: 'history',
                 loadChildren:
                 () => import('../pages/history/history.module').then(m => m.HistoryModule),
