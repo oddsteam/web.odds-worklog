@@ -22,6 +22,9 @@ export class ListIndividualComponent implements OnInit, OnChanges {
   listIncomeIndividual: ListIncomeResponse;
   modalRef: BsModalRef;
 
+  /** When on, the CSV exports read from income_from_timesheet instead of income. */
+  useTimesheetSource = false;
+
   /** Income export is restricted to full admins (not user-admin). */
   get showIncomeExport(): boolean {
     return this.role === "admin";
@@ -57,23 +60,39 @@ export class ListIndividualComponent implements OnInit, OnChanges {
   }
 
   exportCsvCurrentMonth() {
-    this.worklogApiService.exportDataIndividual('0')
-      .pipe(this.handleExportError("Can't export individual income to CSV file."))
+    this.exportCsvByMonthIndex('0', "");
+  }
+
+  exportCsvPreviousMonth() {
+    this.exportCsvByMonthIndex('1', "_previous");
+  }
+
+  private exportCsvByMonthIndex(monthIndex: string, filenameSuffix: string) {
+    const request$ = this.useTimesheetSource
+      ? this.worklogApiService.exportDataIncomeFromTimesheetIndividual(monthIndex)
+      : this.worklogApiService.exportDataIndividual(monthIndex);
+
+    request$
+      .pipe(this.handleExportError(this.csvExportErrorMessage()))
       .subscribe((income) => {
         if (income) {
-          this.downloadFile(income, "income_individual.csv");
+          this.downloadFile(income, this.csvFilename(filenameSuffix));
         }
       });
   }
 
-  exportCsvPreviousMonth() {
-    this.worklogApiService.exportDataIndividual('1')
-      .pipe(this.handleExportError("Can't export individual income to CSV file."))
-      .subscribe((income) => {
-        if (income) {
-          this.downloadFile(income, "income_individual_previous.csv");
-        }
-      });
+  /** CSV exports share one naming scheme; only the source prefix changes with the toggle. */
+  private csvFilename(suffix: string): string {
+    const prefix = this.useTimesheetSource
+      ? "income_from_timesheet_individual"
+      : "income_individual";
+    return `${prefix}${suffix}.csv`;
+  }
+
+  private csvExportErrorMessage(): string {
+    return this.useTimesheetSource
+      ? "Can't export income from timesheet to CSV file."
+      : "Can't export individual income to CSV file.";
   }
 
   exportCsvByMonth() {
@@ -96,24 +115,18 @@ export class ListIndividualComponent implements OnInit, OnChanges {
             endDate: data.endDate,
           };
 
-          return this.worklogApiService.exportIncomeByMonth(body).pipe(
-            this.handleExportError("Can't export individual income to CSV file.")
+          const request$ = this.useTimesheetSource
+            ? this.worklogApiService.exportIncomeFromTimesheetByMonth(body)
+            : this.worklogApiService.exportIncomeByMonth(body);
+
+          return request$.pipe(
+            this.handleExportError(this.csvExportErrorMessage())
           );
         })
       )
       .subscribe((income) => {
         if (income) {
-          this.downloadFile(income, "income_individual_specific_month.csv");
-        }
-      });
-  }
-
-  exportCsvIncomeFromTimesheetCurrentMonth() {
-    this.worklogApiService.exportDataIncomeFromTimesheetIndividual('0')
-      .pipe(this.handleExportError("Can't export income from timesheet to CSV file."))
-      .subscribe((income) => {
-        if (income) {
-          this.downloadFile(income, "income_from_timesheet_individual.csv");
+          this.downloadFile(income, this.csvFilename("_specific_month"));
         }
       });
   }

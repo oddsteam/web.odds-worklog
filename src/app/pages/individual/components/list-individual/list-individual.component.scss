@@ -32,3 +32,14 @@
   .dropdown-content a:hover {background-color: #f1f1f1;}
   .dropdown:hover .dropdown-content {display: block;}
   .dropdown:hover .dropbtn {background-color: #3e8e41;}
+
+  // Keep Bootstrap's own .form-switch layout; only stop it from wrapping and
+  // make the whole control read as clickable.
+  .timesheet-source-toggle {
+    white-space: nowrap;
+  }
+
+  .timesheet-source-toggle .form-check-input,
+  .timesheet-source-toggle .form-check-label {
+    cursor: pointer;
+  }

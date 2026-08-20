@@ -142,15 +142,80 @@ describe('ListIndividualComponent', () => {
     expect(worklogService.exportSAPIncomeByPeriod).not.toHaveBeenCalled();
   });
 
-  it('should call exportDataIncomeFromTimesheetIndividual when export CSV income from timesheet current month', () => {
+  it('should default the timesheet source toggle to off', () => {
+    expect(component.useTimesheetSource).toBeFalse();
+  });
+
+  it('should call exportDataIncomeFromTimesheetIndividual for current month when timesheet source is on', () => {
     const mockBlob = new Blob([], { type: 'text/csv;charset=utf-8;' });
     spyOn(worklogService, 'exportDataIncomeFromTimesheetIndividual').and.returnValue(of(mockBlob));
+    spyOn(worklogService, 'exportDataIndividual');
     spyOn(component, 'downloadFile');
+    component.useTimesheetSource = true;
 
-    component.exportCsvIncomeFromTimesheetCurrentMonth();
+    component.exportCsvCurrentMonth();
 
     expect(worklogService.exportDataIncomeFromTimesheetIndividual).toHaveBeenCalledWith('0');
+    expect(worklogService.exportDataIndividual).not.toHaveBeenCalled();
     expect(component.downloadFile).toHaveBeenCalledWith(mockBlob, 'income_from_timesheet_individual.csv');
+  });
+
+  it('should call exportDataIncomeFromTimesheetIndividual for previous month when timesheet source is on', () => {
+    const mockBlob = new Blob([], { type: 'text/csv;charset=utf-8;' });
+    spyOn(worklogService, 'exportDataIncomeFromTimesheetIndividual').and.returnValue(of(mockBlob));
+    spyOn(worklogService, 'exportDataIndividual');
+    spyOn(component, 'downloadFile');
+    component.useTimesheetSource = true;
+
+    component.exportCsvPreviousMonth();
+
+    expect(worklogService.exportDataIncomeFromTimesheetIndividual).toHaveBeenCalledWith('1');
+    expect(worklogService.exportDataIndividual).not.toHaveBeenCalled();
+    expect(component.downloadFile).toHaveBeenCalledWith(mockBlob, 'income_from_timesheet_individual_previous.csv');
+  });
+
+  it('should call exportIncomeFromTimesheetByMonth for a specific month when timesheet source is on', () => {
+    const mockBlob = new Blob([], { type: 'text/csv;charset=utf-8;' });
+    spyOn(worklogService, 'exportIncomeFromTimesheetByMonth').and.returnValue(of(mockBlob));
+    spyOn(worklogService, 'exportIncomeByMonth');
+    spyOn(component, 'downloadFile');
+    component.useTimesheetSource = true;
+
+    component.exportCsvByMonth();
+
+    expect(worklogService.exportIncomeFromTimesheetByMonth).toHaveBeenCalledWith({
+      role: 'individual',
+      startDate: '08/2025',
+      endDate: '08/2025',
+    });
+    expect(worklogService.exportIncomeByMonth).not.toHaveBeenCalled();
+    expect(component.downloadFile).toHaveBeenCalledWith(mockBlob, 'income_from_timesheet_individual_specific_month.csv');
+  });
+
+  it('should alert the timesheet error message when a timesheet export fails', () => {
+    spyOn(worklogService, 'exportDataIncomeFromTimesheetIndividual')
+      .and.returnValue(throwError(() => new HttpErrorResponse({ status: 500, error: 'Error' })));
+    spyOn(component, 'downloadFile');
+    spyOn(window, 'alert');
+    component.useTimesheetSource = true;
+
+    component.exportCsvCurrentMonth();
+
+    expect(window.alert).toHaveBeenCalledWith(`Can't export income from timesheet to CSV file.`);
+    expect(component.downloadFile).not.toHaveBeenCalled();
+  });
+
+  it('should keep PEAK exports on the income source when the timesheet toggle is on', () => {
+    const mockBlob = new Blob([], { type: 'text/csv;charset=utf-8;' });
+    spyOn(worklogService, 'exportPeakIndividual').and.returnValue(of(mockBlob));
+    spyOn(worklogService, 'exportDataIncomeFromTimesheetIndividual');
+    spyOn(component, 'downloadFile');
+    component.useTimesheetSource = true;
+
+    component.exportPeakCurrentMonth();
+
+    expect(worklogService.exportPeakIndividual).toHaveBeenCalledWith('0');
+    expect(worklogService.exportDataIncomeFromTimesheetIndividual).not.toHaveBeenCalled();
   });
 
   it('should call exportPeakIndividual when export PEAK current month', () => {

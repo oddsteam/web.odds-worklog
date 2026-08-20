@@ -133,6 +133,18 @@ describe("Service: WorklogApi", () => {
     });
   });
 
+  it("should call export income from timesheet by month api correctly", () => {
+    mockService
+      .exportIncomeFromTimesheetByMonth(new RequestExportIncome())
+      .subscribe();
+    const req = backEnd.expectOne(
+      `${mockService.apiPath}v1/income-from-timesheet/export`
+    );
+    expect(req.request.method).toEqual("POST");
+    expect(req.request.responseType).toEqual("blob");
+    backEnd.verify();
+  });
+
   it("should call export income by month api correctly", () => {
     mockService
       .exportIncomeByMonth(new RequestExportIncome())

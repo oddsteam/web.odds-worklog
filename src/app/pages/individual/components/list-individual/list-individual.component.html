@@ -3,8 +3,13 @@
     <div class="d-flex align-items-end">
       <h2 class="mb-0">{{ date | date: 'MMMM yyyy'}}</h2>
     </div>
-    <div class="row col-7 d-flex text-end">
-      <div class="dropdown">
+    <div class="row col-7 d-flex align-items-center justify-content-end text-end">
+      <div class="form-check form-switch w-auto mb-0 me-3 timesheet-source-toggle">
+        <input class="form-check-input" type="checkbox" role="switch" id="useTimesheetSource"
+          [(ngModel)]="useTimesheetSource">
+        <label class="form-check-label" for="useTimesheetSource">ใช้ข้อมูลจาก Timesheet</label>
+      </div>
+      <div class="dropdown w-auto">
         <button class="rounded export-container"><a href="javascript:void(0)">Export</a> <i
             class="fa fa-caret-down"></i> </button>
         <div class="dropdown-content">
@@ -16,7 +21,6 @@
           <a href="javascript:void(0)" (click)="exportPeakByMonth()">Export PEAK ระบุเดือน</a>
           <a href="javascript:void(0)" (click)="exportSapCurrentMonth()">Export SAP เดือนปัจจุบัน</a>
           <a href="javascript:void(0)" (click)="exportSapPreviousMonth()">Export SAP เดือนที่แล้ว</a>
-          <a href="javascript:void(0)" (click)="exportCsvIncomeFromTimesheetCurrentMonth()">Export CSV Timesheet เดือนปัจจุบัน</a>
         </div>
       </div>
     </div>

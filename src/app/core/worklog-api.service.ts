@@ -160,6 +160,19 @@ export class WorklogApiService {
     );
   }
 
+  exportIncomeFromTimesheetByMonth(requestExportIncome: RequestExportIncome) {
+    return this.http.post(
+      `${this.apiPath}v1/income-from-timesheet/export`,
+      requestExportIncome,
+      {
+        headers: new HttpHeaders({
+          Authorization: sessionStorage.getItem("token"),
+        }),
+        responseType: "blob",
+      }
+    );
+  }
+
   exportIncomeByMonth(requestExportIncome: RequestExportIncome) {
     return this.http.post(
       `${this.apiPath}v1/incomes/export`,
