@@ -81,12 +81,15 @@ export class ListIndividualComponent implements OnInit, OnChanges {
       });
   }
 
-  /** CSV exports share one naming scheme; only the source prefix changes with the toggle. */
-  private csvFilename(suffix: string): string {
-    const prefix = this.useTimesheetSource
+  /** Downloaded files are named after the source the toggle selected, so the two never mix up. */
+  private get filenamePrefix(): string {
+    return this.useTimesheetSource
       ? "income_from_timesheet_individual"
       : "income_individual";
-    return `${prefix}${suffix}.csv`;
+  }
+
+  private csvFilename(suffix: string): string {
+    return `${this.filenamePrefix}${suffix}.csv`;
   }
 
   private csvExportErrorMessage(): string {
@@ -132,23 +135,37 @@ export class ListIndividualComponent implements OnInit, OnChanges {
   }
 
   exportPeakCurrentMonth() {
-    this.worklogApiService.exportPeakIndividual('0')
-      .pipe(this.handleExportError("Can't export individual income to PEAK file."))
+    this.exportPeakByMonthIndex('0');
+  }
+
+  exportPeakPreviousMonth() {
+    this.exportPeakByMonthIndex('1');
+  }
+
+  private exportPeakByMonthIndex(monthIndex: string) {
+    const request$ = this.useTimesheetSource
+      ? this.worklogApiService.exportPeakIncomeFromTimesheetIndividual(monthIndex)
+      : this.worklogApiService.exportPeakIndividual(monthIndex);
+
+    request$
+      .pipe(this.handleExportError(this.peakExportErrorMessage()))
       .subscribe((income) => {
         if (income) {
-          this.downloadFile(income, this.peakFilenameForMonthIndex('0'));
+          this.downloadFile(income, this.peakFilenameForMonthIndex(monthIndex));
         }
       });
   }
 
-  exportPeakPreviousMonth() {
-    this.worklogApiService.exportPeakIndividual('1')
-      .pipe(this.handleExportError("Can't export individual income to PEAK file."))
-      .subscribe((income) => {
-        if (income) {
-          this.downloadFile(income, this.peakFilenameForMonthIndex('1'));
-        }
-      });
+  private peakExportErrorMessage(): string {
+    return this.useTimesheetSource
+      ? "Can't export income from timesheet to PEAK file."
+      : "Can't export individual income to PEAK file.";
+  }
+
+  private sapExportErrorMessage(): string {
+    return this.useTimesheetSource
+      ? "Can't export income from timesheet SAP to CSV file."
+      : "Can't export individual SAP income to CSV file.";
   }
 
   exportPeakByMonth() {
@@ -171,8 +188,12 @@ export class ListIndividualComponent implements OnInit, OnChanges {
             endDate: data.endDate,
           };
 
-          return this.worklogApiService.exportPeakByMonth(body).pipe(
-            this.handleExportError("Can't export individual income to PEAK file."),
+          const request$ = this.useTimesheetSource
+            ? this.worklogApiService.exportPeakIncomeFromTimesheetByMonth(body)
+            : this.worklogApiService.exportPeakByMonth(body);
+
+          return request$.pipe(
+            this.handleExportError(this.peakExportErrorMessage()),
             switchMap((income) => of({ income, startDate: data.startDate }))
           );
         })
@@ -185,14 +206,18 @@ export class ListIndividualComponent implements OnInit, OnChanges {
   }
 
   exportSapCurrentMonth() {
-    this.openSapExportModal(ModalMonthType.SAP_CURRENT_MONTH, "income_individual_SAP.txt");
+    this.openSapExportModal(ModalMonthType.SAP_CURRENT_MONTH, "");
   }
 
   exportSapPreviousMonth() {
-    this.openSapExportModal(ModalMonthType.SAP_PREVIOUS_MONTH, "income_individual_SAP_previous.txt");
+    this.openSapExportModal(ModalMonthType.SAP_PREVIOUS_MONTH, "_previous");
   }
 
-  private openSapExportModal(modalType: ModalMonthType, filename: string) {
+  private sapFilename(suffix: string): string {
+    return `${this.filenamePrefix}_SAP${suffix}.txt`;
+  }
+
+  private openSapExportModal(modalType: ModalMonthType, filenameSuffix: string) {
     const initialState: ModalOptions = {
       initialState: {
         modalType
@@ -213,14 +238,18 @@ export class ListIndividualComponent implements OnInit, OnChanges {
             dateEffective: data.dateEffective,
           };
 
-          return this.worklogApiService.exportSAPIncomeByPeriod(sapReq).pipe(
-            this.handleExportError("Can't export individual SAP income to CSV file.")
+          const request$ = this.useTimesheetSource
+            ? this.worklogApiService.exportSAPIncomeFromTimesheetByPeriod(sapReq)
+            : this.worklogApiService.exportSAPIncomeByPeriod(sapReq);
+
+          return request$.pipe(
+            this.handleExportError(this.sapExportErrorMessage())
           );
         })
       )
       .subscribe((sapIncome) => {
         if (sapIncome) {
-          this.downloadFile(sapIncome, filename);
+          this.downloadFile(sapIncome, this.sapFilename(filenameSuffix));
         }
       });
   }
@@ -252,7 +281,8 @@ export class ListIndividualComponent implements OnInit, OnChanges {
 
   private peakFilename(date: Date): string {
     const month = String(date.getMonth() + 1).padStart(2, '0');
-    return `PEAK_ImportExpense_INDI_${month}.${date.getFullYear()}.csv`;
+    const source = this.useTimesheetSource ? 'INDI_TIMESHEET' : 'INDI';
+    return `PEAK_ImportExpense_${source}_${month}.${date.getFullYear()}.csv`;
   }
 
   downloadFile(data: any, filename: string) {

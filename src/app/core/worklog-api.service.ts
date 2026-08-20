@@ -224,6 +224,44 @@ export class WorklogApiService {
         );
     }
 
+  exportPeakIncomeFromTimesheetIndividual(monthIndex: string): Observable<Blob> {
+    return this.http.get(
+      `${this.apiPath}v1/income-from-timesheet/export/peak/individual/${monthIndex}`,
+      {
+        headers: new HttpHeaders({
+          Authorization: sessionStorage.getItem("token"),
+        }),
+        responseType: "blob",
+      }
+    );
+  }
+
+  exportPeakIncomeFromTimesheetByMonth(requestExportIncome: RequestExportIncome) {
+    return this.http.post(
+      `${this.apiPath}v1/income-from-timesheet/export/peak`,
+      requestExportIncome,
+      {
+        headers: new HttpHeaders({
+          Authorization: sessionStorage.getItem("token"),
+        }),
+        responseType: "blob",
+      }
+    );
+  }
+
+  exportSAPIncomeFromTimesheetByPeriod(req: RequestExportSAPIncome) {
+    return this.http.post(
+      `${this.apiPath}v1/income-from-timesheet/export/format/SAP`,
+      req,
+      {
+        headers: new HttpHeaders({
+          Authorization: sessionStorage.getItem("token"),
+        }),
+        responseType: "blob",
+      }
+    );
+  }
+
   getUsersData(): Observable<User[]> {
     return this.http.get<User[]>(`${this.apiPath}v1/users`, {
       headers: new HttpHeaders({

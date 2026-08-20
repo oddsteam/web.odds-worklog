@@ -9,7 +9,7 @@ import { of } from "rxjs";
 import { AddIncome } from "../shared/model/add-income-model";
 import { ListIncomeResponse } from "../shared/model/list-income-model-response";
 import { WorklogApiService } from "./worklog-api.service";
-import { RequestExportIncome } from "../shared/model/request-export-income";
+import { RequestExportIncome, RequestExportSAPIncome } from "../shared/model/request-export-income";
 
 describe("Service: WorklogApi", () => {
   let mockService: WorklogApiService;
@@ -139,6 +139,40 @@ describe("Service: WorklogApi", () => {
       .subscribe();
     const req = backEnd.expectOne(
       `${mockService.apiPath}v1/income-from-timesheet/export`
+    );
+    expect(req.request.method).toEqual("POST");
+    expect(req.request.responseType).toEqual("blob");
+    backEnd.verify();
+  });
+
+  it("should call export peak income from timesheet individual api correctly", () => {
+    mockService.exportPeakIncomeFromTimesheetIndividual("0").subscribe();
+    const req = backEnd.expectOne(
+      `${mockService.apiPath}v1/income-from-timesheet/export/peak/individual/0`
+    );
+    expect(req.request.method).toEqual("GET");
+    expect(req.request.responseType).toEqual("blob");
+    backEnd.verify();
+  });
+
+  it("should call export peak income from timesheet by month api correctly", () => {
+    mockService
+      .exportPeakIncomeFromTimesheetByMonth(new RequestExportIncome())
+      .subscribe();
+    const req = backEnd.expectOne(
+      `${mockService.apiPath}v1/income-from-timesheet/export/peak`
+    );
+    expect(req.request.method).toEqual("POST");
+    expect(req.request.responseType).toEqual("blob");
+    backEnd.verify();
+  });
+
+  it("should call export SAP income from timesheet by period api correctly", () => {
+    mockService
+      .exportSAPIncomeFromTimesheetByPeriod(new RequestExportSAPIncome())
+      .subscribe();
+    const req = backEnd.expectOne(
+      `${mockService.apiPath}v1/income-from-timesheet/export/format/SAP`
     );
     expect(req.request.method).toEqual("POST");
     expect(req.request.responseType).toEqual("blob");

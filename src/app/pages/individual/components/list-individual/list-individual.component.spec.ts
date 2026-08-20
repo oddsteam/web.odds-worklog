@@ -205,17 +205,83 @@ describe('ListIndividualComponent', () => {
     expect(component.downloadFile).not.toHaveBeenCalled();
   });
 
-  it('should keep PEAK exports on the income source when the timesheet toggle is on', () => {
+  it('should call exportPeakIncomeFromTimesheetIndividual for current month when timesheet source is on', () => {
     const mockBlob = new Blob([], { type: 'text/csv;charset=utf-8;' });
-    spyOn(worklogService, 'exportPeakIndividual').and.returnValue(of(mockBlob));
-    spyOn(worklogService, 'exportDataIncomeFromTimesheetIndividual');
+    spyOn(worklogService, 'exportPeakIncomeFromTimesheetIndividual').and.returnValue(of(mockBlob));
+    spyOn(worklogService, 'exportPeakIndividual');
     spyOn(component, 'downloadFile');
     component.useTimesheetSource = true;
 
     component.exportPeakCurrentMonth();
 
-    expect(worklogService.exportPeakIndividual).toHaveBeenCalledWith('0');
-    expect(worklogService.exportDataIncomeFromTimesheetIndividual).not.toHaveBeenCalled();
+    expect(worklogService.exportPeakIncomeFromTimesheetIndividual).toHaveBeenCalledWith('0');
+    expect(worklogService.exportPeakIndividual).not.toHaveBeenCalled();
+    expect(component.downloadFile).toHaveBeenCalledWith(mockBlob, component.peakFilenameForMonthIndex('0'));
+    expect(component.peakFilenameForMonthIndex('0')).toContain('INDI_TIMESHEET');
+  });
+
+  it('should call exportPeakIncomeFromTimesheetIndividual for previous month when timesheet source is on', () => {
+    const mockBlob = new Blob([], { type: 'text/csv;charset=utf-8;' });
+    spyOn(worklogService, 'exportPeakIncomeFromTimesheetIndividual').and.returnValue(of(mockBlob));
+    spyOn(worklogService, 'exportPeakIndividual');
+    spyOn(component, 'downloadFile');
+    component.useTimesheetSource = true;
+
+    component.exportPeakPreviousMonth();
+
+    expect(worklogService.exportPeakIncomeFromTimesheetIndividual).toHaveBeenCalledWith('1');
+    expect(worklogService.exportPeakIndividual).not.toHaveBeenCalled();
+  });
+
+  it('should call exportPeakIncomeFromTimesheetByMonth for a specific month when timesheet source is on', () => {
+    const mockBlob = new Blob([], { type: 'text/csv;charset=utf-8;' });
+    spyOn(worklogService, 'exportPeakIncomeFromTimesheetByMonth').and.returnValue(of(mockBlob));
+    spyOn(worklogService, 'exportPeakByMonth');
+    spyOn(component, 'downloadFile');
+    component.useTimesheetSource = true;
+
+    component.exportPeakByMonth();
+
+    expect(worklogService.exportPeakIncomeFromTimesheetByMonth).toHaveBeenCalledWith({
+      role: 'individual',
+      startDate: '08/2025',
+      endDate: '08/2025',
+    });
+    expect(worklogService.exportPeakByMonth).not.toHaveBeenCalled();
+    expect(component.downloadFile).toHaveBeenCalledWith(mockBlob, 'PEAK_ImportExpense_INDI_TIMESHEET_08.2025.csv');
+  });
+
+  it('should call exportSAPIncomeFromTimesheetByPeriod for current month when timesheet source is on', () => {
+    const mockBlob = new Blob([], { type: 'text/csv;charset=utf-8;' });
+    spyOn(worklogService, 'exportSAPIncomeFromTimesheetByPeriod').and.returnValue(of(mockBlob));
+    spyOn(worklogService, 'exportSAPIncomeByPeriod');
+    spyOn(component, 'downloadFile');
+    component.useTimesheetSource = true;
+
+    component.exportSapCurrentMonth();
+
+    expect(worklogService.exportSAPIncomeFromTimesheetByPeriod).toHaveBeenCalledWith({
+      role: 'individual',
+      startDate: '08/2025',
+      endDate: '08/2025',
+      dateEffective: '01/08/2025',
+    });
+    expect(worklogService.exportSAPIncomeByPeriod).not.toHaveBeenCalled();
+    expect(component.downloadFile).toHaveBeenCalledWith(mockBlob, 'income_from_timesheet_individual_SAP.txt');
+  });
+
+  it('should call exportSAPIncomeFromTimesheetByPeriod for previous month when timesheet source is on', () => {
+    const mockBlob = new Blob([], { type: 'text/csv;charset=utf-8;' });
+    spyOn(worklogService, 'exportSAPIncomeFromTimesheetByPeriod').and.returnValue(of(mockBlob));
+    spyOn(worklogService, 'exportSAPIncomeByPeriod');
+    spyOn(component, 'downloadFile');
+    component.useTimesheetSource = true;
+
+    component.exportSapPreviousMonth();
+
+    expect(worklogService.exportSAPIncomeFromTimesheetByPeriod).toHaveBeenCalled();
+    expect(worklogService.exportSAPIncomeByPeriod).not.toHaveBeenCalled();
+    expect(component.downloadFile).toHaveBeenCalledWith(mockBlob, 'income_from_timesheet_individual_SAP_previous.txt');
   });
 
   it('should call exportPeakIndividual when export PEAK current month', () => {
