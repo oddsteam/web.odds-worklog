@@ -53,10 +53,18 @@ export class ListIndividualComponent implements OnInit, OnChanges {
   }
 
   getListIncomeIndividual() {
-    this.worklogApiService.getListIncomeIndividual().subscribe((response) => {
+    const request$ = this.useTimesheetSource
+      ? this.worklogApiService.getListIncomeFromTimesheetIndividual()
+      : this.worklogApiService.getListIncomeIndividual();
+
+    request$.subscribe((response) => {
       this.listIncomeIndividual = response;
       this.worklogApiService.individualListed = this.listIncomeIndividual;
     });
+  }
+
+  onToggleSource() {
+    this.getListIncomeIndividual();
   }
 
   exportCsvCurrentMonth() {

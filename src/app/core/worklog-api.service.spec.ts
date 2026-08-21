@@ -84,6 +84,21 @@ describe("Service: WorklogApi", () => {
     backEnd.verify();
   });
 
+  it("should get list income from timesheet individual correctly", () => {
+    const listIncomeIndividual: ListIncomeResponse = {
+      status: "active",
+      submitDate: "2018-06-12T17:00:00Z",
+      user: [],
+    };
+    mockService.getListIncomeFromTimesheetIndividual().subscribe((list) => {
+      expect(list).toEqual(listIncomeIndividual);
+    });
+    backEnd
+      .match(`${mockService.apiPath}v1/income-from-timesheet/status/individual`)[0]
+      .flush(listIncomeIndividual);
+    backEnd.verify();
+  });
+
   it("should add income api correctly", () => {
     const income: AddIncome = {
       note: "",

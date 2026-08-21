@@ -106,6 +106,13 @@ export class WorklogApiService {
     );
   }
 
+  getListIncomeFromTimesheetIndividual(): Observable<ListIncomeResponse> {
+    return this.http.get<ListIncomeResponse>(
+      `${this.apiPath}v1/income-from-timesheet/status/individual`,
+      this.getHttpHeaderOption()
+    );
+  }
+
   getIncomeByUserID(id: string): Observable<AddIncomeResponse> {
     return this.http.get<AddIncomeResponse>(
       `${this.apiPath}v1/incomes/current-month/${id}`,

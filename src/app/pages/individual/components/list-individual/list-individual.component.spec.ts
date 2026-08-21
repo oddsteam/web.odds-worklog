@@ -56,6 +56,28 @@ describe('ListIndividualComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should show the timesheet source toggle for an individual-role login', () => {
+    component.role = 'individual';
+    fixture.detectChanges();
+
+    const toggle = fixture.nativeElement.querySelector('#useTimesheetSource');
+    const exportButton = fixture.nativeElement.querySelector('.export-container');
+
+    expect(toggle).withContext('toggle should be visible').not.toBeNull();
+    expect(exportButton).withContext('export button should stay admin-only').toBeNull();
+  });
+
+  it('should show both the toggle and the export button for an admin login', () => {
+    component.role = 'admin';
+    fixture.detectChanges();
+
+    const toggle = fixture.nativeElement.querySelector('#useTimesheetSource');
+    const exportButton = fixture.nativeElement.querySelector('.export-container');
+
+    expect(toggle).withContext('toggle should be visible').not.toBeNull();
+    expect(exportButton).withContext('export button should be visible').not.toBeNull();
+  });
+
   it('should get data from backend on init', () => {
     let individualListed = [{
       user: {
@@ -86,7 +108,28 @@ describe('ListIndividualComponent', () => {
       component.getListIncomeIndividual();
       expect(component.listIncomeIndividual).toEqual(mockResponse);
     });
+
+    it('should call getListIncomeFromTimesheetIndividual when timesheet source is on', () => {
+      const mockResponse = mockIndividualUserList();
+      spyOn(worklogService, 'getListIncomeFromTimesheetIndividual').and.returnValue(of(mockResponse));
+      spyOn(worklogService, 'getListIncomeIndividual');
+      component.useTimesheetSource = true;
+
+      component.getListIncomeIndividual();
+
+      expect(worklogService.getListIncomeFromTimesheetIndividual).toHaveBeenCalled();
+      expect(worklogService.getListIncomeIndividual).not.toHaveBeenCalled();
+      expect(component.listIncomeIndividual).toEqual(mockResponse);
+    });
   })
+
+  it('should refetch the list when the timesheet source toggle changes', () => {
+    spyOn(component, 'getListIncomeIndividual');
+
+    component.onToggleSource();
+
+    expect(component.getListIncomeIndividual).toHaveBeenCalled();
+  });
 
   it('should call exportDataIndividual when export CSV current month', () => {
     const mockBlob = new Blob([], { type: 'text/csv;charset=utf-8;' });
