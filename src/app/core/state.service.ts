@@ -11,6 +11,7 @@ export class StateService {
   isVatType = new BehaviorSubject<string>(null);
   listIncomeIndividualTrigger = new BehaviorSubject<boolean>(null);
   headerTrigger = new BehaviorSubject<boolean>(null);
+  useTimesheetSource = new BehaviorSubject<boolean>(false);
 
   constructor() { }
 
@@ -36,5 +37,9 @@ export class StateService {
 
   triggerHeader() {
     this.headerTrigger.next(true);
+  }
+
+  setUseTimesheetSource(value: boolean) {
+    this.useTimesheetSource.next(value);
   }
 }

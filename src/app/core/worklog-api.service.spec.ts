@@ -99,6 +99,16 @@ describe("Service: WorklogApi", () => {
     backEnd.verify();
   });
 
+  it("should get income from timesheet by user id correctly", () => {
+    const userId = "5bde550643b39700012727f2";
+    mockService.getIncomeFromTimesheetByUserID(userId).subscribe();
+    const req = backEnd.expectOne(
+      `${mockService.apiPath}v1/income-from-timesheet/current-month/${userId}`
+    );
+    expect(req.request.method).toEqual("GET");
+    backEnd.verify();
+  });
+
   it("should add income api correctly", () => {
     const income: AddIncome = {
       note: "",

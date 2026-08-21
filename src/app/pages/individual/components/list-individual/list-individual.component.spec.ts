@@ -131,6 +131,16 @@ describe('ListIndividualComponent', () => {
     expect(component.getListIncomeIndividual).toHaveBeenCalled();
   });
 
+  it('should broadcast the toggle value via StateService so other components on the page react', () => {
+    const stateService = TestBed.inject(StateService);
+    spyOn(stateService, 'setUseTimesheetSource');
+    component.useTimesheetSource = true;
+
+    component.onToggleSource();
+
+    expect(stateService.setUseTimesheetSource).toHaveBeenCalledWith(true);
+  });
+
   it('should call exportDataIndividual when export CSV current month', () => {
     const mockBlob = new Blob([], { type: 'text/csv;charset=utf-8;' });
     spyOn(worklogService, 'exportDataIndividual').and.returnValue(of(mockBlob));

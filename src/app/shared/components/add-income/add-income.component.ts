@@ -31,6 +31,7 @@ export class AddIncomeComponent implements OnInit {
   userFlag: string;
   timesheetSynced = false;
   addIncomeResponse: AddIncomeResponse;
+  useTimesheetSource = false;
 
   constructor(
     private modalService: BsModalService,
@@ -51,10 +52,18 @@ export class AddIncomeComponent implements OnInit {
     this.stateService.isVatType.subscribe((flag) => {
       this.typeVat = flag;
     });
+    this.stateService.useTimesheetSource.subscribe((value) => {
+      this.useTimesheetSource = value;
+      this.checkStatusUser();
+    });
   }
 
   checkStatusUser() {
-    this.worklogApiService.getIncomeByUserID(this.id).subscribe(
+    const request$ = this.useTimesheetSource
+      ? this.worklogApiService.getIncomeFromTimesheetByUserID(this.id)
+      : this.worklogApiService.getIncomeByUserID(this.id);
+
+    request$.subscribe(
       (res) => {
         if (res === null) {
           this.setDefault();

@@ -120,6 +120,13 @@ export class WorklogApiService {
     );
   }
 
+  getIncomeFromTimesheetByUserID(id: string): Observable<AddIncomeResponse> {
+    return this.http.get<AddIncomeResponse>(
+      `${this.apiPath}v1/income-from-timesheet/current-month/${id}`,
+      this.getHttpHeaderOption()
+    );
+  }
+
   getIncomeAllMonthByUserID(id: string): Observable<AddIncomeResponse[]> {
     return this.http.get<AddIncomeResponse[]>(
       `${this.apiPath}v1/incomes/all-month/${id}`,

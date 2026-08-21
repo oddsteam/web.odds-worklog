@@ -8,6 +8,7 @@ import { of, throwError } from "rxjs";
 import { AddIncomeResponse } from "src/app/shared/model/add-income-model-response";
 import { ComponentLoaderFactory } from "ngx-bootstrap/component-loader";
 import { PositioningService } from "ngx-bootstrap/positioning";
+import { StateService } from "src/app/core/state.service";
 
 describe("AddIncomeComponent", () => {
   let component: AddIncomeComponent;
@@ -150,5 +151,44 @@ describe("AddIncomeComponent", () => {
     fixture.detectChanges();
     const addButton = fixture.nativeElement.querySelector("#btn-add");
     expect(addButton).not.toBeNull();
+  });
+
+  it("should call getIncomeFromTimesheetByUserID when the shared timesheet source is on", () => {
+    const mockResponse: AddIncomeResponse = {
+      id: "01",
+      userId: "0000022233",
+      totalIncome: "100000",
+      netIncome: "40",
+      netDailyIncome: "",
+      submitDate: "2018-10-22:00:00:00",
+      note: "",
+      vat: "0.23",
+      wht: "100",
+      workDate: "20",
+      specialIncome: "100",
+      netSpecialIncome: "2000",
+      workingHours: "10",
+    };
+    spyOn(worklogservice, "getIncomeFromTimesheetByUserID").and.returnValue(
+      of(mockResponse),
+    );
+    spyOn(worklogservice, "getIncomeByUserID");
+    component.useTimesheetSource = true;
+
+    component.checkStatusUser();
+
+    expect(worklogservice.getIncomeFromTimesheetByUserID).toHaveBeenCalled();
+    expect(worklogservice.getIncomeByUserID).not.toHaveBeenCalled();
+    expect(component.addIncomeResponse).toEqual(mockResponse);
+  });
+
+  it("should refetch checkStatusUser when the shared timesheet-source toggle changes", () => {
+    const stateService = TestBed.inject(StateService);
+    spyOn(component, "checkStatusUser");
+
+    stateService.setUseTimesheetSource(true);
+
+    expect(component.useTimesheetSource).toBeTrue();
+    expect(component.checkStatusUser).toHaveBeenCalled();
   });
 });

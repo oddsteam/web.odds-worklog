@@ -16,4 +16,20 @@ describe('StateService', () => {
     const service: StateService = TestBed.inject(StateService);
     expect(service).toBeTruthy();
   });
+
+  it('should default useTimesheetSource to false', (done) => {
+    mockService.useTimesheetSource.subscribe((value) => {
+      expect(value).toBeFalse();
+      done();
+    });
+  });
+
+  it('should broadcast the new value when setUseTimesheetSource is called', (done) => {
+    mockService.setUseTimesheetSource(true);
+
+    mockService.useTimesheetSource.subscribe((value) => {
+      expect(value).toBeTrue();
+      done();
+    });
+  });
 });

@@ -64,6 +64,7 @@ export class ListIndividualComponent implements OnInit, OnChanges {
   }
 
   onToggleSource() {
+    this.stateService.setUseTimesheetSource(this.useTimesheetSource);
     this.getListIncomeIndividual();
   }
 
