@@ -38,6 +38,96 @@ refs:
 - `ngular-cli=15.2.7 node=18.16.0` in [trion/ng-cli-e2e:15.2.7](https://hub.docker.com/layers/trion/ng-cli-e2e/15.2.7/images/sha256-2e4685dedde058fc419c6be524153e5c843fbc70a0ad29d85b8dc28b133a2cc5)
 - `engines` in `package.json`
 
+The project includes a `.nvmrc` file set to `18.16.0`. If you use [nvm](https://github.com/nvm-sh/nvm), you can switch to the correct version automatically when opening a terminal in this directory.
+
+Pick the section that matches your shell:
+
+<details>
+<summary><strong>zsh</strong> (~/.zshrc)</summary>
+
+```sh
+autoload -U add-zsh-hook
+load-nvmrc() {
+  local nvmrc_path
+  nvmrc_path="$(nvm_find_nvmrc)"
+  if [ -n "$nvmrc_path" ]; then
+    local nvmrc_node_version
+    nvmrc_node_version=$(nvm version "$(cat "${nvmrc_path}")")
+    if [ "$nvmrc_node_version" = "N/A" ]; then
+      nvm install
+    elif [ "$nvmrc_node_version" != "$(nvm version)" ]; then
+      nvm use
+    fi
+  elif [ -n "$(PWD=$OLDPWD nvm_find_nvmrc)" ] && [ "$(nvm version)" != "$(nvm version default)" ]; then
+    echo "Reverting to nvm default version"
+    nvm use default
+  fi
+}
+add-zsh-hook chpwd load-nvmrc
+load-nvmrc
+```
+
+Reload: `source ~/.zshrc`
+</details>
+
+<details>
+<summary><strong>bash</strong> (~/.bashrc or ~/.bash_profile)</summary>
+
+```sh
+cdnvm() {
+  command cd "$@" || return $?
+  local nvmrc_path
+  nvmrc_path="$(nvm_find_nvmrc)"
+  if [ -n "$nvmrc_path" ]; then
+    local nvmrc_node_version
+    nvmrc_node_version=$(nvm version "$(cat "${nvmrc_path}")")
+    if [ "$nvmrc_node_version" = "N/A" ]; then
+      nvm install
+    elif [ "$nvmrc_node_version" != "$(nvm version)" ]; then
+      nvm use
+    fi
+  elif [ -n "$(PWD=$OLDPWD nvm_find_nvmrc)" ] && [ "$(nvm version)" != "$(nvm version default)" ]; then
+    echo "Reverting to nvm default version"
+    nvm use default
+  fi
+}
+alias cd='cdnvm'
+cdnvm "$PWD"
+```
+
+Reload: `source ~/.bashrc`
+</details>
+
+<details>
+<summary><strong>fish</strong> (~/.config/fish/config.fish)</summary>
+
+Install [bass](https://github.com/edc/bass) first (needed to source nvm in fish):
+
+```sh
+fisher install edc/bass
+```
+
+Then add to `~/.config/fish/config.fish`:
+
+```fish
+function nvm
+  bass source ~/.nvm/nvm.sh --no-use ';' nvm $argv
+end
+
+function __check_nvmrc --on-variable PWD
+  if test -f .nvmrc
+    nvm use
+  end
+end
+```
+
+Alternatively, consider using [nvm.fish](https://github.com/jorgebucaran/nvm.fish) which is a native fish implementation.
+
+Reload: `source ~/.config/fish/config.fish`
+</details>
+
+After setup, nvm will automatically run `nvm use` (or `nvm install` if the version is missing) whenever you `cd` into this project.
+
 #### Install node modules
 
 Since our Angular is very old, we need to install with `--legacy-peer-deps`
