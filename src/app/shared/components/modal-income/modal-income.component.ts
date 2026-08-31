@@ -355,7 +355,7 @@ export function calVAT(netIncome: string): string {
 }
 
 export function calWHT(netIncome: string): string {
-  return (stringToNumber(netIncome) * 0.03).toString();
+  return (stringToNumber(netIncome) * 0.05).toString();
 }
 
 export function calNetIncome(

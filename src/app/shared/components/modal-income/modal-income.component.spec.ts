@@ -171,8 +171,8 @@ describe('ModalIncomeComponent', () => {
       component.addIncomeData.totalIncome = '100';
       component.updateData();
       expect(component.addIncomeData.vat).toEqual('7.000000000000001');
-      expect(component.addIncomeData.wht).toEqual('3');
-      expect(component.addIncomeData.totalIncome).toEqual('97');
+      expect(component.addIncomeData.wht).toEqual('5');
+      expect(component.addIncomeData.totalIncome).toEqual('95');
     });
 
 
@@ -292,7 +292,7 @@ describe('ModalIncomeComponent', () => {
 
     it('should calculate WHT correctly', () => {
       const result = calWHT('100,000');
-      expect(result).toEqual('3000');
+      expect(result).toEqual('5000');
     });
 
     it('should calculate VAT correctly', () => {
@@ -367,10 +367,10 @@ describe('ModalIncomeComponent', () => {
       component.onSetupForm();
       component.addIncomeData.totalIncome = '10000';
       component.updateData();
-      expect(component.addIncomeData.wht).toEqual('300');
+      expect(component.addIncomeData.wht).toEqual('500');
     });
 
-    it('vat user should earn 104% of total when updateData', () => {
+    it('vat user should earn 102% of total when updateData', () => {
       component.addIncomeData = null;
       component.onSetupForm();
       const total = 10000;
@@ -379,12 +379,12 @@ describe('ModalIncomeComponent', () => {
       component.typeVat = 'Y';
       component.updateData();
       const vat7percent = total * 0.07;
-      const withholdingtax3percnet = total * 0.03;
-      const expected = total + vat7percent - withholdingtax3percnet
+      const withholdingtax5percent = total * 0.05;
+      const expected = total + vat7percent - withholdingtax5percent
       expect(component.addIncomeData.totalIncome).toEqual(`${expected}`)
     });
 
-    it('sme user with yearly income less than 1.8M does not require VAT so it should earn 97% of total when updateData', () => {
+    it('sme user with yearly income less than 1.8M does not require VAT so it should earn 95% of total when updateData', () => {
       component.addIncomeData = null;
       component.onSetupForm();
       const total = 10000;
@@ -392,19 +392,19 @@ describe('ModalIncomeComponent', () => {
       component.typeUser = 'Y';
       component.typeVat = 'N';
       component.updateData();
-      const withholdingtax3percnet = total * 0.03;
-      const expected = total - withholdingtax3percnet
+      const withholdingtax5percent = total * 0.05;
+      const expected = total - withholdingtax5percent
       expect(component.addIncomeData.totalIncome).toEqual(`${expected}`)
     });
 
-    it('individual user income should be deducted by 3% as withholding tax individual when updateData', () => {
+    it('individual user income should be deducted by 5% as withholding tax individual when updateData', () => {
       component.addIncomeData = null;
       component.onSetupForm();
       const total = 10000;
       component.addIncomeData.totalIncome = `${total}`;
       component.typeUser = 'N';
-      const withholdingtax3percnet = total * 0.03;
-      const expected = total - withholdingtax3percnet
+      const withholdingtax5percent = total * 0.05;
+      const expected = total - withholdingtax5percent
       component.updateData();
       expect(component.addIncomeData.totalIncome).toEqual(`${expected}`)
     });
@@ -477,13 +477,13 @@ describe('ModalIncomeComponent', () => {
         workingHours: '10'
       };
       // 7.000000000000001
-      // 3
+      // 5
       component.onSetupForm();
       component.addIncomeData.totalIncome = '100';
       component.updateData();
       expect(component.addIncomeData.vat).toEqual('7.000000000000001');
-      expect(component.addIncomeData.wht).toEqual('3');
-      expect(component.addIncomeData.totalIncome).toEqual('97');
+      expect(component.addIncomeData.wht).toEqual('5');
+      expect(component.addIncomeData.totalIncome).toEqual('95');
     });
     
       it('เมื่อเรียก calTotalIncome จะทำการคำนวณค่าต่างๆใส่ Modal Income', () => {
@@ -575,7 +575,7 @@ describe('ModalIncomeComponent', () => {
       component.onSetupForm();
       component.addIncomeData.totalIncome = '10000';
       component.updateData();
-      expect(component.addIncomeData.wht).toEqual('300');
+      expect(component.addIncomeData.wht).toEqual('500');
     });
   });
 

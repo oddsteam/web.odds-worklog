@@ -10,6 +10,6 @@ Feature: Edit Income
         Then the income confirmation breakdown should be:
             | net daily income   | 10000 |
             | net special income | 0     |
-            | net income         | 9700  |
+            | net income         | 9500  |
         When I confirm the income submission
-        Then my net income on the dashboard should be 9700 baht
+        Then my net income on the dashboard should be 9500 baht
