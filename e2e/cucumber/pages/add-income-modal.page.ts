@@ -48,7 +48,16 @@ export class AddIncomeModalPage {
   }
 
   async clickConfirm() {
+    const saved = this.page.waitForResponse(
+      (response) => {
+        const url = response.url();
+        const method = response.request().method();
+        return url.includes("/v1/incomes") && (method === "POST" || method === "PUT") && response.ok();
+      },
+      { timeout: 30000 }
+    );
     await this.page.locator("#btn-confirm").click();
+    await saved;
   }
 
   async waitForModalToClose() {
@@ -63,7 +72,12 @@ export class AddIncomeModalPage {
     await this.page
       .locator("#salary")
       .filter({ hasText: formatted })
-      .waitFor({ timeout: 10000 });
+      .waitFor({ timeout: 20000 });
+  }
+
+  /** Modal closes before the save request finishes; wait until the dashboard reflects it. */
+  async waitForIncomeSavedOnDashboard() {
+    await this.page.locator("#btn-edit").waitFor({ state: "visible", timeout: 30000 });
   }
 
   async getSalaryText() {

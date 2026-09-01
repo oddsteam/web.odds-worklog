@@ -47,6 +47,7 @@ async function clearUserIncome(userId: string) {
     await client.connect();
     const db = client.db("odds_worklog_db");
     await db.collection("income").deleteMany({ userId });
+    await db.collection("income_from_timesheet").deleteMany({ userId });
   } finally {
     await client.close();
   }
@@ -80,7 +81,7 @@ async function ensureUserRegisteredAsIndividual(userId: string) {
   }
 }
 
-Given("I am an individual user who has already submitted income this month", { timeout: 60000 }, async function () {
+Given("I am an individual user who has already submitted income this month", { timeout: 90000 }, async function () {
   await loginPage.goto();
   await loginPage.waitForReady();
   await loginPage.clickLoginWithKeycloak();
@@ -107,6 +108,7 @@ Given("I am an individual user who has already submitted income this month", { t
     await dashboardPage.reload();
   }
   await dashboardPage.waitForIndividualDashboard();
+  await dashboardPage.useIncomeCollectionSource();
 
   await addIncomeModalPage.clickAddIncomeButton();
   await addIncomeModalPage.fillWorkDate("18");
@@ -116,6 +118,7 @@ Given("I am an individual user who has already submitted income this month", { t
   await addIncomeModalPage.clickSubmit();
   await addIncomeModalPage.clickConfirm();
   await addIncomeModalPage.waitForModalToClose();
+  await addIncomeModalPage.waitForIncomeSavedOnDashboard();
 });
 
 When("I navigate to my income history", { timeout: 30000 }, async function () {

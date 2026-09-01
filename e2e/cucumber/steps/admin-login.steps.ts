@@ -73,6 +73,7 @@ async function clearUserIncome(userId: string) {
     await client.connect();
     const db = client.db("odds_worklog_db");
     await db.collection("income").deleteMany({ userId });
+    await db.collection("income_from_timesheet").deleteMany({ userId });
   } finally {
     await client.close();
   }
@@ -192,7 +193,7 @@ Then("the income file should be downloaded", async function () {
   assert.ok(downloadedFile, "Expected a file download but none occurred");
   const suggestedFilename = downloadedFile.suggestedFilename();
   assert.ok(
-    suggestedFilename.includes("income_individual"),
-    `Expected filename to contain 'income_individual', but got '${suggestedFilename}'`
+    /income(_from_timesheet)?_individual.*\.csv$/.test(suggestedFilename),
+    `Expected an individual income CSV, but got '${suggestedFilename}'`
   );
 });

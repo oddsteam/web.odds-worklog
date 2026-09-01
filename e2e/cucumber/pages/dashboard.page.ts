@@ -51,6 +51,23 @@ export class DashboardPage {
     });
   }
 
+  /** Manual income e2e uses the income collection; the timesheet source is on by default. */
+  async useIncomeCollectionSource() {
+    const toggle = this.page.locator("#useTimesheetSource");
+    await toggle.waitFor({ state: "visible", timeout: 15000 });
+    if (await toggle.isChecked()) {
+      await this.page.locator("label[for='useTimesheetSource']").click();
+    }
+    await this.page.waitForFunction(() => {
+      const el = document.querySelector("#useTimesheetSource") as HTMLInputElement | null;
+      return !!el && !el.checked;
+    });
+    await this.page.locator("#btn-add, #btn-edit").first().waitFor({
+      state: "visible",
+      timeout: 30000,
+    });
+  }
+
   async waitForAdminLanding() {
     await this.page.waitForURL(
       (url) => url.origin === APP_URL && url.pathname.includes("/individual"),

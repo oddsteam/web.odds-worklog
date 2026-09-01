@@ -80,6 +80,7 @@ async function clearUserIncome(userId: string) {
     await client.connect();
     const db = client.db("odds_worklog_db");
     await db.collection("income").deleteMany({ userId });
+    await db.collection("income_from_timesheet").deleteMany({ userId });
   } finally {
     await client.close();
   }
@@ -130,6 +131,7 @@ Given("I am an individual user with daily income rate of {int} baht per day", { 
   }
 
   await dashboardPage.waitForIndividualDashboard();
+  await dashboardPage.useIncomeCollectionSource();
   addIncomeUserId = await dashboardPage.getUserId();
 });
 
@@ -163,13 +165,13 @@ When("I confirm the income submission", async function () {
   await addIncomeModalPage.waitForModalToClose();
 });
 
-Then("my net income on the dashboard should be {int} baht", async function (expectedAmount: number) {
+Then("my net income on the dashboard should be {int} baht", { timeout: 30000 }, async function (expectedAmount: number) {
   await addIncomeModalPage.waitForNetIncomeOnDashboard(expectedAmount);
 });
 
 Given(
   "I am an individual user with a daily income rate of {int} baht per day who has submitted income for {int} work days",
-  { timeout: 60000 },
+  { timeout: 90000 },
   async function (dailyIncome: number, workDays: number) {
     await loginPage.goto();
     await loginPage.waitForReady();
@@ -189,6 +191,7 @@ Given(
       await dashboardPage.reload();
     }
     await dashboardPage.waitForIndividualDashboard();
+    await dashboardPage.useIncomeCollectionSource();
 
     await addIncomeModalPage.clickAddIncomeButton();
     await addIncomeModalPage.fillWorkDate(String(workDays));
@@ -198,6 +201,7 @@ Given(
     await addIncomeModalPage.clickSubmit();
     await addIncomeModalPage.clickConfirm();
     await addIncomeModalPage.waitForModalToClose();
+    await addIncomeModalPage.waitForIncomeSavedOnDashboard();
   }
 );
 
