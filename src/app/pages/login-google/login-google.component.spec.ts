@@ -43,13 +43,13 @@ xdescribe("LoginGoogleComponent", () => {
   });
 
   it("should set individualListed when call cacheData()", () => {
-    spyOn(workLogService, "getListIncomeIndividual").and.returnValue(
+    spyOn(workLogService, "getListIncomeFromTimesheetIndividual").and.returnValue(
       of(new ListIncomeResponse())
     );
 
     component.cacheData();
 
-    expect(workLogService.getListIncomeIndividual).toHaveBeenCalled();
+    expect(workLogService.getListIncomeFromTimesheetIndividual).toHaveBeenCalled();
     expect(workLogService.individualListed).toBeDefined();
   });
 

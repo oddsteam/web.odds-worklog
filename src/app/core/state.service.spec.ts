@@ -17,9 +17,9 @@ describe('StateService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should default useTimesheetSource to false', (done) => {
+  it('should default useTimesheetSource to true', (done) => {
     mockService.useTimesheetSource.subscribe((value) => {
-      expect(value).toBeFalse();
+      expect(value).toBeTrue();
       done();
     });
   });

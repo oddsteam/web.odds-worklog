@@ -23,7 +23,7 @@ export class ListIndividualComponent implements OnInit, OnChanges {
   modalRef: BsModalRef;
 
   /** When on, the CSV exports read from income_from_timesheet instead of income. */
-  useTimesheetSource = false;
+  useTimesheetSource = true;
 
   /** Income export is restricted to full admins (not user-admin). */
   get showIncomeExport(): boolean {

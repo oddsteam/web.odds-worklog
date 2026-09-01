@@ -31,7 +31,7 @@ export class AddIncomeComponent implements OnInit {
   userFlag: string;
   timesheetSynced = false;
   addIncomeResponse: AddIncomeResponse;
-  useTimesheetSource = false;
+  useTimesheetSource = true;
 
   constructor(
     private modalService: BsModalService,

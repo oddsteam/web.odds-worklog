@@ -146,6 +146,7 @@ describe('ListIndividualComponent', () => {
     spyOn(worklogService, 'exportDataIndividual').and.returnValue(of(mockBlob));
     spyOn(worklogService, 'exportSAPIncomeByPeriod');
     spyOn(component, 'downloadFile');
+    component.useTimesheetSource = false;
 
     component.exportCsvCurrentMonth();
 
@@ -159,6 +160,7 @@ describe('ListIndividualComponent', () => {
     spyOn(worklogService, 'exportDataIndividual').and.returnValue(of(mockBlob));
     spyOn(worklogService, 'exportSAPIncomeByPeriod');
     spyOn(component, 'downloadFile');
+    component.useTimesheetSource = false;
 
     component.exportCsvPreviousMonth();
 
@@ -172,6 +174,7 @@ describe('ListIndividualComponent', () => {
     spyOn(worklogService, 'exportIncomeByMonth').and.returnValue(of(mockBlob));
     spyOn(worklogService, 'exportSAPIncomeByPeriod');
     spyOn(component, 'downloadFile');
+    component.useTimesheetSource = false;
 
     component.exportCsvByMonth();
 
@@ -184,6 +187,7 @@ describe('ListIndividualComponent', () => {
     spyOn(component, 'downloadFile');
     spyOn(worklogService, 'exportIncomeByMonth').and.returnValue(of(mockBlob));
     spyOn(worklogService, 'exportSAPIncomeByPeriod');
+    component.useTimesheetSource = false;
 
     component.exportCsvByMonth();
 
@@ -195,8 +199,8 @@ describe('ListIndividualComponent', () => {
     expect(worklogService.exportSAPIncomeByPeriod).not.toHaveBeenCalled();
   });
 
-  it('should default the timesheet source toggle to off', () => {
-    expect(component.useTimesheetSource).toBeFalse();
+  it('should default the timesheet source toggle to on', () => {
+    expect(component.useTimesheetSource).toBeTrue();
   });
 
   it('should call exportDataIncomeFromTimesheetIndividual for current month when timesheet source is on', () => {
@@ -341,6 +345,7 @@ describe('ListIndividualComponent', () => {
     const mockBlob = new Blob([], { type: 'text/csv;charset=utf-8;' });
     spyOn(worklogService, 'exportPeakIndividual').and.returnValue(of(mockBlob));
     spyOn(component, 'downloadFile');
+    component.useTimesheetSource = false;
 
     component.exportPeakCurrentMonth();
 
@@ -352,6 +357,7 @@ describe('ListIndividualComponent', () => {
     const mockBlob = new Blob([], { type: 'text/csv;charset=utf-8;' });
     spyOn(worklogService, 'exportPeakIndividual').and.returnValue(of(mockBlob));
     spyOn(component, 'downloadFile');
+    component.useTimesheetSource = false;
 
     component.exportPeakPreviousMonth();
 
@@ -363,6 +369,7 @@ describe('ListIndividualComponent', () => {
     const mockBlob = new Blob([], { type: 'text/csv;charset=utf-8;' });
     spyOn(component, 'downloadFile');
     spyOn(worklogService, 'exportPeakByMonth').and.returnValue(of(mockBlob));
+    component.useTimesheetSource = false;
 
     component.exportPeakByMonth();
 
@@ -378,6 +385,7 @@ describe('ListIndividualComponent', () => {
     spyOn(worklogService, 'exportPeakByMonth').and.returnValue(throwError(() => new HttpErrorResponse({ status: 500, error: 'Error' })));
     spyOn(component, 'downloadFile');
     spyOn(window, 'alert');
+    component.useTimesheetSource = false;
 
     component.exportPeakByMonth();
 
@@ -390,6 +398,7 @@ describe('ListIndividualComponent', () => {
     spyOn(component, 'downloadFile');
     spyOn(worklogService, 'exportSAPIncomeByPeriod').and.returnValue(of(mockBlob));
     spyOn(worklogService, 'exportDataIndividual');
+    component.useTimesheetSource = false;
 
     component.exportSapCurrentMonth();
 
@@ -408,6 +417,7 @@ describe('ListIndividualComponent', () => {
     spyOn(component, 'downloadFile');
     spyOn(worklogService, 'exportSAPIncomeByPeriod').and.returnValue(of(mockBlob));
     spyOn(worklogService, 'exportDataIndividual');
+    component.useTimesheetSource = false;
 
     component.exportSapPreviousMonth();
 
@@ -425,6 +435,7 @@ describe('ListIndividualComponent', () => {
         spyOn(worklogService, 'exportIncomeByMonth').and.returnValue(throwError(() => new HttpErrorResponse({ status: 500, error: 'Error' })));
         spyOn(component, 'downloadFile');
         spyOn(window, 'alert');
+        component.useTimesheetSource = false;
 
         component.exportCsvByMonth();
 

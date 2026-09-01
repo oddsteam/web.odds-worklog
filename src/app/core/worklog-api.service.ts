@@ -46,7 +46,7 @@ export class WorklogApiService {
     this.forCheckTokenPleaseRemoveMeIfFlowLoginFinnished().subscribe(
       (checkTokenInterval) => {
         if (checkTokenInterval) {
-          this.getListIncomeIndividual().subscribe((individual) => {
+          this.getListIncomeFromTimesheetIndividual().subscribe((individual) => {
             this.individualListed = individual;
           });
         }

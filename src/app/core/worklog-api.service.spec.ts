@@ -257,23 +257,23 @@ it("should call export SAP income by period correctly", () => {
     });
   });
 
-  it("should set getListIncomeIndividual when call initDataService()", () => {
+  it("should set getListIncomeFromTimesheetIndividual when call initDataService()", () => {
     spyOn(
       mockService,
       "forCheckTokenPleaseRemoveMeIfFlowLoginFinnished"
     ).and.returnValue(of(false));
-    spyOn(mockService, "getListIncomeIndividual").and.returnValue(of());
+    spyOn(mockService, "getListIncomeFromTimesheetIndividual").and.returnValue(of());
     mockService.initDataService();
-    expect(mockService.getListIncomeIndividual).not.toHaveBeenCalled();
+    expect(mockService.getListIncomeFromTimesheetIndividual).not.toHaveBeenCalled();
   });
 
-  it("should set getListIncomeIndividual when forcheck() function return true", () => {
+  it("should set getListIncomeFromTimesheetIndividual when forcheck() function return true", () => {
     spyOn(
       mockService,
       "forCheckTokenPleaseRemoveMeIfFlowLoginFinnished"
     ).and.returnValue(of(true));
-    spyOn(mockService, "getListIncomeIndividual").and.returnValue(of());
+    spyOn(mockService, "getListIncomeFromTimesheetIndividual").and.returnValue(of());
     mockService.initDataService();
-    expect(mockService.getListIncomeIndividual).toHaveBeenCalled();
+    expect(mockService.getListIncomeFromTimesheetIndividual).toHaveBeenCalled();
   });
 });

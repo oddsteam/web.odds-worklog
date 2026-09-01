@@ -85,7 +85,7 @@ export class LoginGoogleComponent implements OnInit {
   }
 
   cacheData() {
-    this.worklogService.getListIncomeIndividual().subscribe((individual) => {
+    this.worklogService.getListIncomeFromTimesheetIndividual().subscribe((individual) => {
       this.worklogService.individualListed = individual;
     });
   }

@@ -41,7 +41,7 @@ describe("AddIncomeComponent", () => {
     expect(component).toBeTruthy();
   });
 
-  it("should call getIncomeByUserID in worklog service", () => {
+  it("should call getIncomeFromTimesheetByUserID in worklog service", () => {
     const mockResponse: AddIncomeResponse = {
       id: "01",
       userId: "0000022233",
@@ -57,14 +57,14 @@ describe("AddIncomeComponent", () => {
       netSpecialIncome: "2000",
       workingHours: "10",
     };
-    spyOn(worklogservice, "getIncomeByUserID").and.returnValue(
+    spyOn(worklogservice, "getIncomeFromTimesheetByUserID").and.returnValue(
       of(mockResponse),
     );
     component.checkStatusUser();
-    expect(worklogservice.getIncomeByUserID).toHaveBeenCalled();
+    expect(worklogservice.getIncomeFromTimesheetByUserID).toHaveBeenCalled();
   });
 
-  it("addIncomeResponse should be equal data from service if getIncomeByUserID is not error", () => {
+  it("addIncomeResponse should be equal data from service if getIncomeFromTimesheetByUserID is not error", () => {
     const mockResponse: AddIncomeResponse = {
       id: "01",
       userId: "0000022233",
@@ -80,15 +80,15 @@ describe("AddIncomeComponent", () => {
       netSpecialIncome: "2000",
       workingHours: "10",
     };
-    spyOn(worklogservice, "getIncomeByUserID").and.returnValue(
+    spyOn(worklogservice, "getIncomeFromTimesheetByUserID").and.returnValue(
       of(mockResponse),
     );
     component.checkStatusUser();
     expect(component.addIncomeResponse).toEqual(mockResponse);
   });
 
-  it("addIncomeResponse should be null if getIncomeByUserID is error", () => {
-    spyOn(worklogservice, "getIncomeByUserID").and.callFake(() => {
+  it("addIncomeResponse should be null if getIncomeFromTimesheetByUserID is error", () => {
+    spyOn(worklogservice, "getIncomeFromTimesheetByUserID").and.callFake(() => {
       return throwError(new Error("Fake error"));
     });
     component.checkStatusUser();
@@ -114,7 +114,7 @@ describe("AddIncomeComponent", () => {
   });
   it("should fetch the user and store timesheetSynced when checking status", () => {
     const mockUser: any = { id: "0000022233", timesheetSynced: true };
-    spyOn(worklogservice, "getIncomeByUserID").and.returnValue(of(null));
+    spyOn(worklogservice, "getIncomeFromTimesheetByUserID").and.returnValue(of(null));
     spyOn(worklogservice, "getUserByID").and.returnValue(of(mockUser));
     component.checkStatusUser();
     expect(worklogservice.getUserByID).toHaveBeenCalled();
@@ -123,7 +123,7 @@ describe("AddIncomeComponent", () => {
 
   it("should default timesheetSynced to false when the user is not synced", () => {
     const mockUser: any = { id: "0000022233", timesheetSynced: false };
-    spyOn(worklogservice, "getIncomeByUserID").and.returnValue(of(null));
+    spyOn(worklogservice, "getIncomeFromTimesheetByUserID").and.returnValue(of(null));
     spyOn(worklogservice, "getUserByID").and.returnValue(of(mockUser));
     component.checkStatusUser();
     expect(component.timesheetSynced).toBe(false);
