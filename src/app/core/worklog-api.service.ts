@@ -263,6 +263,35 @@ export class WorklogApiService {
     );
   }
 
+  /**
+   * Per-site income breakdown. Only income_from_timesheet records carry the site day counts
+   * this report is built from, so there is no equivalent on the plain income side.
+   */
+  exportSiteAllocationIndividual(monthIndex: string): Observable<Blob> {
+    return this.http.get(
+      `${this.apiPath}v1/income-from-timesheet/export/site/${monthIndex}`,
+      {
+        headers: new HttpHeaders({
+          Authorization: sessionStorage.getItem("token"),
+        }),
+        responseType: "blob",
+      }
+    );
+  }
+
+  exportSiteAllocationByMonth(requestExportIncome: RequestExportIncome) {
+    return this.http.post(
+      `${this.apiPath}v1/income-from-timesheet/export/site`,
+      requestExportIncome,
+      {
+        headers: new HttpHeaders({
+          Authorization: sessionStorage.getItem("token"),
+        }),
+        responseType: "blob",
+      }
+    );
+  }
+
   exportSAPIncomeFromTimesheetByPeriod(req: RequestExportSAPIncome) {
     return this.http.post(
       `${this.apiPath}v1/income-from-timesheet/export/format/SAP`,

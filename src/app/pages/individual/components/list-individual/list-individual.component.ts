@@ -263,6 +263,69 @@ export class ListIndividualComponent implements OnInit, OnChanges {
       });
   }
 
+  exportSiteAllocationCurrentMonth() {
+    this.exportSiteAllocationByMonthIndex('0', "");
+  }
+
+  exportSiteAllocationPreviousMonth() {
+    this.exportSiteAllocationByMonthIndex('1', "_previous");
+  }
+
+  private exportSiteAllocationByMonthIndex(monthIndex: string, filenameSuffix: string) {
+    this.worklogApiService
+      .exportSiteAllocationIndividual(monthIndex)
+      .pipe(this.handleExportError(this.siteAllocationExportErrorMessage()))
+      .subscribe((income) => {
+        if (income) {
+          this.downloadFile(income, this.siteAllocationFilename(filenameSuffix));
+        }
+      });
+  }
+
+  exportSiteAllocationByMonth() {
+    const initialState: ModalOptions = {
+      initialState: {
+        modalType: ModalMonthType.SPECIFIC_MONTH
+      }
+    };
+    this.modalRef = this.modalService.show(
+      ModalExportComponent,
+      initialState
+    );
+
+    this.modalRef.content.valueDate
+      .pipe(
+        switchMap((data: ExportIncomeModal) => {
+          const body: RequestExportIncome = {
+            role: "individual",
+            startDate: data.startDate,
+            endDate: data.endDate,
+          };
+
+          return this.worklogApiService
+            .exportSiteAllocationByMonth(body)
+            .pipe(this.handleExportError(this.siteAllocationExportErrorMessage()));
+        })
+      )
+      .subscribe((income) => {
+        if (income) {
+          this.downloadFile(income, this.siteAllocationFilename("_specific_month"));
+        }
+      });
+  }
+
+  /**
+   * The breakdown always comes from income_from_timesheet — it is the only source carrying
+   * the per-site day counts — so neither the filename nor the endpoint follows the toggle.
+   */
+  private siteAllocationFilename(suffix: string): string {
+    return `income_from_timesheet_site_allocation${suffix}.csv`;
+  }
+
+  private siteAllocationExportErrorMessage(): string {
+    return "Can't export income per site to CSV file.";
+  }
+
   private handleExportError(message: string) {
     return catchError((err) => {
         console.error(message, err);

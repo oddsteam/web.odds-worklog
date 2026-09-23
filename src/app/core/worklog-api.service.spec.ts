@@ -192,6 +192,28 @@ describe("Service: WorklogApi", () => {
     backEnd.verify();
   });
 
+  it("should call export site allocation individual api correctly", () => {
+    mockService.exportSiteAllocationIndividual("0").subscribe();
+    const req = backEnd.expectOne(
+      `${mockService.apiPath}v1/income-from-timesheet/export/site/0`
+    );
+    expect(req.request.method).toEqual("GET");
+    expect(req.request.responseType).toEqual("blob");
+    backEnd.verify();
+  });
+
+  it("should call export site allocation by month api correctly", () => {
+    mockService
+      .exportSiteAllocationByMonth(new RequestExportIncome())
+      .subscribe();
+    const req = backEnd.expectOne(
+      `${mockService.apiPath}v1/income-from-timesheet/export/site`
+    );
+    expect(req.request.method).toEqual("POST");
+    expect(req.request.responseType).toEqual("blob");
+    backEnd.verify();
+  });
+
   it("should call export SAP income from timesheet by period api correctly", () => {
     mockService
       .exportSAPIncomeFromTimesheetByPeriod(new RequestExportSAPIncome())

@@ -21,6 +21,11 @@
           <a href="javascript:void(0)" (click)="exportPeakByMonth()">Export PEAK ระบุเดือน</a>
           <a href="javascript:void(0)" (click)="exportSapCurrentMonth()">Export SAP เดือนปัจจุบัน</a>
           <a href="javascript:void(0)" (click)="exportSapPreviousMonth()">Export SAP เดือนที่แล้ว</a>
+          <ng-container *ngIf="useTimesheetSource">
+            <a class="export-site-allocation" href="javascript:void(0)" (click)="exportSiteAllocationCurrentMonth()">Export Site เดือนปัจจุบัน</a>
+            <a class="export-site-allocation" href="javascript:void(0)" (click)="exportSiteAllocationPreviousMonth()">Export Site เดือนที่แล้ว</a>
+            <a class="export-site-allocation" href="javascript:void(0)" (click)="exportSiteAllocationByMonth()">Export Site ระบุเดือน</a>
+          </ng-container>
         </div>
       </div>
     </div>

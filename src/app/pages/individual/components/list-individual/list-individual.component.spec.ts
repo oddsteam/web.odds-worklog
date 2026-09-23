@@ -502,4 +502,70 @@ describe('ListIndividualComponent', () => {
       http.post = jasmine.createSpy().and.returnValue(of(mockResponse));
       return new WorklogApiService(http);
   }
+
+  it('should call exportSiteAllocationIndividual when export site allocation current month', () => {
+    const mockBlob = new Blob([], { type: 'text/csv;charset=utf-8;' });
+    spyOn(worklogService, 'exportSiteAllocationIndividual').and.returnValue(of(mockBlob));
+    spyOn(component, 'downloadFile');
+
+    component.exportSiteAllocationCurrentMonth();
+
+    expect(worklogService.exportSiteAllocationIndividual).toHaveBeenCalledWith('0');
+    expect(component.downloadFile).toHaveBeenCalledWith(mockBlob, 'income_from_timesheet_site_allocation.csv');
+  });
+
+  it('should call exportSiteAllocationIndividual when export site allocation previous month', () => {
+    const mockBlob = new Blob([], { type: 'text/csv;charset=utf-8;' });
+    spyOn(worklogService, 'exportSiteAllocationIndividual').and.returnValue(of(mockBlob));
+    spyOn(component, 'downloadFile');
+
+    component.exportSiteAllocationPreviousMonth();
+
+    expect(worklogService.exportSiteAllocationIndividual).toHaveBeenCalledWith('1');
+    expect(component.downloadFile).toHaveBeenCalledWith(mockBlob, 'income_from_timesheet_site_allocation_previous.csv');
+  });
+
+  it('should call exportSiteAllocationByMonth with individual role in specific month export', () => {
+    const mockBlob = new Blob([], { type: 'text/csv;charset=utf-8;' });
+    spyOn(worklogService, 'exportSiteAllocationByMonth').and.returnValue(of(mockBlob));
+    spyOn(component, 'downloadFile');
+
+    component.exportSiteAllocationByMonth();
+
+    expect(worklogService.exportSiteAllocationByMonth).toHaveBeenCalledWith({
+      role: 'individual',
+      startDate: '08/2025',
+      endDate: '08/2025',
+    });
+    expect(component.downloadFile).toHaveBeenCalledWith(mockBlob, 'income_from_timesheet_site_allocation_specific_month.csv');
+  });
+
+  it('should alert message error when export site allocation fails', () => {
+    spyOn(worklogService, 'exportSiteAllocationIndividual').and.returnValue(throwError(() => new HttpErrorResponse({ status: 500, error: 'Error' })));
+    spyOn(component, 'downloadFile');
+    spyOn(window, 'alert');
+
+    component.exportSiteAllocationCurrentMonth();
+
+    expect(window.alert).toHaveBeenCalledWith(`Can't export income per site to CSV file.`);
+    expect(component.downloadFile).not.toHaveBeenCalled();
+  });
+
+  it('should hide the site allocation menu while the timesheet source is off', () => {
+    // The plain income collection has no per-site day counts, so the report cannot be built
+    // from it — offering the menu there would only ever produce an error.
+    component.role = 'admin';
+    component.useTimesheetSource = false;
+    fixture.detectChanges();
+
+    expect(fixture.nativeElement.querySelector('.export-site-allocation')).toBeNull();
+  });
+
+  it('should show the site allocation menu while the timesheet source is on', () => {
+    component.role = 'admin';
+    component.useTimesheetSource = true;
+    fixture.detectChanges();
+
+    expect(fixture.nativeElement.querySelectorAll('.export-site-allocation').length).toEqual(3);
+  });
 });
