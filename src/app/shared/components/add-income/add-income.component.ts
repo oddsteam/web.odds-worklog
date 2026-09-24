@@ -59,6 +59,15 @@ export class AddIncomeComponent implements OnInit {
   }
 
   checkStatusUser() {
+    this.loadDisplayedIncome();
+    this.loadEditTarget();
+    this.worklogApiService.getUserByID(this.id).subscribe((user) => {
+      this.timesheetSynced = !!user.timesheetSynced;
+    });
+  }
+
+  /** Fills the form from whichever source the toggle selected. Display only. */
+  private loadDisplayedIncome() {
     const request$ = this.useTimesheetSource
       ? this.worklogApiService.getIncomeFromTimesheetByUserID(this.id)
       : this.worklogApiService.getIncomeByUserID(this.id);
@@ -68,28 +77,51 @@ export class AddIncomeComponent implements OnInit {
         if (res === null) {
           this.setDefault();
         } else {
-          IncomeFlag.id = res.id;
           this.addIncomeResponse = res;
           this.salary = Number(res.netIncome);
           this.note = res.note;
           this.stateService.setFlagUser("N");
+          if (!this.useTimesheetSource) {
+            this.setEditTarget(res);
+          }
         }
       },
       (error) => {
         this.setDefault();
       },
     );
-    this.worklogApiService.getUserByID(this.id).subscribe((user) => {
-      this.timesheetSynced = !!user.timesheetSynced;
-    });
+  }
+
+  /**
+   * The form always saves through /v1/incomes, so the record it edits has to be the one in the
+   * income collection — income_from_timesheet ids do not exist there, and carrying one over made
+   * the PUT fail with "mongo: no documents in result". With the timesheet source on, the numbers
+   * on screen come from the timesheet record while the save target is looked up separately; a
+   * user who has no income record yet saves as an add, and the mirror folds it back into the
+   * timesheet record for the period.
+   */
+  private loadEditTarget() {
+    if (!this.useTimesheetSource) {
+      return; // the displayed record is the income record itself
+    }
+    this.worklogApiService.getIncomeByUserID(this.id).subscribe(
+      (income) => this.setEditTarget(income),
+      (error) => this.setEditTarget(null),
+    );
+  }
+
+  private setEditTarget(income: AddIncomeResponse | null) {
+    IncomeFlag.id = income ? income.id : "";
+    IncomeFlag.isUpdate = !!income;
   }
 
   setDefault() {
-    IncomeFlag.isUpdate = false;
-    IncomeFlag.id = "";
     this.addIncomeResponse = null;
     this.salary = 0;
     this.note = "อยากได้เงินก็กรอกมาสิ";
+    if (!this.useTimesheetSource) {
+      this.setEditTarget(null);
+    }
   }
 
   openTemplateModal() {
