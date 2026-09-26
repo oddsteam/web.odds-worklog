@@ -364,8 +364,8 @@ describe('ProfileComponent', () => {
         thaiCitizenId: '123467890',
         vat: 'N',
         phone: '0123123123',
-        startDate: { year: 2022, month: 1, day: 1 }
-
+        startDate: { year: 2022, month: 1, day: 1 },
+        corporateName: ''
       });
     });
 
@@ -604,6 +604,95 @@ describe('ProfileComponent', () => {
       component.setDataToModel();
 
       expect(component.userInfo.email).toBe('updated@example.com');
+    });
+
+    it('should allow changing user type when editing an individual', () => {
+      component.isEditingOther = true;
+      component.createForm();
+      const data = new User({
+        bankAccountName: 'กอไก่ ขอไข่',
+        bankAccountNumber: '0123456789',
+        email: 'who@odds.team',
+        firstName: 'aaa',
+        id: '5c0fa703780bf500019a5aea',
+        lastName: 'bbb',
+        role: 'individual',
+        vat: 'N',
+        thaiCitizenId: '123467890',
+        phone: '',
+        startDate: '2022-1-1'
+      });
+      spyOn(worklogApiService, 'getUserByID').and.returnValue(of(data));
+      spyOn(worklogApiService, 'getSitesData').and.returnValue(of([]));
+
+      component.getData();
+
+      expect(component.canChangeUserType).toBe(true);
+      expect(component.originalRole).toBe('individual');
+    });
+
+    it('should not allow changing user type when editing a corporate user', () => {
+      component.isEditingOther = true;
+      component.createForm();
+      const data = new User({
+        bankAccountName: 'บริษัท',
+        bankAccountNumber: '0123456789',
+        corporateName: 'บจก. ตัวอย่าง',
+        email: 'corp@odds.team',
+        firstName: '',
+        id: '5c0fa703780bf500019a5aea',
+        lastName: '',
+        role: 'corporate',
+        vat: 'Y',
+        thaiCitizenId: '123467890',
+        phone: '',
+        startDate: '2022-1-1'
+      });
+      spyOn(worklogApiService, 'getUserByID').and.returnValue(of(data));
+      spyOn(worklogApiService, 'getSitesData').and.returnValue(of([]));
+
+      component.getData();
+
+      expect(component.canChangeUserType).toBe(false);
+    });
+
+    it('should require corporate name when changing type to corporate', () => {
+      component.isEditingOther = true;
+      component.createForm();
+      component.originalRole = 'individual';
+      component.personType = 'individual';
+      component.syncCorporateNameValidators();
+
+      component.onPersonTypeChange('corporate');
+
+      expect(component.personType).toBe('corporate');
+      expect(component.corporateName.hasError('required')).toBe(true);
+    });
+
+    it('should include role and corporate name when updating another user to corporate', () => {
+      component.isEditingOther = true;
+      component.userInfo = new User();
+      component.createForm();
+      component.emailForm.enable();
+      component.emailForm.setValue('updated@example.com');
+      component.firstNameForm.setValue('ทดสอบ');
+      component.lastNameForm.setValue('ชอบลงทุน');
+      component.bankAccountForm.setValue('ทดสอบ ชอบลงทุน');
+      component.bankAccountNumberForm.setValue('1235678900');
+      component.vat.setValue('N');
+      component.project.setValue('TEST');
+      component.dailyIncome.setValue('4000');
+      component.personType = 'corporate';
+      component.corporateName.setValue('บจก. ตัวอย่าง');
+      component.address.setValue('-');
+      component.thaiCitizenId.setValue('-');
+      component.phone.setValue('-');
+      component.startDate.setValue({ year: 2022, month: 1, day: 1 });
+
+      component.setDataToModel();
+
+      expect(component.userInfo.role).toBe('corporate');
+      expect(component.userInfo.corporateName).toBe('บจก. ตัวอย่าง');
     });
   });
 

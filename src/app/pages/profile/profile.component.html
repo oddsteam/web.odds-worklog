@@ -247,6 +247,71 @@
             </div>
           </div>
 
+          <div class="row" *ngIf="canChangeUserType">
+            <div class="form-group col-md-12">
+              <label>ประเภทผู้ใช้</label>
+              <div class="checkbox custom-control-inline radio-container" [ngClass]="{'checked': personType === 'individual'}">
+                <input
+                  type="radio"
+                  value="individual"
+                  id="role-individual"
+                  name="personType"
+                  [checked]="personType === 'individual'"
+                  (change)="onPersonTypeChange('individual')"
+                />
+                <label class="radio-label" for="role-individual">
+                  <h6>Individual</h6>
+                </label>
+              </div>
+              <div class="checkbox custom-control-inline radio-container" [ngClass]="{'checked': personType === 'corporate'}">
+                <input
+                  type="radio"
+                  value="corporate"
+                  id="role-corporate"
+                  name="personType"
+                  [checked]="personType === 'corporate'"
+                  (change)="onPersonTypeChange('corporate')"
+                />
+                <label class="radio-label" for="role-corporate">
+                  <h6>Corporate</h6>
+                </label>
+              </div>
+              <div class="checkbox custom-control-inline radio-container" [ngClass]="{'checked': personType === 'user-admin'}">
+                <input
+                  type="radio"
+                  value="user-admin"
+                  id="role-user-admin"
+                  name="personType"
+                  [checked]="personType === 'user-admin'"
+                  (change)="onPersonTypeChange('user-admin')"
+                />
+                <label class="radio-label" for="role-user-admin">
+                  <h6>User admin</h6>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="row" *ngIf="canChangeUserType && personType === 'corporate'">
+            <div class="form-group col-md-6">
+              <label>ชื่อบริษัท</label>
+              <input
+                class="form-control"
+                type="text"
+                formControlName="corporateName"
+                [ngClass]="{
+                  'is-invalid':
+                    corporateName.invalid && corporateName.touched
+                }"
+              />
+              <div *ngIf="corporateName.errors?.required && corporateName.touched">
+                <label class="col-form-label" style="color: red"
+                  >กรุณากรอกชื่อบริษัท</label
+                >
+              </div>
+            </div>
+          </div>
+
           <div class="row">
             <div class="form-group col-md-6">
               <label>Email</label>

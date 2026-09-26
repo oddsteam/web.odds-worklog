@@ -55,6 +55,7 @@ export class User {
     this.role = user.role ? user.role : "";
     this.firstName = user.firstName ? user.firstName : "";
     this.lastName = user.lastName ? user.lastName : "";
+    this.corporateName = user.corporateName ? user.corporateName : "";
     this.email = user.email ? user.email : "";
     this.peakCode = user.peakCode ? user.peakCode : "";
     this.bankAccountName = user.bankAccountName ? user.bankAccountName : "";

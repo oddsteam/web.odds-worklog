@@ -31,6 +31,7 @@ export class ProfileComponent implements OnInit {
   dataListSite: Site[] = [];
   userInfo: User;
   personType: string;
+  originalRole: string;
   showSuccessMessage = false;
   fileNamePdf: string;
   checkCiti: Boolean;
@@ -111,7 +112,8 @@ export class ProfileComponent implements OnInit {
       this.validateCitized.validateCitizenId.bind(this.validateCitized), Validators.maxLength(100)])],
       vat: ['', Validators.required],
       phone: ['', Validators.required],
-      startDate: ['', Validators.required]
+      startDate: ['', Validators.required],
+      corporateName: ['']
     });
 
     this.fileForm = this.formBuilder.group({
@@ -137,6 +139,7 @@ export class ProfileComponent implements OnInit {
   setDataUser(user: User) {
     this.userInfo = user;
     this.personType = user.role;
+    this.originalRole = user.role;
     this.firstNameForm.setValue(user.firstName);
     this.lastNameForm.setValue(user.lastName);
     this.emailForm.setValue(user.email);
@@ -149,9 +152,32 @@ export class ProfileComponent implements OnInit {
     this.thaiCitizenId.setValue(user.thaiCitizenId);
     this.vat.setValue(user.vat)
     this.phone.setValue(user.phone)
+    this.corporateName.setValue(user.corporateName || '');
+    this.syncCorporateNameValidators();
     const startDateSplit = user.startDate.split('-');
     this.startDate.setValue({year: Number(startDateSplit[0]), month: Number(startDateSplit[1]),day: Number(startDateSplit[2])})
     this.getNameSite();
+  }
+
+  get canChangeUserType(): boolean {
+    return this.isEditingOther && this.originalRole === 'individual';
+  }
+
+  onPersonTypeChange(role: string) {
+    this.personType = role;
+    this.syncCorporateNameValidators();
+  }
+
+  syncCorporateNameValidators() {
+    if (!this.corporateName) {
+      return;
+    }
+    if (this.personType === 'corporate') {
+      this.corporateName.setValidators([Validators.required]);
+    } else {
+      this.corporateName.clearValidators();
+    }
+    this.corporateName.updateValueAndValidity();
   }
 
   getNameSite() {
@@ -225,6 +251,7 @@ export class ProfileComponent implements OnInit {
     this.userInfo.project = this.project.value;
     this.userInfo.dailyIncome = this.dailyIncome.value;
     this.userInfo.role = this.personType;
+    this.userInfo.corporateName = this.corporateName.value;
     this.userInfo.address = this.address.value;
     this.userInfo.thaiCitizenId = this.thaiCitizenId.value;
     this.userInfo.phone = this.phone.value;
@@ -507,6 +534,10 @@ export class ProfileComponent implements OnInit {
 
   get phone(): FormControl {
     return this.profileForm.get('phone') as FormControl;
+  }
+
+  get corporateName(): FormControl {
+    return this.profileForm.get('corporateName') as FormControl;
   }
 
   get startDate(): FormControl {

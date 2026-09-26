@@ -5,6 +5,7 @@
       <thead>
         <th class="text-start">Name</th>
         <th>E-mail</th>
+        <th>Role</th>
         <th>Site</th>
         <th></th>
       </thead>
@@ -12,6 +13,7 @@
         <tr *ngFor="let user of users ">
           <td>{{user.firstName + ' ' + user.lastName}}</td>
           <td>{{user.email}}</td>
+          <td>{{user.role}}</td>
           <td>{{user?.site?.name !== null ? user?.site?.name : '-'}}</td>
           <td class="text-center">
               <app-tool-tip-site
