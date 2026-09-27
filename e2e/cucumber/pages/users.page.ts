@@ -83,7 +83,7 @@ export class UsersPage {
     }
     await items.nth(match).click({ force: true });
 
-    await row.locator("td").nth(2).filter({ hasText: siteName }).waitFor({
+    await row.locator("td").nth(3).filter({ hasText: siteName }).waitFor({
       state: "visible",
       timeout: 15000,
     });
@@ -91,7 +91,7 @@ export class UsersPage {
 
   async getUserSiteName(userDisplayName: string): Promise<string> {
     const row = this.userRow(userDisplayName);
-    const text = await row.locator("td").nth(2).textContent();
+    const text = await row.locator("td").nth(3).textContent();
     return (text ?? "").trim();
   }
 
