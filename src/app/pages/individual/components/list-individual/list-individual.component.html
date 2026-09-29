@@ -4,7 +4,7 @@
       <h2 class="mb-0">{{ date | date: 'MMMM yyyy'}}</h2>
     </div>
     <div class="row col-7 d-flex align-items-center justify-content-end text-end">
-      <div class="form-check form-switch w-auto mb-0 me-3 timesheet-source-toggle">
+      <div class="form-check form-switch w-auto mb-0 me-3 timesheet-source-toggle" *ngIf="showTimesheetSourceToggle">
         <input class="form-check-input" type="checkbox" role="switch" id="useTimesheetSource"
           [(ngModel)]="useTimesheetSource" (ngModelChange)="onToggleSource()">
         <label class="form-check-label" for="useTimesheetSource">ใช้ข้อมูลจาก Timesheet</label>

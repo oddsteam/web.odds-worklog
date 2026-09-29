@@ -122,6 +122,7 @@ Given("I am an individual user with daily income rate of {int} baht per day", { 
   const userId = await dashboardPage.getUserId();
   await ensureUserRegisteredAsIndividual(userId!);
   await setDailyIncomeInMongoDB(userId!, dailyIncome);
+  await clearUserIncome(userId!);
 
   if (dashboardPage.getUrl().includes("/firstlogin")) {
     await dashboardPage.clearSessionStorage();

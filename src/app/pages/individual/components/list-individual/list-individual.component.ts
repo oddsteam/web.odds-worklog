@@ -25,6 +25,11 @@ export class ListIndividualComponent implements OnInit, OnChanges {
   /** When on, the CSV exports read from income_from_timesheet instead of income. */
   useTimesheetSource = true;
 
+  /** Timesheet source toggle is visible to admin and user-admin only. */
+  get showTimesheetSourceToggle(): boolean {
+    return this.role === "admin" || this.role === "user-admin";
+  }
+
   /** Income export is restricted to full admins (not user-admin). */
   get showIncomeExport(): boolean {
     return this.role === "admin";

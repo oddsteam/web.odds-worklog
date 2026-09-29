@@ -51,9 +51,13 @@ export class DashboardPage {
     });
   }
 
-  /** Manual income e2e uses the income collection; the timesheet source is on by default. */
+  /** Manual income e2e uses the income collection; the timesheet source is on by default when the toggle is shown. */
   async useIncomeCollectionSource() {
     const toggle = this.page.locator("#useTimesheetSource");
+    if ((await toggle.count()) === 0) {
+      // Individual users no longer see the toggle; timesheet source stays on.
+      return;
+    }
     await toggle.waitFor({ state: "visible", timeout: 15000 });
     if (await toggle.isChecked()) {
       await this.page.locator("label[for='useTimesheetSource']").click();

@@ -56,8 +56,19 @@ describe('ListIndividualComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should show the timesheet source toggle for an individual-role login', () => {
+  it('should hide the timesheet source toggle for an individual-role login', () => {
     component.role = 'individual';
+    fixture.detectChanges();
+
+    const toggle = fixture.nativeElement.querySelector('#useTimesheetSource');
+    const exportButton = fixture.nativeElement.querySelector('.export-container');
+
+    expect(toggle).withContext('toggle should be hidden').toBeNull();
+    expect(exportButton).withContext('export button should stay admin-only').toBeNull();
+  });
+
+  it('should show the timesheet source toggle but hide export for a user-admin login', () => {
+    component.role = 'user-admin';
     fixture.detectChanges();
 
     const toggle = fixture.nativeElement.querySelector('#useTimesheetSource');
