@@ -94,7 +94,7 @@ describe('UsersManagementComponent', () => {
       idCard: '',
       phone: '',
       startDate : '2022-1-1',
-      timesheetSynced: false
+      disableIncomeEntry: false
 
     }];
     spyOn(worklogApiService, 'getUsersData').and.returnValue(of(mockResponse));
@@ -126,7 +126,7 @@ describe('UsersManagementComponent', () => {
       idCard: '',
       phone: '',
       startDate: '',
-      timesheetSynced: false
+      disableIncomeEntry: false
     }];
     component.sites = [
       { id: '0001', name: 'SEC' },

@@ -115,7 +115,7 @@ describe('ProfileComponent', () => {
 
   it('component.site should equal to user info', () => {
     component.userInfo = {
-      timesheetSynced: false,
+      disableIncomeEntry: false,
       bankAccountName: 'กอไก่ ขอไข่',
       bankAccountNumber: '0123456789',
       email: 'who@odds.team',
@@ -320,7 +320,7 @@ describe('ProfileComponent', () => {
     let mockResponse = new User();
     beforeEach(() => {
       mockResponse = {
-        timesheetSynced: false,
+        disableIncomeEntry: false,
         bankAccountName: 'กอไก่ ขอไข่',
         bankAccountNumber: '0123456789',
         email: 'who@odds.team',
@@ -365,7 +365,8 @@ describe('ProfileComponent', () => {
         vat: 'N',
         phone: '0123123123',
         startDate: { year: 2022, month: 1, day: 1 },
-        corporateName: ''
+        corporateName: '',
+        disableIncomeEntry: false
       });
     });
 
@@ -500,6 +501,26 @@ describe('ProfileComponent', () => {
       component.setDataToModel();
     });
 
+  });
+
+  describe('disable income entry switch', () => {
+    it('should save the switch value to userInfo.disableIncomeEntry', () => {
+      component.userInfo = new User();
+      component.createForm();
+      component.startDate.setValue({ year: 2020, month: 1, day: 1 });
+      component.disableIncomeEntry.setValue(true);
+      component.setDataToModel();
+      expect(component.userInfo.disableIncomeEntry).toBe(true);
+
+      component.disableIncomeEntry.setValue(false);
+      component.setDataToModel();
+      expect(component.userInfo.disableIncomeEntry).toBe(false);
+    });
+
+    it('should default the switch to off so the buttons stay visible', () => {
+      component.createForm();
+      expect(component.disableIncomeEntry.value).toBe(false);
+    });
   });
 
   describe('editing another user', () => {

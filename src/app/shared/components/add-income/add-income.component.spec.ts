@@ -134,42 +134,42 @@ describe("AddIncomeComponent", () => {
     component.addIncomeEmit(undefined);
     expect(component.addIncomeAlready.emit).toHaveBeenCalledWith(false);
   });
-  it("should fetch the user and store timesheetSynced when checking status", () => {
-    const mockUser: any = { id: "0000022233", timesheetSynced: true };
+  it("should fetch the user and store disableIncomeEntry when checking status", () => {
+    const mockUser: any = { id: "0000022233", disableIncomeEntry: true };
     spyOn(worklogservice, "getIncomeFromTimesheetByUserID").and.returnValue(of(null));
     spyOn(worklogservice, "getUserByID").and.returnValue(of(mockUser));
     component.checkStatusUser();
     expect(worklogservice.getUserByID).toHaveBeenCalled();
-    expect(component.timesheetSynced).toBe(true);
+    expect(component.disableIncomeEntry).toBe(true);
   });
 
-  it("should default timesheetSynced to false when the user is not synced", () => {
-    const mockUser: any = { id: "0000022233", timesheetSynced: false };
+  it("should default disableIncomeEntry to false when income entry is not disabled", () => {
+    const mockUser: any = { id: "0000022233", disableIncomeEntry: false };
     spyOn(worklogservice, "getIncomeFromTimesheetByUserID").and.returnValue(of(null));
     spyOn(worklogservice, "getUserByID").and.returnValue(of(mockUser));
     component.checkStatusUser();
-    expect(component.timesheetSynced).toBe(false);
+    expect(component.disableIncomeEntry).toBe(false);
   });
 
-  it("should not show the Add Income button when timesheetSynced is true and userFlag is Y", () => {
+  it("should not show the Add Income button when disableIncomeEntry is true and userFlag is Y", () => {
     component.userFlag = "Y";
-    component.timesheetSynced = true;
+    component.disableIncomeEntry = true;
     fixture.detectChanges();
     const addButton = fixture.nativeElement.querySelector("#btn-add");
     expect(addButton).toBeNull();
   });
 
-  it("should still show the Edit Income button when timesheetSynced is true and userFlag is N", () => {
+  it("should not show the Edit Income button when disableIncomeEntry is true and userFlag is N", () => {
     component.userFlag = "N";
-    component.timesheetSynced = true;
+    component.disableIncomeEntry = true;
     fixture.detectChanges();
     const editButton = fixture.nativeElement.querySelector("#btn-edit");
-    expect(editButton).not.toBeNull();
+    expect(editButton).toBeNull();
   });
 
-  it("should show the Add Income button when timesheetSynced is false and userFlag is Y", () => {
+  it("should show the Add Income button when disableIncomeEntry is false and userFlag is Y", () => {
     component.userFlag = "Y";
-    component.timesheetSynced = false;
+    component.disableIncomeEntry = false;
     fixture.detectChanges();
     const addButton = fixture.nativeElement.querySelector("#btn-add");
     expect(addButton).not.toBeNull();

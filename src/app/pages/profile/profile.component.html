@@ -593,6 +593,22 @@
               </div>
             </div>
           </div>
+          <div class="row" *ngIf="personType === 'individual'">
+            <div class="form-group col-md-6">
+              <div class="form-check form-switch">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  role="switch"
+                  id="disableIncomeEntry"
+                  formControlName="disableIncomeEntry"
+                />
+                <label class="form-check-label" for="disableIncomeEntry"
+                  >ปิดการกรอกรายได้ใน Worklog (ซ่อนปุ่ม Add / Edit Income)</label
+                >
+              </div>
+            </div>
+          </div>
 
           <hr />
           <div class="prepend-top-default append-bottom-default inner">

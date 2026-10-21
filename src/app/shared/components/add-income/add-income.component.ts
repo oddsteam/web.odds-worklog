@@ -29,7 +29,8 @@ export class AddIncomeComponent implements OnInit {
   typeUser: string;
   typeVat: string;
   userFlag: string;
-  timesheetSynced = false;
+  /** Set from the profile's income entry switch; hides both the Add and Edit Income buttons. */
+  disableIncomeEntry = false;
   addIncomeResponse: AddIncomeResponse;
   useTimesheetSource = true;
 
@@ -62,7 +63,7 @@ export class AddIncomeComponent implements OnInit {
     this.loadDisplayedIncome();
     this.loadEditTarget();
     this.worklogApiService.getUserByID(this.id).subscribe((user) => {
-      this.timesheetSynced = !!user.timesheetSynced;
+      this.disableIncomeEntry = !!user.disableIncomeEntry;
     });
   }
 

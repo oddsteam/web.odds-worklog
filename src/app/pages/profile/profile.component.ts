@@ -113,7 +113,8 @@ export class ProfileComponent implements OnInit {
       vat: ['', Validators.required],
       phone: ['', Validators.required],
       startDate: ['', Validators.required],
-      corporateName: ['']
+      corporateName: [''],
+      disableIncomeEntry: [false]
     });
 
     this.fileForm = this.formBuilder.group({
@@ -155,6 +156,7 @@ export class ProfileComponent implements OnInit {
     this.corporateName.setValue(user.corporateName || '');
     this.syncCorporateNameValidators();
     const startDateSplit = user.startDate.split('-');
+    this.disableIncomeEntry.setValue(!!user.disableIncomeEntry);
     this.startDate.setValue({year: Number(startDateSplit[0]), month: Number(startDateSplit[1]),day: Number(startDateSplit[2])})
     this.getNameSite();
   }
@@ -255,6 +257,7 @@ export class ProfileComponent implements OnInit {
     this.userInfo.address = this.address.value;
     this.userInfo.thaiCitizenId = this.thaiCitizenId.value;
     this.userInfo.phone = this.phone.value;
+    this.userInfo.disableIncomeEntry = this.disableIncomeEntry.value;
     this.userInfo.startDate = this.startDate.value.year + '-' + this.startDate.value.month + '-' + this.startDate.value.day
   }
 
@@ -538,6 +541,10 @@ export class ProfileComponent implements OnInit {
 
   get corporateName(): FormControl {
     return this.profileForm.get('corporateName') as FormControl;
+  }
+
+  get disableIncomeEntry(): FormControl {
+    return this.profileForm.get('disableIncomeEntry') as FormControl;
   }
 
   get startDate(): FormControl {
