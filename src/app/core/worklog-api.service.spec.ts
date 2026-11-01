@@ -289,6 +289,15 @@ it("should call export SAP income by period correctly", () => {
     expect(mockService.getListIncomeFromTimesheetIndividual).not.toHaveBeenCalled();
   });
 
+  it("should delete an individual user's current month income", () => {
+    const userId = "5bbcf2f90fd2df527bc39531";
+    mockService.deleteIndividualIncome(userId).subscribe();
+    const req = backEnd.expectOne(`${mockService.apiPath}v1/incomes/current-month/${userId}`);
+    expect(req.request.method).toEqual("DELETE");
+    req.flush({ message: "Delete income success." });
+    backEnd.verify();
+  });
+
   it("should set getListIncomeFromTimesheetIndividual when forcheck() function return true", () => {
     spyOn(
       mockService,

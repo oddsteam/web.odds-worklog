@@ -390,6 +390,14 @@ export class WorklogApiService {
     });
   }
 
+  deleteIndividualIncome(userId: string) {
+    return this.http.delete(`${this.apiPath}v1/incomes/current-month/${userId}`, {
+      headers: new HttpHeaders({
+        Authorization: sessionStorage.getItem("token"),
+      }),
+    });
+  }
+
   getDailyIncome() {
     return this.dailyIncome;
   }

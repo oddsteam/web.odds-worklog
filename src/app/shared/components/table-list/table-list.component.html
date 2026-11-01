@@ -13,6 +13,7 @@
         <th class="text-center align-middle status-sort" (click)="setOrder()">
           Status <i [ngClass]="swapArrowIconSort ? 'fa fa-caret-up' : 'fa fa-caret-down'"></i>
         </th>
+        <th *ngIf="isAdmin" class="text-center align-middle"></th>
       </tr>
     </thead>
     <tbody>
@@ -34,6 +35,10 @@
         <td class="text-center" appStatusHighlight [Status]="ListData[0]?.status">
           {{ ListData[0]?.status === "Y" ? "Submitted" : "Not submitted" }}
         </td>
+        <td *ngIf="isAdmin" class="text-center">
+          <a *ngIf="canDeleteIncome(ListData[0])" href="javascript:void(0)" class="p-2 delete-income"
+            (click)="deleteIncome(ListData[0])"><i class="fa fa-trash"></i></a>
+        </td>
       </tr>
       <tr formArrayName="items"
         *ngFor="let listData of ListData | slice : 1 : ListData.length | orderBy: order:swapArrowIconSort:'case-insensitive'; let i = index">
@@ -54,7 +59,10 @@
         <td class="text-center" appStatusHighlight [Status]="listData?.status">
           {{ listData?.status === "Y" ? "Submitted" : "Not submitted" }}
         </td>
-    
+        <td *ngIf="isAdmin" class="text-center">
+          <a *ngIf="canDeleteIncome(listData)" href="javascript:void(0)" class="p-2 delete-income"
+            (click)="deleteIncome(listData)"><i class="fa fa-trash"></i></a>
+        </td>
       </tr>
 
     </tbody>

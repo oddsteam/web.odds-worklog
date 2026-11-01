@@ -88,9 +88,28 @@ export class TableListComponent implements OnInit, OnDestroy, OnChanges {
         });
     }
 
+    get isAdmin(): boolean {
+        return this.role === 'admin';
+    }
+
     getRoleUser() {
         this.stateService.getTypeUser().subscribe((res) => {
             this.role = res;
+        });
+    }
+
+    canDeleteIncome(row): boolean {
+        return this.isAdmin && row?.status === 'Y' && !!row?.user?.id;
+    }
+
+    deleteIncome(row) {
+        const name = this.getName(row.user);
+        if (!confirm(`Delete income of "${name}" for this month?`)) {
+            return;
+        }
+        this.worklogApiService.deleteIndividualIncome(row.user.id).subscribe({
+            next: () => this.stateService.triggerListIncomeIndividual(),
+            error: () => alert(`Can't delete income.`),
         });
     }
     addItem(): void {

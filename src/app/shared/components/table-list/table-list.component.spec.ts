@@ -6,7 +6,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { OrderModule } from 'ngx-order-pipe';
-import { Observable, of } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { WorklogApiService } from 'src/app/core/worklog-api.service';
 import { StateService } from '../../../core/state.service';
 import { StatusHighlightDirective } from '../../directives/status-highlight.directive';
@@ -129,6 +129,85 @@ describe('TabelListComponent', () => {
     it('should return dash when siteId is unknown', () => {
       const user = new User({ siteId: 'missing-site' });
       expect(component.getSiteName(user)).toEqual('-');
+    });
+  });
+
+  describe('delete income', () => {
+    function incomeRow(status: string, id: string) {
+      return {
+        status,
+        submitDate: '2019-05-01T07:53:30Z',
+        user: new User({
+          id,
+          role: 'individual',
+          firstName: 'Ada',
+          lastName: 'Lovelace',
+          email: 'ada@example.com',
+          phone: '0800000000',
+        }),
+        workDate: '20',
+        workingHours: '2',
+      };
+    }
+
+    beforeEach(() => {
+      // updateForm drops the first row into the form header, so the submitted
+      // user has to be the row that remains on screen.
+      component.ListData = [
+        incomeRow('N', 'user-empty'),
+        incomeRow('Y', 'user-submitted'),
+      ];
+    });
+
+    it('shows a delete action only for an admin on a submitted row', () => {
+      stateService.setTypeUser('admin');
+      fixture.detectChanges();
+
+      const buttons = fixture.nativeElement.querySelectorAll('.delete-income');
+      expect(buttons.length).toBe(1);
+    });
+
+    it('hides delete for a non-admin', () => {
+      stateService.setTypeUser('individual');
+      fixture.detectChanges();
+
+      expect(fixture.nativeElement.querySelector('.delete-income')).toBeNull();
+    });
+
+    it('deletes the current month income and refreshes the list', () => {
+      stateService.setTypeUser('admin');
+      fixture.detectChanges();
+      spyOn(window, 'confirm').and.returnValue(true);
+      spyOn(service, 'deleteIndividualIncome').and.returnValue(of({}));
+      spyOn(stateService, 'triggerListIncomeIndividual');
+
+      fixture.nativeElement.querySelector('.delete-income').click();
+
+      expect(service.deleteIndividualIncome).toHaveBeenCalledWith('user-submitted');
+      expect(stateService.triggerListIncomeIndividual).toHaveBeenCalled();
+    });
+
+    it('does nothing when the admin cancels', () => {
+      stateService.setTypeUser('admin');
+      fixture.detectChanges();
+      spyOn(window, 'confirm').and.returnValue(false);
+      spyOn(service, 'deleteIndividualIncome');
+
+      fixture.nativeElement.querySelector('.delete-income').click();
+
+      expect(service.deleteIndividualIncome).not.toHaveBeenCalled();
+    });
+
+    it('alerts when delete fails', () => {
+      stateService.setTypeUser('admin');
+      fixture.detectChanges();
+      spyOn(window, 'confirm').and.returnValue(true);
+      spyOn(window, 'alert');
+      spyOn(service, 'deleteIndividualIncome').and.returnValue(throwError(() => new Error('nope')));
+
+      fixture.nativeElement.querySelector('.delete-income').click();
+
+      expect(window.alert).toHaveBeenCalledWith(`Can't delete income.`);
     });
   });
 });
