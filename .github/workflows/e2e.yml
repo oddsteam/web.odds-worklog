@@ -10,7 +10,8 @@ on:
 jobs:
   e2e:
     name: E2E Tests
-    runs-on: ubuntu-latest
+    # ubuntu-latest is 26.04. Playwright 1.53.1 has no Chromium build for it.
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
 
     steps:
