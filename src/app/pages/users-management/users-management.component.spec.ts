@@ -150,7 +150,7 @@ describe('UsersManagementComponent', () => {
     expect(component.canEditProfiles).toBe(true);
   });
 
-  it('should not allow editing profiles when current user is user-admin', () => {
+  it('should allow editing profiles when current user is user-admin', () => {
     sessionStorage.setItem('idUser', 'user-admin-1');
     spyOn(worklogApiService, 'getUsersData').and.returnValue(of([]));
     spyOn(worklogApiService, 'getSitesData').and.returnValue(of([]));
@@ -158,7 +158,7 @@ describe('UsersManagementComponent', () => {
 
     component.ngOnInit();
 
-    expect(component.canEditProfiles).toBe(false);
+    expect(component.canEditProfiles).toBe(true);
   });
 
   it('should navigate to the user profile when editUser is called', () => {

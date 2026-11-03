@@ -60,7 +60,7 @@ export class UsersManagementComponent implements OnInit {
       return;
     }
     this.worklogApiService.getUserByID(id).subscribe(user => {
-      this.canEditProfiles = user.role === 'admin';
+      this.canEditProfiles = user.role === 'admin' || user.role === 'user-admin';
     });
   }
 

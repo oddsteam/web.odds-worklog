@@ -536,10 +536,10 @@ describe('ProfileComponent', () => {
       expect(component.ensureAdminWhenEditingOther).toHaveBeenCalled();
     });
 
-    it('should redirect to users when a non-admin edits another profile', () => {
+    it('should redirect to users when a non-manager edits another profile', () => {
       const router = TestBed.inject(Router);
       spyOn(router, 'navigate');
-      spyOn(worklogApiService, 'getUserByID').and.returnValue(of(new User({ role: 'user-admin' })));
+      spyOn(worklogApiService, 'getUserByID').and.returnValue(of(new User({ role: 'individual' })));
 
       component.ensureAdminWhenEditingOther();
 
@@ -548,6 +548,15 @@ describe('ProfileComponent', () => {
 
     it('should load the target profile when an admin edits another user', () => {
       spyOn(worklogApiService, 'getUserByID').and.returnValue(of(new User({ role: 'admin' })));
+      spyOn(component, 'getData');
+
+      component.ensureAdminWhenEditingOther();
+
+      expect(component.getData).toHaveBeenCalled();
+    });
+
+    it('should load the target profile when a user-admin edits another user', () => {
+      spyOn(worklogApiService, 'getUserByID').and.returnValue(of(new User({ role: 'user-admin' })));
       spyOn(component, 'getData');
 
       component.ensureAdminWhenEditingOther();

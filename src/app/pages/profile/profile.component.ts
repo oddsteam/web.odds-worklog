@@ -85,7 +85,7 @@ export class ProfileComponent implements OnInit {
   ensureAdminWhenEditingOther() {
     const currentUserId = sessionStorage.getItem('idUser');
     this.worklogApiService.getUserByID(currentUserId).subscribe(current => {
-      if (current.role !== 'admin') {
+      if (current.role !== 'admin' && current.role !== 'user-admin') {
         this.router.navigate(['/users']);
         return;
       }
