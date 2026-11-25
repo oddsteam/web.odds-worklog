@@ -551,6 +551,58 @@ describe('ProfileComponent', () => {
     });
   });
 
+  describe('daily income field', () => {
+    it('should allow editing daily income on own profile', () => {
+      component.isEditingOther = false;
+      component.actorIsAdmin = false;
+      expect(component.canEditDailyIncome).toBe(true);
+    });
+
+    it('should allow admin to edit daily income when editing another user', () => {
+      component.isEditingOther = true;
+      component.actorIsAdmin = true;
+      expect(component.canEditDailyIncome).toBe(true);
+    });
+
+    it('should hide daily income when user-admin edits another user', () => {
+      component.isEditingOther = true;
+      component.actorIsAdmin = false;
+      expect(component.canEditDailyIncome).toBe(false);
+    });
+
+    it('should keep the loaded dailyIncome when user-admin edits another user', () => {
+      component.userInfo = new User({ dailyIncome: '2000' });
+      component.createForm();
+      component.startDate.setValue({ year: 2020, month: 1, day: 1 });
+      component.isEditingOther = true;
+      component.actorIsAdmin = false;
+      component.personType = 'individual';
+      component.dailyIncome.setValue('9000');
+      component.setDataToModel();
+      expect(component.userInfo.dailyIncome).toBe('2000');
+    });
+
+    it('should save dailyIncome when admin edits another user', () => {
+      component.userInfo = new User({ dailyIncome: '2000' });
+      component.createForm();
+      component.startDate.setValue({ year: 2020, month: 1, day: 1 });
+      component.isEditingOther = true;
+      component.actorIsAdmin = true;
+      component.personType = 'individual';
+      component.dailyIncome.setValue('9000');
+      component.setDataToModel();
+      expect(component.userInfo.dailyIncome).toBe('9000');
+    });
+
+    it('should clear dailyIncome validators when user-admin edits another user', () => {
+      component.createForm();
+      component.isEditingOther = true;
+      component.actorIsAdmin = false;
+      component.syncDailyIncomeValidators();
+      expect(component.dailyIncome.validator).toBeNull();
+    });
+  });
+
   describe('editing another user', () => {
     it('should use route id and require admin when it differs from the current user', () => {
       sessionStorage.setItem('idUser', 'admin-id');
@@ -644,6 +696,7 @@ describe('ProfileComponent', () => {
 
     it('should include email in userInfo when editing another user', () => {
       component.isEditingOther = true;
+      component.actorIsAdmin = true;
       component.userInfo = new User();
       component.createForm();
       component.emailForm.enable();
@@ -731,6 +784,7 @@ describe('ProfileComponent', () => {
 
     it('should include role and corporate name when updating another user to corporate', () => {
       component.isEditingOther = true;
+      component.actorIsAdmin = true;
       component.userInfo = new User();
       component.createForm();
       component.emailForm.enable();
@@ -808,6 +862,7 @@ describe('ProfileComponent', () => {
 
     it('should include peak code in userInfo when the field is enabled', () => {
       component.isEditingOther = true;
+      component.actorIsAdmin = true;
       component.userInfo = new User();
       component.createForm();
       component.peakCodeForm.enable();

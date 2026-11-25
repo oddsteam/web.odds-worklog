@@ -99,6 +99,10 @@ export class ProfileComponent implements OnInit {
     return this.isEditingOther && this.actorIsAdmin && this.personType === 'individual';
   }
 
+  get canEditDailyIncome(): boolean {
+    return !this.isEditingOther || this.actorIsAdmin;
+  }
+
   backToUsers() {
     this.router.navigate(['/users']);
   }
@@ -140,6 +144,7 @@ export class ProfileComponent implements OnInit {
       if (this.isEditingOther || user.role === 'admin') {
         this.peakCodeForm.enable();
       }
+      this.syncDailyIncomeValidators();
     });
   }
 
@@ -186,6 +191,18 @@ export class ProfileComponent implements OnInit {
       this.corporateName.clearValidators();
     }
     this.corporateName.updateValueAndValidity();
+  }
+
+  syncDailyIncomeValidators() {
+    if (!this.dailyIncome) {
+      return;
+    }
+    if (this.canEditDailyIncome) {
+      this.dailyIncome.setValidators([Validators.required, Validators.pattern('^[0-9]*$')]);
+    } else {
+      this.dailyIncome.clearValidators();
+    }
+    this.dailyIncome.updateValueAndValidity();
   }
 
   getNameSite() {
@@ -257,7 +274,9 @@ export class ProfileComponent implements OnInit {
     this.userInfo.bankAccountNumber = this.bankAccountNumberForm.value;
     this.userInfo.vat = this.vat.value;
     this.userInfo.project = this.project.value;
-    this.userInfo.dailyIncome = this.dailyIncome.value;
+    if (this.canEditDailyIncome) {
+      this.userInfo.dailyIncome = this.dailyIncome.value;
+    }
     this.userInfo.role = this.personType;
     this.userInfo.corporateName = this.corporateName.value;
     this.userInfo.address = this.address.value;
