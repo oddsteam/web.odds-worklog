@@ -50,6 +50,7 @@ export class ProfileComponent implements OnInit {
   isVat = 'N';
   site = '';
   isEditingOther = false;
+  actorIsAdmin = false;
 
   @ViewChild('incomeReminderModal', { static: true }) incomeReminderModal: TemplateRef<any>;
   modalRef: BsModalRef;
@@ -89,8 +90,13 @@ export class ProfileComponent implements OnInit {
         this.router.navigate(['/users']);
         return;
       }
+      this.actorIsAdmin = current.role === 'admin';
       this.getData();
     });
+  }
+
+  get canToggleDisableIncomeEntry(): boolean {
+    return this.isEditingOther && this.actorIsAdmin && this.personType === 'individual';
   }
 
   backToUsers() {
@@ -257,7 +263,9 @@ export class ProfileComponent implements OnInit {
     this.userInfo.address = this.address.value;
     this.userInfo.thaiCitizenId = this.thaiCitizenId.value;
     this.userInfo.phone = this.phone.value;
-    this.userInfo.disableIncomeEntry = this.disableIncomeEntry.value;
+    if (this.canToggleDisableIncomeEntry) {
+      this.userInfo.disableIncomeEntry = this.disableIncomeEntry.value;
+    }
     this.userInfo.startDate = this.startDate.value.year + '-' + this.startDate.value.month + '-' + this.startDate.value.day
   }
 

@@ -504,10 +504,13 @@ describe('ProfileComponent', () => {
   });
 
   describe('disable income entry switch', () => {
-    it('should save the switch value to userInfo.disableIncomeEntry', () => {
-      component.userInfo = new User();
+    it('should save the switch value when an admin edits another individual', () => {
+      component.userInfo = new User({ disableIncomeEntry: false });
       component.createForm();
       component.startDate.setValue({ year: 2020, month: 1, day: 1 });
+      component.isEditingOther = true;
+      component.actorIsAdmin = true;
+      component.personType = 'individual';
       component.disableIncomeEntry.setValue(true);
       component.setDataToModel();
       expect(component.userInfo.disableIncomeEntry).toBe(true);
@@ -515,6 +518,31 @@ describe('ProfileComponent', () => {
       component.disableIncomeEntry.setValue(false);
       component.setDataToModel();
       expect(component.userInfo.disableIncomeEntry).toBe(false);
+    });
+
+    it('should keep the loaded disableIncomeEntry when editing own profile', () => {
+      component.userInfo = new User({ disableIncomeEntry: true });
+      component.createForm();
+      component.startDate.setValue({ year: 2020, month: 1, day: 1 });
+      component.isEditingOther = false;
+      component.actorIsAdmin = false;
+      component.personType = 'individual';
+      component.disableIncomeEntry.setValue(false);
+      component.setDataToModel();
+      expect(component.userInfo.disableIncomeEntry).toBe(true);
+    });
+
+    it('should not allow user-admin to change disableIncomeEntry when editing another user', () => {
+      component.userInfo = new User({ disableIncomeEntry: true });
+      component.createForm();
+      component.startDate.setValue({ year: 2020, month: 1, day: 1 });
+      component.isEditingOther = true;
+      component.actorIsAdmin = false;
+      component.personType = 'individual';
+      component.disableIncomeEntry.setValue(false);
+      component.setDataToModel();
+      expect(component.userInfo.disableIncomeEntry).toBe(true);
+      expect(component.canToggleDisableIncomeEntry).toBe(false);
     });
 
     it('should default the switch to off so the buttons stay visible', () => {
@@ -552,6 +580,7 @@ describe('ProfileComponent', () => {
 
       component.ensureAdminWhenEditingOther();
 
+      expect(component.actorIsAdmin).toBe(true);
       expect(component.getData).toHaveBeenCalled();
     });
 
@@ -561,6 +590,7 @@ describe('ProfileComponent', () => {
 
       component.ensureAdminWhenEditingOther();
 
+      expect(component.actorIsAdmin).toBe(false);
       expect(component.getData).toHaveBeenCalled();
     });
 
